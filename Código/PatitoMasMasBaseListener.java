@@ -315,6 +315,18 @@ public class PatitoMasMasBaseListener implements PatitoMasMasListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterParams_llamada(PatitoMasMasParser.Params_llamadaContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitParams_llamada(PatitoMasMasParser.Params_llamadaContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterLlamada_est(PatitoMasMasParser.Llamada_estContext ctx) { }
 	/**
 	 * {@inheritDoc}

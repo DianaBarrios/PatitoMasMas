@@ -257,6 +257,16 @@ public interface PatitoMasMasListener extends ParseTreeListener {
 	 */
 	void exitLlamada(PatitoMasMasParser.LlamadaContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link PatitoMasMasParser#params_llamada}.
+	 * @param ctx the parse tree
+	 */
+	void enterParams_llamada(PatitoMasMasParser.Params_llamadaContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PatitoMasMasParser#params_llamada}.
+	 * @param ctx the parse tree
+	 */
+	void exitParams_llamada(PatitoMasMasParser.Params_llamadaContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link PatitoMasMasParser#llamada_est}.
 	 * @param ctx the parse tree
 	 */

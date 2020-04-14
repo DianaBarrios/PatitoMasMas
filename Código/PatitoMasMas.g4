@@ -21,7 +21,7 @@ variables
     : Var var;
 
 var
-    : tipo ':' ids ';' var*
+    : tipo ids ';' var*
     ;
 
 ids
@@ -29,11 +29,11 @@ ids
     ;
 
 id_cte
-    : ID ('[' CTE_INT ']')? ('[' CTE_INT ']')?
+    : ID ('[' CTE_INT ']' ('[' CTE_INT ']')?)?
     ;
 
 functions
-    : Function tipo_ret ID '(' params? ')' ';' variables bloque_est functions?
+    : Function tipo_ret ID '(' params? ')' variables bloque_est functions?
     ;
 
 tipo_ret
@@ -42,8 +42,7 @@ tipo_ret
     ;
 
 params
-    : tipo ID
-    | tipo ID ',' params
+    : tipo ID (',' params)?
     ;
 
 bloque_est
@@ -89,15 +88,11 @@ escritura
     ;
 
 escrituras
-    : CTE_STRING
-    | expresion
-    | CTE_STRING ',' escrituras
-    | expresion  ',' escrituras
+    : (CTE_STRING | expresion) (',' escrituras)?
     ;
 
 decision
-    : Si '(' expresion ')' Entonces bloque_est
-    | Si '(' expresion ')' Entonces bloque_est Sino bloque_est
+    : Si '(' expresion ')' Entonces bloque_est (Sino bloque_est)?
     ;
 
 repeticion
@@ -114,8 +109,11 @@ no_condicional
     ;
 
 llamada
-    : Nombre '(' ')' ';'
-    | Nombre '(' params ')' ';'
+    : ID '(' params_llamada? ')'
+    ;
+
+params_llamada
+    : ID (',' params_llamada)?
     ;
 
 llamada_est
@@ -158,7 +156,7 @@ exp_e
 tipo
     : Int
     | Float
-    | CTE_CHAR
+    | Char
     ;
 
 var_cte
@@ -184,7 +182,7 @@ Var
     ;
 
 Function
-    : 'function'
+    : 'funcion'
     ;
 
 Regresa
@@ -231,9 +229,6 @@ Hacer
     : 'hacer'
     ;
 
-Nombre
-    : 'nombre'
-    ;
 
 Int
     : 'int'
@@ -251,9 +246,7 @@ Void
     : 'void'
     ;
 
-DIGIT
-    : [0-9]
-    ;
+
 
 
 ID
@@ -261,7 +254,7 @@ ID
     ;
 
 CTE_INT
-    : [0-9]+
+    : DIGIT +
     ;
 
 CTE_FLOAT
@@ -269,11 +262,15 @@ CTE_FLOAT
     ;
 
 CTE_CHAR
-    : [a-zA-Z]
+    : '\'' [a-zA-Z] '\''
     ;
 
 CTE_STRING
-    : '\'' CTE_CHAR+ '\''
+    : '\'' [a-zA-Z]+ '\''
+    ;
+
+DIGIT
+    : ('0' .. '9')
     ;
 
 Whitespace

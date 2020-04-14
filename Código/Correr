@@ -1,0 +1,81 @@
+#!/bin/bash
+alias antlr4='java -Xmx500M -cp "/usr/local/lib/antlr-4.7.1-complete.jar:$CLASSPATH" org.antlr.v4.Tool'
+alias grun='java -Xmx500M -cp "/usr/local/lib/antlr-4.7.1-complete.jar:$CLASSPATH" org.antlr.v4.gui.TestRig'
+antlr4 PatitoMasMas.g4
+javac PatitoMasMas*.java
+grun PatitoMasMas start -gui
+
+programa patito;
+var
+  int i,j,p;
+  int arreglo[10], otroarreglo[10];
+  float valor;
+  int matriz[3][8], otramatriz[3][8];
+funcion int fact(int j)
+var int i;
+{
+  i = j + (p-j*2+j);
+  si (j) entonces
+  {
+    regresa(j);
+  }
+  sino
+  {
+    regresa(j*fact(j-1));
+  }
+}
+principal(){
+regresa(x);
+lee(j);
+calcular(x,y,z);
+}
+
+
+
+
+programa patito;
+var
+  int i,j,p;
+  int arreglo[10], otroarreglo[10];
+  float valor;
+  int matriz[3][8], otramatriz[3][8];
+  principal(){
+  regresa(x);
+  lee(j);
+  calcular(x,y,z);
+  mientras('h') haz
+  {
+  lee(equis);
+  escribe('hola');
+  desde j=9 hasta 25 hacer
+  {
+  lee(wow);
+  }
+  }
+  }
+
+
+programa test1;
+var
+char : x[10];
+funcion int calcular(int x, int y, int z)
+var
+int : v;
+{
+lee(v);
+regresa(y);
+}
+principal(){
+regresa(x);
+lee(j);
+calcular(x,y,z);
+mientras('h') haz
+{
+lee(equis);
+escribe("hola");
+desde j=9 hasta 25 hacer
+{
+lee(wow);
+}
+}
+}
