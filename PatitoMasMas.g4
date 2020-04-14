@@ -10,6 +10,7 @@ start
 
 programa
     : Programa ID ';' variables functions* principal
+
     ;
 
 principal
@@ -253,6 +254,7 @@ Void
 DIGIT
     : [0-9]
     ;
+
 
 ID
     : [a-z] [0-9a-zA-Z]*

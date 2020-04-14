@@ -1,5 +1,13 @@
 ### Jala
 
+### Test0
+programa test0;
+var
+int : x[10];
+principal(){
+regresa(x);
+}
+
 ### Test1
 Programa test;
 var
