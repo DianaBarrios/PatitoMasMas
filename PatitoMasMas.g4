@@ -9,8 +9,8 @@ start
     ;
 
 programa 
-    : Programa ID ':' variables principal
-    | Programa ID ':' variables functions principal 
+    : Programa ID ';' variables principal
+    | Programa ID ';' variables functions principal 
     ;
 
 principal
@@ -271,15 +271,15 @@ Char
 
 Void
     : 'void'
-    ;
-
-ID 
-    : [a-z] DIGIT [a-zA-Z]+
-    ;  
+    ; 
 
 DIGIT 
     : [0-9] 
     ;
+
+ID 
+    : [a-z] [a-zA-Z]+
+    ; 
 
 CTE_INT 
     : DIGIT+ 
