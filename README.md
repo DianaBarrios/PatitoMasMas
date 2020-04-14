@@ -1,4 +1,4 @@
-# Patito++
+## Patito++
 
  - Proyecto final - Diseño de compiladores 
  - Febrero - Junio 2020
