@@ -4,42 +4,35 @@ grammar PatitoMasMas;
 /*
     Expressions
 */
-start 
-    : Programa? EOF
+start
+    : programa? EOF
     ;
 
-programa 
-    : Programa ID ':' variables principal
-    | Programa ID ':' variables functions principal 
+programa
+    : Programa ID ';' variables functions* principal
     ;
 
 principal
     : Principal bloque_est
     ;
 
-variables 
+variables
     : Var var;
 
-var 
-    : tipo ':' ids ';'
-    | tipo ':' ids ';' var 
+var
+    : tipo ':' ids ';' var*
     ;
 
-ids 
-    : id_cte
-    | id_cte ','  ids 
+ids
+    : id_cte (','  ids)*
     ;
 
 id_cte
-    : ID
-    | ID '[' CTE_INT ']'
-    | ID '[' CTE_INT ']' '[' CTE_INT ']'
+    : ID ('[' CTE_INT ']')? ('[' CTE_INT ']')?
     ;
 
 functions
-    : Function tipo_ret ID '(' ')' ';' variables bloque_est
-    | Function tipo_ret ID '(' params ')' ';' variables bloque_est
-    | Function tipo_ret ID '(' params ')' ';' variables bloque_est functions
+    : Function tipo_ret ID '(' params? ')' ';' variables bloque_est functions?
     ;
 
 tipo_ret
@@ -52,16 +45,15 @@ params
     | tipo ID ',' params
     ;
 
-bloque_est 
-    : '{' estatutos '}' 
+bloque_est
+    : '{' estatutos '}'
     ;
 
-estatutos 
-    : estatuto
-    | estatuto estatutos 
+estatutos
+    : estatuto*
     ;
 
-estatuto 
+estatuto
     : asignacion
     | retorno
     | lectura
@@ -71,21 +63,16 @@ estatuto
     | escritura
     ;
 
-asignacion 
-    : id_exp '=' llamada ';'
-    | id_exp '=' expresion ';'
-    | id_exp '=' expresion op_esp ';'
+asignacion
+    : id_exp '=' expresion op_esp?  ';'
     ;
 
 id_expressions
-    : id_exp
-    | id_exp id_expressions
+    : id_exp*
     ;
 
 id_exp
-    : ID 
-    | ID '[' expresion ']' 
-    | ID '[' expresion ']' '[' expresion ']' 
+    : ID ('[' expresion ']')? ('[' expresion ']')?
     ;
 
 retorno
@@ -96,15 +83,15 @@ lectura
     : Lee '(' id_expressions ')' ';'
     ;
 
-escritura 
+escritura
     : Escribe '(' escrituras ')' ';'
     ;
 
-escrituras 
+escrituras
     : CTE_STRING
-    | expresion 
-    | CTE_STRING ',' escrituras 
-    | expresion  ',' escrituras 
+    | expresion
+    | CTE_STRING ',' escrituras
+    | expresion  ',' escrituras
     ;
 
 decision
@@ -121,7 +108,7 @@ condicional
     : Mientras expresion Haz bloque_est
     ;
 
-no_condicional 
+no_condicional
     : Desde id_exp '=' expresion Hasta expresion Hacer bloque_est
     ;
 
@@ -140,34 +127,24 @@ op_esp
     | '¡'
     ;
 
-expresion 
-    : exp_a
-    | exp_a '||' expresion
+expresion
+    : exp_a ('||')? expresion*
     ;
 
-exp_a 
-    : exp_b
-    | exp_b '&' exp_a
+exp_a
+    : exp_b ('&')? exp_a*
     ;
 
 exp_b
-    : exp_c
-    | exp_c '>' exp_c
-    | exp_c '<' exp_c
-    | exp_c '==' exp_c
-    | exp_c '!=' exp_c
+    : exp_c ('>' '<' '==' '!=')? exp_c?
     ;
 
 exp_c
-    : exp_d
-    | exp_d '+' exp_c
-    | exp_d '-' exp_c
+    : exp_d ('+' '-')? exp_c?
     ;
 
 exp_d
-    : exp_e
-    | exp_e '*' exp_d
-    | exp_e '/' exp_d
+    : exp_e ('*' '/')? exp_d?
     ;
 
 exp_e
@@ -177,14 +154,14 @@ exp_e
     | '(' expresion ')'
     ;
 
-tipo 
-    : Int 
+tipo
+    : Int
     | Float
     | CTE_CHAR
     ;
 
-var_cte 
-    : CTE_INT 
+var_cte
+    : CTE_INT
     | CTE_FLOAT
     | CTE_CHAR
     ;
@@ -193,7 +170,7 @@ var_cte
     Keywords and Tokens
 */
 
-Programa 
+Programa
     : 'programa'
     ;
 
@@ -273,25 +250,25 @@ Void
     : 'void'
     ;
 
-ID 
-    : [a-z] DIGIT [a-zA-Z]+
-    ;  
-
-DIGIT 
-    : [0-9] 
+DIGIT
+    : [0-9]
     ;
 
-CTE_INT 
-    : DIGIT+ 
+ID
+    : [a-z] [0-9a-zA-Z]*
     ;
 
-CTE_FLOAT 
-    : CTE_INT '.' CTE_INT 
+CTE_INT
+    : [0-9]+
+    ;
+
+CTE_FLOAT
+    : CTE_INT '.' CTE_INT
     ;
 
 CTE_CHAR
     : [a-zA-Z]
-    ; 
+    ;
 
 CTE_STRING
     : '\'' CTE_CHAR+ '\''
