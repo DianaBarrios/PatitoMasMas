@@ -9,7 +9,7 @@ start
     ;
 
 programa
-    : Programa ID ';' variables functions* principal
+    : Programa ID ';' variables functions principal
 
     ;
 
