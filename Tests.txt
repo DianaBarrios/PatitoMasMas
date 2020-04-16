@@ -1,15 +1,7 @@
 ### Jala
 
-### Test0
-programa test0;
-var
-int : x[10];
-principal(){
-regresa(x);
-}
-
 ### Test1
-Programa test;
+programa test;
 var
 int : x;
 char : y;
@@ -17,7 +9,20 @@ principal()
 {
   x = 5;
   y = 'a';
-  escribe("Valor de ", y, " es: ", x);
+}
+
+programa test1;
+var
+int : x[10];
+principal(){
+x=5;
+}
+
+programa test1;
+var
+int : x[10];
+principal(){
+regresa(x[40]);
 }
 
 ### Test2
@@ -85,12 +90,11 @@ principal()
 }
 
 ###Test3
-Programa test;
+programa test;
 var
 int : x, y;
 principal()
 {
   x = 5;
   y = 10
-  escribe("Valor de ", y, " es: ", x);
 }

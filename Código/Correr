@@ -14,6 +14,7 @@ var
 funcion int fact(int j)
 var int i;
 {
+  i = j$;
   i = j + (p-j*2+j);
   si (j) entonces
   {
