@@ -10,7 +10,6 @@ start
 
 programa
     : Programa ID ';' variables functions principal
-
     ;
 
 principal
@@ -88,7 +87,11 @@ escritura
     ;
 
 escrituras
-    : (CTE_STRING | expresion) (',' escrituras)?
+    : (string | expresion) (',' escrituras)?
+    ;
+
+string
+    : CTE_STRING
     ;
 
 decision
@@ -149,7 +152,7 @@ exp_d
 exp_e
     : id_exp
     | var_cte
-    | llamada
+    | llamada_est
     | '(' expresion ')'
     ;
 

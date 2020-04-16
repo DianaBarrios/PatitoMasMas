@@ -188,6 +188,15 @@ class PatitoMasMasListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by PatitoMasMasParser#string.
+    def enterString(self, ctx:PatitoMasMasParser.StringContext):
+        pass
+
+    # Exit a parse tree produced by PatitoMasMasParser#string.
+    def exitString(self, ctx:PatitoMasMasParser.StringContext):
+        pass
+
+
     # Enter a parse tree produced by PatitoMasMasParser#decision.
     def enterDecision(self, ctx:PatitoMasMasParser.DecisionContext):
         pass

@@ -1,3 +1,6 @@
+
+
+
 programa patito;
 var
   int i,j,p;
@@ -5,17 +8,21 @@ var
   float valor;
   int matriz[3][8], otramatriz[3][8];
 funcion int fact(int j)
-var int i;
+var int nice[10][50];
 {
   i = 5;
+  escribe('wow');
 }
-funcion void dos(int x,int y)
+funcion void dos(int b,int a)
 var int c;
 {
   i = j$;
+  escribe('imprime','dentro','de','funcion',4);
 }
 principal(){
 regresa(x);
+escribe('algo','pero','no',i,1);
 lee(j);
-calcular(x,y,z);
+dos(x,y,z);
+escribe('si','jala');
 }
