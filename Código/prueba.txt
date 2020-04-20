@@ -18,7 +18,7 @@ var int c;
 }
 principal(){
 regresa(x);
-escribe('algo','que no se que','no',i,1);
+escribe('algo','que','no',i,1);
 lee(j);
 fact(x,y,z);
 dos(x);
