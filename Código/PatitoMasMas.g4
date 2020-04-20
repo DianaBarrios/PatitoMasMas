@@ -173,12 +173,13 @@ op_prod
 factor
     : var op_esp?
     | (op_arit)? var_cte
-    | llamada_est
+    | llamada
     | '(' expresion ')'
     ;
 
 var_cte
-    : CTE_INT
+    : var
+    | CTE_INT
     | CTE_FLOAT
     ;
 
