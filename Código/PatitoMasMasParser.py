@@ -12,144 +12,148 @@ else:
 def serializedATN():
     with StringIO() as buf:
         buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\63")
-        buf.write("\u0143\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
+        buf.write("\u0150\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
         buf.write("\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f\t\f\4\r\t\r\4\16")
         buf.write("\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22\4\23\t\23")
         buf.write("\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31")
         buf.write("\t\31\4\32\t\32\4\33\t\33\4\34\t\34\4\35\t\35\4\36\t\36")
         buf.write("\4\37\t\37\4 \t \4!\t!\4\"\t\"\4#\t#\4$\t$\4%\t%\4&\t")
-        buf.write("&\3\2\5\2N\n\2\3\2\3\2\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\4")
-        buf.write("\3\4\3\4\3\5\3\5\3\5\3\6\3\6\3\6\3\6\7\6c\n\6\f\6\16\6")
-        buf.write("f\13\6\3\7\3\7\3\7\7\7k\n\7\f\7\16\7n\13\7\3\b\3\b\3\b")
-        buf.write("\3\b\3\b\3\b\3\b\5\bw\n\b\5\by\n\b\3\t\3\t\3\t\3\t\3\t")
-        buf.write("\5\t\u0080\n\t\3\t\3\t\3\t\3\t\5\t\u0086\n\t\3\n\3\n\5")
-        buf.write("\n\u008a\n\n\3\13\3\13\3\13\3\13\5\13\u0090\n\13\3\f\3")
-        buf.write("\f\3\f\3\f\3\r\7\r\u0097\n\r\f\r\16\r\u009a\13\r\3\16")
-        buf.write("\3\16\3\16\3\16\3\16\3\16\3\16\5\16\u00a3\n\16\3\17\3")
-        buf.write("\17\3\17\3\17\5\17\u00a9\n\17\3\17\3\17\3\20\7\20\u00ae")
-        buf.write("\n\20\f\20\16\20\u00b1\13\20\3\21\3\21\3\21\3\21\3\21")
-        buf.write("\5\21\u00b8\n\21\3\21\3\21\3\21\3\21\5\21\u00be\n\21\3")
-        buf.write("\22\3\22\3\22\3\22\3\22\3\22\3\23\3\23\3\23\3\23\3\23")
-        buf.write("\3\23\3\24\3\24\3\24\3\24\3\24\3\24\3\25\3\25\5\25\u00d4")
-        buf.write("\n\25\3\25\3\25\5\25\u00d8\n\25\3\26\3\26\3\27\3\27\3")
-        buf.write("\27\3\27\3\27\3\27\3\27\3\27\5\27\u00e4\n\27\3\30\3\30")
-        buf.write("\5\30\u00e8\n\30\3\31\3\31\3\31\3\31\3\31\3\32\3\32\3")
-        buf.write("\32\3\32\3\32\3\32\3\32\3\32\3\32\3\33\3\33\3\33\5\33")
-        buf.write("\u00fb\n\33\3\33\3\33\3\34\3\34\3\34\5\34\u0102\n\34\3")
-        buf.write("\35\3\35\3\35\3\36\3\36\3\37\3\37\5\37\u010b\n\37\3\37")
-        buf.write("\6\37\u010e\n\37\r\37\16\37\u010f\3 \3 \5 \u0114\n \3")
-        buf.write(" \7 \u0117\n \f \16 \u011a\13 \3!\3!\3!\3!\3!\5!\u0121")
-        buf.write("\n!\3!\5!\u0124\n!\3\"\3\"\3\"\5\"\u0129\n\"\3\"\5\"\u012c")
-        buf.write("\n\"\3#\3#\3#\5#\u0131\n#\3#\5#\u0134\n#\3$\3$\3$\3$\3")
-        buf.write("$\3$\3$\5$\u013d\n$\3%\3%\3&\3&\3&\2\2\'\2\4\6\b\n\f\16")
-        buf.write("\20\22\24\26\30\32\34\36 \"$&(*,.\60\62\64\668:<>@BDF")
-        buf.write("HJ\2\5\3\2\f\16\3\2(*\3\2-/\2\u0144\2M\3\2\2\2\4Q\3\2")
-        buf.write("\2\2\6X\3\2\2\2\b[\3\2\2\2\n^\3\2\2\2\fg\3\2\2\2\16o\3")
-        buf.write("\2\2\2\20z\3\2\2\2\22\u0089\3\2\2\2\24\u008b\3\2\2\2\26")
-        buf.write("\u0091\3\2\2\2\30\u0098\3\2\2\2\32\u00a2\3\2\2\2\34\u00a4")
-        buf.write("\3\2\2\2\36\u00af\3\2\2\2 \u00b2\3\2\2\2\"\u00bf\3\2\2")
-        buf.write("\2$\u00c5\3\2\2\2&\u00cb\3\2\2\2(\u00d3\3\2\2\2*\u00d9")
-        buf.write("\3\2\2\2,\u00db\3\2\2\2.\u00e7\3\2\2\2\60\u00e9\3\2\2")
-        buf.write("\2\62\u00ee\3\2\2\2\64\u00f7\3\2\2\2\66\u00fe\3\2\2\2")
-        buf.write("8\u0103\3\2\2\2:\u0106\3\2\2\2<\u0108\3\2\2\2>\u0111\3")
-        buf.write("\2\2\2@\u011b\3\2\2\2B\u0125\3\2\2\2D\u012d\3\2\2\2F\u013c")
-        buf.write("\3\2\2\2H\u013e\3\2\2\2J\u0140\3\2\2\2LN\5\4\3\2ML\3\2")
-        buf.write("\2\2MN\3\2\2\2NO\3\2\2\2OP\7\2\2\3P\3\3\2\2\2QR\7\31\2")
-        buf.write("\2RS\7,\2\2ST\7\3\2\2TU\5\b\5\2UV\5\20\t\2VW\5\6\4\2W")
-        buf.write("\5\3\2\2\2XY\7\32\2\2YZ\5\26\f\2Z\7\3\2\2\2[\\\7\33\2")
-        buf.write("\2\\]\5\n\6\2]\t\3\2\2\2^_\5H%\2_`\5\f\7\2`d\7\3\2\2a")
-        buf.write("c\5\n\6\2ba\3\2\2\2cf\3\2\2\2db\3\2\2\2de\3\2\2\2e\13")
-        buf.write("\3\2\2\2fd\3\2\2\2gl\5\16\b\2hi\7\4\2\2ik\5\f\7\2jh\3")
-        buf.write("\2\2\2kn\3\2\2\2lj\3\2\2\2lm\3\2\2\2m\r\3\2\2\2nl\3\2")
-        buf.write("\2\2ox\7,\2\2pq\7\5\2\2qr\7-\2\2rv\7\6\2\2st\7\5\2\2t")
-        buf.write("u\7-\2\2uw\7\6\2\2vs\3\2\2\2vw\3\2\2\2wy\3\2\2\2xp\3\2")
-        buf.write("\2\2xy\3\2\2\2y\17\3\2\2\2z{\7\34\2\2{|\5\22\n\2|}\7,")
-        buf.write("\2\2}\177\7\7\2\2~\u0080\5\24\13\2\177~\3\2\2\2\177\u0080")
-        buf.write("\3\2\2\2\u0080\u0081\3\2\2\2\u0081\u0082\7\b\2\2\u0082")
-        buf.write("\u0083\5\b\5\2\u0083\u0085\5\26\f\2\u0084\u0086\5\20\t")
-        buf.write("\2\u0085\u0084\3\2\2\2\u0085\u0086\3\2\2\2\u0086\21\3")
-        buf.write("\2\2\2\u0087\u008a\7+\2\2\u0088\u008a\5H%\2\u0089\u0087")
-        buf.write("\3\2\2\2\u0089\u0088\3\2\2\2\u008a\23\3\2\2\2\u008b\u008c")
-        buf.write("\5H%\2\u008c\u008f\7,\2\2\u008d\u008e\7\4\2\2\u008e\u0090")
-        buf.write("\5\24\13\2\u008f\u008d\3\2\2\2\u008f\u0090\3\2\2\2\u0090")
-        buf.write("\25\3\2\2\2\u0091\u0092\7\t\2\2\u0092\u0093\5\30\r\2\u0093")
-        buf.write("\u0094\7\n\2\2\u0094\27\3\2\2\2\u0095\u0097\5\32\16\2")
-        buf.write("\u0096\u0095\3\2\2\2\u0097\u009a\3\2\2\2\u0098\u0096\3")
-        buf.write("\2\2\2\u0098\u0099\3\2\2\2\u0099\31\3\2\2\2\u009a\u0098")
-        buf.write("\3\2\2\2\u009b\u00a3\5\34\17\2\u009c\u00a3\5\"\22\2\u009d")
-        buf.write("\u00a3\5$\23\2\u009e\u00a3\5,\27\2\u009f\u00a3\5.\30\2")
-        buf.write("\u00a0\u00a3\58\35\2\u00a1\u00a3\5&\24\2\u00a2\u009b\3")
-        buf.write("\2\2\2\u00a2\u009c\3\2\2\2\u00a2\u009d\3\2\2\2\u00a2\u009e")
-        buf.write("\3\2\2\2\u00a2\u009f\3\2\2\2\u00a2\u00a0\3\2\2\2\u00a2")
-        buf.write("\u00a1\3\2\2\2\u00a3\33\3\2\2\2\u00a4\u00a5\5 \21\2\u00a5")
-        buf.write("\u00a6\7\13\2\2\u00a6\u00a8\5<\37\2\u00a7\u00a9\5:\36")
-        buf.write("\2\u00a8\u00a7\3\2\2\2\u00a8\u00a9\3\2\2\2\u00a9\u00aa")
-        buf.write("\3\2\2\2\u00aa\u00ab\7\3\2\2\u00ab\35\3\2\2\2\u00ac\u00ae")
-        buf.write("\5 \21\2\u00ad\u00ac\3\2\2\2\u00ae\u00b1\3\2\2\2\u00af")
-        buf.write("\u00ad\3\2\2\2\u00af\u00b0\3\2\2\2\u00b0\37\3\2\2\2\u00b1")
-        buf.write("\u00af\3\2\2\2\u00b2\u00b7\7,\2\2\u00b3\u00b4\7\5\2\2")
-        buf.write("\u00b4\u00b5\5<\37\2\u00b5\u00b6\7\6\2\2\u00b6\u00b8\3")
-        buf.write("\2\2\2\u00b7\u00b3\3\2\2\2\u00b7\u00b8\3\2\2\2\u00b8\u00bd")
-        buf.write("\3\2\2\2\u00b9\u00ba\7\5\2\2\u00ba\u00bb\5<\37\2\u00bb")
-        buf.write("\u00bc\7\6\2\2\u00bc\u00be\3\2\2\2\u00bd\u00b9\3\2\2\2")
-        buf.write("\u00bd\u00be\3\2\2\2\u00be!\3\2\2\2\u00bf\u00c0\7\35\2")
-        buf.write("\2\u00c0\u00c1\7\7\2\2\u00c1\u00c2\5<\37\2\u00c2\u00c3")
-        buf.write("\7\b\2\2\u00c3\u00c4\7\3\2\2\u00c4#\3\2\2\2\u00c5\u00c6")
-        buf.write("\7\36\2\2\u00c6\u00c7\7\7\2\2\u00c7\u00c8\5\36\20\2\u00c8")
-        buf.write("\u00c9\7\b\2\2\u00c9\u00ca\7\3\2\2\u00ca%\3\2\2\2\u00cb")
-        buf.write("\u00cc\7\37\2\2\u00cc\u00cd\7\7\2\2\u00cd\u00ce\5(\25")
-        buf.write("\2\u00ce\u00cf\7\b\2\2\u00cf\u00d0\7\3\2\2\u00d0\'\3\2")
-        buf.write("\2\2\u00d1\u00d4\5*\26\2\u00d2\u00d4\5<\37\2\u00d3\u00d1")
-        buf.write("\3\2\2\2\u00d3\u00d2\3\2\2\2\u00d4\u00d7\3\2\2\2\u00d5")
-        buf.write("\u00d6\7\4\2\2\u00d6\u00d8\5(\25\2\u00d7\u00d5\3\2\2\2")
-        buf.write("\u00d7\u00d8\3\2\2\2\u00d8)\3\2\2\2\u00d9\u00da\7\60\2")
-        buf.write("\2\u00da+\3\2\2\2\u00db\u00dc\7 \2\2\u00dc\u00dd\7\7\2")
-        buf.write("\2\u00dd\u00de\5<\37\2\u00de\u00df\7\b\2\2\u00df\u00e0")
-        buf.write("\7!\2\2\u00e0\u00e3\5\26\f\2\u00e1\u00e2\7\"\2\2\u00e2")
-        buf.write("\u00e4\5\26\f\2\u00e3\u00e1\3\2\2\2\u00e3\u00e4\3\2\2")
-        buf.write("\2\u00e4-\3\2\2\2\u00e5\u00e8\5\60\31\2\u00e6\u00e8\5")
-        buf.write("\62\32\2\u00e7\u00e5\3\2\2\2\u00e7\u00e6\3\2\2\2\u00e8")
-        buf.write("/\3\2\2\2\u00e9\u00ea\7#\2\2\u00ea\u00eb\5<\37\2\u00eb")
-        buf.write("\u00ec\7$\2\2\u00ec\u00ed\5\26\f\2\u00ed\61\3\2\2\2\u00ee")
-        buf.write("\u00ef\7%\2\2\u00ef\u00f0\5 \21\2\u00f0\u00f1\7\13\2\2")
-        buf.write("\u00f1\u00f2\5<\37\2\u00f2\u00f3\7&\2\2\u00f3\u00f4\5")
-        buf.write("<\37\2\u00f4\u00f5\7\'\2\2\u00f5\u00f6\5\26\f\2\u00f6")
-        buf.write("\63\3\2\2\2\u00f7\u00f8\7,\2\2\u00f8\u00fa\7\7\2\2\u00f9")
-        buf.write("\u00fb\5\66\34\2\u00fa\u00f9\3\2\2\2\u00fa\u00fb\3\2\2")
-        buf.write("\2\u00fb\u00fc\3\2\2\2\u00fc\u00fd\7\b\2\2\u00fd\65\3")
-        buf.write("\2\2\2\u00fe\u0101\5<\37\2\u00ff\u0100\7\4\2\2\u0100\u0102")
-        buf.write("\5\66\34\2\u0101\u00ff\3\2\2\2\u0101\u0102\3\2\2\2\u0102")
-        buf.write("\67\3\2\2\2\u0103\u0104\5\64\33\2\u0104\u0105\7\3\2\2")
-        buf.write("\u01059\3\2\2\2\u0106\u0107\t\2\2\2\u0107;\3\2\2\2\u0108")
-        buf.write("\u010a\5> \2\u0109\u010b\7\17\2\2\u010a\u0109\3\2\2\2")
-        buf.write("\u010a\u010b\3\2\2\2\u010b\u010d\3\2\2\2\u010c\u010e\5")
-        buf.write("<\37\2\u010d\u010c\3\2\2\2\u010e\u010f\3\2\2\2\u010f\u010d")
-        buf.write("\3\2\2\2\u010f\u0110\3\2\2\2\u0110=\3\2\2\2\u0111\u0113")
-        buf.write("\5@!\2\u0112\u0114\7\20\2\2\u0113\u0112\3\2\2\2\u0113")
-        buf.write("\u0114\3\2\2\2\u0114\u0118\3\2\2\2\u0115\u0117\5> \2\u0116")
-        buf.write("\u0115\3\2\2\2\u0117\u011a\3\2\2\2\u0118\u0116\3\2\2\2")
-        buf.write("\u0118\u0119\3\2\2\2\u0119?\3\2\2\2\u011a\u0118\3\2\2")
-        buf.write("\2\u011b\u0120\5B\"\2\u011c\u011d\7\21\2\2\u011d\u011e")
-        buf.write("\7\22\2\2\u011e\u011f\7\23\2\2\u011f\u0121\7\24\2\2\u0120")
-        buf.write("\u011c\3\2\2\2\u0120\u0121\3\2\2\2\u0121\u0123\3\2\2\2")
-        buf.write("\u0122\u0124\5B\"\2\u0123\u0122\3\2\2\2\u0123\u0124\3")
-        buf.write("\2\2\2\u0124A\3\2\2\2\u0125\u0128\5D#\2\u0126\u0127\7")
-        buf.write("\25\2\2\u0127\u0129\7\26\2\2\u0128\u0126\3\2\2\2\u0128")
-        buf.write("\u0129\3\2\2\2\u0129\u012b\3\2\2\2\u012a\u012c\5B\"\2")
-        buf.write("\u012b\u012a\3\2\2\2\u012b\u012c\3\2\2\2\u012cC\3\2\2")
-        buf.write("\2\u012d\u0130\5F$\2\u012e\u012f\7\27\2\2\u012f\u0131")
-        buf.write("\7\30\2\2\u0130\u012e\3\2\2\2\u0130\u0131\3\2\2\2\u0131")
-        buf.write("\u0133\3\2\2\2\u0132\u0134\5D#\2\u0133\u0132\3\2\2\2\u0133")
-        buf.write("\u0134\3\2\2\2\u0134E\3\2\2\2\u0135\u013d\5 \21\2\u0136")
-        buf.write("\u013d\5J&\2\u0137\u013d\58\35\2\u0138\u0139\7\7\2\2\u0139")
-        buf.write("\u013a\5<\37\2\u013a\u013b\7\b\2\2\u013b\u013d\3\2\2\2")
-        buf.write("\u013c\u0135\3\2\2\2\u013c\u0136\3\2\2\2\u013c\u0137\3")
-        buf.write("\2\2\2\u013c\u0138\3\2\2\2\u013dG\3\2\2\2\u013e\u013f")
-        buf.write("\t\3\2\2\u013fI\3\2\2\2\u0140\u0141\t\4\2\2\u0141K\3\2")
-        buf.write("\2\2\"Mdlvx\177\u0085\u0089\u008f\u0098\u00a2\u00a8\u00af")
-        buf.write("\u00b7\u00bd\u00d3\u00d7\u00e3\u00e7\u00fa\u0101\u010a")
-        buf.write("\u010f\u0113\u0118\u0120\u0123\u0128\u012b\u0130\u0133")
-        buf.write("\u013c")
+        buf.write("&\4\'\t\'\4(\t(\4)\t)\4*\t*\3\2\5\2V\n\2\3\2\3\2\3\3\3")
+        buf.write("\3\3\3\3\3\5\3^\n\3\3\3\5\3a\n\3\3\3\3\3\3\4\3\4\3\4\3")
+        buf.write("\5\3\5\6\5j\n\5\r\5\16\5k\3\6\3\6\6\6p\n\6\r\6\16\6q\3")
+        buf.write("\6\3\6\3\7\3\7\3\7\5\7y\n\7\3\b\3\b\5\b}\n\b\3\b\5\b\u0080")
+        buf.write("\n\b\3\t\3\t\3\t\3\t\3\n\6\n\u0087\n\n\r\n\16\n\u0088")
+        buf.write("\3\13\3\13\3\13\3\13\3\13\5\13\u0090\n\13\3\13\3\13\3")
+        buf.write("\13\5\13\u0095\n\13\3\13\3\13\3\f\3\f\5\f\u009b\n\f\3")
+        buf.write("\r\3\r\3\r\3\r\5\r\u00a1\n\r\3\16\3\16\7\16\u00a5\n\16")
+        buf.write("\f\16\16\16\u00a8\13\16\3\16\3\16\3\17\3\17\3\17\3\17")
+        buf.write("\3\17\3\17\3\17\5\17\u00b3\n\17\3\20\3\20\3\20\3\20\3")
+        buf.write("\20\3\21\3\21\5\21\u00bc\n\21\3\21\5\21\u00bf\n\21\3\22")
+        buf.write("\3\22\3\22\3\22\3\23\3\23\3\23\3\23\3\23\3\23\3\24\3\24")
+        buf.write("\3\24\3\24\3\24\3\24\3\25\3\25\3\25\5\25\u00d4\n\25\3")
+        buf.write("\26\3\26\3\26\3\26\3\26\3\26\3\27\3\27\5\27\u00de\n\27")
+        buf.write("\3\27\3\27\5\27\u00e2\n\27\3\30\3\30\3\31\3\31\3\31\3")
+        buf.write("\31\3\31\3\31\3\31\3\31\5\31\u00ee\n\31\3\32\3\32\5\32")
+        buf.write("\u00f2\n\32\3\33\3\33\3\33\3\33\3\33\3\34\3\34\3\34\3")
+        buf.write("\34\3\34\3\34\3\34\3\34\3\34\3\35\3\35\3\35\5\35\u0105")
+        buf.write("\n\35\3\35\3\35\3\36\3\36\3\36\5\36\u010c\n\36\3\37\3")
+        buf.write("\37\3\37\3 \3 \3 \3 \3 \3 \5 \u0117\n \3 \3 \3 \3 \7 ")
+        buf.write("\u011d\n \f \16 \u0120\13 \3!\3!\3\"\3\"\3#\3#\3#\3#\3")
+        buf.write("#\5#\u012b\n#\3$\3$\3%\3%\3%\3%\3%\5%\u0134\n%\3&\3&\3")
+        buf.write("\'\3\'\5\'\u013a\n\'\3\'\5\'\u013d\n\'\3\'\3\'\3\'\3\'")
+        buf.write("\3\'\3\'\5\'\u0145\n\'\3(\3(\3(\5(\u014a\n(\3)\3)\3*\3")
+        buf.write("*\3*\2\3>+\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$")
+        buf.write("&(*,.\60\62\64\668:<>@BDFHJLNPR\2\b\3\2\f\r\3\2\16\21")
+        buf.write("\3\2\22\23\3\2\24\25\3\2\26\30\3\2()\2\u014e\2U\3\2\2")
+        buf.write("\2\4Y\3\2\2\2\6d\3\2\2\2\bg\3\2\2\2\nm\3\2\2\2\fu\3\2")
+        buf.write("\2\2\16z\3\2\2\2\20\u0081\3\2\2\2\22\u0086\3\2\2\2\24")
+        buf.write("\u008a\3\2\2\2\26\u009a\3\2\2\2\30\u009c\3\2\2\2\32\u00a2")
+        buf.write("\3\2\2\2\34\u00b2\3\2\2\2\36\u00b4\3\2\2\2 \u00b9\3\2")
+        buf.write("\2\2\"\u00c0\3\2\2\2$\u00c4\3\2\2\2&\u00ca\3\2\2\2(\u00d0")
+        buf.write("\3\2\2\2*\u00d5\3\2\2\2,\u00dd\3\2\2\2.\u00e3\3\2\2\2")
+        buf.write("\60\u00e5\3\2\2\2\62\u00f1\3\2\2\2\64\u00f3\3\2\2\2\66")
+        buf.write("\u00f8\3\2\2\28\u0101\3\2\2\2:\u0108\3\2\2\2<\u010d\3")
+        buf.write("\2\2\2>\u0116\3\2\2\2@\u0121\3\2\2\2B\u0123\3\2\2\2D\u012a")
+        buf.write("\3\2\2\2F\u012c\3\2\2\2H\u0133\3\2\2\2J\u0135\3\2\2\2")
+        buf.write("L\u0144\3\2\2\2N\u0149\3\2\2\2P\u014b\3\2\2\2R\u014d\3")
+        buf.write("\2\2\2TV\5\4\3\2UT\3\2\2\2UV\3\2\2\2VW\3\2\2\2WX\7\2\2")
+        buf.write("\3X\3\3\2\2\2YZ\7\31\2\2Z[\7,\2\2[]\7\3\2\2\\^\5\b\5\2")
+        buf.write("]\\\3\2\2\2]^\3\2\2\2^`\3\2\2\2_a\5\22\n\2`_\3\2\2\2`")
+        buf.write("a\3\2\2\2ab\3\2\2\2bc\5\6\4\2c\5\3\2\2\2de\7\32\2\2ef")
+        buf.write("\5\32\16\2f\7\3\2\2\2gi\7\33\2\2hj\5\n\6\2ih\3\2\2\2j")
+        buf.write("k\3\2\2\2ki\3\2\2\2kl\3\2\2\2l\t\3\2\2\2mo\5R*\2np\5\f")
+        buf.write("\7\2on\3\2\2\2pq\3\2\2\2qo\3\2\2\2qr\3\2\2\2rs\3\2\2\2")
+        buf.write("st\7\3\2\2t\13\3\2\2\2ux\5\16\b\2vw\7\4\2\2wy\5\f\7\2")
+        buf.write("xv\3\2\2\2xy\3\2\2\2y\r\3\2\2\2z|\7,\2\2{}\5\20\t\2|{")
+        buf.write("\3\2\2\2|}\3\2\2\2}\177\3\2\2\2~\u0080\5\20\t\2\177~\3")
+        buf.write("\2\2\2\177\u0080\3\2\2\2\u0080\17\3\2\2\2\u0081\u0082")
+        buf.write("\7\5\2\2\u0082\u0083\7-\2\2\u0083\u0084\7\6\2\2\u0084")
+        buf.write("\21\3\2\2\2\u0085\u0087\5\24\13\2\u0086\u0085\3\2\2\2")
+        buf.write("\u0087\u0088\3\2\2\2\u0088\u0086\3\2\2\2\u0088\u0089\3")
+        buf.write("\2\2\2\u0089\23\3\2\2\2\u008a\u008b\7\34\2\2\u008b\u008c")
+        buf.write("\5\26\f\2\u008c\u008d\7,\2\2\u008d\u008f\7\7\2\2\u008e")
+        buf.write("\u0090\5\30\r\2\u008f\u008e\3\2\2\2\u008f\u0090\3\2\2")
+        buf.write("\2\u0090\u0091\3\2\2\2\u0091\u0092\7\b\2\2\u0092\u0094")
+        buf.write("\7\3\2\2\u0093\u0095\5\b\5\2\u0094\u0093\3\2\2\2\u0094")
+        buf.write("\u0095\3\2\2\2\u0095\u0096\3\2\2\2\u0096\u0097\5\32\16")
+        buf.write("\2\u0097\25\3\2\2\2\u0098\u009b\7+\2\2\u0099\u009b\5R")
+        buf.write("*\2\u009a\u0098\3\2\2\2\u009a\u0099\3\2\2\2\u009b\27\3")
+        buf.write("\2\2\2\u009c\u009d\5R*\2\u009d\u00a0\7,\2\2\u009e\u009f")
+        buf.write("\7\4\2\2\u009f\u00a1\5\30\r\2\u00a0\u009e\3\2\2\2\u00a0")
+        buf.write("\u00a1\3\2\2\2\u00a1\31\3\2\2\2\u00a2\u00a6\7\t\2\2\u00a3")
+        buf.write("\u00a5\5\34\17\2\u00a4\u00a3\3\2\2\2\u00a5\u00a8\3\2\2")
+        buf.write("\2\u00a6\u00a4\3\2\2\2\u00a6\u00a7\3\2\2\2\u00a7\u00a9")
+        buf.write("\3\2\2\2\u00a8\u00a6\3\2\2\2\u00a9\u00aa\7\n\2\2\u00aa")
+        buf.write("\33\3\2\2\2\u00ab\u00b3\5\36\20\2\u00ac\u00b3\5$\23\2")
+        buf.write("\u00ad\u00b3\5&\24\2\u00ae\u00b3\5\60\31\2\u00af\u00b3")
+        buf.write("\5\62\32\2\u00b0\u00b3\5<\37\2\u00b1\u00b3\5*\26\2\u00b2")
+        buf.write("\u00ab\3\2\2\2\u00b2\u00ac\3\2\2\2\u00b2\u00ad\3\2\2\2")
+        buf.write("\u00b2\u00ae\3\2\2\2\u00b2\u00af\3\2\2\2\u00b2\u00b0\3")
+        buf.write("\2\2\2\u00b2\u00b1\3\2\2\2\u00b3\35\3\2\2\2\u00b4\u00b5")
+        buf.write("\5 \21\2\u00b5\u00b6\7\13\2\2\u00b6\u00b7\5> \2\u00b7")
+        buf.write("\u00b8\7\3\2\2\u00b8\37\3\2\2\2\u00b9\u00bb\7,\2\2\u00ba")
+        buf.write("\u00bc\5\"\22\2\u00bb\u00ba\3\2\2\2\u00bb\u00bc\3\2\2")
+        buf.write("\2\u00bc\u00be\3\2\2\2\u00bd\u00bf\5\"\22\2\u00be\u00bd")
+        buf.write("\3\2\2\2\u00be\u00bf\3\2\2\2\u00bf!\3\2\2\2\u00c0\u00c1")
+        buf.write("\7\5\2\2\u00c1\u00c2\5> \2\u00c2\u00c3\7\6\2\2\u00c3#")
+        buf.write("\3\2\2\2\u00c4\u00c5\7\35\2\2\u00c5\u00c6\7\7\2\2\u00c6")
+        buf.write("\u00c7\5> \2\u00c7\u00c8\7\b\2\2\u00c8\u00c9\7\3\2\2\u00c9")
+        buf.write("%\3\2\2\2\u00ca\u00cb\7\36\2\2\u00cb\u00cc\7\7\2\2\u00cc")
+        buf.write("\u00cd\5(\25\2\u00cd\u00ce\7\b\2\2\u00ce\u00cf\7\3\2\2")
+        buf.write("\u00cf\'\3\2\2\2\u00d0\u00d3\5 \21\2\u00d1\u00d2\7\4\2")
+        buf.write("\2\u00d2\u00d4\5(\25\2\u00d3\u00d1\3\2\2\2\u00d3\u00d4")
+        buf.write("\3\2\2\2\u00d4)\3\2\2\2\u00d5\u00d6\7\37\2\2\u00d6\u00d7")
+        buf.write("\7\7\2\2\u00d7\u00d8\5,\27\2\u00d8\u00d9\7\b\2\2\u00d9")
+        buf.write("\u00da\7\3\2\2\u00da+\3\2\2\2\u00db\u00de\5.\30\2\u00dc")
+        buf.write("\u00de\5> \2\u00dd\u00db\3\2\2\2\u00dd\u00dc\3\2\2\2\u00de")
+        buf.write("\u00e1\3\2\2\2\u00df\u00e0\7\4\2\2\u00e0\u00e2\5,\27\2")
+        buf.write("\u00e1\u00df\3\2\2\2\u00e1\u00e2\3\2\2\2\u00e2-\3\2\2")
+        buf.write("\2\u00e3\u00e4\7\60\2\2\u00e4/\3\2\2\2\u00e5\u00e6\7 ")
+        buf.write("\2\2\u00e6\u00e7\7\7\2\2\u00e7\u00e8\5> \2\u00e8\u00e9")
+        buf.write("\7\b\2\2\u00e9\u00ea\7!\2\2\u00ea\u00ed\5\32\16\2\u00eb")
+        buf.write("\u00ec\7\"\2\2\u00ec\u00ee\5\32\16\2\u00ed\u00eb\3\2\2")
+        buf.write("\2\u00ed\u00ee\3\2\2\2\u00ee\61\3\2\2\2\u00ef\u00f2\5")
+        buf.write("\64\33\2\u00f0\u00f2\5\66\34\2\u00f1\u00ef\3\2\2\2\u00f1")
+        buf.write("\u00f0\3\2\2\2\u00f2\63\3\2\2\2\u00f3\u00f4\7#\2\2\u00f4")
+        buf.write("\u00f5\5> \2\u00f5\u00f6\7$\2\2\u00f6\u00f7\5\32\16\2")
+        buf.write("\u00f7\65\3\2\2\2\u00f8\u00f9\7%\2\2\u00f9\u00fa\5 \21")
+        buf.write("\2\u00fa\u00fb\7\13\2\2\u00fb\u00fc\5> \2\u00fc\u00fd")
+        buf.write("\7&\2\2\u00fd\u00fe\5> \2\u00fe\u00ff\7\'\2\2\u00ff\u0100")
+        buf.write("\5\32\16\2\u0100\67\3\2\2\2\u0101\u0102\7,\2\2\u0102\u0104")
+        buf.write("\7\7\2\2\u0103\u0105\5:\36\2\u0104\u0103\3\2\2\2\u0104")
+        buf.write("\u0105\3\2\2\2\u0105\u0106\3\2\2\2\u0106\u0107\7\b\2\2")
+        buf.write("\u01079\3\2\2\2\u0108\u010b\5> \2\u0109\u010a\7\4\2\2")
+        buf.write("\u010a\u010c\5:\36\2\u010b\u0109\3\2\2\2\u010b\u010c\3")
+        buf.write("\2\2\2\u010c;\3\2\2\2\u010d\u010e\58\35\2\u010e\u010f")
+        buf.write("\7\3\2\2\u010f=\3\2\2\2\u0110\u0111\b \1\2\u0111\u0117")
+        buf.write("\5D#\2\u0112\u0113\5D#\2\u0113\u0114\5B\"\2\u0114\u0115")
+        buf.write("\5D#\2\u0115\u0117\3\2\2\2\u0116\u0110\3\2\2\2\u0116\u0112")
+        buf.write("\3\2\2\2\u0117\u011e\3\2\2\2\u0118\u0119\f\4\2\2\u0119")
+        buf.write("\u011a\5@!\2\u011a\u011b\5> \5\u011b\u011d\3\2\2\2\u011c")
+        buf.write("\u0118\3\2\2\2\u011d\u0120\3\2\2\2\u011e\u011c\3\2\2\2")
+        buf.write("\u011e\u011f\3\2\2\2\u011f?\3\2\2\2\u0120\u011e\3\2\2")
+        buf.write("\2\u0121\u0122\t\2\2\2\u0122A\3\2\2\2\u0123\u0124\t\3")
+        buf.write("\2\2\u0124C\3\2\2\2\u0125\u012b\5H%\2\u0126\u0127\5H%")
+        buf.write("\2\u0127\u0128\5F$\2\u0128\u0129\5D#\2\u0129\u012b\3\2")
+        buf.write("\2\2\u012a\u0125\3\2\2\2\u012a\u0126\3\2\2\2\u012bE\3")
+        buf.write("\2\2\2\u012c\u012d\t\4\2\2\u012dG\3\2\2\2\u012e\u0134")
+        buf.write("\5L\'\2\u012f\u0130\5L\'\2\u0130\u0131\5J&\2\u0131\u0132")
+        buf.write("\5H%\2\u0132\u0134\3\2\2\2\u0133\u012e\3\2\2\2\u0133\u012f")
+        buf.write("\3\2\2\2\u0134I\3\2\2\2\u0135\u0136\t\5\2\2\u0136K\3\2")
+        buf.write("\2\2\u0137\u0139\5 \21\2\u0138\u013a\5P)\2\u0139\u0138")
+        buf.write("\3\2\2\2\u0139\u013a\3\2\2\2\u013a\u0145\3\2\2\2\u013b")
+        buf.write("\u013d\5F$\2\u013c\u013b\3\2\2\2\u013c\u013d\3\2\2\2\u013d")
+        buf.write("\u013e\3\2\2\2\u013e\u0145\5N(\2\u013f\u0145\58\35\2\u0140")
+        buf.write("\u0141\7\7\2\2\u0141\u0142\5> \2\u0142\u0143\7\b\2\2\u0143")
+        buf.write("\u0145\3\2\2\2\u0144\u0137\3\2\2\2\u0144\u013c\3\2\2\2")
+        buf.write("\u0144\u013f\3\2\2\2\u0144\u0140\3\2\2\2\u0145M\3\2\2")
+        buf.write("\2\u0146\u014a\5 \21\2\u0147\u014a\7-\2\2\u0148\u014a")
+        buf.write("\7.\2\2\u0149\u0146\3\2\2\2\u0149\u0147\3\2\2\2\u0149")
+        buf.write("\u0148\3\2\2\2\u014aO\3\2\2\2\u014b\u014c\t\6\2\2\u014c")
+        buf.write("Q\3\2\2\2\u014d\u014e\t\7\2\2\u014eS\3\2\2\2\"U]`kqx|")
+        buf.write("\177\u0088\u008f\u0094\u009a\u00a0\u00a6\u00b2\u00bb\u00be")
+        buf.write("\u00d3\u00dd\u00e1\u00ed\u00f1\u0104\u010b\u0116\u011e")
+        buf.write("\u012a\u0133\u0139\u013c\u0144\u0149")
         return buf.getvalue()
 
 
@@ -164,13 +168,12 @@ class PatitoMasMasParser ( Parser ):
     sharedContextCache = PredictionContextCache()
 
     literalNames = [ "<INVALID>", "';'", "','", "'['", "']'", "'('", "')'", 
-                     "'{'", "'}'", "'='", "'$'", "'?'", "'\u00A1'", "'||'", 
-                     "'&'", "'>'", "'<'", "'=='", "'!='", "'+'", "'-'", 
-                     "'*'", "'/'", "'programa'", "'principal()'", "'var'", 
-                     "'funcion'", "'regresa'", "'lee'", "'escribe'", "'si'", 
-                     "'entonces'", "'sino'", "'mientras'", "'haz'", "'desde'", 
-                     "'hasta'", "'hacer'", "'int'", "'float'", "'char'", 
-                     "'void'" ]
+                     "'{'", "'}'", "'='", "'&'", "'||'", "'>'", "'<'", "'=='", 
+                     "'!='", "'+'", "'-'", "'*'", "'/'", "'$'", "'?'", "'\u00A1'", 
+                     "'programa'", "'principal()'", "'var'", "'funcion'", 
+                     "'regresa'", "'lee'", "'escribe'", "'si'", "'entonces'", 
+                     "'sino'", "'mientras'", "'haz'", "'desde'", "'hasta'", 
+                     "'hacer'", "'int'", "'float'", "'char'", "'void'" ]
 
     symbolicNames = [ "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
                       "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
@@ -187,49 +190,53 @@ class PatitoMasMasParser ( Parser ):
     RULE_start = 0
     RULE_programa = 1
     RULE_principal = 2
-    RULE_variables = 3
-    RULE_var = 4
-    RULE_ids = 5
-    RULE_id_cte = 6
-    RULE_functions = 7
-    RULE_tipo_ret = 8
-    RULE_params = 9
-    RULE_bloque_est = 10
-    RULE_estatutos = 11
-    RULE_estatuto = 12
-    RULE_asignacion = 13
-    RULE_id_expressions = 14
-    RULE_id_exp = 15
-    RULE_retorno = 16
-    RULE_lectura = 17
-    RULE_escritura = 18
-    RULE_escrituras = 19
-    RULE_string = 20
-    RULE_decision = 21
-    RULE_repeticion = 22
-    RULE_condicional = 23
-    RULE_no_condicional = 24
-    RULE_llamada = 25
-    RULE_params_llamada = 26
-    RULE_llamada_est = 27
-    RULE_op_esp = 28
-    RULE_expresion = 29
-    RULE_exp_a = 30
-    RULE_exp_b = 31
-    RULE_exp_c = 32
-    RULE_exp_d = 33
-    RULE_exp_e = 34
-    RULE_tipo = 35
-    RULE_var_cte = 36
+    RULE_dec_variables = 3
+    RULE_dec_var = 4
+    RULE_lista_ids = 5
+    RULE_ids = 6
+    RULE_dimension = 7
+    RULE_dec_functions = 8
+    RULE_funcion = 9
+    RULE_tipo_ret = 10
+    RULE_params = 11
+    RULE_bloque_est = 12
+    RULE_estatuto = 13
+    RULE_asignacion = 14
+    RULE_var = 15
+    RULE_dim = 16
+    RULE_retorno = 17
+    RULE_lectura = 18
+    RULE_lista_vars = 19
+    RULE_escritura = 20
+    RULE_escrituras = 21
+    RULE_string = 22
+    RULE_decision = 23
+    RULE_repeticion = 24
+    RULE_condicional = 25
+    RULE_no_condicional = 26
+    RULE_llamada = 27
+    RULE_params_llamada = 28
+    RULE_llamada_est = 29
+    RULE_expresion = 30
+    RULE_op_log = 31
+    RULE_op_comp = 32
+    RULE_exp = 33
+    RULE_op_arit = 34
+    RULE_term = 35
+    RULE_op_prod = 36
+    RULE_factor = 37
+    RULE_var_cte = 38
+    RULE_op_esp = 39
+    RULE_tipo = 40
 
-    ruleNames =  [ "start", "programa", "principal", "variables", "var", 
-                   "ids", "id_cte", "functions", "tipo_ret", "params", "bloque_est", 
-                   "estatutos", "estatuto", "asignacion", "id_expressions", 
-                   "id_exp", "retorno", "lectura", "escritura", "escrituras", 
-                   "string", "decision", "repeticion", "condicional", "no_condicional", 
-                   "llamada", "params_llamada", "llamada_est", "op_esp", 
-                   "expresion", "exp_a", "exp_b", "exp_c", "exp_d", "exp_e", 
-                   "tipo", "var_cte" ]
+    ruleNames =  [ "start", "programa", "principal", "dec_variables", "dec_var", 
+                   "lista_ids", "ids", "dimension", "dec_functions", "funcion", 
+                   "tipo_ret", "params", "bloque_est", "estatuto", "asignacion", 
+                   "var", "dim", "retorno", "lectura", "lista_vars", "escritura", 
+                   "escrituras", "string", "decision", "repeticion", "condicional", 
+                   "no_condicional", "llamada", "params_llamada", "llamada_est", 
+                   "expresion", "op_log", "op_comp", "exp", "op_arit", "term", 
+                   "op_prod", "factor", "var_cte", "op_esp", "tipo" ]
 
     EOF = Token.EOF
     T__0=1
@@ -325,15 +332,15 @@ class PatitoMasMasParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 75
+            self.state = 83
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             if _la==PatitoMasMasParser.Programa:
-                self.state = 74
+                self.state = 82
                 self.programa()
 
 
-            self.state = 77
+            self.state = 85
             self.match(PatitoMasMasParser.EOF)
         except RecognitionException as re:
             localctx.exception = re
@@ -356,16 +363,16 @@ class PatitoMasMasParser ( Parser ):
         def ID(self):
             return self.getToken(PatitoMasMasParser.ID, 0)
 
-        def variables(self):
-            return self.getTypedRuleContext(PatitoMasMasParser.VariablesContext,0)
-
-
-        def functions(self):
-            return self.getTypedRuleContext(PatitoMasMasParser.FunctionsContext,0)
-
-
         def principal(self):
             return self.getTypedRuleContext(PatitoMasMasParser.PrincipalContext,0)
+
+
+        def dec_variables(self):
+            return self.getTypedRuleContext(PatitoMasMasParser.Dec_variablesContext,0)
+
+
+        def dec_functions(self):
+            return self.getTypedRuleContext(PatitoMasMasParser.Dec_functionsContext,0)
 
 
         def getRuleIndex(self):
@@ -386,19 +393,32 @@ class PatitoMasMasParser ( Parser ):
 
         localctx = PatitoMasMasParser.ProgramaContext(self, self._ctx, self.state)
         self.enterRule(localctx, 2, self.RULE_programa)
+        self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 79
+            self.state = 87
             self.match(PatitoMasMasParser.Programa)
-            self.state = 80
+            self.state = 88
             self.match(PatitoMasMasParser.ID)
-            self.state = 81
+            self.state = 89
             self.match(PatitoMasMasParser.T__0)
-            self.state = 82
-            self.variables()
-            self.state = 83
-            self.functions()
-            self.state = 84
+            self.state = 91
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            if _la==PatitoMasMasParser.Var:
+                self.state = 90
+                self.dec_variables()
+
+
+            self.state = 94
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            if _la==PatitoMasMasParser.Function:
+                self.state = 93
+                self.dec_functions()
+
+
+            self.state = 96
             self.principal()
         except RecognitionException as re:
             localctx.exception = re
@@ -442,9 +462,9 @@ class PatitoMasMasParser ( Parser ):
         self.enterRule(localctx, 4, self.RULE_principal)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 86
+            self.state = 98
             self.match(PatitoMasMasParser.Principal)
-            self.state = 87
+            self.state = 99
             self.bloque_est()
         except RecognitionException as re:
             localctx.exception = re
@@ -455,7 +475,7 @@ class PatitoMasMasParser ( Parser ):
         return localctx
 
 
-    class VariablesContext(ParserRuleContext):
+    class Dec_variablesContext(ParserRuleContext):
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -464,34 +484,48 @@ class PatitoMasMasParser ( Parser ):
         def Var(self):
             return self.getToken(PatitoMasMasParser.Var, 0)
 
-        def var(self):
-            return self.getTypedRuleContext(PatitoMasMasParser.VarContext,0)
+        def dec_var(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(PatitoMasMasParser.Dec_varContext)
+            else:
+                return self.getTypedRuleContext(PatitoMasMasParser.Dec_varContext,i)
 
 
         def getRuleIndex(self):
-            return PatitoMasMasParser.RULE_variables
+            return PatitoMasMasParser.RULE_dec_variables
 
         def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterVariables" ):
-                listener.enterVariables(self)
+            if hasattr( listener, "enterDec_variables" ):
+                listener.enterDec_variables(self)
 
         def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitVariables" ):
-                listener.exitVariables(self)
+            if hasattr( listener, "exitDec_variables" ):
+                listener.exitDec_variables(self)
 
 
 
 
-    def variables(self):
+    def dec_variables(self):
 
-        localctx = PatitoMasMasParser.VariablesContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 6, self.RULE_variables)
+        localctx = PatitoMasMasParser.Dec_variablesContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 6, self.RULE_dec_variables)
+        self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 89
+            self.state = 101
             self.match(PatitoMasMasParser.Var)
-            self.state = 90
-            self.var()
+            self.state = 103 
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            while True:
+                self.state = 102
+                self.dec_var()
+                self.state = 105 
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
+                if not (_la==PatitoMasMasParser.Int or _la==PatitoMasMasParser.Float):
+                    break
+
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -501,7 +535,7 @@ class PatitoMasMasParser ( Parser ):
         return localctx
 
 
-    class VarContext(ParserRuleContext):
+    class Dec_varContext(ParserRuleContext):
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -511,53 +545,105 @@ class PatitoMasMasParser ( Parser ):
             return self.getTypedRuleContext(PatitoMasMasParser.TipoContext,0)
 
 
+        def lista_ids(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(PatitoMasMasParser.Lista_idsContext)
+            else:
+                return self.getTypedRuleContext(PatitoMasMasParser.Lista_idsContext,i)
+
+
+        def getRuleIndex(self):
+            return PatitoMasMasParser.RULE_dec_var
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterDec_var" ):
+                listener.enterDec_var(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitDec_var" ):
+                listener.exitDec_var(self)
+
+
+
+
+    def dec_var(self):
+
+        localctx = PatitoMasMasParser.Dec_varContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 8, self.RULE_dec_var)
+        self._la = 0 # Token type
+        try:
+            self.enterOuterAlt(localctx, 1)
+            self.state = 107
+            self.tipo()
+            self.state = 109 
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            while True:
+                self.state = 108
+                self.lista_ids()
+                self.state = 111 
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
+                if not (_la==PatitoMasMasParser.ID):
+                    break
+
+            self.state = 113
+            self.match(PatitoMasMasParser.T__0)
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+
+    class Lista_idsContext(ParserRuleContext):
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+
         def ids(self):
             return self.getTypedRuleContext(PatitoMasMasParser.IdsContext,0)
 
 
-        def var(self, i:int=None):
-            if i is None:
-                return self.getTypedRuleContexts(PatitoMasMasParser.VarContext)
-            else:
-                return self.getTypedRuleContext(PatitoMasMasParser.VarContext,i)
+        def lista_ids(self):
+            return self.getTypedRuleContext(PatitoMasMasParser.Lista_idsContext,0)
 
 
         def getRuleIndex(self):
-            return PatitoMasMasParser.RULE_var
+            return PatitoMasMasParser.RULE_lista_ids
 
         def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterVar" ):
-                listener.enterVar(self)
+            if hasattr( listener, "enterLista_ids" ):
+                listener.enterLista_ids(self)
 
         def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitVar" ):
-                listener.exitVar(self)
+            if hasattr( listener, "exitLista_ids" ):
+                listener.exitLista_ids(self)
 
 
 
 
-    def var(self):
+    def lista_ids(self):
 
-        localctx = PatitoMasMasParser.VarContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 8, self.RULE_var)
+        localctx = PatitoMasMasParser.Lista_idsContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 10, self.RULE_lista_ids)
+        self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 92
-            self.tipo()
-            self.state = 93
+            self.state = 115
             self.ids()
-            self.state = 94
-            self.match(PatitoMasMasParser.T__0)
-            self.state = 98
+            self.state = 118
             self._errHandler.sync(self)
-            _alt = self._interp.adaptivePredict(self._input,1,self._ctx)
-            while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
-                if _alt==1:
-                    self.state = 95
-                    self.var() 
-                self.state = 100
-                self._errHandler.sync(self)
-                _alt = self._interp.adaptivePredict(self._input,1,self._ctx)
+            _la = self._input.LA(1)
+            if _la==PatitoMasMasParser.T__1:
+                self.state = 116
+                self.match(PatitoMasMasParser.T__1)
+                self.state = 117
+                self.lista_ids()
+
 
         except RecognitionException as re:
             localctx.exception = re
@@ -574,15 +660,14 @@ class PatitoMasMasParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def id_cte(self):
-            return self.getTypedRuleContext(PatitoMasMasParser.Id_cteContext,0)
+        def ID(self):
+            return self.getToken(PatitoMasMasParser.ID, 0)
 
-
-        def ids(self, i:int=None):
+        def dimension(self, i:int=None):
             if i is None:
-                return self.getTypedRuleContexts(PatitoMasMasParser.IdsContext)
+                return self.getTypedRuleContexts(PatitoMasMasParser.DimensionContext)
             else:
-                return self.getTypedRuleContext(PatitoMasMasParser.IdsContext,i)
+                return self.getTypedRuleContext(PatitoMasMasParser.DimensionContext,i)
 
 
         def getRuleIndex(self):
@@ -602,23 +687,27 @@ class PatitoMasMasParser ( Parser ):
     def ids(self):
 
         localctx = PatitoMasMasParser.IdsContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 10, self.RULE_ids)
+        self.enterRule(localctx, 12, self.RULE_ids)
+        self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 101
-            self.id_cte()
-            self.state = 106
+            self.state = 120
+            self.match(PatitoMasMasParser.ID)
+            self.state = 122
             self._errHandler.sync(self)
-            _alt = self._interp.adaptivePredict(self._input,2,self._ctx)
-            while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
-                if _alt==1:
-                    self.state = 102
-                    self.match(PatitoMasMasParser.T__1)
-                    self.state = 103
-                    self.ids() 
-                self.state = 108
-                self._errHandler.sync(self)
-                _alt = self._interp.adaptivePredict(self._input,2,self._ctx)
+            la_ = self._interp.adaptivePredict(self._input,6,self._ctx)
+            if la_ == 1:
+                self.state = 121
+                self.dimension()
+
+
+            self.state = 125
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            if _la==PatitoMasMasParser.T__2:
+                self.state = 124
+                self.dimension()
+
 
         except RecognitionException as re:
             localctx.exception = re
@@ -629,67 +718,95 @@ class PatitoMasMasParser ( Parser ):
         return localctx
 
 
-    class Id_cteContext(ParserRuleContext):
+    class DimensionContext(ParserRuleContext):
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def ID(self):
-            return self.getToken(PatitoMasMasParser.ID, 0)
-
-        def CTE_INT(self, i:int=None):
-            if i is None:
-                return self.getTokens(PatitoMasMasParser.CTE_INT)
-            else:
-                return self.getToken(PatitoMasMasParser.CTE_INT, i)
+        def CTE_INT(self):
+            return self.getToken(PatitoMasMasParser.CTE_INT, 0)
 
         def getRuleIndex(self):
-            return PatitoMasMasParser.RULE_id_cte
+            return PatitoMasMasParser.RULE_dimension
 
         def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterId_cte" ):
-                listener.enterId_cte(self)
+            if hasattr( listener, "enterDimension" ):
+                listener.enterDimension(self)
 
         def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitId_cte" ):
-                listener.exitId_cte(self)
+            if hasattr( listener, "exitDimension" ):
+                listener.exitDimension(self)
 
 
 
 
-    def id_cte(self):
+    def dimension(self):
 
-        localctx = PatitoMasMasParser.Id_cteContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 12, self.RULE_id_cte)
+        localctx = PatitoMasMasParser.DimensionContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 14, self.RULE_dimension)
+        try:
+            self.enterOuterAlt(localctx, 1)
+            self.state = 127
+            self.match(PatitoMasMasParser.T__2)
+            self.state = 128
+            self.match(PatitoMasMasParser.CTE_INT)
+            self.state = 129
+            self.match(PatitoMasMasParser.T__3)
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+
+    class Dec_functionsContext(ParserRuleContext):
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+
+        def funcion(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(PatitoMasMasParser.FuncionContext)
+            else:
+                return self.getTypedRuleContext(PatitoMasMasParser.FuncionContext,i)
+
+
+        def getRuleIndex(self):
+            return PatitoMasMasParser.RULE_dec_functions
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterDec_functions" ):
+                listener.enterDec_functions(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitDec_functions" ):
+                listener.exitDec_functions(self)
+
+
+
+
+    def dec_functions(self):
+
+        localctx = PatitoMasMasParser.Dec_functionsContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 16, self.RULE_dec_functions)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 109
-            self.match(PatitoMasMasParser.ID)
-            self.state = 118
+            self.state = 132 
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            if _la==PatitoMasMasParser.T__2:
-                self.state = 110
-                self.match(PatitoMasMasParser.T__2)
-                self.state = 111
-                self.match(PatitoMasMasParser.CTE_INT)
-                self.state = 112
-                self.match(PatitoMasMasParser.T__3)
-                self.state = 116
+            while True:
+                self.state = 131
+                self.funcion()
+                self.state = 134 
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                if _la==PatitoMasMasParser.T__2:
-                    self.state = 113
-                    self.match(PatitoMasMasParser.T__2)
-                    self.state = 114
-                    self.match(PatitoMasMasParser.CTE_INT)
-                    self.state = 115
-                    self.match(PatitoMasMasParser.T__3)
-
-
-
+                if not (_la==PatitoMasMasParser.Function):
+                    break
 
         except RecognitionException as re:
             localctx.exception = re
@@ -700,7 +817,7 @@ class PatitoMasMasParser ( Parser ):
         return localctx
 
 
-    class FunctionsContext(ParserRuleContext):
+    class FuncionContext(ParserRuleContext):
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
@@ -716,10 +833,6 @@ class PatitoMasMasParser ( Parser ):
         def ID(self):
             return self.getToken(PatitoMasMasParser.ID, 0)
 
-        def variables(self):
-            return self.getTypedRuleContext(PatitoMasMasParser.VariablesContext,0)
-
-
         def bloque_est(self):
             return self.getTypedRuleContext(PatitoMasMasParser.Bloque_estContext,0)
 
@@ -728,61 +841,61 @@ class PatitoMasMasParser ( Parser ):
             return self.getTypedRuleContext(PatitoMasMasParser.ParamsContext,0)
 
 
-        def functions(self):
-            return self.getTypedRuleContext(PatitoMasMasParser.FunctionsContext,0)
+        def dec_variables(self):
+            return self.getTypedRuleContext(PatitoMasMasParser.Dec_variablesContext,0)
 
 
         def getRuleIndex(self):
-            return PatitoMasMasParser.RULE_functions
+            return PatitoMasMasParser.RULE_funcion
 
         def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterFunctions" ):
-                listener.enterFunctions(self)
+            if hasattr( listener, "enterFuncion" ):
+                listener.enterFuncion(self)
 
         def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitFunctions" ):
-                listener.exitFunctions(self)
+            if hasattr( listener, "exitFuncion" ):
+                listener.exitFuncion(self)
 
 
 
 
-    def functions(self):
+    def funcion(self):
 
-        localctx = PatitoMasMasParser.FunctionsContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 14, self.RULE_functions)
+        localctx = PatitoMasMasParser.FuncionContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 18, self.RULE_funcion)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 120
+            self.state = 136
             self.match(PatitoMasMasParser.Function)
-            self.state = 121
+            self.state = 137
             self.tipo_ret()
-            self.state = 122
+            self.state = 138
             self.match(PatitoMasMasParser.ID)
-            self.state = 123
+            self.state = 139
             self.match(PatitoMasMasParser.T__4)
-            self.state = 125
+            self.state = 141
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            if (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << PatitoMasMasParser.Int) | (1 << PatitoMasMasParser.Float) | (1 << PatitoMasMasParser.Char))) != 0):
-                self.state = 124
+            if _la==PatitoMasMasParser.Int or _la==PatitoMasMasParser.Float:
+                self.state = 140
                 self.params()
 
 
-            self.state = 127
+            self.state = 143
             self.match(PatitoMasMasParser.T__5)
-            self.state = 128
-            self.variables()
-            self.state = 129
-            self.bloque_est()
-            self.state = 131
+            self.state = 144
+            self.match(PatitoMasMasParser.T__0)
+            self.state = 146
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            if _la==PatitoMasMasParser.Function:
-                self.state = 130
-                self.functions()
+            if _la==PatitoMasMasParser.Var:
+                self.state = 145
+                self.dec_variables()
 
 
+            self.state = 148
+            self.bloque_est()
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -822,19 +935,19 @@ class PatitoMasMasParser ( Parser ):
     def tipo_ret(self):
 
         localctx = PatitoMasMasParser.Tipo_retContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 16, self.RULE_tipo_ret)
+        self.enterRule(localctx, 20, self.RULE_tipo_ret)
         try:
-            self.state = 135
+            self.state = 152
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [PatitoMasMasParser.Void]:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 133
+                self.state = 150
                 self.match(PatitoMasMasParser.Void)
                 pass
-            elif token in [PatitoMasMasParser.Int, PatitoMasMasParser.Float, PatitoMasMasParser.Char]:
+            elif token in [PatitoMasMasParser.Int, PatitoMasMasParser.Float]:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 134
+                self.state = 151
                 self.tipo()
                 pass
             else:
@@ -883,21 +996,21 @@ class PatitoMasMasParser ( Parser ):
     def params(self):
 
         localctx = PatitoMasMasParser.ParamsContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 18, self.RULE_params)
+        self.enterRule(localctx, 22, self.RULE_params)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 137
+            self.state = 154
             self.tipo()
-            self.state = 138
+            self.state = 155
             self.match(PatitoMasMasParser.ID)
-            self.state = 141
+            self.state = 158
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             if _la==PatitoMasMasParser.T__1:
-                self.state = 139
+                self.state = 156
                 self.match(PatitoMasMasParser.T__1)
-                self.state = 140
+                self.state = 157
                 self.params()
 
 
@@ -916,8 +1029,11 @@ class PatitoMasMasParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def estatutos(self):
-            return self.getTypedRuleContext(PatitoMasMasParser.EstatutosContext,0)
+        def estatuto(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(PatitoMasMasParser.EstatutoContext)
+            else:
+                return self.getTypedRuleContext(PatitoMasMasParser.EstatutoContext,i)
 
 
         def getRuleIndex(self):
@@ -937,68 +1053,24 @@ class PatitoMasMasParser ( Parser ):
     def bloque_est(self):
 
         localctx = PatitoMasMasParser.Bloque_estContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 20, self.RULE_bloque_est)
-        try:
-            self.enterOuterAlt(localctx, 1)
-            self.state = 143
-            self.match(PatitoMasMasParser.T__6)
-            self.state = 144
-            self.estatutos()
-            self.state = 145
-            self.match(PatitoMasMasParser.T__7)
-        except RecognitionException as re:
-            localctx.exception = re
-            self._errHandler.reportError(self, re)
-            self._errHandler.recover(self, re)
-        finally:
-            self.exitRule()
-        return localctx
-
-
-    class EstatutosContext(ParserRuleContext):
-
-        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
-            super().__init__(parent, invokingState)
-            self.parser = parser
-
-        def estatuto(self, i:int=None):
-            if i is None:
-                return self.getTypedRuleContexts(PatitoMasMasParser.EstatutoContext)
-            else:
-                return self.getTypedRuleContext(PatitoMasMasParser.EstatutoContext,i)
-
-
-        def getRuleIndex(self):
-            return PatitoMasMasParser.RULE_estatutos
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterEstatutos" ):
-                listener.enterEstatutos(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitEstatutos" ):
-                listener.exitEstatutos(self)
-
-
-
-
-    def estatutos(self):
-
-        localctx = PatitoMasMasParser.EstatutosContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 22, self.RULE_estatutos)
+        self.enterRule(localctx, 24, self.RULE_bloque_est)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 150
+            self.state = 160
+            self.match(PatitoMasMasParser.T__6)
+            self.state = 164
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << PatitoMasMasParser.Regresa) | (1 << PatitoMasMasParser.Lee) | (1 << PatitoMasMasParser.Escribe) | (1 << PatitoMasMasParser.Si) | (1 << PatitoMasMasParser.Mientras) | (1 << PatitoMasMasParser.Desde) | (1 << PatitoMasMasParser.ID))) != 0):
-                self.state = 147
+                self.state = 161
                 self.estatuto()
-                self.state = 152
+                self.state = 166
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
+            self.state = 167
+            self.match(PatitoMasMasParser.T__7)
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -1059,50 +1131,50 @@ class PatitoMasMasParser ( Parser ):
     def estatuto(self):
 
         localctx = PatitoMasMasParser.EstatutoContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 24, self.RULE_estatuto)
+        self.enterRule(localctx, 26, self.RULE_estatuto)
         try:
-            self.state = 160
+            self.state = 176
             self._errHandler.sync(self)
-            la_ = self._interp.adaptivePredict(self._input,10,self._ctx)
+            la_ = self._interp.adaptivePredict(self._input,14,self._ctx)
             if la_ == 1:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 153
+                self.state = 169
                 self.asignacion()
                 pass
 
             elif la_ == 2:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 154
+                self.state = 170
                 self.retorno()
                 pass
 
             elif la_ == 3:
                 self.enterOuterAlt(localctx, 3)
-                self.state = 155
+                self.state = 171
                 self.lectura()
                 pass
 
             elif la_ == 4:
                 self.enterOuterAlt(localctx, 4)
-                self.state = 156
+                self.state = 172
                 self.decision()
                 pass
 
             elif la_ == 5:
                 self.enterOuterAlt(localctx, 5)
-                self.state = 157
+                self.state = 173
                 self.repeticion()
                 pass
 
             elif la_ == 6:
                 self.enterOuterAlt(localctx, 6)
-                self.state = 158
+                self.state = 174
                 self.llamada_est()
                 pass
 
             elif la_ == 7:
                 self.enterOuterAlt(localctx, 7)
-                self.state = 159
+                self.state = 175
                 self.escritura()
                 pass
 
@@ -1122,16 +1194,12 @@ class PatitoMasMasParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def id_exp(self):
-            return self.getTypedRuleContext(PatitoMasMasParser.Id_expContext,0)
+        def var(self):
+            return self.getTypedRuleContext(PatitoMasMasParser.VarContext,0)
 
 
         def expresion(self):
             return self.getTypedRuleContext(PatitoMasMasParser.ExpresionContext,0)
-
-
-        def op_esp(self):
-            return self.getTypedRuleContext(PatitoMasMasParser.Op_espContext,0)
 
 
         def getRuleIndex(self):
@@ -1151,25 +1219,16 @@ class PatitoMasMasParser ( Parser ):
     def asignacion(self):
 
         localctx = PatitoMasMasParser.AsignacionContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 26, self.RULE_asignacion)
-        self._la = 0 # Token type
+        self.enterRule(localctx, 28, self.RULE_asignacion)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 162
-            self.id_exp()
-            self.state = 163
+            self.state = 178
+            self.var()
+            self.state = 179
             self.match(PatitoMasMasParser.T__8)
-            self.state = 164
-            self.expresion()
-            self.state = 166
-            self._errHandler.sync(self)
-            _la = self._input.LA(1)
-            if (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << PatitoMasMasParser.T__9) | (1 << PatitoMasMasParser.T__10) | (1 << PatitoMasMasParser.T__11))) != 0):
-                self.state = 165
-                self.op_esp()
-
-
-            self.state = 168
+            self.state = 180
+            self.expresion(0)
+            self.state = 181
             self.match(PatitoMasMasParser.T__0)
         except RecognitionException as re:
             localctx.exception = re
@@ -1180,49 +1239,59 @@ class PatitoMasMasParser ( Parser ):
         return localctx
 
 
-    class Id_expressionsContext(ParserRuleContext):
+    class VarContext(ParserRuleContext):
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def id_exp(self, i:int=None):
+        def ID(self):
+            return self.getToken(PatitoMasMasParser.ID, 0)
+
+        def dim(self, i:int=None):
             if i is None:
-                return self.getTypedRuleContexts(PatitoMasMasParser.Id_expContext)
+                return self.getTypedRuleContexts(PatitoMasMasParser.DimContext)
             else:
-                return self.getTypedRuleContext(PatitoMasMasParser.Id_expContext,i)
+                return self.getTypedRuleContext(PatitoMasMasParser.DimContext,i)
 
 
         def getRuleIndex(self):
-            return PatitoMasMasParser.RULE_id_expressions
+            return PatitoMasMasParser.RULE_var
 
         def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterId_expressions" ):
-                listener.enterId_expressions(self)
+            if hasattr( listener, "enterVar" ):
+                listener.enterVar(self)
 
         def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitId_expressions" ):
-                listener.exitId_expressions(self)
+            if hasattr( listener, "exitVar" ):
+                listener.exitVar(self)
 
 
 
 
-    def id_expressions(self):
+    def var(self):
 
-        localctx = PatitoMasMasParser.Id_expressionsContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 28, self.RULE_id_expressions)
-        self._la = 0 # Token type
+        localctx = PatitoMasMasParser.VarContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 30, self.RULE_var)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 173
+            self.state = 183
+            self.match(PatitoMasMasParser.ID)
+            self.state = 185
             self._errHandler.sync(self)
-            _la = self._input.LA(1)
-            while _la==PatitoMasMasParser.ID:
-                self.state = 170
-                self.id_exp()
-                self.state = 175
-                self._errHandler.sync(self)
-                _la = self._input.LA(1)
+            la_ = self._interp.adaptivePredict(self._input,15,self._ctx)
+            if la_ == 1:
+                self.state = 184
+                self.dim()
+
+
+            self.state = 188
+            self._errHandler.sync(self)
+            la_ = self._interp.adaptivePredict(self._input,16,self._ctx)
+            if la_ == 1:
+                self.state = 187
+                self.dim()
+
 
         except RecognitionException as re:
             localctx.exception = re
@@ -1233,69 +1302,42 @@ class PatitoMasMasParser ( Parser ):
         return localctx
 
 
-    class Id_expContext(ParserRuleContext):
+    class DimContext(ParserRuleContext):
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def ID(self):
-            return self.getToken(PatitoMasMasParser.ID, 0)
-
-        def expresion(self, i:int=None):
-            if i is None:
-                return self.getTypedRuleContexts(PatitoMasMasParser.ExpresionContext)
-            else:
-                return self.getTypedRuleContext(PatitoMasMasParser.ExpresionContext,i)
+        def expresion(self):
+            return self.getTypedRuleContext(PatitoMasMasParser.ExpresionContext,0)
 
 
         def getRuleIndex(self):
-            return PatitoMasMasParser.RULE_id_exp
+            return PatitoMasMasParser.RULE_dim
 
         def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterId_exp" ):
-                listener.enterId_exp(self)
+            if hasattr( listener, "enterDim" ):
+                listener.enterDim(self)
 
         def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitId_exp" ):
-                listener.exitId_exp(self)
+            if hasattr( listener, "exitDim" ):
+                listener.exitDim(self)
 
 
 
 
-    def id_exp(self):
+    def dim(self):
 
-        localctx = PatitoMasMasParser.Id_expContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 30, self.RULE_id_exp)
-        self._la = 0 # Token type
+        localctx = PatitoMasMasParser.DimContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 32, self.RULE_dim)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 176
-            self.match(PatitoMasMasParser.ID)
-            self.state = 181
-            self._errHandler.sync(self)
-            la_ = self._interp.adaptivePredict(self._input,13,self._ctx)
-            if la_ == 1:
-                self.state = 177
-                self.match(PatitoMasMasParser.T__2)
-                self.state = 178
-                self.expresion()
-                self.state = 179
-                self.match(PatitoMasMasParser.T__3)
-
-
-            self.state = 187
-            self._errHandler.sync(self)
-            _la = self._input.LA(1)
-            if _la==PatitoMasMasParser.T__2:
-                self.state = 183
-                self.match(PatitoMasMasParser.T__2)
-                self.state = 184
-                self.expresion()
-                self.state = 185
-                self.match(PatitoMasMasParser.T__3)
-
-
+            self.state = 190
+            self.match(PatitoMasMasParser.T__2)
+            self.state = 191
+            self.expresion(0)
+            self.state = 192
+            self.match(PatitoMasMasParser.T__3)
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -1335,18 +1377,18 @@ class PatitoMasMasParser ( Parser ):
     def retorno(self):
 
         localctx = PatitoMasMasParser.RetornoContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 32, self.RULE_retorno)
+        self.enterRule(localctx, 34, self.RULE_retorno)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 189
+            self.state = 194
             self.match(PatitoMasMasParser.Regresa)
-            self.state = 190
+            self.state = 195
             self.match(PatitoMasMasParser.T__4)
-            self.state = 191
-            self.expresion()
-            self.state = 192
+            self.state = 196
+            self.expresion(0)
+            self.state = 197
             self.match(PatitoMasMasParser.T__5)
-            self.state = 193
+            self.state = 198
             self.match(PatitoMasMasParser.T__0)
         except RecognitionException as re:
             localctx.exception = re
@@ -1366,8 +1408,8 @@ class PatitoMasMasParser ( Parser ):
         def Lee(self):
             return self.getToken(PatitoMasMasParser.Lee, 0)
 
-        def id_expressions(self):
-            return self.getTypedRuleContext(PatitoMasMasParser.Id_expressionsContext,0)
+        def lista_vars(self):
+            return self.getTypedRuleContext(PatitoMasMasParser.Lista_varsContext,0)
 
 
         def getRuleIndex(self):
@@ -1387,19 +1429,75 @@ class PatitoMasMasParser ( Parser ):
     def lectura(self):
 
         localctx = PatitoMasMasParser.LecturaContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 34, self.RULE_lectura)
+        self.enterRule(localctx, 36, self.RULE_lectura)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 195
+            self.state = 200
             self.match(PatitoMasMasParser.Lee)
-            self.state = 196
+            self.state = 201
             self.match(PatitoMasMasParser.T__4)
-            self.state = 197
-            self.id_expressions()
-            self.state = 198
+            self.state = 202
+            self.lista_vars()
+            self.state = 203
             self.match(PatitoMasMasParser.T__5)
-            self.state = 199
+            self.state = 204
             self.match(PatitoMasMasParser.T__0)
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+
+    class Lista_varsContext(ParserRuleContext):
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+
+        def var(self):
+            return self.getTypedRuleContext(PatitoMasMasParser.VarContext,0)
+
+
+        def lista_vars(self):
+            return self.getTypedRuleContext(PatitoMasMasParser.Lista_varsContext,0)
+
+
+        def getRuleIndex(self):
+            return PatitoMasMasParser.RULE_lista_vars
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterLista_vars" ):
+                listener.enterLista_vars(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitLista_vars" ):
+                listener.exitLista_vars(self)
+
+
+
+
+    def lista_vars(self):
+
+        localctx = PatitoMasMasParser.Lista_varsContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 38, self.RULE_lista_vars)
+        self._la = 0 # Token type
+        try:
+            self.enterOuterAlt(localctx, 1)
+            self.state = 206
+            self.var()
+            self.state = 209
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            if _la==PatitoMasMasParser.T__1:
+                self.state = 207
+                self.match(PatitoMasMasParser.T__1)
+                self.state = 208
+                self.lista_vars()
+
+
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -1439,18 +1537,18 @@ class PatitoMasMasParser ( Parser ):
     def escritura(self):
 
         localctx = PatitoMasMasParser.EscrituraContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 36, self.RULE_escritura)
+        self.enterRule(localctx, 40, self.RULE_escritura)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 201
+            self.state = 211
             self.match(PatitoMasMasParser.Escribe)
-            self.state = 202
+            self.state = 212
             self.match(PatitoMasMasParser.T__4)
-            self.state = 203
+            self.state = 213
             self.escrituras()
-            self.state = 204
+            self.state = 214
             self.match(PatitoMasMasParser.T__5)
-            self.state = 205
+            self.state = 215
             self.match(PatitoMasMasParser.T__0)
         except RecognitionException as re:
             localctx.exception = re
@@ -1496,31 +1594,31 @@ class PatitoMasMasParser ( Parser ):
     def escrituras(self):
 
         localctx = PatitoMasMasParser.EscriturasContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 38, self.RULE_escrituras)
+        self.enterRule(localctx, 42, self.RULE_escrituras)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 209
+            self.state = 219
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [PatitoMasMasParser.CTE_STRING]:
-                self.state = 207
+                self.state = 217
                 self.string()
                 pass
-            elif token in [PatitoMasMasParser.T__4, PatitoMasMasParser.ID, PatitoMasMasParser.CTE_INT, PatitoMasMasParser.CTE_FLOAT, PatitoMasMasParser.CTE_CHAR]:
-                self.state = 208
-                self.expresion()
+            elif token in [PatitoMasMasParser.T__4, PatitoMasMasParser.T__15, PatitoMasMasParser.T__16, PatitoMasMasParser.ID, PatitoMasMasParser.CTE_INT, PatitoMasMasParser.CTE_FLOAT]:
+                self.state = 218
+                self.expresion(0)
                 pass
             else:
                 raise NoViableAltException(self)
 
-            self.state = 213
+            self.state = 223
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             if _la==PatitoMasMasParser.T__1:
-                self.state = 211
+                self.state = 221
                 self.match(PatitoMasMasParser.T__1)
-                self.state = 212
+                self.state = 222
                 self.escrituras()
 
 
@@ -1559,10 +1657,10 @@ class PatitoMasMasParser ( Parser ):
     def string(self):
 
         localctx = PatitoMasMasParser.StringContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 40, self.RULE_string)
+        self.enterRule(localctx, 44, self.RULE_string)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 215
+            self.state = 225
             self.match(PatitoMasMasParser.CTE_STRING)
         except RecognitionException as re:
             localctx.exception = re
@@ -1616,29 +1714,29 @@ class PatitoMasMasParser ( Parser ):
     def decision(self):
 
         localctx = PatitoMasMasParser.DecisionContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 42, self.RULE_decision)
+        self.enterRule(localctx, 46, self.RULE_decision)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 217
+            self.state = 227
             self.match(PatitoMasMasParser.Si)
-            self.state = 218
+            self.state = 228
             self.match(PatitoMasMasParser.T__4)
-            self.state = 219
-            self.expresion()
-            self.state = 220
+            self.state = 229
+            self.expresion(0)
+            self.state = 230
             self.match(PatitoMasMasParser.T__5)
-            self.state = 221
+            self.state = 231
             self.match(PatitoMasMasParser.Entonces)
-            self.state = 222
+            self.state = 232
             self.bloque_est()
-            self.state = 225
+            self.state = 235
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             if _la==PatitoMasMasParser.Sino:
-                self.state = 223
+                self.state = 233
                 self.match(PatitoMasMasParser.Sino)
-                self.state = 224
+                self.state = 234
                 self.bloque_est()
 
 
@@ -1682,19 +1780,19 @@ class PatitoMasMasParser ( Parser ):
     def repeticion(self):
 
         localctx = PatitoMasMasParser.RepeticionContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 44, self.RULE_repeticion)
+        self.enterRule(localctx, 48, self.RULE_repeticion)
         try:
-            self.state = 229
+            self.state = 239
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [PatitoMasMasParser.Mientras]:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 227
+                self.state = 237
                 self.condicional()
                 pass
             elif token in [PatitoMasMasParser.Desde]:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 228
+                self.state = 238
                 self.no_condicional()
                 pass
             else:
@@ -1746,16 +1844,16 @@ class PatitoMasMasParser ( Parser ):
     def condicional(self):
 
         localctx = PatitoMasMasParser.CondicionalContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 46, self.RULE_condicional)
+        self.enterRule(localctx, 50, self.RULE_condicional)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 231
+            self.state = 241
             self.match(PatitoMasMasParser.Mientras)
-            self.state = 232
-            self.expresion()
-            self.state = 233
+            self.state = 242
+            self.expresion(0)
+            self.state = 243
             self.match(PatitoMasMasParser.Haz)
-            self.state = 234
+            self.state = 244
             self.bloque_est()
         except RecognitionException as re:
             localctx.exception = re
@@ -1775,8 +1873,8 @@ class PatitoMasMasParser ( Parser ):
         def Desde(self):
             return self.getToken(PatitoMasMasParser.Desde, 0)
 
-        def id_exp(self):
-            return self.getTypedRuleContext(PatitoMasMasParser.Id_expContext,0)
+        def var(self):
+            return self.getTypedRuleContext(PatitoMasMasParser.VarContext,0)
 
 
         def expresion(self, i:int=None):
@@ -1813,24 +1911,24 @@ class PatitoMasMasParser ( Parser ):
     def no_condicional(self):
 
         localctx = PatitoMasMasParser.No_condicionalContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 48, self.RULE_no_condicional)
+        self.enterRule(localctx, 52, self.RULE_no_condicional)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 236
+            self.state = 246
             self.match(PatitoMasMasParser.Desde)
-            self.state = 237
-            self.id_exp()
-            self.state = 238
+            self.state = 247
+            self.var()
+            self.state = 248
             self.match(PatitoMasMasParser.T__8)
-            self.state = 239
-            self.expresion()
-            self.state = 240
+            self.state = 249
+            self.expresion(0)
+            self.state = 250
             self.match(PatitoMasMasParser.Hasta)
-            self.state = 241
-            self.expresion()
-            self.state = 242
+            self.state = 251
+            self.expresion(0)
+            self.state = 252
             self.match(PatitoMasMasParser.Hacer)
-            self.state = 243
+            self.state = 253
             self.bloque_est()
         except RecognitionException as re:
             localctx.exception = re
@@ -1871,23 +1969,23 @@ class PatitoMasMasParser ( Parser ):
     def llamada(self):
 
         localctx = PatitoMasMasParser.LlamadaContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 50, self.RULE_llamada)
+        self.enterRule(localctx, 54, self.RULE_llamada)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 245
+            self.state = 255
             self.match(PatitoMasMasParser.ID)
-            self.state = 246
+            self.state = 256
             self.match(PatitoMasMasParser.T__4)
-            self.state = 248
+            self.state = 258
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            if (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << PatitoMasMasParser.T__4) | (1 << PatitoMasMasParser.ID) | (1 << PatitoMasMasParser.CTE_INT) | (1 << PatitoMasMasParser.CTE_FLOAT) | (1 << PatitoMasMasParser.CTE_CHAR))) != 0):
-                self.state = 247
+            if (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << PatitoMasMasParser.T__4) | (1 << PatitoMasMasParser.T__15) | (1 << PatitoMasMasParser.T__16) | (1 << PatitoMasMasParser.ID) | (1 << PatitoMasMasParser.CTE_INT) | (1 << PatitoMasMasParser.CTE_FLOAT))) != 0):
+                self.state = 257
                 self.params_llamada()
 
 
-            self.state = 250
+            self.state = 260
             self.match(PatitoMasMasParser.T__5)
         except RecognitionException as re:
             localctx.exception = re
@@ -1929,19 +2027,19 @@ class PatitoMasMasParser ( Parser ):
     def params_llamada(self):
 
         localctx = PatitoMasMasParser.Params_llamadaContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 52, self.RULE_params_llamada)
+        self.enterRule(localctx, 56, self.RULE_params_llamada)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 252
-            self.expresion()
-            self.state = 255
+            self.state = 262
+            self.expresion(0)
+            self.state = 265
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             if _la==PatitoMasMasParser.T__1:
-                self.state = 253
+                self.state = 263
                 self.match(PatitoMasMasParser.T__1)
-                self.state = 254
+                self.state = 264
                 self.params_llamada()
 
 
@@ -1981,13 +2079,593 @@ class PatitoMasMasParser ( Parser ):
     def llamada_est(self):
 
         localctx = PatitoMasMasParser.Llamada_estContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 54, self.RULE_llamada_est)
+        self.enterRule(localctx, 58, self.RULE_llamada_est)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 257
+            self.state = 267
             self.llamada()
-            self.state = 258
+            self.state = 268
             self.match(PatitoMasMasParser.T__0)
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+
+    class ExpresionContext(ParserRuleContext):
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+
+        def exp(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(PatitoMasMasParser.ExpContext)
+            else:
+                return self.getTypedRuleContext(PatitoMasMasParser.ExpContext,i)
+
+
+        def op_comp(self):
+            return self.getTypedRuleContext(PatitoMasMasParser.Op_compContext,0)
+
+
+        def expresion(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(PatitoMasMasParser.ExpresionContext)
+            else:
+                return self.getTypedRuleContext(PatitoMasMasParser.ExpresionContext,i)
+
+
+        def op_log(self):
+            return self.getTypedRuleContext(PatitoMasMasParser.Op_logContext,0)
+
+
+        def getRuleIndex(self):
+            return PatitoMasMasParser.RULE_expresion
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterExpresion" ):
+                listener.enterExpresion(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitExpresion" ):
+                listener.exitExpresion(self)
+
+
+
+    def expresion(self, _p:int=0):
+        _parentctx = self._ctx
+        _parentState = self.state
+        localctx = PatitoMasMasParser.ExpresionContext(self, self._ctx, _parentState)
+        _prevctx = localctx
+        _startState = 60
+        self.enterRecursionRule(localctx, 60, self.RULE_expresion, _p)
+        try:
+            self.enterOuterAlt(localctx, 1)
+            self.state = 276
+            self._errHandler.sync(self)
+            la_ = self._interp.adaptivePredict(self._input,24,self._ctx)
+            if la_ == 1:
+                self.state = 271
+                self.exp()
+                pass
+
+            elif la_ == 2:
+                self.state = 272
+                self.exp()
+                self.state = 273
+                self.op_comp()
+                self.state = 274
+                self.exp()
+                pass
+
+
+            self._ctx.stop = self._input.LT(-1)
+            self.state = 284
+            self._errHandler.sync(self)
+            _alt = self._interp.adaptivePredict(self._input,25,self._ctx)
+            while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
+                if _alt==1:
+                    if self._parseListeners is not None:
+                        self.triggerExitRuleEvent()
+                    _prevctx = localctx
+                    localctx = PatitoMasMasParser.ExpresionContext(self, _parentctx, _parentState)
+                    self.pushNewRecursionContext(localctx, _startState, self.RULE_expresion)
+                    self.state = 278
+                    if not self.precpred(self._ctx, 2):
+                        from antlr4.error.Errors import FailedPredicateException
+                        raise FailedPredicateException(self, "self.precpred(self._ctx, 2)")
+                    self.state = 279
+                    self.op_log()
+                    self.state = 280
+                    self.expresion(3) 
+                self.state = 286
+                self._errHandler.sync(self)
+                _alt = self._interp.adaptivePredict(self._input,25,self._ctx)
+
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.unrollRecursionContexts(_parentctx)
+        return localctx
+
+
+    class Op_logContext(ParserRuleContext):
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+
+
+        def getRuleIndex(self):
+            return PatitoMasMasParser.RULE_op_log
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterOp_log" ):
+                listener.enterOp_log(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitOp_log" ):
+                listener.exitOp_log(self)
+
+
+
+
+    def op_log(self):
+
+        localctx = PatitoMasMasParser.Op_logContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 62, self.RULE_op_log)
+        self._la = 0 # Token type
+        try:
+            self.enterOuterAlt(localctx, 1)
+            self.state = 287
+            _la = self._input.LA(1)
+            if not(_la==PatitoMasMasParser.T__9 or _la==PatitoMasMasParser.T__10):
+                self._errHandler.recoverInline(self)
+            else:
+                self._errHandler.reportMatch(self)
+                self.consume()
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+
+    class Op_compContext(ParserRuleContext):
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+
+
+        def getRuleIndex(self):
+            return PatitoMasMasParser.RULE_op_comp
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterOp_comp" ):
+                listener.enterOp_comp(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitOp_comp" ):
+                listener.exitOp_comp(self)
+
+
+
+
+    def op_comp(self):
+
+        localctx = PatitoMasMasParser.Op_compContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 64, self.RULE_op_comp)
+        self._la = 0 # Token type
+        try:
+            self.enterOuterAlt(localctx, 1)
+            self.state = 289
+            _la = self._input.LA(1)
+            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << PatitoMasMasParser.T__11) | (1 << PatitoMasMasParser.T__12) | (1 << PatitoMasMasParser.T__13) | (1 << PatitoMasMasParser.T__14))) != 0)):
+                self._errHandler.recoverInline(self)
+            else:
+                self._errHandler.reportMatch(self)
+                self.consume()
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+
+    class ExpContext(ParserRuleContext):
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+
+        def term(self):
+            return self.getTypedRuleContext(PatitoMasMasParser.TermContext,0)
+
+
+        def op_arit(self):
+            return self.getTypedRuleContext(PatitoMasMasParser.Op_aritContext,0)
+
+
+        def exp(self):
+            return self.getTypedRuleContext(PatitoMasMasParser.ExpContext,0)
+
+
+        def getRuleIndex(self):
+            return PatitoMasMasParser.RULE_exp
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterExp" ):
+                listener.enterExp(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitExp" ):
+                listener.exitExp(self)
+
+
+
+
+    def exp(self):
+
+        localctx = PatitoMasMasParser.ExpContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 66, self.RULE_exp)
+        try:
+            self.state = 296
+            self._errHandler.sync(self)
+            la_ = self._interp.adaptivePredict(self._input,26,self._ctx)
+            if la_ == 1:
+                self.enterOuterAlt(localctx, 1)
+                self.state = 291
+                self.term()
+                pass
+
+            elif la_ == 2:
+                self.enterOuterAlt(localctx, 2)
+                self.state = 292
+                self.term()
+                self.state = 293
+                self.op_arit()
+                self.state = 294
+                self.exp()
+                pass
+
+
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+
+    class Op_aritContext(ParserRuleContext):
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+
+
+        def getRuleIndex(self):
+            return PatitoMasMasParser.RULE_op_arit
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterOp_arit" ):
+                listener.enterOp_arit(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitOp_arit" ):
+                listener.exitOp_arit(self)
+
+
+
+
+    def op_arit(self):
+
+        localctx = PatitoMasMasParser.Op_aritContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 68, self.RULE_op_arit)
+        self._la = 0 # Token type
+        try:
+            self.enterOuterAlt(localctx, 1)
+            self.state = 298
+            _la = self._input.LA(1)
+            if not(_la==PatitoMasMasParser.T__15 or _la==PatitoMasMasParser.T__16):
+                self._errHandler.recoverInline(self)
+            else:
+                self._errHandler.reportMatch(self)
+                self.consume()
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+
+    class TermContext(ParserRuleContext):
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+
+        def factor(self):
+            return self.getTypedRuleContext(PatitoMasMasParser.FactorContext,0)
+
+
+        def op_prod(self):
+            return self.getTypedRuleContext(PatitoMasMasParser.Op_prodContext,0)
+
+
+        def term(self):
+            return self.getTypedRuleContext(PatitoMasMasParser.TermContext,0)
+
+
+        def getRuleIndex(self):
+            return PatitoMasMasParser.RULE_term
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterTerm" ):
+                listener.enterTerm(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitTerm" ):
+                listener.exitTerm(self)
+
+
+
+
+    def term(self):
+
+        localctx = PatitoMasMasParser.TermContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 70, self.RULE_term)
+        try:
+            self.state = 305
+            self._errHandler.sync(self)
+            la_ = self._interp.adaptivePredict(self._input,27,self._ctx)
+            if la_ == 1:
+                self.enterOuterAlt(localctx, 1)
+                self.state = 300
+                self.factor()
+                pass
+
+            elif la_ == 2:
+                self.enterOuterAlt(localctx, 2)
+                self.state = 301
+                self.factor()
+                self.state = 302
+                self.op_prod()
+                self.state = 303
+                self.term()
+                pass
+
+
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+
+    class Op_prodContext(ParserRuleContext):
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+
+
+        def getRuleIndex(self):
+            return PatitoMasMasParser.RULE_op_prod
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterOp_prod" ):
+                listener.enterOp_prod(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitOp_prod" ):
+                listener.exitOp_prod(self)
+
+
+
+
+    def op_prod(self):
+
+        localctx = PatitoMasMasParser.Op_prodContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 72, self.RULE_op_prod)
+        self._la = 0 # Token type
+        try:
+            self.enterOuterAlt(localctx, 1)
+            self.state = 307
+            _la = self._input.LA(1)
+            if not(_la==PatitoMasMasParser.T__17 or _la==PatitoMasMasParser.T__18):
+                self._errHandler.recoverInline(self)
+            else:
+                self._errHandler.reportMatch(self)
+                self.consume()
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+
+    class FactorContext(ParserRuleContext):
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+
+        def var(self):
+            return self.getTypedRuleContext(PatitoMasMasParser.VarContext,0)
+
+
+        def op_esp(self):
+            return self.getTypedRuleContext(PatitoMasMasParser.Op_espContext,0)
+
+
+        def var_cte(self):
+            return self.getTypedRuleContext(PatitoMasMasParser.Var_cteContext,0)
+
+
+        def op_arit(self):
+            return self.getTypedRuleContext(PatitoMasMasParser.Op_aritContext,0)
+
+
+        def llamada(self):
+            return self.getTypedRuleContext(PatitoMasMasParser.LlamadaContext,0)
+
+
+        def expresion(self):
+            return self.getTypedRuleContext(PatitoMasMasParser.ExpresionContext,0)
+
+
+        def getRuleIndex(self):
+            return PatitoMasMasParser.RULE_factor
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterFactor" ):
+                listener.enterFactor(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitFactor" ):
+                listener.exitFactor(self)
+
+
+
+
+    def factor(self):
+
+        localctx = PatitoMasMasParser.FactorContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 74, self.RULE_factor)
+        self._la = 0 # Token type
+        try:
+            self.state = 322
+            self._errHandler.sync(self)
+            la_ = self._interp.adaptivePredict(self._input,30,self._ctx)
+            if la_ == 1:
+                self.enterOuterAlt(localctx, 1)
+                self.state = 309
+                self.var()
+                self.state = 311
+                self._errHandler.sync(self)
+                la_ = self._interp.adaptivePredict(self._input,28,self._ctx)
+                if la_ == 1:
+                    self.state = 310
+                    self.op_esp()
+
+
+                pass
+
+            elif la_ == 2:
+                self.enterOuterAlt(localctx, 2)
+                self.state = 314
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
+                if _la==PatitoMasMasParser.T__15 or _la==PatitoMasMasParser.T__16:
+                    self.state = 313
+                    self.op_arit()
+
+
+                self.state = 316
+                self.var_cte()
+                pass
+
+            elif la_ == 3:
+                self.enterOuterAlt(localctx, 3)
+                self.state = 317
+                self.llamada()
+                pass
+
+            elif la_ == 4:
+                self.enterOuterAlt(localctx, 4)
+                self.state = 318
+                self.match(PatitoMasMasParser.T__4)
+                self.state = 319
+                self.expresion(0)
+                self.state = 320
+                self.match(PatitoMasMasParser.T__5)
+                pass
+
+
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+
+    class Var_cteContext(ParserRuleContext):
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+
+        def var(self):
+            return self.getTypedRuleContext(PatitoMasMasParser.VarContext,0)
+
+
+        def CTE_INT(self):
+            return self.getToken(PatitoMasMasParser.CTE_INT, 0)
+
+        def CTE_FLOAT(self):
+            return self.getToken(PatitoMasMasParser.CTE_FLOAT, 0)
+
+        def getRuleIndex(self):
+            return PatitoMasMasParser.RULE_var_cte
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterVar_cte" ):
+                listener.enterVar_cte(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitVar_cte" ):
+                listener.exitVar_cte(self)
+
+
+
+
+    def var_cte(self):
+
+        localctx = PatitoMasMasParser.Var_cteContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 76, self.RULE_var_cte)
+        try:
+            self.state = 327
+            self._errHandler.sync(self)
+            token = self._input.LA(1)
+            if token in [PatitoMasMasParser.ID]:
+                self.enterOuterAlt(localctx, 1)
+                self.state = 324
+                self.var()
+                pass
+            elif token in [PatitoMasMasParser.CTE_INT]:
+                self.enterOuterAlt(localctx, 2)
+                self.state = 325
+                self.match(PatitoMasMasParser.CTE_INT)
+                pass
+            elif token in [PatitoMasMasParser.CTE_FLOAT]:
+                self.enterOuterAlt(localctx, 3)
+                self.state = 326
+                self.match(PatitoMasMasParser.CTE_FLOAT)
+                pass
+            else:
+                raise NoViableAltException(self)
+
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -2021,433 +2699,17 @@ class PatitoMasMasParser ( Parser ):
     def op_esp(self):
 
         localctx = PatitoMasMasParser.Op_espContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 56, self.RULE_op_esp)
+        self.enterRule(localctx, 78, self.RULE_op_esp)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 260
+            self.state = 329
             _la = self._input.LA(1)
-            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << PatitoMasMasParser.T__9) | (1 << PatitoMasMasParser.T__10) | (1 << PatitoMasMasParser.T__11))) != 0)):
+            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << PatitoMasMasParser.T__19) | (1 << PatitoMasMasParser.T__20) | (1 << PatitoMasMasParser.T__21))) != 0)):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
                 self.consume()
-        except RecognitionException as re:
-            localctx.exception = re
-            self._errHandler.reportError(self, re)
-            self._errHandler.recover(self, re)
-        finally:
-            self.exitRule()
-        return localctx
-
-
-    class ExpresionContext(ParserRuleContext):
-
-        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
-            super().__init__(parent, invokingState)
-            self.parser = parser
-
-        def exp_a(self):
-            return self.getTypedRuleContext(PatitoMasMasParser.Exp_aContext,0)
-
-
-        def expresion(self, i:int=None):
-            if i is None:
-                return self.getTypedRuleContexts(PatitoMasMasParser.ExpresionContext)
-            else:
-                return self.getTypedRuleContext(PatitoMasMasParser.ExpresionContext,i)
-
-
-        def getRuleIndex(self):
-            return PatitoMasMasParser.RULE_expresion
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterExpresion" ):
-                listener.enterExpresion(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitExpresion" ):
-                listener.exitExpresion(self)
-
-
-
-
-    def expresion(self):
-
-        localctx = PatitoMasMasParser.ExpresionContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 58, self.RULE_expresion)
-        self._la = 0 # Token type
-        try:
-            self.enterOuterAlt(localctx, 1)
-            self.state = 262
-            self.exp_a()
-            self.state = 264
-            self._errHandler.sync(self)
-            _la = self._input.LA(1)
-            if _la==PatitoMasMasParser.T__12:
-                self.state = 263
-                self.match(PatitoMasMasParser.T__12)
-
-
-            self.state = 267 
-            self._errHandler.sync(self)
-            _alt = 1
-            while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
-                if _alt == 1:
-                    self.state = 266
-                    self.expresion()
-
-                else:
-                    raise NoViableAltException(self)
-                self.state = 269 
-                self._errHandler.sync(self)
-                _alt = self._interp.adaptivePredict(self._input,22,self._ctx)
-
-        except RecognitionException as re:
-            localctx.exception = re
-            self._errHandler.reportError(self, re)
-            self._errHandler.recover(self, re)
-        finally:
-            self.exitRule()
-        return localctx
-
-
-    class Exp_aContext(ParserRuleContext):
-
-        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
-            super().__init__(parent, invokingState)
-            self.parser = parser
-
-        def exp_b(self):
-            return self.getTypedRuleContext(PatitoMasMasParser.Exp_bContext,0)
-
-
-        def exp_a(self, i:int=None):
-            if i is None:
-                return self.getTypedRuleContexts(PatitoMasMasParser.Exp_aContext)
-            else:
-                return self.getTypedRuleContext(PatitoMasMasParser.Exp_aContext,i)
-
-
-        def getRuleIndex(self):
-            return PatitoMasMasParser.RULE_exp_a
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterExp_a" ):
-                listener.enterExp_a(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitExp_a" ):
-                listener.exitExp_a(self)
-
-
-
-
-    def exp_a(self):
-
-        localctx = PatitoMasMasParser.Exp_aContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 60, self.RULE_exp_a)
-        self._la = 0 # Token type
-        try:
-            self.enterOuterAlt(localctx, 1)
-            self.state = 271
-            self.exp_b()
-            self.state = 273
-            self._errHandler.sync(self)
-            _la = self._input.LA(1)
-            if _la==PatitoMasMasParser.T__13:
-                self.state = 272
-                self.match(PatitoMasMasParser.T__13)
-
-
-            self.state = 278
-            self._errHandler.sync(self)
-            _alt = self._interp.adaptivePredict(self._input,24,self._ctx)
-            while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
-                if _alt==1:
-                    self.state = 275
-                    self.exp_a() 
-                self.state = 280
-                self._errHandler.sync(self)
-                _alt = self._interp.adaptivePredict(self._input,24,self._ctx)
-
-        except RecognitionException as re:
-            localctx.exception = re
-            self._errHandler.reportError(self, re)
-            self._errHandler.recover(self, re)
-        finally:
-            self.exitRule()
-        return localctx
-
-
-    class Exp_bContext(ParserRuleContext):
-
-        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
-            super().__init__(parent, invokingState)
-            self.parser = parser
-
-        def exp_c(self, i:int=None):
-            if i is None:
-                return self.getTypedRuleContexts(PatitoMasMasParser.Exp_cContext)
-            else:
-                return self.getTypedRuleContext(PatitoMasMasParser.Exp_cContext,i)
-
-
-        def getRuleIndex(self):
-            return PatitoMasMasParser.RULE_exp_b
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterExp_b" ):
-                listener.enterExp_b(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitExp_b" ):
-                listener.exitExp_b(self)
-
-
-
-
-    def exp_b(self):
-
-        localctx = PatitoMasMasParser.Exp_bContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 62, self.RULE_exp_b)
-        self._la = 0 # Token type
-        try:
-            self.enterOuterAlt(localctx, 1)
-            self.state = 281
-            self.exp_c()
-            self.state = 286
-            self._errHandler.sync(self)
-            _la = self._input.LA(1)
-            if _la==PatitoMasMasParser.T__14:
-                self.state = 282
-                self.match(PatitoMasMasParser.T__14)
-                self.state = 283
-                self.match(PatitoMasMasParser.T__15)
-                self.state = 284
-                self.match(PatitoMasMasParser.T__16)
-                self.state = 285
-                self.match(PatitoMasMasParser.T__17)
-
-
-            self.state = 289
-            self._errHandler.sync(self)
-            la_ = self._interp.adaptivePredict(self._input,26,self._ctx)
-            if la_ == 1:
-                self.state = 288
-                self.exp_c()
-
-
-        except RecognitionException as re:
-            localctx.exception = re
-            self._errHandler.reportError(self, re)
-            self._errHandler.recover(self, re)
-        finally:
-            self.exitRule()
-        return localctx
-
-
-    class Exp_cContext(ParserRuleContext):
-
-        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
-            super().__init__(parent, invokingState)
-            self.parser = parser
-
-        def exp_d(self):
-            return self.getTypedRuleContext(PatitoMasMasParser.Exp_dContext,0)
-
-
-        def exp_c(self):
-            return self.getTypedRuleContext(PatitoMasMasParser.Exp_cContext,0)
-
-
-        def getRuleIndex(self):
-            return PatitoMasMasParser.RULE_exp_c
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterExp_c" ):
-                listener.enterExp_c(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitExp_c" ):
-                listener.exitExp_c(self)
-
-
-
-
-    def exp_c(self):
-
-        localctx = PatitoMasMasParser.Exp_cContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 64, self.RULE_exp_c)
-        self._la = 0 # Token type
-        try:
-            self.enterOuterAlt(localctx, 1)
-            self.state = 291
-            self.exp_d()
-            self.state = 294
-            self._errHandler.sync(self)
-            _la = self._input.LA(1)
-            if _la==PatitoMasMasParser.T__18:
-                self.state = 292
-                self.match(PatitoMasMasParser.T__18)
-                self.state = 293
-                self.match(PatitoMasMasParser.T__19)
-
-
-            self.state = 297
-            self._errHandler.sync(self)
-            la_ = self._interp.adaptivePredict(self._input,28,self._ctx)
-            if la_ == 1:
-                self.state = 296
-                self.exp_c()
-
-
-        except RecognitionException as re:
-            localctx.exception = re
-            self._errHandler.reportError(self, re)
-            self._errHandler.recover(self, re)
-        finally:
-            self.exitRule()
-        return localctx
-
-
-    class Exp_dContext(ParserRuleContext):
-
-        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
-            super().__init__(parent, invokingState)
-            self.parser = parser
-
-        def exp_e(self):
-            return self.getTypedRuleContext(PatitoMasMasParser.Exp_eContext,0)
-
-
-        def exp_d(self):
-            return self.getTypedRuleContext(PatitoMasMasParser.Exp_dContext,0)
-
-
-        def getRuleIndex(self):
-            return PatitoMasMasParser.RULE_exp_d
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterExp_d" ):
-                listener.enterExp_d(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitExp_d" ):
-                listener.exitExp_d(self)
-
-
-
-
-    def exp_d(self):
-
-        localctx = PatitoMasMasParser.Exp_dContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 66, self.RULE_exp_d)
-        self._la = 0 # Token type
-        try:
-            self.enterOuterAlt(localctx, 1)
-            self.state = 299
-            self.exp_e()
-            self.state = 302
-            self._errHandler.sync(self)
-            _la = self._input.LA(1)
-            if _la==PatitoMasMasParser.T__20:
-                self.state = 300
-                self.match(PatitoMasMasParser.T__20)
-                self.state = 301
-                self.match(PatitoMasMasParser.T__21)
-
-
-            self.state = 305
-            self._errHandler.sync(self)
-            la_ = self._interp.adaptivePredict(self._input,30,self._ctx)
-            if la_ == 1:
-                self.state = 304
-                self.exp_d()
-
-
-        except RecognitionException as re:
-            localctx.exception = re
-            self._errHandler.reportError(self, re)
-            self._errHandler.recover(self, re)
-        finally:
-            self.exitRule()
-        return localctx
-
-
-    class Exp_eContext(ParserRuleContext):
-
-        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
-            super().__init__(parent, invokingState)
-            self.parser = parser
-
-        def id_exp(self):
-            return self.getTypedRuleContext(PatitoMasMasParser.Id_expContext,0)
-
-
-        def var_cte(self):
-            return self.getTypedRuleContext(PatitoMasMasParser.Var_cteContext,0)
-
-
-        def llamada_est(self):
-            return self.getTypedRuleContext(PatitoMasMasParser.Llamada_estContext,0)
-
-
-        def expresion(self):
-            return self.getTypedRuleContext(PatitoMasMasParser.ExpresionContext,0)
-
-
-        def getRuleIndex(self):
-            return PatitoMasMasParser.RULE_exp_e
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterExp_e" ):
-                listener.enterExp_e(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitExp_e" ):
-                listener.exitExp_e(self)
-
-
-
-
-    def exp_e(self):
-
-        localctx = PatitoMasMasParser.Exp_eContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 68, self.RULE_exp_e)
-        try:
-            self.state = 314
-            self._errHandler.sync(self)
-            la_ = self._interp.adaptivePredict(self._input,31,self._ctx)
-            if la_ == 1:
-                self.enterOuterAlt(localctx, 1)
-                self.state = 307
-                self.id_exp()
-                pass
-
-            elif la_ == 2:
-                self.enterOuterAlt(localctx, 2)
-                self.state = 308
-                self.var_cte()
-                pass
-
-            elif la_ == 3:
-                self.enterOuterAlt(localctx, 3)
-                self.state = 309
-                self.llamada_est()
-                pass
-
-            elif la_ == 4:
-                self.enterOuterAlt(localctx, 4)
-                self.state = 310
-                self.match(PatitoMasMasParser.T__4)
-                self.state = 311
-                self.expresion()
-                self.state = 312
-                self.match(PatitoMasMasParser.T__5)
-                pass
-
-
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -2469,9 +2731,6 @@ class PatitoMasMasParser ( Parser ):
         def Float(self):
             return self.getToken(PatitoMasMasParser.Float, 0)
 
-        def Char(self):
-            return self.getToken(PatitoMasMasParser.Char, 0)
-
         def getRuleIndex(self):
             return PatitoMasMasParser.RULE_tipo
 
@@ -2489,13 +2748,13 @@ class PatitoMasMasParser ( Parser ):
     def tipo(self):
 
         localctx = PatitoMasMasParser.TipoContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 70, self.RULE_tipo)
+        self.enterRule(localctx, 80, self.RULE_tipo)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 316
+            self.state = 331
             _la = self._input.LA(1)
-            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << PatitoMasMasParser.Int) | (1 << PatitoMasMasParser.Float) | (1 << PatitoMasMasParser.Char))) != 0)):
+            if not(_la==PatitoMasMasParser.Int or _la==PatitoMasMasParser.Float):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
@@ -2509,57 +2768,21 @@ class PatitoMasMasParser ( Parser ):
         return localctx
 
 
-    class Var_cteContext(ParserRuleContext):
 
-        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
-            super().__init__(parent, invokingState)
-            self.parser = parser
+    def sempred(self, localctx:RuleContext, ruleIndex:int, predIndex:int):
+        if self._predicates == None:
+            self._predicates = dict()
+        self._predicates[30] = self.expresion_sempred
+        pred = self._predicates.get(ruleIndex, None)
+        if pred is None:
+            raise Exception("No predicate with index:" + str(ruleIndex))
+        else:
+            return pred(localctx, predIndex)
 
-        def CTE_INT(self):
-            return self.getToken(PatitoMasMasParser.CTE_INT, 0)
-
-        def CTE_FLOAT(self):
-            return self.getToken(PatitoMasMasParser.CTE_FLOAT, 0)
-
-        def CTE_CHAR(self):
-            return self.getToken(PatitoMasMasParser.CTE_CHAR, 0)
-
-        def getRuleIndex(self):
-            return PatitoMasMasParser.RULE_var_cte
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterVar_cte" ):
-                listener.enterVar_cte(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitVar_cte" ):
-                listener.exitVar_cte(self)
-
-
-
-
-    def var_cte(self):
-
-        localctx = PatitoMasMasParser.Var_cteContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 72, self.RULE_var_cte)
-        self._la = 0 # Token type
-        try:
-            self.enterOuterAlt(localctx, 1)
-            self.state = 318
-            _la = self._input.LA(1)
-            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << PatitoMasMasParser.CTE_INT) | (1 << PatitoMasMasParser.CTE_FLOAT) | (1 << PatitoMasMasParser.CTE_CHAR))) != 0)):
-                self._errHandler.recoverInline(self)
-            else:
-                self._errHandler.reportMatch(self)
-                self.consume()
-        except RecognitionException as re:
-            localctx.exception = re
-            self._errHandler.reportError(self, re)
-            self._errHandler.recover(self, re)
-        finally:
-            self.exitRule()
-        return localctx
-
+    def expresion_sempred(self, localctx:ExpresionContext, predIndex:int):
+            if predIndex == 0:
+                return self.precpred(self._ctx, 2)
+         
 
 
 
