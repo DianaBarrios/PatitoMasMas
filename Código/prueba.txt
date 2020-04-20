@@ -10,7 +10,7 @@ var
 funcion int fact(int j)
 var int nice[10][50];
 {
-  i = 5;
+  i[5] = 5;
   escribe('wow');
 }
 funcion void dos(int b,int a)
@@ -23,6 +23,7 @@ principal(){
 regresa(x);
 escribe('algo','pero','no',i,1);
 lee(j);
-dos(x,y,z);
+fact(x,y,z);
+dos(x);
 escribe('si','jala');
 }

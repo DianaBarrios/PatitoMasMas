@@ -116,7 +116,7 @@ llamada
     ;
 
 params_llamada
-    : ID (',' params_llamada)?
+    : expresion (',' params_llamada)?
     ;
 
 llamada_est
@@ -130,7 +130,7 @@ op_esp
     ;
 
 expresion
-    : exp_a ('||')? expresion*
+    : exp_a ('||')? expresion+
     ;
 
 exp_a

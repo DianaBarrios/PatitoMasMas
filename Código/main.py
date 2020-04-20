@@ -14,6 +14,9 @@ class Programa:
         self.varGlobales = {}
         self.dirFunciones = {}
 
+    def error(self,tipo,mensaje):
+        print(tipo,mensaje)
+
     def imprimeTodo(self):
         print("===== Nombre Programa =====")
         print(self.tree.ID())
@@ -37,7 +40,7 @@ class Programa:
 
         # # funciones(programa.functions(),reglas)
         print("===== Main =====")
-        self.evaluarFun(self.tree.principal().bloque_est().estatutos())
+        self.evaluarFun(self.tree.principal().bloque_est().estatutos(),"main")
         # # evaluarFun(programa.principal().bloque_est().estatutos(),reglas)
     def checaFun(self,funcion,params):
         if not self.existeFun(funcion):
@@ -215,7 +218,7 @@ class Programa:
         else:
             pass
 
-    def evaluarFun(self, tree):
+    def evaluarFun(self, tree,funcion):
         if not isinstance(tree, TerminalNodeImpl):
             if self.rules[tree.getRuleIndex()] == "estatuto":
                 print("** Estatuto nuevo **")
@@ -224,13 +227,13 @@ class Programa:
                 for child in tree.children:
                     regla = self.rules[child.getRuleIndex()]
                     if regla == "retorno":
-                        self._retorno(tree.getText())
+                        self._retorno(tree.getText(),funcion)
                         print("Regresa algo")
                     elif regla == "lectura":
                         self._lectura(tree.getText())
                         print("lectura algo")
                     elif regla == "asignacion":
-                        self._asignacion(tree.getText())
+                        self._asignacion(tree,funcion)
                         print("asignacion algo")
                     elif regla == "decision":
                         self._decision(tree.getText())
@@ -239,7 +242,7 @@ class Programa:
                         self._repeticion(tree.getText())
                         print("repeticion algo")
                     elif regla == "llamada_est":
-                        self._llamada_est(tree,"main")
+                        self._llamada_est(tree,funcion)
                         print("llamada_est algo")
                     elif regla == "escritura":
                         self._escritura(tree.escritura())
@@ -262,17 +265,26 @@ class Programa:
             for child in tree.children:
                 # if not isinstance(child, TerminalNodeImpl) and rule_names[child.getRuleIndex()] == "estatuto":
                 #     print("Estatuto: ", tree)
-                self.evaluarFun(child)
+                self.evaluarFun(child,funcion)
         else:
             pass
 
-    def _retorno(self, codigo):
+    def _retorno(self, codigo,funcion):
+        if funcion == "main":
+            return self.error("error: el main no tiene retorno","idk")
+        if self.dirFunciones[funcion]['tipoRet'] == "void":
+            return self.error("error:  la funcion es void","idk")
+        #else mandar llamar expresion con el codigo
         print(codigo)
 
     def _lectura(self, codigo):
         print(codigo)
 
-    def _asignacion(self, codigo):
+    def _asignacion(self, codigo,funcion):
+        traverse(codigo,self.rules)
+        #chec var existe en funcion
+        #llama al exp y asigna el valor
+
         print(codigo)
 
     def _decision(self, codigo):
@@ -286,10 +298,11 @@ class Programa:
     #checar que sea valida la llamada
     #checar que los params sean compatibles
     def _llamada_est(self, codigo,funcion):
+        traverse(codigo,self.rules)
         print(codigo.llamada_est().llamada().ID())
         nombre = codigo.llamada_est().llamada().ID().getText()
         estatutos = self.dirFunciones[nombre]['main']
-        self.evaluarFun(estatutos)
+        self.evaluarFun(estatutos,nombre)
         print(estatutos)
 
     def _escritura(self, codigo):
@@ -320,6 +333,7 @@ class Programa:
         #     # print(codigo.getRuleContext().getText())
         #     # traverse(codigo,self.rules)
             if self.rules[codigo.getRuleIndex()] == "expresion":
+                #mandar llamar expresion con el codigo
                 res.append("'EXP'")
                 # print("")
             if self.rules[codigo.getRuleIndex()] == "string":
