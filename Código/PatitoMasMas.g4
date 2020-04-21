@@ -292,7 +292,7 @@ CTE_CHAR
     ;
 
 CTE_STRING
-    : '\'' [a-zA-Z]+ (Whitespace CTE_STRING?)? '\''
+    : '"' ~["]* '"'
     ;
 
 DIGIT
