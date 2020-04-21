@@ -663,40 +663,109 @@ class Programa:
         print("Pila tipos:",pilas['pTipos'])
         print("Pila operadores:",pilas['pOperadores'])
 
+    def genQuad(self,op,left,right):
+        if type(left) == str or type(right) == str:
+            return 5
+        if op == '*':
+            res = left * right
+        elif op == '/':
+            res = left / right
+        elif op == '+':
+            res = left + right
+        elif op == '-':
+            res = left - right
+        return res
+
     #encuentra cada expresion en una expresion
     def expresionHelp(self,tree,funcion,pilas):
         llamada = False
         # traverse(tree,self.rules)
         if not isinstance(tree, TerminalNodeImpl):
             rule = self.rules[tree.getRuleIndex()]
-            print("Rule: ", rule)
+            # print("Rule: ", rule)
 
             if rule == "llamada":
                 self._llamada_est(tree.ID().getText(),tree.params_llamada())
                 llamada = True
-            elif rule == "factor":
-                for child in tree.children:
-                    ruleChild = self.rules[child.getRuleIndex()]
-                    if ruleChild == "var":
-                        nomVar = child.getText()
-                        # print("Var : " , nomVar)
-                        tipo = self.regresaTipo(child.ID().getText(),funcion)
+            elif rule == "var":
+                nomVar = tree.getText()
+                # print("Var : " , nomVar)
+                tipo = self.regresaTipo(tree.ID().getText(),funcion)
 
-                        pilas['pTipos'].append(tipo)
-                        pilas['pOperandos'].append(nomVar)
-                        if tipo == False:
-                            print("Error, no existe la variable")
-                            return
-                        # print("Tipo: ", tipo)
-                        # print(tree.getText())
-                    elif ruleChild == "var_cte":
-                        cte = child.getText()
-                        if cte.find('.') != -1:
-                            tipo = "float"
-                        else:
-                            tipo = "int"
-                        pilas['pTipos'].append(tipo)
-                        pilas['pOperandos'].append(cte)
+                pilas['pTipos'].append(tipo)
+                pilas['pOperandos'].append(nomVar)
+                if tipo == False:
+                    print("Error, no existe la variable")
+                    return
+            elif rule == "var_cte":
+                cte = tree.getText()
+                if cte.find('.') != -1:
+                    tipo = "float"
+                else:
+                    tipo = "int"
+                pilas['pTipos'].append(tipo)
+                pilas['pOperandos'].append(cte)
+            elif rule == "factor":
+                if pilas['pOperadores']:
+                    op = pilas['pOperadores'][-1]
+                    if op == '*' or op == '/':
+                        pilas['pOperadores'].pop()
+                        right = pilas['pOperandos'].pop()
+                        rightType = pilas['pTipos'].pop()
+                        left = pilas['pOperandos'].pop()
+                        leftType = pilas['pTipos'].pop()
+                        tipoRes = cubo[op][rightType][leftType]
+                        res = self.genQuad(op,left,right)
+                        print("quad: ", op, left,right,res)
+                        pilas['pOperandos'].append(res)
+                        pilas['pTipos'].append(tipoRes)
+                        # print(res)
+
+                        print("encontre mult o div: ", tipoRes)
+            elif rule == "term":
+                if pilas['pOperadores']:
+                    print(pilas['pOperandos'])
+                    # op = pilas['pOperadores'][-1]
+                    # if op == '+' or op == '-':
+                    #     pilas['pOperadores'].pop()
+                    #     right = pilas['pOperandos'].pop()
+                    #     rightType = pilas['pTipos'].pop()
+                    #     left = pilas['pOperandos'].pop()
+                    #     leftType = pilas['pTipos'].pop()
+                    #     tipoRes = cubo[op][rightType][leftType]
+                    #     res = self.genQuad(op,left,right)
+                    #     pilas['pOperandos'].append(res)
+                    #     pilas['pTipos'].append(tipoRes)
+                        # pilas['pOperadores'].pop()
+                        # right = pilas['pOperandos'].pop()
+                        # rightType = pilas['pTipos'].pop()
+                        # left = pilas['pOperandos'].pop()
+                        # leftType = pilas['pTipos'].pop()
+                        # tipoRes = cubo[op][rightType][leftType]
+                    print("encontre suma o resta: ")
+            # elif rule == "factor":
+            #     for child in tree.children:
+            #         ruleChild = self.rules[child.getRuleIndex()]
+            #         if ruleChild == "var":
+            #             nomVar = child.getText()
+            #             # print("Var : " , nomVar)
+            #             tipo = self.regresaTipo(child.ID().getText(),funcion)
+            #
+            #             pilas['pTipos'].append(tipo)
+            #             pilas['pOperandos'].append(nomVar)
+            #             if tipo == False:
+            #                 print("Error, no existe la variable")
+            #                 return
+            #             # print("Tipo: ", tipo)
+            #             # print(tree.getText())
+            #         elif ruleChild == "var_cte":
+            #             cte = child.getText()
+            #             if cte.find('.') != -1:
+            #                 tipo = "float"
+            #             else:
+            #                 tipo = "int"
+            #             pilas['pTipos'].append(tipo)
+            #             pilas['pOperandos'].append(cte)
             elif rule == "op_prod":
                 op = tree.getText()
                 pilas['pOperadores'].append(op)
@@ -707,14 +776,7 @@ class Programa:
             elif rule == "par_empieza":
                 ff = pilas['fInicio'].pop()
                 pilas['pOperadores'].append(ff)
-            elif rule == "term":
-                if not pilas['pOperadores']:
-                    print("lista vacia")
-                    pass
-                else:
-                    op = pilas['pOperadores'][-1]
-                    if op == '+' or op == '-':
-                        print("encontre suma o resta")
+
 
                 # print(pilas['pOperadores'][-1])
                 # if not pilas['pOperadores']:
