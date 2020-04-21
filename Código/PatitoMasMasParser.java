@@ -1,4 +1,4 @@
-// Generated from PatitoMasMas.g4 by ANTLR 4.7.1
+// Generated from PatitoMasMas.g4 by ANTLR 4.8
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class PatitoMasMasParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.7.1", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.8", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -35,32 +35,41 @@ public class PatitoMasMasParser extends Parser {
 		RULE_op_log = 31, RULE_op_comp = 32, RULE_exp = 33, RULE_op_arit = 34, 
 		RULE_term = 35, RULE_op_prod = 36, RULE_factor = 37, RULE_var_cte = 38, 
 		RULE_op_esp = 39, RULE_tipo = 40;
-	public static final String[] ruleNames = {
-		"start", "programa", "principal", "dec_variables", "dec_var", "lista_ids", 
-		"ids", "dimension", "dec_functions", "funcion", "tipo_ret", "params", 
-		"bloque_est", "estatuto", "asignacion", "var", "dim", "retorno", "lectura", 
-		"lista_vars", "escritura", "escrituras", "string", "decision", "repeticion", 
-		"condicional", "no_condicional", "llamada", "params_llamada", "llamada_est", 
-		"expresion", "op_log", "op_comp", "exp", "op_arit", "term", "op_prod", 
-		"factor", "var_cte", "op_esp", "tipo"
-	};
+	private static String[] makeRuleNames() {
+		return new String[] {
+			"start", "programa", "principal", "dec_variables", "dec_var", "lista_ids", 
+			"ids", "dimension", "dec_functions", "funcion", "tipo_ret", "params", 
+			"bloque_est", "estatuto", "asignacion", "var", "dim", "retorno", "lectura", 
+			"lista_vars", "escritura", "escrituras", "string", "decision", "repeticion", 
+			"condicional", "no_condicional", "llamada", "params_llamada", "llamada_est", 
+			"expresion", "op_log", "op_comp", "exp", "op_arit", "term", "op_prod", 
+			"factor", "var_cte", "op_esp", "tipo"
+		};
+	}
+	public static final String[] ruleNames = makeRuleNames();
 
-	private static final String[] _LITERAL_NAMES = {
-		null, "';'", "','", "'['", "']'", "'('", "')'", "'{'", "'}'", "'='", "'&'", 
-		"'||'", "'>'", "'<'", "'=='", "'!='", "'+'", "'-'", "'*'", "'/'", "'$'", 
-		"'?'", "'\u00A1'", "'programa'", "'principal()'", "'var'", "'funcion'", 
-		"'regresa'", "'lee'", "'escribe'", "'si'", "'entonces'", "'sino'", "'mientras'", 
-		"'haz'", "'desde'", "'hasta'", "'hacer'", "'int'", "'float'", "'char'", 
-		"'void'"
-	};
-	private static final String[] _SYMBOLIC_NAMES = {
-		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, null, null, null, null, null, null, null, null, null, null, "Programa", 
-		"Principal", "Var", "Function", "Regresa", "Lee", "Escribe", "Si", "Entonces", 
-		"Sino", "Mientras", "Haz", "Desde", "Hasta", "Hacer", "Int", "Float", 
-		"Char", "Void", "ID", "CTE_INT", "CTE_FLOAT", "CTE_CHAR", "CTE_STRING", 
-		"DIGIT", "Whitespace", "Newline"
-	};
+	private static String[] makeLiteralNames() {
+		return new String[] {
+			null, "';'", "','", "'['", "']'", "'('", "')'", "'{'", "'}'", "'='", 
+			"'&'", "'||'", "'>'", "'<'", "'=='", "'!='", "'+'", "'-'", "'*'", "'/'", 
+			"'$'", "'?'", "'\u00A1'", "'programa'", "'principal()'", "'var'", "'funcion'", 
+			"'regresa'", "'lee'", "'escribe'", "'si'", "'entonces'", "'sino'", "'mientras'", 
+			"'haz'", "'desde'", "'hasta'", "'hacer'", "'int'", "'float'", "'char'", 
+			"'void'"
+		};
+	}
+	private static final String[] _LITERAL_NAMES = makeLiteralNames();
+	private static String[] makeSymbolicNames() {
+		return new String[] {
+			null, null, null, null, null, null, null, null, null, null, null, null, 
+			null, null, null, null, null, null, null, null, null, null, null, "Programa", 
+			"Principal", "Var", "Function", "Regresa", "Lee", "Escribe", "Si", "Entonces", 
+			"Sino", "Mientras", "Haz", "Desde", "Hasta", "Hacer", "Int", "Float", 
+			"Char", "Void", "ID", "CTE_INT", "CTE_FLOAT", "CTE_CHAR", "CTE_STRING", 
+			"DIGIT", "Whitespace", "Newline"
+		};
+	}
+	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
 	/**
@@ -110,6 +119,7 @@ public class PatitoMasMasParser extends Parser {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
+
 	public static class StartContext extends ParserRuleContext {
 		public TerminalNode EOF() { return getToken(PatitoMasMasParser.EOF, 0); }
 		public ProgramaContext programa() {

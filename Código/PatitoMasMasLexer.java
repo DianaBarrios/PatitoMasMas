@@ -1,4 +1,4 @@
-// Generated from PatitoMasMas.g4 by ANTLR 4.7.1
+// Generated from PatitoMasMas.g4 by ANTLR 4.8
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
@@ -10,7 +10,7 @@ import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class PatitoMasMasLexer extends Lexer {
-	static { RuntimeMetaData.checkVersion("4.7.1", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.8", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -31,32 +31,41 @@ public class PatitoMasMasLexer extends Lexer {
 		"DEFAULT_MODE"
 	};
 
-	public static final String[] ruleNames = {
-		"T__0", "T__1", "T__2", "T__3", "T__4", "T__5", "T__6", "T__7", "T__8", 
-		"T__9", "T__10", "T__11", "T__12", "T__13", "T__14", "T__15", "T__16", 
-		"T__17", "T__18", "T__19", "T__20", "T__21", "Programa", "Principal", 
-		"Var", "Function", "Regresa", "Lee", "Escribe", "Si", "Entonces", "Sino", 
-		"Mientras", "Haz", "Desde", "Hasta", "Hacer", "Int", "Float", "Char", 
-		"Void", "ID", "CTE_INT", "CTE_FLOAT", "CTE_CHAR", "CTE_STRING", "DIGIT", 
-		"Whitespace", "Newline"
-	};
+	private static String[] makeRuleNames() {
+		return new String[] {
+			"T__0", "T__1", "T__2", "T__3", "T__4", "T__5", "T__6", "T__7", "T__8", 
+			"T__9", "T__10", "T__11", "T__12", "T__13", "T__14", "T__15", "T__16", 
+			"T__17", "T__18", "T__19", "T__20", "T__21", "Programa", "Principal", 
+			"Var", "Function", "Regresa", "Lee", "Escribe", "Si", "Entonces", "Sino", 
+			"Mientras", "Haz", "Desde", "Hasta", "Hacer", "Int", "Float", "Char", 
+			"Void", "ID", "CTE_INT", "CTE_FLOAT", "CTE_CHAR", "CTE_STRING", "DIGIT", 
+			"Whitespace", "Newline"
+		};
+	}
+	public static final String[] ruleNames = makeRuleNames();
 
-	private static final String[] _LITERAL_NAMES = {
-		null, "';'", "','", "'['", "']'", "'('", "')'", "'{'", "'}'", "'='", "'&'", 
-		"'||'", "'>'", "'<'", "'=='", "'!='", "'+'", "'-'", "'*'", "'/'", "'$'", 
-		"'?'", "'\u00A1'", "'programa'", "'principal()'", "'var'", "'funcion'", 
-		"'regresa'", "'lee'", "'escribe'", "'si'", "'entonces'", "'sino'", "'mientras'", 
-		"'haz'", "'desde'", "'hasta'", "'hacer'", "'int'", "'float'", "'char'", 
-		"'void'"
-	};
-	private static final String[] _SYMBOLIC_NAMES = {
-		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, null, null, null, null, null, null, null, null, null, null, "Programa", 
-		"Principal", "Var", "Function", "Regresa", "Lee", "Escribe", "Si", "Entonces", 
-		"Sino", "Mientras", "Haz", "Desde", "Hasta", "Hacer", "Int", "Float", 
-		"Char", "Void", "ID", "CTE_INT", "CTE_FLOAT", "CTE_CHAR", "CTE_STRING", 
-		"DIGIT", "Whitespace", "Newline"
-	};
+	private static String[] makeLiteralNames() {
+		return new String[] {
+			null, "';'", "','", "'['", "']'", "'('", "')'", "'{'", "'}'", "'='", 
+			"'&'", "'||'", "'>'", "'<'", "'=='", "'!='", "'+'", "'-'", "'*'", "'/'", 
+			"'$'", "'?'", "'\u00A1'", "'programa'", "'principal()'", "'var'", "'funcion'", 
+			"'regresa'", "'lee'", "'escribe'", "'si'", "'entonces'", "'sino'", "'mientras'", 
+			"'haz'", "'desde'", "'hasta'", "'hacer'", "'int'", "'float'", "'char'", 
+			"'void'"
+		};
+	}
+	private static final String[] _LITERAL_NAMES = makeLiteralNames();
+	private static String[] makeSymbolicNames() {
+		return new String[] {
+			null, null, null, null, null, null, null, null, null, null, null, null, 
+			null, null, null, null, null, null, null, null, null, null, null, "Programa", 
+			"Principal", "Var", "Function", "Regresa", "Lee", "Escribe", "Si", "Entonces", 
+			"Sino", "Mientras", "Haz", "Desde", "Hasta", "Hacer", "Int", "Float", 
+			"Char", "Void", "ID", "CTE_INT", "CTE_FLOAT", "CTE_CHAR", "CTE_STRING", 
+			"DIGIT", "Whitespace", "Newline"
+		};
+	}
+	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
 	/**

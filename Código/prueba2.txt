@@ -8,19 +8,19 @@ funcion int fact(int j);
 var int nice[10][50];
 {
   i[5] = 5;
-  escribe('wow');
+  escribe("wow");
 }
 funcion void dos(int b,int a);
 var int c;
 {
   i = j$;
-  escribe('imprime','dentro','de','funcion',4);
+  escribe("imprime","dentro","de","funcion",4);
 }
 principal(){
-regresa(x);
-escribe('diferente','que','no',i,1);
-lee(j);
-fact(x,y,z);
-dos(x);
-escribe('si','jala');
+  regresa(x);
+  escribe("diferente","algo","no",i,1);
+  lee(j);
+  fact(x,y,z);
+  dos(x);
+  escribe("si","jala");
 }

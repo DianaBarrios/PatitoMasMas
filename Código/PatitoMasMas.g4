@@ -24,7 +24,7 @@ dec_var
     : tipo lista_ids+ ';'
     ;
 
-lista_ids 
+lista_ids
     : ids (','  lista_ids)?
     ;
 
@@ -71,11 +71,11 @@ asignacion
     : var '=' expresion  ';'
     ;
 
-var 
+var
     : ID dim? dim?
     ;
 
-dim 
+dim
     : '[' expresion ']'
     ;
 
@@ -150,22 +150,22 @@ op_comp
     | '!='
     ;
 
-exp 
-    : term 
+exp
+    : term
     | term op_arit exp
     ;
 
-op_arit 
+op_arit
     : '+'
     | '-'
     ;
 
 term
-    : factor 
+    : factor
     | factor op_prod term
     ;
 
-op_prod 
+op_prod
     : '*'
     | '/'
     ;
@@ -174,8 +174,16 @@ factor
     : var op_esp?
     | (op_arit)? var_cte
     | llamada
-    | '(' expresion ')'
+    | par_empieza expresion par_termina
     ;
+
+par_empieza
+	: '('
+	;
+
+par_termina
+	: ')'
+	;
 
 var_cte
     : var
@@ -187,7 +195,7 @@ op_esp
     : '$'
     | '?'
     | '¡'
-    ; 
+    ;
 
 tipo
     : Int

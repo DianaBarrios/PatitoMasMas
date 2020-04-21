@@ -7,20 +7,20 @@ var
 funcion int fact(int j);
 var int nice[10][50];
 {
-  i[5] = 5;
-  escribe('wow');
+  i[5] = 5*45;
+  escribe("wow");
 }
 funcion void dos(int b,int a);
 var int c;
 {
   i = j$;
-  escribe('imprime','dentro','de','funcion',4);
+  escribe("imprime","dentro","de","funcion", algo * 45);
 }
 principal(){
-regresa(x);
-escribe('algo','que','no',i,1);
-lee(j);
-fact(x,y,z);
-dos(x);
-escribe('si','jala');
+  dos(a,b);
+  escribe("imprime",17, "dentro del main", (16 - 6) + i * (5.25 * 20 - 10) + 45);
+  regresa(x);
+  lee(j);
+  fact(x,y,z);
+  escribe("si","jala");
 }

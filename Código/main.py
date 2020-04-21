@@ -411,10 +411,11 @@ class Programa:
         # else:
         #     print("si existe")
         # print(self.checaParams("dos",["int","int"]))
-
+        # print(self.regresaTipo("nice","fact"))
         # # funciones(programa.functions(),reglas)
         print("===== Main =====")
         self.evaluarFun(self.tree.principal().bloque_est(),"main")
+
         # evaluarFun(programa.principal().bloque_est().estatutos(),reglas)
     def checaFun(self,funcion,params):
         if not self.existeFun(funcion):
@@ -451,6 +452,22 @@ class Programa:
                 return False
         return False
 
+    def regresaTipo(self,var,funcion):
+        if self.existeVar(var,funcion):
+            res = self.varGlobales.get(var, None)
+            if res != None:
+                return self.varGlobales[var]['tipo']
+            if funcion != "main":
+                if res == None:
+                    res = self.dirFunciones[funcion]['vars'].get(var, None)
+                    if res == None:
+                        return False
+                    else:
+                        return self.dirFunciones[funcion]['vars'][var]['tipo']
+                else:
+                    return False
+        else:
+            return False
 
     def decVariables(self,tree,temp,tipo):
         # tipoVar = tree.tipo().getText()
@@ -517,7 +534,6 @@ class Programa:
                 pass
             for child in tree.children:
                 self.decVariables(child,temp,tipo)
-
 
     def variablesGlobales(self, tree ,rules):
         if not isinstance(tree, TerminalNodeImpl):
@@ -614,6 +630,9 @@ class Programa:
 
                 self.dirFunciones[nombreFun] = jsontemp
                 # pprint.pprint(jsontemp)
+            else:
+                for child in tree.children:
+                        self.funciones(child)
 
             # elif rules[tree.getRuleIndex()] == "params":
             #     count = 0
@@ -622,61 +641,302 @@ class Programa:
             #     print(count)
                 # print("Tipo var: ", tree.tipo().getText())
                 # print("Nombre var: ", tree.ID())
+
+
+        else:
+            pass
+
+    def resolverLlamada(self,funcion,params):
+        print("Nombre funcion: ", funcion)
+        print("Params: ", params.getText())
+
+    def expresion(self,tree,funcion):
+        pilas = {
+            'pOperandos' : [],
+            'pOperadores' : [],
+            'pTipos' : [],
+            'fInicio' : ['$','%','&','?','@','#'],
+            'fFinal' : ['$','%','&','?','@','#']
+        }
+        self.expresionHelp(tree,funcion,pilas)
+        print("Pila operandos:",pilas['pOperandos'])
+        print("Pila tipos:",pilas['pTipos'])
+        print("Pila operadores:",pilas['pOperadores'])
+
+    #encuentra cada expresion en una expresion
+    def expresionHelp(self,tree,funcion,pilas):
+        llamada = False
+        # traverse(tree,self.rules)
+        if not isinstance(tree, TerminalNodeImpl):
+            rule = self.rules[tree.getRuleIndex()]
+            print("Rule: ", rule)
+
+            if rule == "llamada":
+                self._llamada_est(tree.ID().getText(),tree.params_llamada())
+                llamada = True
+            elif rule == "factor":
+                for child in tree.children:
+                    ruleChild = self.rules[child.getRuleIndex()]
+                    if ruleChild == "var":
+                        nomVar = child.getText()
+                        # print("Var : " , nomVar)
+                        tipo = self.regresaTipo(child.ID().getText(),funcion)
+
+                        pilas['pTipos'].append(tipo)
+                        pilas['pOperandos'].append(nomVar)
+                        if tipo == False:
+                            print("Error, no existe la variable")
+                            return
+                        # print("Tipo: ", tipo)
+                        # print(tree.getText())
+                    elif ruleChild == "var_cte":
+                        cte = child.getText()
+                        if cte.find('.') != -1:
+                            tipo = "float"
+                        else:
+                            tipo = "int"
+                        pilas['pTipos'].append(tipo)
+                        pilas['pOperandos'].append(cte)
+            elif rule == "op_prod":
+                op = tree.getText()
+                pilas['pOperadores'].append(op)
+                # print("mult o div: ", op)
+            elif rule == "op_arit":
+                op = tree.getText()
+                pilas['pOperadores'].append(op)
+            elif rule == "par_empieza":
+                ff = pilas['fInicio'].pop()
+                pilas['pOperadores'].append(ff)
+            elif rule == "term":
+                if not pilas['pOperadores']:
+                    print("lista vacia")
+                    pass
+                else:
+                    op = pilas['pOperadores'][-1]
+                    if op == '+' or op == '-':
+                        print("encontre suma o resta")
+
+                # print(pilas['pOperadores'][-1])
+                # if not pilas['pOperadores']:
+                #     print("lista vacia")
+                #     pass
+                # else:
+                #     op = pilas['pOperadores'][-1]
+                #     if op == '*' or op == '/':
+                #         print("encontre mult o div")
+                #     print()
+                # print("encontre term")
+            # elif rule == "par_termina":
+            #     # ff = pilas['fFinal'].pop()
+            #     # if pilas['pOperadores'].top() == ff:
+            #     pilas['pOperadores'].pop()
+                # pilas['pOperadores'].append(ff)
+
+                # print("suma o resta: ", op)
+
+
             for child in tree.children:
-                self.funciones(child)
+                if not isinstance(child, TerminalNodeImpl) and not llamada:
+                    self.expresionHelp(child,funcion,pilas)
+                    # self.expresion2(child,funcion)
+                    # traverse(child,self.rules)
+        #             # print("No term: ", child.getText())
+
+
+    # def expresion(self,tree,funcion):
+    #     traverse(tree,self.rules)
+        # if not isinstance(tree, TerminalNodeImpl):
+        #     rule = self.rules[tree.getRuleIndex()]
+        #     if rule == "expresion":
+        #         print("entonctre una expresion")
+        #         self.helper(tree,funcion)
+        #     elif rule == "llamada":
+        #         self.resolverLlamada(tree.ID().getText(),tree.params_llamada())
+        #     elif rule == "var":
+        #         print("Var : " , tree.getText())
+        #         tipo = self.regresaTipo(tree.ID().getText(),funcion)
+        #         print("Tipo: ", tipo)
+        #         # print("Llamada a : " , tree.ID().getText())
+        #         # print(tree.params_llamada().getText())
+        #         # traverse(tree,self.rules)
+        #     elif rule == "var_cte":
+        #         print("Const: ",tree.getText())
+        #     else:
+        #         for child in tree.children:
+        #             # if not isinstance(child, TerminalNodeImpl) and rule_names[child.getRuleIndex()] == "estatuto":
+        #             #     print("Estatuto: ", tree)
+        #             self.expresion(child,funcion)
+        # else:
+        #     pass
+
+    def helper(self,tree,funcion):
+        # for child in tree.children:
+        #     if not isinstance(child, TerminalNodeImpl):
+        #         rule = self.rules[tree.getRuleIndex()]
+        #         print("Rule: ", rule)
+        #         # self.expresion2(child,funcion)
+        #         # traverse(child,self.rules)
+        #         print("No term: ", child.getText())
+        if not isinstance(tree, TerminalNodeImpl):
+            rule = self.rules[tree.getRuleIndex()]
+            if rule == "llamada":
+                self.resolverLlamada(tree.ID().getText(),tree.params_llamada())
+            elif rule == "var":
+                print("Var : " , tree.getText())
+                tipo = self.regresaTipo(tree.ID().getText(),funcion)
+                print("Tipo: ", tipo)
+                # print("Llamada a : " , tree.ID().getText())
+                # print(tree.params_llamada().getText())
+                # traverse(tree,self.rules)
+            elif rule == "var_cte":
+                print("Const: ",tree.getText())
+            else:
+                for child in tree.children:
+                    # if not isinstance(child, TerminalNodeImpl) and rule_names[child.getRuleIndex()] == "estatuto":
+                    #     print("Estatuto: ", tree)
+                    self.expresion(child,funcion)
         else:
             pass
 
     def evaluarFun(self, tree,funcion):
-        if not isinstance(tree, TerminalNodeImpl):
-            if self.rules[tree.getRuleIndex()] == "estatuto":
-                print("** Estatuto nuevo **")
-                # print("Estatuto : ", tree.getText())
-                # print(rule_names[child.getRuleIndex()])
+            if not isinstance(tree, TerminalNodeImpl):
+                if self.rules[tree.getRuleIndex()] == "estatuto":
+                    # print("Estatuto : ", tree.getText())
+                    # print(rule_names[child.getRuleIndex()])
+                    for child in tree.children:
+                        regla = self.rules[child.getRuleIndex()]
+                        if regla == "retorno":
+                            print("*** Retorno ***")
+                            self._retorno(tree.getText(),funcion)
+                        elif regla == "lectura":
+                            print("*** Lee ***")
+                            self._lectura(tree.getText())
+                        elif regla == "asignacion":
+                            print("*** asignacion ***")
+                            self._asignacion(tree,funcion)
+                        elif regla == "decision":
+                            print("*** Decision ***")
+                            self._decision(tree.getText())
+                        elif regla == "repeticion":
+                            print("*** Repeticion ***")
+                            self._repeticion(tree.getText())
+                        elif regla == "llamada_est":
+                            print("*** Llamada ***")
+                            self._llamada_est(tree.llamada_est().llamada().ID().getText(),tree.llamada_est().llamada().params_llamada())
+                        elif regla == "escritura":
+                            print("*** Print ***")
+                            self._escritura(tree.escritura(),funcion)
+                        # print("Tipo Estatuto: ", rule_names[child.getRuleIndex()])
+                        # estatutos(child, rule_names)
+                    # traverse(tree,rule_names)
+                    # print("Estatuto : ", rule_names[tree.getRuleIndex()])
+                    # print("Funcion: ", tree.ID())
+                    # # traverse(tree.params(),rule_names)
+                    # print("Main de la funcion: ", tree.bloque_est().getText())
+                    # tipo_ret = tree.tipo_ret()
+                    # if tipo_ret.getText() == "void":
+                    #     print("Tipo ret: void")
+                    # else:
+                    #     print("Tipo ret: ",tipo_ret.tipo().getText())
+                # elif rule_names[tree.getRuleIndex()] == "params":
+                #     print("Tipo var: ", tree.tipo().getText())
+                #     print("Nombre var: ", tree.ID())
                 for child in tree.children:
-                    regla = self.rules[child.getRuleIndex()]
-                    if regla == "retorno":
-                        self._retorno(tree.getText(),funcion)
-                        print("Regresa algo")
-                    elif regla == "lectura":
-                        self._lectura(tree.getText())
-                        print("lectura algo")
-                    elif regla == "asignacion":
-                        self._asignacion(tree,funcion)
-                        print("asignacion algo")
-                    elif regla == "decision":
-                        self._decision(tree.getText())
-                        print("decision algo")
-                    elif regla == "repeticion":
-                        self._repeticion(tree.getText())
-                        print("repeticion algo")
-                    elif regla == "llamada_est":
-                        self._llamada_est(tree,funcion)
-                        print("llamada_est algo")
-                    elif regla == "escritura":
-                        self._escritura(tree.escritura())
-                        print("escritura algo")
-                    # print("Tipo Estatuto: ", rule_names[child.getRuleIndex()])
-                    # estatutos(child, rule_names)
-                # traverse(tree,rule_names)
-                # print("Estatuto : ", rule_names[tree.getRuleIndex()])
-                # print("Funcion: ", tree.ID())
-                # # traverse(tree.params(),rule_names)
-                # print("Main de la funcion: ", tree.bloque_est().getText())
-                # tipo_ret = tree.tipo_ret()
-                # if tipo_ret.getText() == "void":
-                #     print("Tipo ret: void")
-                # else:
-                #     print("Tipo ret: ",tipo_ret.tipo().getText())
-            # elif rule_names[tree.getRuleIndex()] == "params":
-            #     print("Tipo var: ", tree.tipo().getText())
-            #     print("Nombre var: ", tree.ID())
-            for child in tree.children:
-                # if not isinstance(child, TerminalNodeImpl) and rule_names[child.getRuleIndex()] == "estatuto":
-                #     print("Estatuto: ", tree)
-                self.evaluarFun(child,funcion)
-        else:
-            pass
+                    # if not isinstance(child, TerminalNodeImpl) and rule_names[child.getRuleIndex()] == "estatuto":
+                    #     print("Estatuto: ", tree)
+                    self.evaluarFun(child,funcion)
+            else:
+                pass
+    # def evaluarFun(self, tree,funcion):
+    #     if not isinstance(tree, TerminalNodeImpl):
+    #         for child in tree.children:
+    #             self.evaluarFun(child,funcion)
+    #
+    #             if self.rules[tree.getRuleIndex()] == "estatuto":
+    #                 print("** Estatuto nuevo **")
+    #                 # print("Estatuto : ", tree.getText())
+    #                 # print(rule_names[child.getRuleIndex()])
+    #                 for child in tree.children:
+    #                     regla = self.rules[child.getRuleIndex()]
+    #                     if regla == "retorno":
+    #                         self._retorno(tree.getText(),funcion)
+    #                         print("Regresa algo")
+    #                     elif regla == "lectura":
+    #                         self._lectura(tree.getText())
+    #                         print("lectura algo")
+    #                     elif regla == "asignacion":
+    #                         self._asignacion(tree,funcion)
+    #                         print("asignacion algo")
+    #                     elif regla == "decision":
+    #                         self._decision(tree.getText())
+    #                         print("decision algo")
+    #                     elif regla == "repeticion":
+    #                         self._repeticion(tree.getText())
+    #                         print("repeticion algo")
+    #                     elif regla == "llamada_est":
+    #                         self._llamada_est(tree,funcion)
+    #                         print("llamada_est algo")
+    #                     elif regla == "escritura":
+    #                         self._escritura(tree.escritura(),funcion)
+    #                         print("escritura algo")
+    #     else:
+    #         pass
+            # if not isinstance(child, TerminalNodeImpl) and rule_names[child.getRuleIndex()] == "estatuto":
+            #     print("Estatuto: ", tree)
+        #     self.evaluarFun(child,funcion)
+        # if not isinstance(tree, TerminalNodeImpl):
+        #     if self.rules[tree.getRuleIndex()] == "estatuto":
+        #         print("** Estatuto nuevo **")
+        #         # print("Estatuto : ", tree.getText())
+        #         # print(rule_names[child.getRuleIndex()])
+        #         for child in tree.children:
+        #             regla = self.rules[child.getRuleIndex()]
+        #             if regla == "retorno":
+        #                 self._retorno(tree.getText(),funcion)
+        #                 print("Regresa algo")
+        #             elif regla == "lectura":
+        #                 self._lectura(tree.getText())
+        #                 print("lectura algo")
+        #             elif regla == "asignacion":
+        #                 self._asignacion(tree,funcion)
+        #                 print("asignacion algo")
+        #             elif regla == "decision":
+        #                 self._decision(tree.getText())
+        #                 print("decision algo")
+        #             elif regla == "repeticion":
+        #                 self._repeticion(tree.getText())
+        #                 print("repeticion algo")
+        #             elif regla == "llamada_est":
+        #                 self._llamada_est(tree,funcion)
+        #                 print("llamada_est algo")
+        #             elif regla == "escritura":
+        #                 self._escritura(tree.escritura(),funcion)
+        #                 print("escritura algo")
+        #     for child in tree.children:
+        #         # if not isinstance(child, TerminalNodeImpl) and rule_names[child.getRuleIndex()] == "estatuto":
+        #         #     print("Estatuto: ", tree)
+        #         self.evaluarFun(child,funcion)
+        # # if not isinstance(tree, TerminalNodeImpl):
+        #
+        #             # print("Tipo Estatuto: ", rule_names[child.getRuleIndex()])
+        #             # estatutos(child, rule_names)
+        #         # traverse(tree,rule_names)
+        #         # print("Estatuto : ", rule_names[tree.getRuleIndex()])
+        #         # print("Funcion: ", tree.ID())
+        #         # # traverse(tree.params(),rule_names)
+        #         # print("Main de la funcion: ", tree.bloque_est().getText())
+        #         # tipo_ret = tree.tipo_ret()
+        #         # if tipo_ret.getText() == "void":
+        #         #     print("Tipo ret: void")
+        #         # else:
+        #         #     print("Tipo ret: ",tipo_ret.tipo().getText())
+        #     # elif rule_names[tree.getRuleIndex()] == "params":
+        #     #     print("Tipo var: ", tree.tipo().getText())
+        #     #     print("Nombre var: ", tree.ID())
+        #
+        # else:
+        #     pass
+
 
     def _retorno(self, codigo,funcion):
         if funcion == "main":
@@ -706,8 +966,10 @@ class Programa:
     #los params pueden ser exp
     #checar que sea valida la llamada
     #checar que los params sean compatibles
-    def _llamada_est(self, codigo,funcion):
-        print("una llamada una funcion")
+    def _llamada_est(self,funcion,params):
+        print("Nombre fun:", funcion)
+        print("Params fun:", params.getText())
+        # print("una llamada una funcion")
         # traverse(codigo,self.rules)
         # print(codigo.llamada_est().llamada().ID())
         # nombre = codigo.llamada_est().llamada().ID().getText()
@@ -715,10 +977,10 @@ class Programa:
         # self.evaluarFun(estatutos,nombre)
         # print(estatutos)
 
-    def _escritura(self, codigo):
+    def _escritura(self, tree,funcion):
         res = []
         str = ""
-        self._extraePrint(codigo,res)
+        self._extraePrint(tree,res,funcion)
         for index, item in enumerate(res):
             res[index] = res[index][1:-1]
             str += res[index] + " "
@@ -726,7 +988,7 @@ class Programa:
 
     ##falta
     #los valores pueden ser exp
-    def _extraePrint(self, codigo,res):
+    def _extraePrint(self, tree,res,funcion):
 
         # traverse(codigo,self.rules)
         # lista = codigo.getRuleContext().getText()
@@ -739,24 +1001,33 @@ class Programa:
         #         lista.remove(valor)
         #         # pass
         # print(lista)
-        if not isinstance(codigo, TerminalNodeImpl):
+        if not isinstance(tree, TerminalNodeImpl):
         #     # print(codigo.getRuleContext().getText())
         #     # traverse(codigo,self.rules)
-            if self.rules[codigo.getRuleIndex()] == "expresion":
+            if self.rules[tree.getRuleIndex()] == "expresion":
+                print("***** EXP *****")
+                # print(codigo.getText())
+                # traverse(codigo,self.rules)
+                self.expresion(tree,funcion)
                 #mandar llamar expresion con el codigo
                 res.append("'EXP'")
                 # print("")
-            if self.rules[codigo.getRuleIndex()] == "string":
+            elif self.rules[tree.getRuleIndex()] == "string":
                 # print("es un string")
-                res.append(codigo.getText())
+                res.append(tree.getText())
+            else:
+                # traverse(codigo,self.rules)
+                # print("no string")
         #         print("lo ignoramos")
+                for child in tree.children:
+                    # if not isinstance(child, TerminalNodeImpl) and rule_names[child.getRuleIndex()] == "estatuto":
+                    #     print("Estatuto: ", tree)
+                    self._extraePrint(child,res,funcion)
         #
-            for child in codigo.children:
-                # if not isinstance(child, TerminalNodeImpl) and rule_names[child.getRuleIndex()] == "estatuto":
-                #     print("Estatuto: ", tree)
-                self._extraePrint(child,res)
+
         else:
             pass
+
 
 def imprimeTodo(programa,reglas):
     p1 = Programa(programa,reglas)
