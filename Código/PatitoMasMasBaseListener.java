@@ -1,4 +1,4 @@
-// Generated from PatitoMasMas.g4 by ANTLR 4.8
+// Generated from PatitoMasMas.g4 by ANTLR 4.7.1
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
@@ -51,25 +51,37 @@ public class PatitoMasMasBaseListener implements PatitoMasMasListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterVariables(PatitoMasMasParser.VariablesContext ctx) { }
+	@Override public void enterDec_variables(PatitoMasMasParser.Dec_variablesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitVariables(PatitoMasMasParser.VariablesContext ctx) { }
+	@Override public void exitDec_variables(PatitoMasMasParser.Dec_variablesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterVar(PatitoMasMasParser.VarContext ctx) { }
+	@Override public void enterDec_var(PatitoMasMasParser.Dec_varContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitVar(PatitoMasMasParser.VarContext ctx) { }
+	@Override public void exitDec_var(PatitoMasMasParser.Dec_varContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterLista_ids(PatitoMasMasParser.Lista_idsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLista_ids(PatitoMasMasParser.Lista_idsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -87,25 +99,37 @@ public class PatitoMasMasBaseListener implements PatitoMasMasListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterId_cte(PatitoMasMasParser.Id_cteContext ctx) { }
+	@Override public void enterDimension(PatitoMasMasParser.DimensionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitId_cte(PatitoMasMasParser.Id_cteContext ctx) { }
+	@Override public void exitDimension(PatitoMasMasParser.DimensionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFunctions(PatitoMasMasParser.FunctionsContext ctx) { }
+	@Override public void enterDec_functions(PatitoMasMasParser.Dec_functionsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitFunctions(PatitoMasMasParser.FunctionsContext ctx) { }
+	@Override public void exitDec_functions(PatitoMasMasParser.Dec_functionsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFuncion(PatitoMasMasParser.FuncionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFuncion(PatitoMasMasParser.FuncionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -147,18 +171,6 @@ public class PatitoMasMasBaseListener implements PatitoMasMasListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterEstatutos(PatitoMasMasParser.EstatutosContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitEstatutos(PatitoMasMasParser.EstatutosContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterEstatuto(PatitoMasMasParser.EstatutoContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -183,25 +195,25 @@ public class PatitoMasMasBaseListener implements PatitoMasMasListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterId_expressions(PatitoMasMasParser.Id_expressionsContext ctx) { }
+	@Override public void enterVar(PatitoMasMasParser.VarContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitId_expressions(PatitoMasMasParser.Id_expressionsContext ctx) { }
+	@Override public void exitVar(PatitoMasMasParser.VarContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterId_exp(PatitoMasMasParser.Id_expContext ctx) { }
+	@Override public void enterDim(PatitoMasMasParser.DimContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitId_exp(PatitoMasMasParser.Id_expContext ctx) { }
+	@Override public void exitDim(PatitoMasMasParser.DimContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -231,6 +243,18 @@ public class PatitoMasMasBaseListener implements PatitoMasMasListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterLista_vars(PatitoMasMasParser.Lista_varsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLista_vars(PatitoMasMasParser.Lista_varsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterEscritura(PatitoMasMasParser.EscrituraContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -250,6 +274,18 @@ public class PatitoMasMasBaseListener implements PatitoMasMasListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitEscrituras(PatitoMasMasParser.EscriturasContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterString(PatitoMasMasParser.StringContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitString(PatitoMasMasParser.StringContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -339,18 +375,6 @@ public class PatitoMasMasBaseListener implements PatitoMasMasListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterOp_esp(PatitoMasMasParser.Op_espContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitOp_esp(PatitoMasMasParser.Op_espContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterExpresion(PatitoMasMasParser.ExpresionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -363,73 +387,85 @@ public class PatitoMasMasBaseListener implements PatitoMasMasListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExp_a(PatitoMasMasParser.Exp_aContext ctx) { }
+	@Override public void enterOp_log(PatitoMasMasParser.Op_logContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExp_a(PatitoMasMasParser.Exp_aContext ctx) { }
+	@Override public void exitOp_log(PatitoMasMasParser.Op_logContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExp_b(PatitoMasMasParser.Exp_bContext ctx) { }
+	@Override public void enterOp_comp(PatitoMasMasParser.Op_compContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExp_b(PatitoMasMasParser.Exp_bContext ctx) { }
+	@Override public void exitOp_comp(PatitoMasMasParser.Op_compContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExp_c(PatitoMasMasParser.Exp_cContext ctx) { }
+	@Override public void enterExp(PatitoMasMasParser.ExpContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExp_c(PatitoMasMasParser.Exp_cContext ctx) { }
+	@Override public void exitExp(PatitoMasMasParser.ExpContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExp_d(PatitoMasMasParser.Exp_dContext ctx) { }
+	@Override public void enterOp_arit(PatitoMasMasParser.Op_aritContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExp_d(PatitoMasMasParser.Exp_dContext ctx) { }
+	@Override public void exitOp_arit(PatitoMasMasParser.Op_aritContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExp_e(PatitoMasMasParser.Exp_eContext ctx) { }
+	@Override public void enterTerm(PatitoMasMasParser.TermContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExp_e(PatitoMasMasParser.Exp_eContext ctx) { }
+	@Override public void exitTerm(PatitoMasMasParser.TermContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTipo(PatitoMasMasParser.TipoContext ctx) { }
+	@Override public void enterOp_prod(PatitoMasMasParser.Op_prodContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTipo(PatitoMasMasParser.TipoContext ctx) { }
+	@Override public void exitOp_prod(PatitoMasMasParser.Op_prodContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFactor(PatitoMasMasParser.FactorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFactor(PatitoMasMasParser.FactorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -442,6 +478,30 @@ public class PatitoMasMasBaseListener implements PatitoMasMasListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitVar_cte(PatitoMasMasParser.Var_cteContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterOp_esp(PatitoMasMasParser.Op_espContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitOp_esp(PatitoMasMasParser.Op_espContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTipo(PatitoMasMasParser.TipoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTipo(PatitoMasMasParser.TipoContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

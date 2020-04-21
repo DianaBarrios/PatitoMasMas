@@ -9,30 +9,39 @@ start
     ;
 
 programa
-    : Programa ID ';' variables functions principal
+    : Programa ID ';' dec_variables? dec_functions? principal
     ;
 
 principal
     : Principal bloque_est
     ;
 
-variables
-    : Var var;
+dec_variables
+    : Var dec_var+
+    ;
 
-var
-    : tipo ids ';' var*
+dec_var
+    : tipo lista_ids+ ';'
+    ;
+
+lista_ids 
+    : ids (','  lista_ids)?
     ;
 
 ids
-    : id_cte (','  ids)*
+    : ID dimension? dimension?
     ;
 
-id_cte
-    : ID ('[' CTE_INT ']' ('[' CTE_INT ']')?)?
+dimension
+    : '[' CTE_INT ']'
     ;
 
-functions
-    : Function tipo_ret ID '(' params? ')' variables bloque_est functions?
+dec_functions
+	: funcion+
+	;
+
+funcion
+    : Function tipo_ret ID '(' params? ')' ';' dec_variables? bloque_est
     ;
 
 tipo_ret
@@ -45,11 +54,7 @@ params
     ;
 
 bloque_est
-    : '{' estatutos '}'
-    ;
-
-estatutos
-    : estatuto*
+    : '{' estatuto* '}'
     ;
 
 estatuto
@@ -63,15 +68,15 @@ estatuto
     ;
 
 asignacion
-    : id_exp '=' expresion op_esp?  ';'
+    : var '=' expresion  ';'
     ;
 
-id_expressions
-    : id_exp*
+var 
+    : ID dim? dim?
     ;
 
-id_exp
-    : ID ('[' expresion ']')? ('[' expresion ']')?
+dim 
+    : '[' expresion ']'
     ;
 
 retorno
@@ -79,7 +84,11 @@ retorno
     ;
 
 lectura
-    : Lee '(' id_expressions ')' ';'
+    : Lee '(' lista_vars ')' ';'
+    ;
+
+lista_vars
+    : var (',' lista_vars)?
     ;
 
 escritura
@@ -108,7 +117,7 @@ condicional
     ;
 
 no_condicional
-    : Desde id_exp '=' expresion Hasta expresion Hacer bloque_est
+    : Desde var '=' expresion Hasta expresion Hacer bloque_est
     ;
 
 llamada
@@ -123,49 +132,66 @@ llamada_est
     : llamada ';'
     ;
 
+expresion
+    : exp
+    | expresion op_log expresion
+    | exp op_comp exp
+    ;
+
+op_log
+    : '&'
+    | '||'
+    ;
+
+op_comp
+    : '>'
+    | '<'
+    | '=='
+    | '!='
+    ;
+
+exp 
+    : term 
+    | term op_arit exp
+    ;
+
+op_arit 
+    : '+'
+    | '-'
+    ;
+
+term
+    : factor 
+    | factor op_prod term
+    ;
+
+op_prod 
+    : '*'
+    | '/'
+    ;
+
+factor
+    : var op_esp?
+    | (op_arit)? var_cte
+    | llamada
+    | '(' expresion ')'
+    ;
+
+var_cte
+    : var
+    | CTE_INT
+    | CTE_FLOAT
+    ;
+
 op_esp
     : '$'
     | '?'
     | '¡'
-    ;
-
-expresion
-    : exp_a ('||')? expresion+
-    ;
-
-exp_a
-    : exp_b ('&')? exp_a*
-    ;
-
-exp_b
-    : exp_c ('>' '<' '==' '!=')? exp_c?
-    ;
-
-exp_c
-    : exp_d ('+' '-')? exp_c?
-    ;
-
-exp_d
-    : exp_e ('*' '/')? exp_d?
-    ;
-
-exp_e
-    : id_exp
-    | var_cte
-    | llamada_est
-    | '(' expresion ')'
-    ;
+    ; 
 
 tipo
     : Int
     | Float
-    | Char
-    ;
-
-var_cte
-    : CTE_INT
-    | CTE_FLOAT
-    | CTE_CHAR
     ;
 
 /*
@@ -249,9 +275,6 @@ Void
     : 'void'
     ;
 
-
-
-
 ID
     : [a-z] [0-9a-zA-Z]*
     ;
@@ -269,7 +292,7 @@ CTE_CHAR
     ;
 
 CTE_STRING
-    : '\'' [a-zA-Z]+ '\''
+    : '"' ~["]* '"'
     ;
 
 DIGIT

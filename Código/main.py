@@ -6,6 +6,378 @@ from PatitoMasMasParser import PatitoMasMasParser
 import sys
 import pprint
 
+cubo = {
+    '+' : {
+        'int': {
+            'int': 'int',
+            'float': 'float',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'float': {
+            'int': 'float',
+            'float': 'float',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'char': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'bool': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'void': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        }
+    },
+    '-' : {
+        'int': {
+            'int': 'int',
+            'float': 'float',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'float': {
+            'int': 'float',
+            'float': 'float',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'char': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'bool': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'void': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        }
+    },
+    '/' : {
+        'int': {
+            'int': 'float',
+            'float': 'float',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'float': {
+            'int': 'float',
+            'float': 'float',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'char': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'bool': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'void': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        }
+    },
+    '*' : {
+        'int': {
+            'int': 'int',
+            'float': 'float',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'float': {
+            'int': 'float',
+            'float': 'float',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'char': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'bool': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'void': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        }
+    },
+    '>' : {
+        'int': {
+            'int': 'bool',
+            'float': 'bool',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'float': {
+            'int': 'bool',
+            'float': 'bool',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'char': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'bool': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'void': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        }
+    },
+    '<' : {
+        'int': {
+            'int': 'bool',
+            'float': 'bool',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'float': {
+            'int': 'bool',
+            'float': 'bool',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'char': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'bool': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'void': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        }
+    },
+    '||' : {
+        'int': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'float': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'char': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'bool': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'bool',
+            'void': 'x'
+        },
+        'void': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        }
+    },
+    '&' : {
+        'int': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'float': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'char': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'bool': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'bool',
+            'void': 'x'
+        },
+        'void': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        }
+    },
+    '==' : {
+        'int': {
+            'int': 'bool',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'float': {
+            'int': 'x',
+            'float': 'bool',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'char': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'bool',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'bool': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'bool',
+            'void': 'x'
+        },
+        'void': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        }
+    },
+    '!=' : {
+        'int': {
+            'int': 'bool',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'float': {
+            'int': 'x',
+            'float': 'bool',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'char': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'bool',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'bool': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'bool',
+            'void': 'x'
+        },
+        'void': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        }
+    }
+}
 
 class Programa:
     def __init__(self, tree, rules):
@@ -21,14 +393,16 @@ class Programa:
         print("===== Nombre Programa =====")
         print(self.tree.ID())
         print("===== Variables =====")
+        # traverse(self.tree.dec_variables(),self.rules)
         # self.variablesGlobales(self.tree.variables().var(),self.rules)
-        self.decVariables(self.tree.variables().var(),self.varGlobales)
+        # print(self.tree.dec_variables().getText())
+        self.decVariables(self.tree.dec_variables(),self.varGlobales,"")
         pprint.pprint(self.varGlobales)
         # print(self.varGlobales)
         # p1.llamadaglobales(p1.tree.variables().var(),p1.rules)
         # variablesGlobales(programa.variables().var(),reglas)
         print("===== Funciones =====")
-        self.funciones(self.tree.functions())
+        self.funciones(self.tree.dec_functions())
         # print(self.dirFunciones)
         pprint.pprint(self.dirFunciones)
         # print(self.existeVar("nice","fact"))
@@ -40,8 +414,8 @@ class Programa:
 
         # # funciones(programa.functions(),reglas)
         print("===== Main =====")
-        self.evaluarFun(self.tree.principal().bloque_est().estatutos(),"main")
-        # # evaluarFun(programa.principal().bloque_est().estatutos(),reglas)
+        self.evaluarFun(self.tree.principal().bloque_est(),"main")
+        # evaluarFun(programa.principal().bloque_est().estatutos(),reglas)
     def checaFun(self,funcion,params):
         if not self.existeFun(funcion):
             return False
@@ -77,38 +451,73 @@ class Programa:
                 return False
         return False
 
-    def decVariables(self,tree,temp):
+
+    def decVariables(self,tree,temp,tipo):
+        # tipoVar = tree.tipo().getText()
+        # print(tipoVar)
         if not isinstance(tree, TerminalNodeImpl):
             # variablesGlobales(child, rule_names)
             # print("{0}TOKEN='{1}'".format("  ", tree.getText()))
-            if self.rules[tree.getRuleIndex()] == "var":
-                tipoVar = tree.tipo().getText()
-                lista = tree.ids().getText()
-                lista = lista.split(",")
-                for elem in lista:
-                    if elem.find("[") == -1:
-                        temp[elem] = {'tipo': tipoVar}
-                    else:
-                        count = elem.count("[")
-                        if count == 1:
-                            indexInicio = elem.index("[")
-                            indexFinal = elem.index("]")
-                            nombre = elem[:indexInicio]
-                            dim = elem[indexInicio+1:indexFinal]
-                            temp[nombre] = {'tipo': tipoVar,'dim1': dim}
-                        if count == 2:
-                            indexInicio = elem.index("[")
-                            indexFinal = elem.index("]")
-                            indexInicio2 = elem.find("[", indexInicio + 1)
-                            indexFinal2 = elem.find("]", indexFinal + 1)
-                            nombre = elem[:indexInicio]
-                            dim = elem[indexInicio+1:indexFinal]
-                            dim2 = elem[indexInicio2+1:indexFinal2]
-                            temp[nombre] = {'tipo': tipoVar,'dim1': dim,'dim2':dim2}
-                for child in tree.children:
-                    self.decVariables(child,temp)
+            if self.rules[tree.getRuleIndex()] == "dec_var":
+                tipo = tree.tipo().getText()
+                # print(tipoVar)
+
+                # print(tree.lista_ids())
+                # traverse(tree,self.rules)
+                # lista = tree.lista_ids().getText()
+                # print(lista)
+                # lista = lista.split(",")
+                # for elem in lista:
+                #     if elem.find("[") == -1:
+                #         temp[elem] = {'tipo': tipoVar}
+                #     else:
+                #         count = elem.count("[")
+                #         if count == 1:
+                #             indexInicio = elem.index("[")
+                #             indexFinal = elem.index("]")
+                #             nombre = elem[:indexInicio]
+                #             dim = elem[indexInicio+1:indexFinal]
+                #             temp[nombre] = {'tipo': tipoVar,'dim1': dim}
+                #         if count == 2:
+                #             indexInicio = elem.index("[")
+                #             indexFinal = elem.index("]")
+                #             indexInicio2 = elem.find("[", indexInicio + 1)
+                #             indexFinal2 = elem.find("]", indexFinal + 1)
+                #             nombre = elem[:indexInicio]
+                #             dim = elem[indexInicio+1:indexFinal]
+                #             dim2 = elem[indexInicio2+1:indexFinal2]
+                #             temp[nombre] = {'tipo': tipoVar,'dim1': dim,'dim2':dim2}
+            # elif self.rules[tree.getRuleIndex()] == "lista_ids":
+            #     print("tiene lista")
+            elif self.rules[tree.getRuleIndex()] == "ids":
+                elem = tree.getText()
+                # print(tree.getText())
+                # traverse(tree,self.rules)
+                if elem.find("[") == -1:
+                    temp[elem] = {'tipo': tipo}
+                else:
+                    count = elem.count("[")
+                    if count == 1:
+                        indexInicio = elem.index("[")
+                        indexFinal = elem.index("]")
+                        nombre = elem[:indexInicio]
+                        dim = elem[indexInicio+1:indexFinal]
+                        temp[nombre] = {'tipo': tipo,'dim1': dim}
+                    if count == 2:
+                        indexInicio = elem.index("[")
+                        indexFinal = elem.index("]")
+                        indexInicio2 = elem.find("[", indexInicio + 1)
+                        indexFinal2 = elem.find("]", indexFinal + 1)
+                        nombre = elem[:indexInicio]
+                        dim = elem[indexInicio+1:indexFinal]
+                        dim2 = elem[indexInicio2+1:indexFinal2]
+                        temp[nombre] = {'tipo': tipo,'dim1': dim,'dim2':dim2}
+
             else:
                 pass
+            for child in tree.children:
+                self.decVariables(child,temp,tipo)
+
 
     def variablesGlobales(self, tree ,rules):
         if not isinstance(tree, TerminalNodeImpl):
@@ -168,7 +577,7 @@ class Programa:
         if not isinstance(tree, TerminalNodeImpl):
             # variablesGlobales(child, rule_names)
             # print("{0}TOKEN='{1}'".format("  ", tree.getText()))
-            if self.rules[tree.getRuleIndex()] == "functions":
+            if self.rules[tree.getRuleIndex()] == "funcion":
                 nombreFun = tree.ID().getText()
                 jsontemp = {}
 
@@ -178,7 +587,7 @@ class Programa:
                 # traverse(tree.params(),rule_names)
                 # self.evaluarFun(tree.bloque_est().estatutos(),rules)
                 tempVar = {}
-                self.decVariables(tree.variables().var(),tempVar)
+                self.decVariables(tree.dec_variables(),tempVar,"")
 
                 # print(tempVar)
                 # print("vars func: ", tree.variables().var().getText())
@@ -200,8 +609,8 @@ class Programa:
                 jsontemp["vars"] = tempVar
                 jsontemp["params"] = {"num": len(arregloTipo), "tipo": arregloTipo, "nombres": arregloNoms }
                 jsontemp["tipoRet"] = ret
-                jsontemp["main"] = tree.bloque_est().estatutos()
-                jsontemp["mainTexto"] = tree.bloque_est().estatutos().getText()
+                jsontemp["main"] = tree.bloque_est().estatuto()
+                # jsontemp["mainTexto"] = tree.bloque_est().estatuto().getText()
 
                 self.dirFunciones[nombreFun] = jsontemp
                 # pprint.pprint(jsontemp)
@@ -281,7 +690,7 @@ class Programa:
         print(codigo)
 
     def _asignacion(self, codigo,funcion):
-        traverse(codigo,self.rules)
+        # traverse(codigo,self.rules)
         #chec var existe en funcion
         #llama al exp y asigna el valor
 
@@ -298,12 +707,13 @@ class Programa:
     #checar que sea valida la llamada
     #checar que los params sean compatibles
     def _llamada_est(self, codigo,funcion):
-        traverse(codigo,self.rules)
-        print(codigo.llamada_est().llamada().ID())
-        nombre = codigo.llamada_est().llamada().ID().getText()
-        estatutos = self.dirFunciones[nombre]['main']
-        self.evaluarFun(estatutos,nombre)
-        print(estatutos)
+        print("una llamada una funcion")
+        # traverse(codigo,self.rules)
+        # print(codigo.llamada_est().llamada().ID())
+        # nombre = codigo.llamada_est().llamada().ID().getText()
+        # estatutos = self.dirFunciones[nombre]['main']
+        # self.evaluarFun(estatutos,nombre)
+        # print(estatutos)
 
     def _escritura(self, codigo):
         res = []
@@ -373,7 +783,10 @@ def main():
     #     input_stream = FileStream("prueba.txt")
     # else:
     #     input_stream = InputStream(sys.stdin.readline())
-    input_stream = FileStream("prueba.txt")
+    if sys.argv[1] == '1':
+        input_stream = FileStream("prueba.txt")
+    else:
+        input_stream = FileStream("prueba2.txt")
 
     lexer = PatitoMasMasLexer(input_stream)
     stream = CommonTokenStream(lexer)
@@ -384,6 +797,7 @@ def main():
 
     programa = Programa(rutaInicio,parser.ruleNames)
     programa.imprimeTodo()
+    print(cubo['==']['int']['int'])
 
     # imprimeTodo(programa,parser.ruleNames)
     # traverse(programa.principal().bloque_est().estatutos(),parser.ruleNames)

@@ -1,4 +1,4 @@
-// Generated from PatitoMasMas.g4 by ANTLR 4.8
+// Generated from PatitoMasMas.g4 by ANTLR 4.7.1
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -37,25 +37,35 @@ public interface PatitoMasMasListener extends ParseTreeListener {
 	 */
 	void exitPrincipal(PatitoMasMasParser.PrincipalContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link PatitoMasMasParser#variables}.
+	 * Enter a parse tree produced by {@link PatitoMasMasParser#dec_variables}.
 	 * @param ctx the parse tree
 	 */
-	void enterVariables(PatitoMasMasParser.VariablesContext ctx);
+	void enterDec_variables(PatitoMasMasParser.Dec_variablesContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link PatitoMasMasParser#variables}.
+	 * Exit a parse tree produced by {@link PatitoMasMasParser#dec_variables}.
 	 * @param ctx the parse tree
 	 */
-	void exitVariables(PatitoMasMasParser.VariablesContext ctx);
+	void exitDec_variables(PatitoMasMasParser.Dec_variablesContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link PatitoMasMasParser#var}.
+	 * Enter a parse tree produced by {@link PatitoMasMasParser#dec_var}.
 	 * @param ctx the parse tree
 	 */
-	void enterVar(PatitoMasMasParser.VarContext ctx);
+	void enterDec_var(PatitoMasMasParser.Dec_varContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link PatitoMasMasParser#var}.
+	 * Exit a parse tree produced by {@link PatitoMasMasParser#dec_var}.
 	 * @param ctx the parse tree
 	 */
-	void exitVar(PatitoMasMasParser.VarContext ctx);
+	void exitDec_var(PatitoMasMasParser.Dec_varContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PatitoMasMasParser#lista_ids}.
+	 * @param ctx the parse tree
+	 */
+	void enterLista_ids(PatitoMasMasParser.Lista_idsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PatitoMasMasParser#lista_ids}.
+	 * @param ctx the parse tree
+	 */
+	void exitLista_ids(PatitoMasMasParser.Lista_idsContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link PatitoMasMasParser#ids}.
 	 * @param ctx the parse tree
@@ -67,25 +77,35 @@ public interface PatitoMasMasListener extends ParseTreeListener {
 	 */
 	void exitIds(PatitoMasMasParser.IdsContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link PatitoMasMasParser#id_cte}.
+	 * Enter a parse tree produced by {@link PatitoMasMasParser#dimension}.
 	 * @param ctx the parse tree
 	 */
-	void enterId_cte(PatitoMasMasParser.Id_cteContext ctx);
+	void enterDimension(PatitoMasMasParser.DimensionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link PatitoMasMasParser#id_cte}.
+	 * Exit a parse tree produced by {@link PatitoMasMasParser#dimension}.
 	 * @param ctx the parse tree
 	 */
-	void exitId_cte(PatitoMasMasParser.Id_cteContext ctx);
+	void exitDimension(PatitoMasMasParser.DimensionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link PatitoMasMasParser#functions}.
+	 * Enter a parse tree produced by {@link PatitoMasMasParser#dec_functions}.
 	 * @param ctx the parse tree
 	 */
-	void enterFunctions(PatitoMasMasParser.FunctionsContext ctx);
+	void enterDec_functions(PatitoMasMasParser.Dec_functionsContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link PatitoMasMasParser#functions}.
+	 * Exit a parse tree produced by {@link PatitoMasMasParser#dec_functions}.
 	 * @param ctx the parse tree
 	 */
-	void exitFunctions(PatitoMasMasParser.FunctionsContext ctx);
+	void exitDec_functions(PatitoMasMasParser.Dec_functionsContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PatitoMasMasParser#funcion}.
+	 * @param ctx the parse tree
+	 */
+	void enterFuncion(PatitoMasMasParser.FuncionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PatitoMasMasParser#funcion}.
+	 * @param ctx the parse tree
+	 */
+	void exitFuncion(PatitoMasMasParser.FuncionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link PatitoMasMasParser#tipo_ret}.
 	 * @param ctx the parse tree
@@ -117,16 +137,6 @@ public interface PatitoMasMasListener extends ParseTreeListener {
 	 */
 	void exitBloque_est(PatitoMasMasParser.Bloque_estContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link PatitoMasMasParser#estatutos}.
-	 * @param ctx the parse tree
-	 */
-	void enterEstatutos(PatitoMasMasParser.EstatutosContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link PatitoMasMasParser#estatutos}.
-	 * @param ctx the parse tree
-	 */
-	void exitEstatutos(PatitoMasMasParser.EstatutosContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link PatitoMasMasParser#estatuto}.
 	 * @param ctx the parse tree
 	 */
@@ -147,25 +157,25 @@ public interface PatitoMasMasListener extends ParseTreeListener {
 	 */
 	void exitAsignacion(PatitoMasMasParser.AsignacionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link PatitoMasMasParser#id_expressions}.
+	 * Enter a parse tree produced by {@link PatitoMasMasParser#var}.
 	 * @param ctx the parse tree
 	 */
-	void enterId_expressions(PatitoMasMasParser.Id_expressionsContext ctx);
+	void enterVar(PatitoMasMasParser.VarContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link PatitoMasMasParser#id_expressions}.
+	 * Exit a parse tree produced by {@link PatitoMasMasParser#var}.
 	 * @param ctx the parse tree
 	 */
-	void exitId_expressions(PatitoMasMasParser.Id_expressionsContext ctx);
+	void exitVar(PatitoMasMasParser.VarContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link PatitoMasMasParser#id_exp}.
+	 * Enter a parse tree produced by {@link PatitoMasMasParser#dim}.
 	 * @param ctx the parse tree
 	 */
-	void enterId_exp(PatitoMasMasParser.Id_expContext ctx);
+	void enterDim(PatitoMasMasParser.DimContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link PatitoMasMasParser#id_exp}.
+	 * Exit a parse tree produced by {@link PatitoMasMasParser#dim}.
 	 * @param ctx the parse tree
 	 */
-	void exitId_exp(PatitoMasMasParser.Id_expContext ctx);
+	void exitDim(PatitoMasMasParser.DimContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link PatitoMasMasParser#retorno}.
 	 * @param ctx the parse tree
@@ -187,6 +197,16 @@ public interface PatitoMasMasListener extends ParseTreeListener {
 	 */
 	void exitLectura(PatitoMasMasParser.LecturaContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link PatitoMasMasParser#lista_vars}.
+	 * @param ctx the parse tree
+	 */
+	void enterLista_vars(PatitoMasMasParser.Lista_varsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PatitoMasMasParser#lista_vars}.
+	 * @param ctx the parse tree
+	 */
+	void exitLista_vars(PatitoMasMasParser.Lista_varsContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link PatitoMasMasParser#escritura}.
 	 * @param ctx the parse tree
 	 */
@@ -206,6 +226,16 @@ public interface PatitoMasMasListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitEscrituras(PatitoMasMasParser.EscriturasContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PatitoMasMasParser#string}.
+	 * @param ctx the parse tree
+	 */
+	void enterString(PatitoMasMasParser.StringContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PatitoMasMasParser#string}.
+	 * @param ctx the parse tree
+	 */
+	void exitString(PatitoMasMasParser.StringContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link PatitoMasMasParser#decision}.
 	 * @param ctx the parse tree
@@ -277,16 +307,6 @@ public interface PatitoMasMasListener extends ParseTreeListener {
 	 */
 	void exitLlamada_est(PatitoMasMasParser.Llamada_estContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link PatitoMasMasParser#op_esp}.
-	 * @param ctx the parse tree
-	 */
-	void enterOp_esp(PatitoMasMasParser.Op_espContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link PatitoMasMasParser#op_esp}.
-	 * @param ctx the parse tree
-	 */
-	void exitOp_esp(PatitoMasMasParser.Op_espContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link PatitoMasMasParser#expresion}.
 	 * @param ctx the parse tree
 	 */
@@ -297,65 +317,75 @@ public interface PatitoMasMasListener extends ParseTreeListener {
 	 */
 	void exitExpresion(PatitoMasMasParser.ExpresionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link PatitoMasMasParser#exp_a}.
+	 * Enter a parse tree produced by {@link PatitoMasMasParser#op_log}.
 	 * @param ctx the parse tree
 	 */
-	void enterExp_a(PatitoMasMasParser.Exp_aContext ctx);
+	void enterOp_log(PatitoMasMasParser.Op_logContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link PatitoMasMasParser#exp_a}.
+	 * Exit a parse tree produced by {@link PatitoMasMasParser#op_log}.
 	 * @param ctx the parse tree
 	 */
-	void exitExp_a(PatitoMasMasParser.Exp_aContext ctx);
+	void exitOp_log(PatitoMasMasParser.Op_logContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link PatitoMasMasParser#exp_b}.
+	 * Enter a parse tree produced by {@link PatitoMasMasParser#op_comp}.
 	 * @param ctx the parse tree
 	 */
-	void enterExp_b(PatitoMasMasParser.Exp_bContext ctx);
+	void enterOp_comp(PatitoMasMasParser.Op_compContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link PatitoMasMasParser#exp_b}.
+	 * Exit a parse tree produced by {@link PatitoMasMasParser#op_comp}.
 	 * @param ctx the parse tree
 	 */
-	void exitExp_b(PatitoMasMasParser.Exp_bContext ctx);
+	void exitOp_comp(PatitoMasMasParser.Op_compContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link PatitoMasMasParser#exp_c}.
+	 * Enter a parse tree produced by {@link PatitoMasMasParser#exp}.
 	 * @param ctx the parse tree
 	 */
-	void enterExp_c(PatitoMasMasParser.Exp_cContext ctx);
+	void enterExp(PatitoMasMasParser.ExpContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link PatitoMasMasParser#exp_c}.
+	 * Exit a parse tree produced by {@link PatitoMasMasParser#exp}.
 	 * @param ctx the parse tree
 	 */
-	void exitExp_c(PatitoMasMasParser.Exp_cContext ctx);
+	void exitExp(PatitoMasMasParser.ExpContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link PatitoMasMasParser#exp_d}.
+	 * Enter a parse tree produced by {@link PatitoMasMasParser#op_arit}.
 	 * @param ctx the parse tree
 	 */
-	void enterExp_d(PatitoMasMasParser.Exp_dContext ctx);
+	void enterOp_arit(PatitoMasMasParser.Op_aritContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link PatitoMasMasParser#exp_d}.
+	 * Exit a parse tree produced by {@link PatitoMasMasParser#op_arit}.
 	 * @param ctx the parse tree
 	 */
-	void exitExp_d(PatitoMasMasParser.Exp_dContext ctx);
+	void exitOp_arit(PatitoMasMasParser.Op_aritContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link PatitoMasMasParser#exp_e}.
+	 * Enter a parse tree produced by {@link PatitoMasMasParser#term}.
 	 * @param ctx the parse tree
 	 */
-	void enterExp_e(PatitoMasMasParser.Exp_eContext ctx);
+	void enterTerm(PatitoMasMasParser.TermContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link PatitoMasMasParser#exp_e}.
+	 * Exit a parse tree produced by {@link PatitoMasMasParser#term}.
 	 * @param ctx the parse tree
 	 */
-	void exitExp_e(PatitoMasMasParser.Exp_eContext ctx);
+	void exitTerm(PatitoMasMasParser.TermContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link PatitoMasMasParser#tipo}.
+	 * Enter a parse tree produced by {@link PatitoMasMasParser#op_prod}.
 	 * @param ctx the parse tree
 	 */
-	void enterTipo(PatitoMasMasParser.TipoContext ctx);
+	void enterOp_prod(PatitoMasMasParser.Op_prodContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link PatitoMasMasParser#tipo}.
+	 * Exit a parse tree produced by {@link PatitoMasMasParser#op_prod}.
 	 * @param ctx the parse tree
 	 */
-	void exitTipo(PatitoMasMasParser.TipoContext ctx);
+	void exitOp_prod(PatitoMasMasParser.Op_prodContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PatitoMasMasParser#factor}.
+	 * @param ctx the parse tree
+	 */
+	void enterFactor(PatitoMasMasParser.FactorContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PatitoMasMasParser#factor}.
+	 * @param ctx the parse tree
+	 */
+	void exitFactor(PatitoMasMasParser.FactorContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link PatitoMasMasParser#var_cte}.
 	 * @param ctx the parse tree
@@ -366,4 +396,24 @@ public interface PatitoMasMasListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitVar_cte(PatitoMasMasParser.Var_cteContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PatitoMasMasParser#op_esp}.
+	 * @param ctx the parse tree
+	 */
+	void enterOp_esp(PatitoMasMasParser.Op_espContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PatitoMasMasParser#op_esp}.
+	 * @param ctx the parse tree
+	 */
+	void exitOp_esp(PatitoMasMasParser.Op_espContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link PatitoMasMasParser#tipo}.
+	 * @param ctx the parse tree
+	 */
+	void enterTipo(PatitoMasMasParser.TipoContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link PatitoMasMasParser#tipo}.
+	 * @param ctx the parse tree
+	 */
+	void exitTipo(PatitoMasMasParser.TipoContext ctx);
 }

@@ -35,21 +35,30 @@ class PatitoMasMasListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by PatitoMasMasParser#variables.
-    def enterVariables(self, ctx:PatitoMasMasParser.VariablesContext):
+    # Enter a parse tree produced by PatitoMasMasParser#dec_variables.
+    def enterDec_variables(self, ctx:PatitoMasMasParser.Dec_variablesContext):
         pass
 
-    # Exit a parse tree produced by PatitoMasMasParser#variables.
-    def exitVariables(self, ctx:PatitoMasMasParser.VariablesContext):
+    # Exit a parse tree produced by PatitoMasMasParser#dec_variables.
+    def exitDec_variables(self, ctx:PatitoMasMasParser.Dec_variablesContext):
         pass
 
 
-    # Enter a parse tree produced by PatitoMasMasParser#var.
-    def enterVar(self, ctx:PatitoMasMasParser.VarContext):
+    # Enter a parse tree produced by PatitoMasMasParser#dec_var.
+    def enterDec_var(self, ctx:PatitoMasMasParser.Dec_varContext):
         pass
 
-    # Exit a parse tree produced by PatitoMasMasParser#var.
-    def exitVar(self, ctx:PatitoMasMasParser.VarContext):
+    # Exit a parse tree produced by PatitoMasMasParser#dec_var.
+    def exitDec_var(self, ctx:PatitoMasMasParser.Dec_varContext):
+        pass
+
+
+    # Enter a parse tree produced by PatitoMasMasParser#lista_ids.
+    def enterLista_ids(self, ctx:PatitoMasMasParser.Lista_idsContext):
+        pass
+
+    # Exit a parse tree produced by PatitoMasMasParser#lista_ids.
+    def exitLista_ids(self, ctx:PatitoMasMasParser.Lista_idsContext):
         pass
 
 
@@ -62,21 +71,30 @@ class PatitoMasMasListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by PatitoMasMasParser#id_cte.
-    def enterId_cte(self, ctx:PatitoMasMasParser.Id_cteContext):
+    # Enter a parse tree produced by PatitoMasMasParser#dimension.
+    def enterDimension(self, ctx:PatitoMasMasParser.DimensionContext):
         pass
 
-    # Exit a parse tree produced by PatitoMasMasParser#id_cte.
-    def exitId_cte(self, ctx:PatitoMasMasParser.Id_cteContext):
+    # Exit a parse tree produced by PatitoMasMasParser#dimension.
+    def exitDimension(self, ctx:PatitoMasMasParser.DimensionContext):
         pass
 
 
-    # Enter a parse tree produced by PatitoMasMasParser#functions.
-    def enterFunctions(self, ctx:PatitoMasMasParser.FunctionsContext):
+    # Enter a parse tree produced by PatitoMasMasParser#dec_functions.
+    def enterDec_functions(self, ctx:PatitoMasMasParser.Dec_functionsContext):
         pass
 
-    # Exit a parse tree produced by PatitoMasMasParser#functions.
-    def exitFunctions(self, ctx:PatitoMasMasParser.FunctionsContext):
+    # Exit a parse tree produced by PatitoMasMasParser#dec_functions.
+    def exitDec_functions(self, ctx:PatitoMasMasParser.Dec_functionsContext):
+        pass
+
+
+    # Enter a parse tree produced by PatitoMasMasParser#funcion.
+    def enterFuncion(self, ctx:PatitoMasMasParser.FuncionContext):
+        pass
+
+    # Exit a parse tree produced by PatitoMasMasParser#funcion.
+    def exitFuncion(self, ctx:PatitoMasMasParser.FuncionContext):
         pass
 
 
@@ -107,15 +125,6 @@ class PatitoMasMasListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by PatitoMasMasParser#estatutos.
-    def enterEstatutos(self, ctx:PatitoMasMasParser.EstatutosContext):
-        pass
-
-    # Exit a parse tree produced by PatitoMasMasParser#estatutos.
-    def exitEstatutos(self, ctx:PatitoMasMasParser.EstatutosContext):
-        pass
-
-
     # Enter a parse tree produced by PatitoMasMasParser#estatuto.
     def enterEstatuto(self, ctx:PatitoMasMasParser.EstatutoContext):
         pass
@@ -134,21 +143,21 @@ class PatitoMasMasListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by PatitoMasMasParser#id_expressions.
-    def enterId_expressions(self, ctx:PatitoMasMasParser.Id_expressionsContext):
+    # Enter a parse tree produced by PatitoMasMasParser#var.
+    def enterVar(self, ctx:PatitoMasMasParser.VarContext):
         pass
 
-    # Exit a parse tree produced by PatitoMasMasParser#id_expressions.
-    def exitId_expressions(self, ctx:PatitoMasMasParser.Id_expressionsContext):
+    # Exit a parse tree produced by PatitoMasMasParser#var.
+    def exitVar(self, ctx:PatitoMasMasParser.VarContext):
         pass
 
 
-    # Enter a parse tree produced by PatitoMasMasParser#id_exp.
-    def enterId_exp(self, ctx:PatitoMasMasParser.Id_expContext):
+    # Enter a parse tree produced by PatitoMasMasParser#dim.
+    def enterDim(self, ctx:PatitoMasMasParser.DimContext):
         pass
 
-    # Exit a parse tree produced by PatitoMasMasParser#id_exp.
-    def exitId_exp(self, ctx:PatitoMasMasParser.Id_expContext):
+    # Exit a parse tree produced by PatitoMasMasParser#dim.
+    def exitDim(self, ctx:PatitoMasMasParser.DimContext):
         pass
 
 
@@ -167,6 +176,15 @@ class PatitoMasMasListener(ParseTreeListener):
 
     # Exit a parse tree produced by PatitoMasMasParser#lectura.
     def exitLectura(self, ctx:PatitoMasMasParser.LecturaContext):
+        pass
+
+
+    # Enter a parse tree produced by PatitoMasMasParser#lista_vars.
+    def enterLista_vars(self, ctx:PatitoMasMasParser.Lista_varsContext):
+        pass
+
+    # Exit a parse tree produced by PatitoMasMasParser#lista_vars.
+    def exitLista_vars(self, ctx:PatitoMasMasParser.Lista_varsContext):
         pass
 
 
@@ -260,15 +278,6 @@ class PatitoMasMasListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by PatitoMasMasParser#op_esp.
-    def enterOp_esp(self, ctx:PatitoMasMasParser.Op_espContext):
-        pass
-
-    # Exit a parse tree produced by PatitoMasMasParser#op_esp.
-    def exitOp_esp(self, ctx:PatitoMasMasParser.Op_espContext):
-        pass
-
-
     # Enter a parse tree produced by PatitoMasMasParser#expresion.
     def enterExpresion(self, ctx:PatitoMasMasParser.ExpresionContext):
         pass
@@ -278,57 +287,66 @@ class PatitoMasMasListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by PatitoMasMasParser#exp_a.
-    def enterExp_a(self, ctx:PatitoMasMasParser.Exp_aContext):
+    # Enter a parse tree produced by PatitoMasMasParser#op_log.
+    def enterOp_log(self, ctx:PatitoMasMasParser.Op_logContext):
         pass
 
-    # Exit a parse tree produced by PatitoMasMasParser#exp_a.
-    def exitExp_a(self, ctx:PatitoMasMasParser.Exp_aContext):
-        pass
-
-
-    # Enter a parse tree produced by PatitoMasMasParser#exp_b.
-    def enterExp_b(self, ctx:PatitoMasMasParser.Exp_bContext):
-        pass
-
-    # Exit a parse tree produced by PatitoMasMasParser#exp_b.
-    def exitExp_b(self, ctx:PatitoMasMasParser.Exp_bContext):
+    # Exit a parse tree produced by PatitoMasMasParser#op_log.
+    def exitOp_log(self, ctx:PatitoMasMasParser.Op_logContext):
         pass
 
 
-    # Enter a parse tree produced by PatitoMasMasParser#exp_c.
-    def enterExp_c(self, ctx:PatitoMasMasParser.Exp_cContext):
+    # Enter a parse tree produced by PatitoMasMasParser#op_comp.
+    def enterOp_comp(self, ctx:PatitoMasMasParser.Op_compContext):
         pass
 
-    # Exit a parse tree produced by PatitoMasMasParser#exp_c.
-    def exitExp_c(self, ctx:PatitoMasMasParser.Exp_cContext):
-        pass
-
-
-    # Enter a parse tree produced by PatitoMasMasParser#exp_d.
-    def enterExp_d(self, ctx:PatitoMasMasParser.Exp_dContext):
-        pass
-
-    # Exit a parse tree produced by PatitoMasMasParser#exp_d.
-    def exitExp_d(self, ctx:PatitoMasMasParser.Exp_dContext):
+    # Exit a parse tree produced by PatitoMasMasParser#op_comp.
+    def exitOp_comp(self, ctx:PatitoMasMasParser.Op_compContext):
         pass
 
 
-    # Enter a parse tree produced by PatitoMasMasParser#exp_e.
-    def enterExp_e(self, ctx:PatitoMasMasParser.Exp_eContext):
+    # Enter a parse tree produced by PatitoMasMasParser#exp.
+    def enterExp(self, ctx:PatitoMasMasParser.ExpContext):
         pass
 
-    # Exit a parse tree produced by PatitoMasMasParser#exp_e.
-    def exitExp_e(self, ctx:PatitoMasMasParser.Exp_eContext):
+    # Exit a parse tree produced by PatitoMasMasParser#exp.
+    def exitExp(self, ctx:PatitoMasMasParser.ExpContext):
         pass
 
 
-    # Enter a parse tree produced by PatitoMasMasParser#tipo.
-    def enterTipo(self, ctx:PatitoMasMasParser.TipoContext):
+    # Enter a parse tree produced by PatitoMasMasParser#op_arit.
+    def enterOp_arit(self, ctx:PatitoMasMasParser.Op_aritContext):
         pass
 
-    # Exit a parse tree produced by PatitoMasMasParser#tipo.
-    def exitTipo(self, ctx:PatitoMasMasParser.TipoContext):
+    # Exit a parse tree produced by PatitoMasMasParser#op_arit.
+    def exitOp_arit(self, ctx:PatitoMasMasParser.Op_aritContext):
+        pass
+
+
+    # Enter a parse tree produced by PatitoMasMasParser#term.
+    def enterTerm(self, ctx:PatitoMasMasParser.TermContext):
+        pass
+
+    # Exit a parse tree produced by PatitoMasMasParser#term.
+    def exitTerm(self, ctx:PatitoMasMasParser.TermContext):
+        pass
+
+
+    # Enter a parse tree produced by PatitoMasMasParser#op_prod.
+    def enterOp_prod(self, ctx:PatitoMasMasParser.Op_prodContext):
+        pass
+
+    # Exit a parse tree produced by PatitoMasMasParser#op_prod.
+    def exitOp_prod(self, ctx:PatitoMasMasParser.Op_prodContext):
+        pass
+
+
+    # Enter a parse tree produced by PatitoMasMasParser#factor.
+    def enterFactor(self, ctx:PatitoMasMasParser.FactorContext):
+        pass
+
+    # Exit a parse tree produced by PatitoMasMasParser#factor.
+    def exitFactor(self, ctx:PatitoMasMasParser.FactorContext):
         pass
 
 
@@ -338,6 +356,24 @@ class PatitoMasMasListener(ParseTreeListener):
 
     # Exit a parse tree produced by PatitoMasMasParser#var_cte.
     def exitVar_cte(self, ctx:PatitoMasMasParser.Var_cteContext):
+        pass
+
+
+    # Enter a parse tree produced by PatitoMasMasParser#op_esp.
+    def enterOp_esp(self, ctx:PatitoMasMasParser.Op_espContext):
+        pass
+
+    # Exit a parse tree produced by PatitoMasMasParser#op_esp.
+    def exitOp_esp(self, ctx:PatitoMasMasParser.Op_espContext):
+        pass
+
+
+    # Enter a parse tree produced by PatitoMasMasParser#tipo.
+    def enterTipo(self, ctx:PatitoMasMasParser.TipoContext):
+        pass
+
+    # Exit a parse tree produced by PatitoMasMasParser#tipo.
+    def exitTipo(self, ctx:PatitoMasMasParser.TipoContext):
         pass
 
 
