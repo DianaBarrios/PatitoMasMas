@@ -6,6 +6,378 @@ from PatitoMasMasParser import PatitoMasMasParser
 import sys
 import pprint
 
+cubo = {
+    '+' : {
+        'int': {
+            'int': 'int',
+            'float': 'float',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'float': {
+            'int': 'float',
+            'float': 'float',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'char': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'bool': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'void': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        }
+    },
+    '-' : {
+        'int': {
+            'int': 'int',
+            'float': 'float',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'float': {
+            'int': 'float',
+            'float': 'float',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'char': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'bool': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'void': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        }
+    },
+    '/' : {
+        'int': {
+            'int': 'float',
+            'float': 'float',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'float': {
+            'int': 'float',
+            'float': 'float',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'char': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'bool': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'void': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        }
+    },
+    '*' : {
+        'int': {
+            'int': 'int',
+            'float': 'float',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'float': {
+            'int': 'float',
+            'float': 'float',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'char': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'bool': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'void': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        }
+    },
+    '>' : {
+        'int': {
+            'int': 'bool',
+            'float': 'bool',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'float': {
+            'int': 'bool',
+            'float': 'bool',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'char': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'bool': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'void': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        }
+    },
+    '<' : {
+        'int': {
+            'int': 'bool',
+            'float': 'bool',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'float': {
+            'int': 'bool',
+            'float': 'bool',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'char': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'bool': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'void': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        }
+    },
+    '||' : {
+        'int': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'float': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'char': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'bool': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'bool',
+            'void': 'x'
+        },
+        'void': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        }
+    },
+    '&' : {
+        'int': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'float': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'char': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'bool': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'bool',
+            'void': 'x'
+        },
+        'void': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        }
+    },
+    '==' : {
+        'int': {
+            'int': 'bool',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'float': {
+            'int': 'x',
+            'float': 'bool',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'char': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'bool',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'bool': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'bool',
+            'void': 'x'
+        },
+        'void': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        }
+    },
+    '!=' : {
+        'int': {
+            'int': 'bool',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'float': {
+            'int': 'x',
+            'float': 'bool',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'char': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'bool',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'bool': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'bool',
+            'void': 'x'
+        },
+        'void': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        }
+    }
+}
 
 class Programa:
     def __init__(self, tree, rules):
@@ -411,7 +783,10 @@ def main():
     #     input_stream = FileStream("prueba.txt")
     # else:
     #     input_stream = InputStream(sys.stdin.readline())
-    input_stream = FileStream("prueba.txt")
+    if sys.argv[1] == '1':
+        input_stream = FileStream("prueba.txt")
+    else:
+        input_stream = FileStream("prueba2.txt")
 
     lexer = PatitoMasMasLexer(input_stream)
     stream = CommonTokenStream(lexer)
@@ -422,6 +797,7 @@ def main():
 
     programa = Programa(rutaInicio,parser.ruleNames)
     programa.imprimeTodo()
+    print(cubo['==']['int']['int'])
 
     # imprimeTodo(programa,parser.ruleNames)
     # traverse(programa.principal().bloque_est().estatutos(),parser.ruleNames)
