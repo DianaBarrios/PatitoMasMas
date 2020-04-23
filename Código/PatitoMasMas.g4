@@ -174,8 +174,12 @@ factor
     : var op_esp?
     | (op_arit)? var_cte
     | llamada
-    | par_empieza expresion par_termina
+    | exp_par
     ;
+
+exp_par
+  : par_empieza expresion par_termina
+  ;
 
 par_empieza
 	: '('

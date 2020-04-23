@@ -350,6 +350,15 @@ class PatitoMasMasListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by PatitoMasMasParser#exp_par.
+    def enterExp_par(self, ctx:PatitoMasMasParser.Exp_parContext):
+        pass
+
+    # Exit a parse tree produced by PatitoMasMasParser#exp_par.
+    def exitExp_par(self, ctx:PatitoMasMasParser.Exp_parContext):
+        pass
+
+
     # Enter a parse tree produced by PatitoMasMasParser#par_empieza.
     def enterPar_empieza(self, ctx:PatitoMasMasParser.Par_empiezaContext):
         pass
