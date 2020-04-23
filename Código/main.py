@@ -452,6 +452,7 @@ class Programa:
                 return False
         return False
 
+    #Funcion que regresa el tipo de una variable
     def regresaTipo(self,var,funcion):
         if self.existeVar(var,funcion):
             res = self.varGlobales.get(var, None)
@@ -469,43 +470,11 @@ class Programa:
         else:
             return False
 
+    #Funcion que regresa el JSON con la info de las vars
     def decVariables(self,tree,temp,tipo):
-        # tipoVar = tree.tipo().getText()
-        # print(tipoVar)
         if not isinstance(tree, TerminalNodeImpl):
-            # variablesGlobales(child, rule_names)
-            # print("{0}TOKEN='{1}'".format("  ", tree.getText()))
             if self.rules[tree.getRuleIndex()] == "dec_var":
                 tipo = tree.tipo().getText()
-                # print(tipoVar)
-
-                # print(tree.lista_ids())
-                # traverse(tree,self.rules)
-                # lista = tree.lista_ids().getText()
-                # print(lista)
-                # lista = lista.split(",")
-                # for elem in lista:
-                #     if elem.find("[") == -1:
-                #         temp[elem] = {'tipo': tipoVar}
-                #     else:
-                #         count = elem.count("[")
-                #         if count == 1:
-                #             indexInicio = elem.index("[")
-                #             indexFinal = elem.index("]")
-                #             nombre = elem[:indexInicio]
-                #             dim = elem[indexInicio+1:indexFinal]
-                #             temp[nombre] = {'tipo': tipoVar,'dim1': dim}
-                #         if count == 2:
-                #             indexInicio = elem.index("[")
-                #             indexFinal = elem.index("]")
-                #             indexInicio2 = elem.find("[", indexInicio + 1)
-                #             indexFinal2 = elem.find("]", indexFinal + 1)
-                #             nombre = elem[:indexInicio]
-                #             dim = elem[indexInicio+1:indexFinal]
-                #             dim2 = elem[indexInicio2+1:indexFinal2]
-                #             temp[nombre] = {'tipo': tipoVar,'dim1': dim,'dim2':dim2}
-            # elif self.rules[tree.getRuleIndex()] == "lista_ids":
-            #     print("tiene lista")
             elif self.rules[tree.getRuleIndex()] == "ids":
                 elem = tree.getText()
                 # print(tree.getText())
@@ -535,49 +504,6 @@ class Programa:
             for child in tree.children:
                 self.decVariables(child,temp,tipo)
 
-    def variablesGlobales(self, tree ,rules):
-        if not isinstance(tree, TerminalNodeImpl):
-            # variablesGlobales(child, rule_names)
-            # print("{0}TOKEN='{1}'".format("  ", tree.getText()))
-            if rules[tree.getRuleIndex()] == "var":
-                print("** Nuevas var**")
-                tipoVar = tree.tipo().getText()
-                print("Tipo var: ", tipoVar)
-                lista = tree.ids().getText()
-                lista = lista.split(",")
-                for elem in lista:
-                    if elem.find("[") == -1:
-                        self.varGlobales[elem] = {'tipo': tipoVar}
-                    else:
-                        count = elem.count("[")
-                        if count == 1:
-                            indexInicio = elem.index("[")
-                            indexFinal = elem.index("]")
-                            nombre = elem[:indexInicio]
-                            dim = elem[indexInicio+1:indexFinal]
-                            self.varGlobales[nombre] = {'tipo': tipoVar,'dim1': dim}
-                        if count == 2:
-                            indexInicio = elem.index("[")
-                            indexFinal = elem.index("]")
-                            indexInicio2 = elem.find("[", indexInicio + 1)
-                            indexFinal2 = elem.find("]", indexFinal + 1)
-                            nombre = elem[:indexInicio]
-                            dim = elem[indexInicio+1:indexFinal]
-                            dim2 = elem[indexInicio2+1:indexFinal2]
-                            self.varGlobales[nombre] = {'tipo': tipoVar,'dim1': dim,'dim2':dim2}
-
-                    # print(elem)
-                # print("Nombre var: ", lista)
-            # elif rule_names[tree.getRuleIndex()] == "tipo":
-            #     print("Tipo var: ", tree.getText())
-            # elif rule_names[tree.getRuleIndex()] == "ids":
-            #     lista = tree.getText().split(",")
-            #     print("Nombre var: ", lista)
-            for child in tree.children:
-                self.variablesGlobales(child, rules)
-        else:
-            pass
-
     def params(self,tree,temp1,temp2):
         if not isinstance(tree, TerminalNodeImpl):
             if self.rules[tree.getRuleIndex()] == "params":
@@ -589,6 +515,8 @@ class Programa:
         else:
             pass
 
+    #Funcion que actualiza el dir de funciones con los
+    #datos de las funciones del programa
     def funciones(self, tree):
         if not isinstance(tree, TerminalNodeImpl):
             # variablesGlobales(child, rule_names)
@@ -654,18 +582,18 @@ class Programa:
         pilas = {
             'pOperandos' : [],
             'pOperadores' : [],
-            'pTipos' : [],
-            'fInicio' : ['$','%','&','?','@','#'],
-            'fFinal' : ['$','%','&','?','@','#']
+            'pTipos' : []
         }
-        self.expresionHelp(tree,funcion,pilas)
+        self.expresionAux(tree,funcion,pilas)
+        # for child in tree.children:
+        #     rule = self.rules[tree.getRuleIndex()]
+        #     print("Rule: ", rule)
+        print("==== Final ====")
         print("Pila operandos:",pilas['pOperandos'])
         print("Pila tipos:",pilas['pTipos'])
         print("Pila operadores:",pilas['pOperadores'])
 
     def genQuad(self,op,left,right):
-        if type(left) == str or type(right) == str:
-            return 5
         if op == '*':
             res = left * right
         elif op == '/':
@@ -676,130 +604,360 @@ class Programa:
             res = left - right
         return res
 
-    #encuentra cada expresion en una expresion
-    def expresionHelp(self,tree,funcion,pilas):
-        llamada = False
-        # traverse(tree,self.rules)
+    def expresionAux(self,tree,funcion,pilas):
         if not isinstance(tree, TerminalNodeImpl):
-            rule = self.rules[tree.getRuleIndex()]
-            # print("Rule: ", rule)
+            if self.rules[tree.getRuleIndex()] == "expresion":
+                # print("expresion")
+                # rules = []
+                for child in tree.children:
+                    ruleChild = self.rules[child.getRuleIndex()]
+                    # rules.append(ruleChild)
+                    if ruleChild == "exp":
+                        self.expAux(child,funcion,pilas)
+                    elif ruleChild == "op_log":
+                        print("encontre & o ||")
+                    elif ruleChild == "op_comp":
+                        print("encontre < > == !=")
+                    elif ruleChild == "expresion":
+                        self.expresionAux(child,funcion,pilas)
+        else:
+            pass
 
-            if rule == "llamada":
-                self._llamada_est(tree.ID().getText(),tree.params_llamada())
-                llamada = True
-            elif rule == "var":
-                nomVar = tree.getText()
+    def expAux(self,tree,funcion,pilas):
+        if not isinstance(tree, TerminalNodeImpl):
+            if self.rules[tree.getRuleIndex()] == "exp":
+                # print("exp")
+                # print(len(tree.children))
+                # rules = []
+                for child in tree.children:
+                    ruleChild = self.rules[child.getRuleIndex()]
+                    # rules.append(ruleChild)
+                    if ruleChild == "exp":
+                        self.expAux(child,funcion,pilas)
+                    elif ruleChild == "op_arit":
+                        op = child.getText()
+                        pilas['pOperadores'].append(op)
+                        # print("encontre + o -")
+                    elif ruleChild == "term":
+                        self.termAux(child,funcion,pilas)
+
+                        if pilas['pOperadores']:
+                            op = pilas['pOperadores'][-1]
+                            if op == '+' or op == '-':
+                                if len(pilas['pOperandos']) > 1:
+
+                                    pilas['pOperadores'].pop()
+
+                                    right = pilas['pOperandos'].pop()
+                                    rightType = pilas['pTipos'].pop()
+                                    left = pilas['pOperandos'].pop()
+                                    leftType = pilas['pTipos'].pop()
+                                    tipoRes = cubo[op][rightType][leftType]
+                                    if tipoRes == "int":
+                                        right = int(right)
+                                        left = int(left)
+                                    elif tipoRes == "float":
+                                        right = float(right)
+                                        left = float(left)
+                                    # print("der: ",right,"izq:",left)
+                                    res = self.genQuad(op,left,right)
+                                    # print(res)
+                                    print("quad: ", op, left,right,res)
+
+                                    pilas['pOperandos'].append(str(res))
+                                    pilas['pTipos'].append(tipoRes)
+
+                                    print("= Pilas temporales =")
+                                    print("Pila operandos:",pilas['pOperandos'])
+                                    print("Pila tipos:",pilas['pTipos'])
+                                    print("Pila operadores:",pilas['pOperadores'])
+                                    # print(res)
+                                    # print("mayor a dos")
+                                else:
+                                    pass
+
+                            else:
+                                pass
+
+        else:
+            pass
+
+    def termAux(self,tree,funcion,pilas):
+        if not isinstance(tree, TerminalNodeImpl):
+            if self.rules[tree.getRuleIndex()] == "term":
+                # print("term")
+                # print(len(tree.children))
+                # rules = []
+                for child in tree.children:
+                    ruleChild = self.rules[child.getRuleIndex()]
+                    # rules.append(ruleChild)
+                    if ruleChild == "factor":
+                        self.factorAux(child,funcion,pilas)
+
+                        if pilas['pOperadores'] and len(pilas['pOperandos']) > 1:
+                            op = pilas['pOperadores'][-1]
+                            if op == '*' or op == '/':
+                                pilas['pOperadores'].pop()
+                                right = pilas['pOperandos'].pop()
+                                rightType = pilas['pTipos'].pop()
+                                left = pilas['pOperandos'].pop()
+                                leftType = pilas['pTipos'].pop()
+                                tipoRes = cubo[op][rightType][leftType]
+                                if tipoRes == "int":
+                                    right = int(right)
+                                    left = int(left)
+                                elif tipoRes == "float":
+                                    right = float(right)
+                                    left = float(left)
+                                # print("der: ",right,"izq:",left)
+                                res = self.genQuad(op,left,right)
+                                # print(res)
+                                print("quad: ", op, left,right,res)
+
+                                print("= Pilas temporales =")
+                                print("Pila operandos:",pilas['pOperandos'])
+                                print("Pila tipos:",pilas['pTipos'])
+                                print("Pila operadores:",pilas['pOperadores'])
+
+                                pilas['pOperandos'].append(str(res))
+                                pilas['pTipos'].append(tipoRes)
+                                    # print(res)
+                                    # print("mayor a dos"
+                            else:
+                                pass
+                    elif ruleChild == "op_prod":
+                        op = child.getText()
+                        pilas['pOperadores'].append(op)
+                    elif ruleChild == "term":
+                        self.termAux(child,funcion,pilas)
+        else:
+            pass
+
+    def factorAux(self,tree,funcion,pilas):
+        if not isinstance(tree, TerminalNodeImpl):
+            if self.rules[tree.getRuleIndex()] == "factor":
+                # print("factor")
+                # print(len(tree.children))
+                # rules = []
+                for child in tree.children:
+                    ruleChild = self.rules[child.getRuleIndex()]
+                    # rules.append(ruleChild)
+                    if ruleChild == "var":
+                        self.varAux(child,funcion,pilas)
+                        # self.factorAux(child,funcion,pilas)
+                    elif ruleChild == "var_cte":
+                        self.varcteAux(child,funcion,pilas)
+                    elif ruleChild == "op_esp":
+                        print("encontre $ ? ¡")
+                    elif ruleChild == "op_arit":
+                        print("encontre + -")
+                    elif ruleChild == "exp_par":
+                        # print("encontre algo con parentesis")
+                        self.parentesisAux(child,funcion,pilas)
+                    elif ruleChild == "llamada":
+                        print("encontre llamada a fun")
+                        # self.termAux(child,funcion,pilas)
+        else:
+            pass
+
+    def parentesisAux(self,tree,funcion,pilas):
+        if not isinstance(tree, TerminalNodeImpl):
+            if self.rules[tree.getRuleIndex()] == "exp_par":
+                # print("exp_par")
+                # print(len(tree.children))
+                # rules = []
+                for child in tree.children:
+                    ruleChild = self.rules[child.getRuleIndex()]
+                    # rules.append(ruleChild)
+                    if ruleChild == "par_empieza":
+                        pilas['pOperadores'].append('$')
+                        # print("meti el par")
+                    elif ruleChild == "par_termina":
+                        if pilas['pOperadores'][-1] == '$':
+                            pilas['pOperadores'].pop()
+                            # print("saque el par")
+                    elif ruleChild == "expresion":
+                        self.expresionAux(child,funcion,pilas)
+        else:
+            pass
+
+    def varAux(self,tree,funcion,pilas):
+        if not isinstance(tree, TerminalNodeImpl):
+            if self.rules[tree.getRuleIndex()] == "var":
+                nomVar = tree.ID().getText()
                 # print("Var : " , nomVar)
                 tipo = self.regresaTipo(tree.ID().getText(),funcion)
 
                 pilas['pTipos'].append(tipo)
                 pilas['pOperandos'].append(nomVar)
+
                 if tipo == False:
                     print("Error, no existe la variable")
                     return
-            elif rule == "var_cte":
-                cte = tree.getText()
-                if cte.find('.') != -1:
-                    tipo = "float"
-                else:
-                    tipo = "int"
-                pilas['pTipos'].append(tipo)
-                pilas['pOperandos'].append(cte)
-            elif rule == "factor":
-                if pilas['pOperadores']:
-                    op = pilas['pOperadores'][-1]
-                    if op == '*' or op == '/':
-                        pilas['pOperadores'].pop()
-                        right = pilas['pOperandos'].pop()
-                        rightType = pilas['pTipos'].pop()
-                        left = pilas['pOperandos'].pop()
-                        leftType = pilas['pTipos'].pop()
-                        tipoRes = cubo[op][rightType][leftType]
-                        res = self.genQuad(op,left,right)
-                        print("quad: ", op, left,right,res)
-                        pilas['pOperandos'].append(res)
-                        pilas['pTipos'].append(tipoRes)
-                        # print(res)
 
-                        print("encontre mult o div: ", tipoRes)
-            elif rule == "term":
-                if pilas['pOperadores']:
-                    print(pilas['pOperandos'])
-                    # op = pilas['pOperadores'][-1]
-                    # if op == '+' or op == '-':
-                    #     pilas['pOperadores'].pop()
-                    #     right = pilas['pOperandos'].pop()
-                    #     rightType = pilas['pTipos'].pop()
-                    #     left = pilas['pOperandos'].pop()
-                    #     leftType = pilas['pTipos'].pop()
-                    #     tipoRes = cubo[op][rightType][leftType]
-                    #     res = self.genQuad(op,left,right)
-                    #     pilas['pOperandos'].append(res)
-                    #     pilas['pTipos'].append(tipoRes)
-                        # pilas['pOperadores'].pop()
-                        # right = pilas['pOperandos'].pop()
-                        # rightType = pilas['pTipos'].pop()
-                        # left = pilas['pOperandos'].pop()
-                        # leftType = pilas['pTipos'].pop()
-                        # tipoRes = cubo[op][rightType][leftType]
-                    print("encontre suma o resta: ")
-            # elif rule == "factor":
-            #     for child in tree.children:
-            #         ruleChild = self.rules[child.getRuleIndex()]
-            #         if ruleChild == "var":
-            #             nomVar = child.getText()
-            #             # print("Var : " , nomVar)
-            #             tipo = self.regresaTipo(child.ID().getText(),funcion)
-            #
-            #             pilas['pTipos'].append(tipo)
-            #             pilas['pOperandos'].append(nomVar)
-            #             if tipo == False:
-            #                 print("Error, no existe la variable")
-            #                 return
-            #             # print("Tipo: ", tipo)
-            #             # print(tree.getText())
-            #         elif ruleChild == "var_cte":
-            #             cte = child.getText()
-            #             if cte.find('.') != -1:
-            #                 tipo = "float"
-            #             else:
-            #                 tipo = "int"
-            #             pilas['pTipos'].append(tipo)
-            #             pilas['pOperandos'].append(cte)
-            elif rule == "op_prod":
-                op = tree.getText()
-                pilas['pOperadores'].append(op)
-                # print("mult o div: ", op)
-            elif rule == "op_arit":
-                op = tree.getText()
-                pilas['pOperadores'].append(op)
-            elif rule == "par_empieza":
-                ff = pilas['fInicio'].pop()
-                pilas['pOperadores'].append(ff)
+                # dims = []
+                for child in tree.children:
+                    if not isinstance(child, TerminalNodeImpl):
+                        ruleChild = self.rules[child.getRuleIndex()]
+                        # rules.append(ruleChild)
+                        if ruleChild == "dim":
+                            self.expresionAux(child.expresion(),funcion,pilas)
+                            # print(child.expresion().getText())
+                            # dims.append(child.getText())
+                # print(dims)
+        else:
+            pass
 
+    def varcteAux(self,tree,funcion,pilas):
+        if not isinstance(tree, TerminalNodeImpl):
+            if self.rules[tree.getRuleIndex()] == "var_cte":
+                for child in tree.children:
+                    if not isinstance(child, TerminalNodeImpl):
+                        ruleChild = self.rules[child.getRuleIndex()]
+                        # rules.append(ruleChild)
+                        if ruleChild == "var":
+                            self.varAux(child,funcion,pilas)
+                    else:
+                        cte = tree.getText()
+                        if cte.find('.') != -1:
+                            tipo = "float"
+                        else:
+                            tipo = "int"
 
-                # print(pilas['pOperadores'][-1])
-                # if not pilas['pOperadores']:
-                #     print("lista vacia")
-                #     pass
-                # else:
-                #     op = pilas['pOperadores'][-1]
-                #     if op == '*' or op == '/':
-                #         print("encontre mult o div")
-                #     print()
-                # print("encontre term")
-            # elif rule == "par_termina":
-            #     # ff = pilas['fFinal'].pop()
-            #     # if pilas['pOperadores'].top() == ff:
-            #     pilas['pOperadores'].pop()
-                # pilas['pOperadores'].append(ff)
+                        pilas['pTipos'].append(tipo)
+                        pilas['pOperandos'].append(cte)
 
-                # print("suma o resta: ", op)
+                            # print(child.expresion().getText())
+                            # dims.append(child.getText())
+                # print(dims)
+        else:
+            pass
 
-
-            for child in tree.children:
-                if not isinstance(child, TerminalNodeImpl) and not llamada:
-                    self.expresionHelp(child,funcion,pilas)
+    #encuentra cada expresion en una expresion
+    # def expresionHelp(self,tree,funcion,pilas):
+    #     llamada = False
+    #     # traverse(tree,self.rules)
+    #     if not isinstance(tree, TerminalNodeImpl):
+    #         rule = self.rules[tree.getRuleIndex()]
+    #         print("Rule: ", rule)
+    #
+    #         if rule == "llamada":
+    #             self._llamada_est(tree.ID().getText(),tree.params_llamada())
+    #             llamada = True
+    #         elif rule == "var":
+    #             nomVar = tree.getText()
+    #             # print("Var : " , nomVar)
+    #             tipo = self.regresaTipo(tree.ID().getText(),funcion)
+    #
+    #             pilas['pTipos'].append(tipo)
+    #             pilas['pOperandos'].append(nomVar)
+    #             if tipo == False:
+    #                 print("Error, no existe la variable")
+    #                 return
+    #         elif rule == "var_cte":
+    #             cte = tree.getText()
+    #             if cte.find('.') != -1:
+    #                 tipo = "float"
+    #             else:
+    #                 tipo = "int"
+    #             pilas['pTipos'].append(tipo)
+    #             pilas['pOperandos'].append(cte)
+    #         elif rule == "factor":
+    #             if pilas['pOperadores']:
+    #                 op = pilas['pOperadores'][-1]
+    #                 if op == '*' or op == '/':
+    #                     print("encontre", op)
+    #                     # pilas['pOperadores'].pop()
+    #                     # right = pilas['pOperandos'].pop()
+    #                     # rightType = pilas['pTipos'].pop()
+    #                     # left = pilas['pOperandos'].pop()
+    #                     # leftType = pilas['pTipos'].pop()
+    #                     # tipoRes = cubo[op][rightType][leftType]
+    #                     # res = self.genQuad(op,left,right)
+    #                     # print("quad: ", op, left,right,res)
+    #                     # pilas['pOperandos'].append(res)
+    #                     # pilas['pTipos'].append(tipoRes)
+    #                     # print(res)
+    #
+    #                     # print("encontre mult o div: ", tipoRes)
+    #         elif rule == "term":
+    #             if pilas['pOperadores']:
+    #                 print(pilas['pOperandos'])
+    #                 # op = pilas['pOperadores'][-1]
+    #                 # if op == '+' or op == '-':
+    #                 #     pilas['pOperadores'].pop()
+    #                 #     right = pilas['pOperandos'].pop()
+    #                 #     rightType = pilas['pTipos'].pop()
+    #                 #     left = pilas['pOperandos'].pop()
+    #                 #     leftType = pilas['pTipos'].pop()
+    #                 #     tipoRes = cubo[op][rightType][leftType]
+    #                 #     res = self.genQuad(op,left,right)
+    #                 #     pilas['pOperandos'].append(res)
+    #                 #     pilas['pTipos'].append(tipoRes)
+    #                     # pilas['pOperadores'].pop()
+    #                     # right = pilas['pOperandos'].pop()
+    #                     # rightType = pilas['pTipos'].pop()
+    #                     # left = pilas['pOperandos'].pop()
+    #                     # leftType = pilas['pTipos'].pop()
+    #                     # tipoRes = cubo[op][rightType][leftType]
+    #                 print("encontre suma o resta: ")
+    #         # elif rule == "factor":
+    #         #     for child in tree.children:
+    #         #         ruleChild = self.rules[child.getRuleIndex()]
+    #         #         if ruleChild == "var":
+    #         #             nomVar = child.getText()
+    #         #             # print("Var : " , nomVar)
+    #         #             tipo = self.regresaTipo(child.ID().getText(),funcion)
+    #         #
+    #         #             pilas['pTipos'].append(tipo)
+    #         #             pilas['pOperandos'].append(nomVar)
+    #         #             if tipo == False:
+    #         #                 print("Error, no existe la variable")
+    #         #                 return
+    #         #             # print("Tipo: ", tipo)
+    #         #             # print(tree.getText())
+    #         #         elif ruleChild == "var_cte":
+    #         #             cte = child.getText()
+    #         #             if cte.find('.') != -1:
+    #         #                 tipo = "float"
+    #         #             else:
+    #         #                 tipo = "int"
+    #         #             pilas['pTipos'].append(tipo)
+    #         #             pilas['pOperandos'].append(cte)
+    #         elif rule == "op_prod":
+    #             op = tree.getText()
+    #             pilas['pOperadores'].append(op)
+    #             # print("mult o div: ", op)
+    #         elif rule == "op_arit":
+    #             op = tree.getText()
+    #             pilas['pOperadores'].append(op)
+    #         elif rule == "par_empieza":
+    #             ff = pilas['fInicio'].pop()
+    #             pilas['pOperadores'].append(ff)
+    #
+    #
+    #             # print(pilas['pOperadores'][-1])
+    #             # if not pilas['pOperadores']:
+    #             #     print("lista vacia")
+    #             #     pass
+    #             # else:
+    #             #     op = pilas['pOperadores'][-1]
+    #             #     if op == '*' or op == '/':
+    #             #         print("encontre mult o div")
+    #             #     print()
+    #             # print("encontre term")
+    #         # elif rule == "par_termina":
+    #         #     # ff = pilas['fFinal'].pop()
+    #         #     # if pilas['pOperadores'].top() == ff:
+    #         #     pilas['pOperadores'].pop()
+    #             # pilas['pOperadores'].append(ff)
+    #
+    #             # print("suma o resta: ", op)
+    #
+    #
+    #         for child in tree.children:
+    #             if not isinstance(child, TerminalNodeImpl) and not llamada:
+    #                 self.expresionHelp(child,funcion,pilas)
                     # self.expresion2(child,funcion)
                     # traverse(child,self.rules)
         #             # print("No term: ", child.getText())
@@ -1091,20 +1249,20 @@ class Programa:
             pass
 
 
-def imprimeTodo(programa,reglas):
-    p1 = Programa(programa,reglas)
-    print("===== Nombre Programa =====")
-    print(programa.ID())
-    print("===== Variables =====")
-    p1.variablesGlobales(p1.tree.variables().var(),p1.rules)
-    # p1.llamadaglobales(p1.tree.variables().var(),p1.rules)
-    # variablesGlobales(programa.variables().var(),reglas)
-    print("===== Funciones =====")
-    p1.funciones(p1.tree.functions(),p1.rules)
-    # funciones(programa.functions(),reglas)
-    print("===== Main =====")
-    p1.evaluarFun(p1.tree.principal().bloque_est().estatutos(),p1.rules)
-    # evaluarFun(programa.principal().bloque_est().estatutos(),reglas)
+# def imprimeTodo(programa,reglas):
+#     p1 = Programa(programa,reglas)
+#     print("===== Nombre Programa =====")
+#     print(programa.ID())
+#     print("===== Variables =====")
+#     p1.variablesGlobales(p1.tree.variables().var(),p1.rules)
+#     # p1.llamadaglobales(p1.tree.variables().var(),p1.rules)
+#     # variablesGlobales(programa.variables().var(),reglas)
+#     print("===== Funciones =====")
+#     p1.funciones(p1.tree.functions(),p1.rules)
+#     # funciones(programa.functions(),reglas)
+#     print("===== Main =====")
+#     p1.evaluarFun(p1.tree.principal().bloque_est().estatutos(),p1.rules)
+#     # evaluarFun(programa.principal().bloque_est().estatutos(),reglas)
 
 def main():
     # L = PatitoMasMasLexer.Lexer(f)

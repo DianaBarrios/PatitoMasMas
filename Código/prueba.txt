@@ -18,8 +18,7 @@ var int c;
 }
 principal(){
   dos(a,b);
-  escribe("imprime",17, "dentro del main", (16 - 6) + i * (5.25 * 20 - 10) + 45);
-  regresa(x);
+  escribe("imprime",17-6+5-255+27 + (3+(10+(5-10)-70)-2-23+1) + (2*100) + (2000 * 2), "dentro del main");
   lee(j);
   fact(x,y,z);
   escribe("si","jala");
