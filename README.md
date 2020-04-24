@@ -8,7 +8,7 @@
 
 **Regenerar g4**
 ```sh
-$ antlr4 -Dlanguage=Python3 PatitoMasMas.g4
+antlr4 -Dlanguage=Python3 PatitoMasMas.g4
 ```
 
 **Correr main**
