@@ -602,6 +602,18 @@ class Programa:
             res = left + right
         elif op == '-':
             res = left - right
+        elif op == '<':
+            res = left < right
+        elif op == '>':
+            res = left > right
+        elif op == '==':
+            res = (left == right)
+        elif op == '!=':
+            res = (left != right)
+        elif op == '&':
+            res = (left and right)
+        elif op == '||':
+            res = (left or right)
         return res
 
     def expresionAux(self,tree,funcion,pilas):
@@ -614,12 +626,92 @@ class Programa:
                     # rules.append(ruleChild)
                     if ruleChild == "exp":
                         self.expAux(child,funcion,pilas)
+                        if pilas['pOperadores']:
+                            op = pilas['pOperadores'][-1]
+                            if op == '<' or op == '>' or op == '==' or op == '!=':
+                                if len(pilas['pOperandos']) > 1:
+
+                                    pilas['pOperadores'].pop()
+
+                                    right = pilas['pOperandos'].pop()
+                                    rightType = pilas['pTipos'].pop()
+                                    left = pilas['pOperandos'].pop()
+                                    leftType = pilas['pTipos'].pop()
+                                    tipoRes = cubo[op][rightType][leftType]
+                                    if tipoRes == "x":
+                                        print("Operacion no valida")
+                                    elif tipoRes == "int":
+                                        right = int(right)
+                                        left = int(left)
+                                    elif tipoRes == "float":
+                                        right = float(right)
+                                        left = float(left)
+                                    # print("der: ",right,"izq:",left)
+                                    res = self.genQuad(op,left,right)
+                                    # print(res)
+                                    print("quad: ", op, left,right,res)
+
+                                    pilas['pOperandos'].append(str(res))
+                                    pilas['pTipos'].append(tipoRes)
+                                    #
+                                    # print("= Pilas temporales =")
+                                    # print("Pila operandos:",pilas['pOperandos'])
+                                    # print("Pila tipos:",pilas['pTipos'])
+                                    # print("Pila operadores:",pilas['pOperadores'])
+                                    # print(res)
+                                    # print("mayor a dos")
+                                else:
+                                    pass
+
+                            else:
+                                pass
                     elif ruleChild == "op_log":
-                        print("encontre & o ||")
+                        op = child.getText()
+                        pilas['pOperadores'].append(op)
                     elif ruleChild == "op_comp":
-                        print("encontre < > == !=")
+                        op = child.getText()
+                        pilas['pOperadores'].append(op)
                     elif ruleChild == "expresion":
                         self.expresionAux(child,funcion,pilas)
+                        if pilas['pOperadores']:
+                            op = pilas['pOperadores'][-1]
+                            if op == '||' or op == '&':
+                                if len(pilas['pOperandos']) > 1:
+
+                                    pilas['pOperadores'].pop()
+
+                                    right = pilas['pOperandos'].pop()
+                                    rightType = pilas['pTipos'].pop()
+                                    left = pilas['pOperandos'].pop()
+                                    leftType = pilas['pTipos'].pop()
+                                    tipoRes = cubo[op][rightType][leftType]
+                                    if tipoRes == "x":
+                                        print("Operacion no valida")
+                                    elif tipoRes == "int":
+                                        right = int(right)
+                                        left = int(left)
+                                    elif tipoRes == "float":
+                                        right = float(right)
+                                        left = float(left)
+                                    # print("der: ",right,"izq:",left)
+                                    res = self.genQuad(op,left,right)
+                                    # print(res)
+                                    print("quad: ", op, left,right,res)
+
+                                    pilas['pOperandos'].append(str(res))
+                                    pilas['pTipos'].append(tipoRes)
+
+                                    # print("= Pilas temporales =")
+                                    # print("Pila operandos:",pilas['pOperandos'])
+                                    # print("Pila tipos:",pilas['pTipos'])
+                                    # print("Pila operadores:",pilas['pOperadores'])
+                                    # # print(res)
+                                    # print("mayor a dos")
+                                else:
+                                    pass
+
+                            else:
+                                pass
         else:
             pass
 
@@ -653,7 +745,9 @@ class Programa:
                                     left = pilas['pOperandos'].pop()
                                     leftType = pilas['pTipos'].pop()
                                     tipoRes = cubo[op][rightType][leftType]
-                                    if tipoRes == "int":
+                                    if tipoRes == "x":
+                                        print("Operacion no valida")
+                                    elif tipoRes == "int":
                                         right = int(right)
                                         left = int(left)
                                     elif tipoRes == "float":
@@ -666,12 +760,12 @@ class Programa:
 
                                     pilas['pOperandos'].append(str(res))
                                     pilas['pTipos'].append(tipoRes)
-
-                                    print("= Pilas temporales =")
-                                    print("Pila operandos:",pilas['pOperandos'])
-                                    print("Pila tipos:",pilas['pTipos'])
-                                    print("Pila operadores:",pilas['pOperadores'])
-                                    # print(res)
+                                    #
+                                    # print("= Pilas temporales =")
+                                    # print("Pila operandos:",pilas['pOperandos'])
+                                    # print("Pila tipos:",pilas['pTipos'])
+                                    # print("Pila operadores:",pilas['pOperadores'])
+                                    # # print(res)
                                     # print("mayor a dos")
                                 else:
                                     pass
@@ -703,7 +797,9 @@ class Programa:
                                 left = pilas['pOperandos'].pop()
                                 leftType = pilas['pTipos'].pop()
                                 tipoRes = cubo[op][rightType][leftType]
-                                if tipoRes == "int":
+                                if tipoRes == "x":
+                                    print("Operacion no valida")
+                                elif tipoRes == "int":
                                     right = int(right)
                                     left = int(left)
                                 elif tipoRes == "float":
@@ -714,10 +810,10 @@ class Programa:
                                 # print(res)
                                 print("quad: ", op, left,right,res)
 
-                                print("= Pilas temporales =")
-                                print("Pila operandos:",pilas['pOperandos'])
-                                print("Pila tipos:",pilas['pTipos'])
-                                print("Pila operadores:",pilas['pOperadores'])
+                                # print("= Pilas temporales =")
+                                # print("Pila operandos:",pilas['pOperandos'])
+                                # print("Pila tipos:",pilas['pTipos'])
+                                # print("Pila operadores:",pilas['pOperadores'])
 
                                 pilas['pOperandos'].append(str(res))
                                 pilas['pTipos'].append(tipoRes)
@@ -821,11 +917,18 @@ class Programa:
                         cte = tree.getText()
                         if cte.find('.') != -1:
                             tipo = "float"
+                        elif cte.find("''") != 1:
+                            tipo = "char"
+                            cte = cte.replace("'","")
                         else:
                             tipo = "int"
 
                         pilas['pTipos'].append(tipo)
                         pilas['pOperandos'].append(cte)
+                        # print("= Pilas temporales =")
+                        # print("Pila operandos:",pilas['pOperandos'])
+                        # print("Pila tipos:",pilas['pTipos'])
+                        # print("Pila operadores:",pilas['pOperadores'])
 
                             # print(child.expresion().getText())
                             # dims.append(child.getText())

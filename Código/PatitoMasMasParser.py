@@ -12,7 +12,7 @@ else:
 def serializedATN():
     with StringIO() as buf:
         buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\63")
-        buf.write("\u015b\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
+        buf.write("\u015c\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
         buf.write("\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f\t\f\4\r\t\r\4\16")
         buf.write("\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22\4\23\t\23")
         buf.write("\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31")
@@ -42,11 +42,11 @@ def serializedATN():
         buf.write("!\3!\3\"\3\"\3#\3#\3#\3#\3#\5#\u0131\n#\3$\3$\3%\3%\3")
         buf.write("%\3%\3%\5%\u013a\n%\3&\3&\3\'\3\'\5\'\u0140\n\'\3\'\5")
         buf.write("\'\u0143\n\'\3\'\3\'\3\'\5\'\u0148\n\'\3(\3(\3(\3(\3)")
-        buf.write("\3)\3*\3*\3+\3+\3+\5+\u0155\n+\3,\3,\3-\3-\3-\2\3>.\2")
-        buf.write("\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60\62\64")
-        buf.write("\668:<>@BDFHJLNPRTVX\2\b\3\2\f\r\3\2\16\21\3\2\22\23\3")
-        buf.write("\2\24\25\3\2\26\30\3\2()\2\u0156\2[\3\2\2\2\4_\3\2\2\2")
-        buf.write("\6j\3\2\2\2\bm\3\2\2\2\ns\3\2\2\2\f{\3\2\2\2\16\u0080")
+        buf.write("\3)\3*\3*\3+\3+\3+\3+\5+\u0156\n+\3,\3,\3-\3-\3-\2\3>")
+        buf.write(".\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60\62")
+        buf.write("\64\668:<>@BDFHJLNPRTVX\2\b\3\2\f\r\3\2\16\21\3\2\22\23")
+        buf.write("\3\2\24\25\3\2\26\30\3\2()\2\u0158\2[\3\2\2\2\4_\3\2\2")
+        buf.write("\2\6j\3\2\2\2\bm\3\2\2\2\ns\3\2\2\2\f{\3\2\2\2\16\u0080")
         buf.write("\3\2\2\2\20\u0087\3\2\2\2\22\u008c\3\2\2\2\24\u0090\3")
         buf.write("\2\2\2\26\u00a0\3\2\2\2\30\u00a2\3\2\2\2\32\u00a8\3\2")
         buf.write("\2\2\34\u00b8\3\2\2\2\36\u00ba\3\2\2\2 \u00bf\3\2\2\2")
@@ -57,7 +57,7 @@ def serializedATN():
         buf.write("\2\2\2>\u011c\3\2\2\2@\u0127\3\2\2\2B\u0129\3\2\2\2D\u0130")
         buf.write("\3\2\2\2F\u0132\3\2\2\2H\u0139\3\2\2\2J\u013b\3\2\2\2")
         buf.write("L\u0147\3\2\2\2N\u0149\3\2\2\2P\u014d\3\2\2\2R\u014f\3")
-        buf.write("\2\2\2T\u0154\3\2\2\2V\u0156\3\2\2\2X\u0158\3\2\2\2Z\\")
+        buf.write("\2\2\2T\u0155\3\2\2\2V\u0157\3\2\2\2X\u0159\3\2\2\2Z\\")
         buf.write("\5\4\3\2[Z\3\2\2\2[\\\3\2\2\2\\]\3\2\2\2]^\7\2\2\3^\3")
         buf.write("\3\2\2\2_`\7\31\2\2`a\7,\2\2ac\7\3\2\2bd\5\b\5\2cb\3\2")
         buf.write("\2\2cd\3\2\2\2df\3\2\2\2eg\5\22\n\2fe\3\2\2\2fg\3\2\2")
@@ -151,14 +151,14 @@ def serializedATN():
         buf.write("\u0145\3\2\2\2\u0147\u0146\3\2\2\2\u0148M\3\2\2\2\u0149")
         buf.write("\u014a\5P)\2\u014a\u014b\5> \2\u014b\u014c\5R*\2\u014c")
         buf.write("O\3\2\2\2\u014d\u014e\7\7\2\2\u014eQ\3\2\2\2\u014f\u0150")
-        buf.write("\7\b\2\2\u0150S\3\2\2\2\u0151\u0155\5 \21\2\u0152\u0155")
-        buf.write("\7-\2\2\u0153\u0155\7.\2\2\u0154\u0151\3\2\2\2\u0154\u0152")
-        buf.write("\3\2\2\2\u0154\u0153\3\2\2\2\u0155U\3\2\2\2\u0156\u0157")
-        buf.write("\t\6\2\2\u0157W\3\2\2\2\u0158\u0159\t\7\2\2\u0159Y\3\2")
-        buf.write("\2\2\"[cfqw~\u0082\u0085\u008e\u0095\u009a\u00a0\u00a6")
-        buf.write("\u00ac\u00b8\u00c1\u00c4\u00d9\u00e3\u00e7\u00f3\u00f7")
-        buf.write("\u010a\u0111\u011c\u0124\u0130\u0139\u013f\u0142\u0147")
-        buf.write("\u0154")
+        buf.write("\7\b\2\2\u0150S\3\2\2\2\u0151\u0156\5 \21\2\u0152\u0156")
+        buf.write("\7-\2\2\u0153\u0156\7.\2\2\u0154\u0156\7/\2\2\u0155\u0151")
+        buf.write("\3\2\2\2\u0155\u0152\3\2\2\2\u0155\u0153\3\2\2\2\u0155")
+        buf.write("\u0154\3\2\2\2\u0156U\3\2\2\2\u0157\u0158\t\6\2\2\u0158")
+        buf.write("W\3\2\2\2\u0159\u015a\t\7\2\2\u015aY\3\2\2\2\"[cfqw~\u0082")
+        buf.write("\u0085\u008e\u0095\u009a\u00a0\u00a6\u00ac\u00b8\u00c1")
+        buf.write("\u00c4\u00d9\u00e3\u00e7\u00f3\u00f7\u010a\u0111\u011c")
+        buf.write("\u0124\u0130\u0139\u013f\u0142\u0147\u0155")
         return buf.getvalue()
 
 
@@ -1614,7 +1614,7 @@ class PatitoMasMasParser ( Parser ):
                 self.state = 223
                 self.string()
                 pass
-            elif token in [PatitoMasMasParser.T__4, PatitoMasMasParser.T__15, PatitoMasMasParser.T__16, PatitoMasMasParser.ID, PatitoMasMasParser.CTE_INT, PatitoMasMasParser.CTE_FLOAT]:
+            elif token in [PatitoMasMasParser.T__4, PatitoMasMasParser.T__15, PatitoMasMasParser.T__16, PatitoMasMasParser.ID, PatitoMasMasParser.CTE_INT, PatitoMasMasParser.CTE_FLOAT, PatitoMasMasParser.CTE_CHAR]:
                 self.state = 224
                 self.expresion(0)
                 pass
@@ -1989,7 +1989,7 @@ class PatitoMasMasParser ( Parser ):
             self.state = 264
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            if (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << PatitoMasMasParser.T__4) | (1 << PatitoMasMasParser.T__15) | (1 << PatitoMasMasParser.T__16) | (1 << PatitoMasMasParser.ID) | (1 << PatitoMasMasParser.CTE_INT) | (1 << PatitoMasMasParser.CTE_FLOAT))) != 0):
+            if (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << PatitoMasMasParser.T__4) | (1 << PatitoMasMasParser.T__15) | (1 << PatitoMasMasParser.T__16) | (1 << PatitoMasMasParser.ID) | (1 << PatitoMasMasParser.CTE_INT) | (1 << PatitoMasMasParser.CTE_FLOAT) | (1 << PatitoMasMasParser.CTE_CHAR))) != 0):
                 self.state = 263
                 self.params_llamada()
 
@@ -2760,6 +2760,9 @@ class PatitoMasMasParser ( Parser ):
         def CTE_FLOAT(self):
             return self.getToken(PatitoMasMasParser.CTE_FLOAT, 0)
 
+        def CTE_CHAR(self):
+            return self.getToken(PatitoMasMasParser.CTE_CHAR, 0)
+
         def getRuleIndex(self):
             return PatitoMasMasParser.RULE_var_cte
 
@@ -2779,7 +2782,7 @@ class PatitoMasMasParser ( Parser ):
         localctx = PatitoMasMasParser.Var_cteContext(self, self._ctx, self.state)
         self.enterRule(localctx, 82, self.RULE_var_cte)
         try:
-            self.state = 338
+            self.state = 339
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [PatitoMasMasParser.ID]:
@@ -2796,6 +2799,11 @@ class PatitoMasMasParser ( Parser ):
                 self.enterOuterAlt(localctx, 3)
                 self.state = 337
                 self.match(PatitoMasMasParser.CTE_FLOAT)
+                pass
+            elif token in [PatitoMasMasParser.CTE_CHAR]:
+                self.enterOuterAlt(localctx, 4)
+                self.state = 338
+                self.match(PatitoMasMasParser.CTE_CHAR)
                 pass
             else:
                 raise NoViableAltException(self)
@@ -2837,7 +2845,7 @@ class PatitoMasMasParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 340
+            self.state = 341
             _la = self._input.LA(1)
             if not((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << PatitoMasMasParser.T__19) | (1 << PatitoMasMasParser.T__20) | (1 << PatitoMasMasParser.T__21))) != 0)):
                 self._errHandler.recoverInline(self)
@@ -2886,7 +2894,7 @@ class PatitoMasMasParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 342
+            self.state = 343
             _la = self._input.LA(1)
             if not(_la==PatitoMasMasParser.Int or _la==PatitoMasMasParser.Float):
                 self._errHandler.recoverInline(self)

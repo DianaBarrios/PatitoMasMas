@@ -1,8 +1,26 @@
 ## Patito++
 
- - Proyecto final - Diseño de compiladores 
+ - Proyecto final - Diseño de compiladores
  - Febrero - Junio 2020
  - Equipo 14
+
+## Comandos
+
+**Regenerar g4**
+```sh
+$ antlr4 -Dlanguage=Python3 PatitoMasMas.g4
+```
+
+**Correr main**
+prueba.txt
+```sh
+python3 main.py 1
+```
+
+prueba2.txt
+```sh
+python3 main.py 2
+```
 
 ## Equipo
 

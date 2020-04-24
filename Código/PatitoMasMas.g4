@@ -193,6 +193,7 @@ var_cte
     : var
     | CTE_INT
     | CTE_FLOAT
+    | CTE_CHAR
     ;
 
 op_esp
