@@ -420,8 +420,8 @@ class Programa:
         print("===== Main =====")
         self.evaluarBloqueEst(self.tree.principal().bloque_est(),"main")
 
-        for line in self.pila:
-            print(line)
+        for i in range(len(self.pila)):
+            print(i+1, ".-",self.pila[i])
         # print(self.pila)
         # self.evaluarFun(self.tree.principal().bloque_est(),"main")
 
@@ -1010,7 +1010,7 @@ class Programa:
                                 self.est_decision(child2,funcion)
                             elif regla == "repeticion":
                                 # print("*** Repeticion ***")
-                                self.est_repeticion(child2.getText())
+                                self.est_repeticion(child2,funcion)
                             elif regla == "llamada_est":
                                 # print("*** Llamada ***")
                                 self.est_llamada_est(child2.llamada_est().llamada().ID().getText(),tree.llamada_est().llamada().params_llamada())
@@ -1154,8 +1154,66 @@ class Programa:
         #chec var existe en funcion
         #llama al exp y asigna el valor
 
-    def est_repeticion(self, codigo):
-        print(codigo)
+    def est_repeticion(self, tree,funcion):
+        if not isinstance(tree, TerminalNodeImpl):
+            if self.rules[tree.getRuleIndex()] == "repeticion":
+                for child in tree.children:
+                    regla = self.rules[child.getRuleIndex()]
+                    if regla == "condicional":
+                        self.est_condicional(child,funcion)
+                    elif regla == "no_condicional":
+                        self.est_nocondicional(child,funcion)
+
+    def est_condicional(self, tree,funcion):
+        pSaltos = []
+        if not isinstance(tree, TerminalNodeImpl):
+            if self.rules[tree.getRuleIndex()] == "condicional":
+                for child in tree.children:
+                    # print("hijo")
+                    if not isinstance(child, TerminalNodeImpl):
+                        ruleChild = self.rules[child.getRuleIndex()]
+                        if ruleChild == "expresion":
+                            pSaltos.append(len(self.pila))
+                            self.expresion(child,funcion)
+                            #print("quad: gotof varAnterior pos")
+
+                            quad = "quad: gotof varAnterior pos"
+                            self.pila.append(quad)
+                            pSaltos.append(len(self.pila))
+                        elif ruleChild == "bloque_est":
+                            self.evaluarBloqueEst(child,funcion)
+                            quad = "quad: goto pos"
+                            self.pila.append(quad)
+                            pSaltos.append(len(self.pila))
+                            # if primerBloque:
+                            #     # print("Entonces: ")
+                            #     self.evaluarBloqueEst(child,funcion)
+                            #     #print("quad: goto pos")
+                            #
+                            #     quad = "quad: goto pos"
+                            #     self.pila.append(quad)
+                            #     pSaltos.append(len(self.pila))
+                            # else:
+                            #     # print("Si no: ")
+                            #     self.evaluarBloqueEst(child,funcion)
+                            #     pSaltos.append(len(self.pila))
+
+
+
+                            # print("exp")
+                self.pila[pSaltos[1]-1] = "quad: gotof varAnt " + str(pSaltos[2]+1)
+                self.pila[pSaltos[2]-1] = "quad: goto " + str(pSaltos[0]+1)
+                # self.pila[pSaltos[0]-1] = "quad: gotof varAnt " + str(pSaltos[1]+1)
+                # self.pila[pSaltos[1]-1] = "quad: goto " + str(pSaltos[2]+1)
+                # print(pSaltos)
+                # print(pila)
+                # print(tipos)
+
+        else:
+            pass
+
+    def est_nocondicional(self, tree,funcion):
+        print("es no condicional")
 
     ##falta
     #los params pueden ser exp
@@ -1228,10 +1286,13 @@ class Programa:
 
 
 def main():
-    if sys.argv[1] == '1':
+    arch = sys.argv[1]
+    if arch == '1':
         input_stream = FileStream("prueba.txt")
-    else:
+    elif arch == '2':
         input_stream = FileStream("prueba2.txt")
+    elif arch == '3':
+        input_stream = FileStream("prueba3.txt")
 
     lexer = PatitoMasMasLexer(input_stream)
     stream = CommonTokenStream(lexer)
