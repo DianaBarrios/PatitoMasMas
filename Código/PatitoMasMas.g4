@@ -68,7 +68,7 @@ estatuto
     ;
 
 asignacion
-    : var '=' expresion  ';'
+    : (var '=')* expresion  ';'
     ;
 
 var
