@@ -376,6 +376,43 @@ cubo = {
             'bool': 'x',
             'void': 'x'
         }
+    },
+    '=' : {
+        'int': {
+            'int': 'OK',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'float': {
+            'int': 'x',
+            'float': 'OK',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'char': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'OK',
+            'bool': 'x',
+            'void': 'x'
+        },
+        'bool': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'OK',
+            'void': 'x'
+        },
+        'void': {
+            'int': 'x',
+            'float': 'x',
+            'char': 'x',
+            'bool': 'x',
+            'void': 'x'
+        }
     }
 }
 
@@ -385,7 +422,7 @@ class Programa:
         self.rules = rules
         self.varGlobales = {}
         self.dirFunciones = {}
-        self.pila = []
+        self.pilaCuad = []
 
     def error(self,tipo,mensaje):
         print(tipo,mensaje)
@@ -406,7 +443,7 @@ class Programa:
         # p1.llamadaglobales(p1.tree.variables().var(),p1.rules)
         # variablesGlobales(programa.variables().var(),reglas)
         print("===== Funciones =====")
-        self.funciones(self.tree.dec_functions())
+        self.decFunciones(self.tree.dec_functions())
         # print(self.dirFunciones)
         pprint.pprint(self.dirFunciones)
         # print(self.existeVar("nice","fact"))
@@ -416,16 +453,18 @@ class Programa:
         #     print("si existe")
         # print(self.checaParams("dos",["int","int"]))
         # print(self.regresaTipo("nice","fact"))
-        # # funciones(programa.functions(),reglas)
+        # # decFunciones(programa.functions(),reglas)
         print("===== Main =====")
         self.evaluarBloqueEst(self.tree.principal().bloque_est(),"main")
 
-        for i in range(len(self.pila)):
-            print(i+1, ".-",self.pila[i])
-        # print(self.pila)
+        for i in range(len(self.pilaCuad)):
+            print(i+1, ".-",self.pilaCuad[i])
+        # print(self.pilaCuad)
         # self.evaluarFun(self.tree.principal().bloque_est(),"main")
 
         # evaluarFun(programa.principal().bloque_est().estatutos(),reglas)
+
+    ##### VERIFICACIONES
 
     def checaFun(self,funcion,params):
         if not self.existeFun(funcion):
@@ -480,6 +519,8 @@ class Programa:
         else:
             return False
 
+    ##### PARSE VARS Y FUNCIONES
+
     #Funcion que regresa el JSON con la info de las vars
     def decVariables(self,tree,temp,tipo):
         if not isinstance(tree, TerminalNodeImpl):
@@ -514,20 +555,9 @@ class Programa:
             for child in tree.children:
                 self.decVariables(child,temp,tipo)
 
-    def params(self,tree,temp1,temp2):
-        if not isinstance(tree, TerminalNodeImpl):
-            if self.rules[tree.getRuleIndex()] == "params":
-                temp1.append(tree.tipo().getText())
-                temp2.append(tree.ID().getText())
-
-            for child in tree.children:
-                self.params(child,temp1,temp2)
-        else:
-            pass
-
-    #Funcion que actualiza el dir de funciones con los
-    #datos de las funciones del programa
-    def funciones(self, tree):
+    #Funcion que actualiza el dir de decFunciones con los
+    #datos de las decFunciones del programa
+    def decFunciones(self, tree):
         if not isinstance(tree, TerminalNodeImpl):
             # variablesGlobales(child, rule_names)
             # print("{0}TOKEN='{1}'".format("  ", tree.getText()))
@@ -558,7 +588,7 @@ class Programa:
 
                 arregloTipo = []
                 arregloNoms = []
-                self.params(tree.params(),arregloTipo,arregloNoms)
+                self.decParamsFun(tree.params(),arregloTipo,arregloNoms)
 
                 jsontemp["vars"] = tempVar
                 jsontemp["params"] = {"num": len(arregloTipo), "tipo": arregloTipo, "nombres": arregloNoms }
@@ -571,12 +601,12 @@ class Programa:
                 # pprint.pprint(jsontemp)
             else:
                 for child in tree.children:
-                        self.funciones(child)
+                        self.decFunciones(child)
 
             # elif rules[tree.getRuleIndex()] == "params":
             #     count = 0
             #     print(tree.getText())
-            #     self.params(tree,{},count)
+            #     self.decParamsFun(tree,{},count)
             #     print(count)
                 # print("Tipo var: ", tree.tipo().getText())
                 # print("Nombre var: ", tree.ID())
@@ -585,9 +615,18 @@ class Programa:
         else:
             pass
 
-    def resolverLlamada(self,funcion,params):
-        print("Nombre funcion: ", funcion)
-        print("Params: ", params.getText())
+    def decParamsFun(self,tree,temp1,temp2):
+        if not isinstance(tree, TerminalNodeImpl):
+            if self.rules[tree.getRuleIndex()] == "params":
+                temp1.append(tree.tipo().getText())
+                temp2.append(tree.ID().getText())
+
+            for child in tree.children:
+                self.decParamsFun(child,temp1,temp2)
+        else:
+            pass
+
+    #### EXPRESION
 
     def expresion(self,tree,funcion):
         pilas = {
@@ -663,7 +702,7 @@ class Programa:
                                     #print("quad: ", op, left,right,res)
 
                                     quad = "quad: " + op + " " + str(left) + " " + str(right) + " " + str(res)
-                                    self.pila.append(quad)
+                                    self.pilaCuad.append(quad)
 
 
                                     pilas['pOperandos'].append(str(res))
@@ -714,7 +753,7 @@ class Programa:
                                     #print("quad: ", op, left,right,res)
 
                                     quad = "quad: " + op + " " + str(left) + " " + str(right) + " " + str(res)
-                                    self.pila.append(quad)
+                                    self.pilaCuad.append(quad)
 
                                     pilas['pOperandos'].append(str(res))
                                     pilas['pTipos'].append(tipoRes)
@@ -777,7 +816,7 @@ class Programa:
                                     #print("quad: ", op, left,right,res)
 
                                     quad = "quad: " + op + " " + str(left) + " " + str(right) + " " + str(res)
-                                    self.pila.append(quad)
+                                    self.pilaCuad.append(quad)
 
                                     pilas['pOperandos'].append(str(res))
                                     pilas['pTipos'].append(tipoRes)
@@ -832,7 +871,7 @@ class Programa:
                                 #print("quad: ", op, left,right,res)
 
                                 quad = "quad: " + op + " " + str(left) + " " + str(right) + " " + str(res)
-                                self.pila.append(quad)
+                                self.pilaCuad.append(quad)
 
                                 # print("= Pilas temporales =")
                                 # print("Pila operandos:",pilas['pOperandos'])
@@ -960,34 +999,7 @@ class Programa:
         else:
             pass
 
-    def helper(self,tree,funcion):
-        # for child in tree.children:
-        #     if not isinstance(child, TerminalNodeImpl):
-        #         rule = self.rules[tree.getRuleIndex()]
-        #         print("Rule: ", rule)
-        #         # self.expresion2(child,funcion)
-        #         # traverse(child,self.rules)
-        #         print("No term: ", child.getText())
-        if not isinstance(tree, TerminalNodeImpl):
-            rule = self.rules[tree.getRuleIndex()]
-            if rule == "llamada":
-                self.resolverLlamada(tree.ID().getText(),tree.params_llamada())
-            elif rule == "var":
-                print("Var : " , tree.getText())
-                tipo = self.regresaTipo(tree.ID().getText(),funcion)
-                print("Tipo: ", tipo)
-                # print("Llamada a : " , tree.ID().getText())
-                # print(tree.params_llamada().getText())
-                # traverse(tree,self.rules)
-            elif rule == "var_cte":
-                print("Const: ",tree.getText())
-            else:
-                for child in tree.children:
-                    # if not isinstance(child, TerminalNodeImpl) and rule_names[child.getRuleIndex()] == "estatuto":
-                    #     print("Estatuto: ", tree)
-                    self.expresion(child,funcion)
-        else:
-            pass
+    #### ESTATUTOS
 
     def evaluarBloqueEst(self, tree,funcion):
         if not isinstance(tree, TerminalNodeImpl):
@@ -1044,7 +1056,7 @@ class Programa:
             #print("quad: lee",var)
 
             quad = "quad: lee " + var
-            self.pila.append(quad)
+            self.pilaCuad.append(quad)
         # print(res)
 
     def lecturaAux(self,tree,res):
@@ -1089,15 +1101,19 @@ class Programa:
                 #print("quad: = EXP", pila[-1])
 
                 quad = "quad: = EXP " + pila[-1]
-                self.pila.append(quad)
+                self.pilaCuad.append(quad)
 
                 if len(pila) > 1:
                     for i in range(len(pila) - 1):
                         var1 = pila.pop()
                         #print("quad: =", var1, pila[-1])
-
-                        quad = "quad: = " + var1 + " " + pila[-1]
-                        self.pila.append(quad)
+                        tipo1 = tipos.pop()
+                        posible = cubo['='][tipo1][tipos[-1]]
+                        if posible == 'OK':
+                            quad = "quad: = " + var1 + " " + pila[-1]
+                            self.pilaCuad.append(quad)
+                        else:
+                            print("error, no se puede asignar tipos diferentes")
                 # print(pila)
                 # print(tipos)
 
@@ -1121,8 +1137,8 @@ class Programa:
                             #print("quad: gotof varAnterior pos")
 
                             quad = "quad: gotof varAnterior pos"
-                            self.pila.append(quad)
-                            pSaltos.append(len(self.pila))
+                            self.pilaCuad.append(quad)
+                            pSaltos.append(len(self.pilaCuad))
                         elif ruleChild == "bloque_est":
                             if primerBloque:
                                 # print("Entonces: ")
@@ -1130,20 +1146,20 @@ class Programa:
                                 #print("quad: goto pos")
 
                                 quad = "quad: goto pos"
-                                self.pila.append(quad)
-                                pSaltos.append(len(self.pila))
+                                self.pilaCuad.append(quad)
+                                pSaltos.append(len(self.pilaCuad))
                             else:
                                 # print("Si no: ")
                                 self.evaluarBloqueEst(child,funcion)
-                                pSaltos.append(len(self.pila))
+                                pSaltos.append(len(self.pilaCuad))
 
 
                             primerBloque = False
 
                             # print("exp")
 
-                self.pila[pSaltos[0]-1] = "quad: gotof varAnt " + str(pSaltos[1]+1)
-                self.pila[pSaltos[1]-1] = "quad: goto " + str(pSaltos[2]+1)
+                self.pilaCuad[pSaltos[0]-1] = "quad: gotof varAnt " + str(pSaltos[1]+1)
+                self.pilaCuad[pSaltos[1]-1] = "quad: goto " + str(pSaltos[2]+1)
                 # print(pSaltos)
                 # print(pila)
                 # print(tipos)
@@ -1173,38 +1189,38 @@ class Programa:
                     if not isinstance(child, TerminalNodeImpl):
                         ruleChild = self.rules[child.getRuleIndex()]
                         if ruleChild == "expresion":
-                            pSaltos.append(len(self.pila))
+                            pSaltos.append(len(self.pilaCuad))
                             self.expresion(child,funcion)
                             #print("quad: gotof varAnterior pos")
 
                             quad = "quad: gotof varAnterior pos"
-                            self.pila.append(quad)
-                            pSaltos.append(len(self.pila))
+                            self.pilaCuad.append(quad)
+                            pSaltos.append(len(self.pilaCuad))
                         elif ruleChild == "bloque_est":
                             self.evaluarBloqueEst(child,funcion)
                             quad = "quad: goto pos"
-                            self.pila.append(quad)
-                            pSaltos.append(len(self.pila))
+                            self.pilaCuad.append(quad)
+                            pSaltos.append(len(self.pilaCuad))
                             # if primerBloque:
                             #     # print("Entonces: ")
                             #     self.evaluarBloqueEst(child,funcion)
                             #     #print("quad: goto pos")
                             #
                             #     quad = "quad: goto pos"
-                            #     self.pila.append(quad)
-                            #     pSaltos.append(len(self.pila))
+                            #     self.pilaCuad.append(quad)
+                            #     pSaltos.append(len(self.pilaCuad))
                             # else:
                             #     # print("Si no: ")
                             #     self.evaluarBloqueEst(child,funcion)
-                            #     pSaltos.append(len(self.pila))
+                            #     pSaltos.append(len(self.pilaCuad))
 
 
 
                             # print("exp")
-                self.pila[pSaltos[1]-1] = "quad: gotof varAnt " + str(pSaltos[2]+1)
-                self.pila[pSaltos[2]-1] = "quad: goto " + str(pSaltos[0]+1)
-                # self.pila[pSaltos[0]-1] = "quad: gotof varAnt " + str(pSaltos[1]+1)
-                # self.pila[pSaltos[1]-1] = "quad: goto " + str(pSaltos[2]+1)
+                self.pilaCuad[pSaltos[1]-1] = "quad: gotof varAnt " + str(pSaltos[2]+1)
+                self.pilaCuad[pSaltos[2]-1] = "quad: goto " + str(pSaltos[0]+1)
+                # self.pilaCuad[pSaltos[0]-1] = "quad: gotof varAnt " + str(pSaltos[1]+1)
+                # self.pilaCuad[pSaltos[1]-1] = "quad: goto " + str(pSaltos[2]+1)
                 # print(pSaltos)
                 # print(pila)
                 # print(tipos)
@@ -1240,7 +1256,7 @@ class Programa:
         #print("quad: print", str)
 
         quad = "quad: print " + str
-        self.pila.append(quad)
+        self.pilaCuad.append(quad)
 
     ##falta
     #los valores pueden ser exp
