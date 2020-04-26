@@ -420,7 +420,9 @@ class Programa:
         print("===== Main =====")
         self.evaluarBloqueEst(self.tree.principal().bloque_est(),"main")
 
-        print(self.pila)
+        for line in self.pila:
+            print(line)
+        # print(self.pila)
         # self.evaluarFun(self.tree.principal().bloque_est(),"main")
 
         # evaluarFun(programa.principal().bloque_est().estatutos(),reglas)
@@ -658,7 +660,7 @@ class Programa:
                                     # print("der: ",right,"izq:",left)
                                     res = self.genQuad(op,left,right)
                                     # print(res)
-                                    print("quad: ", op, left,right,res)
+                                    #print("quad: ", op, left,right,res)
 
                                     quad = "quad: " + op + " " + str(left) + " " + str(right) + " " + str(res)
                                     self.pila.append(quad)
@@ -709,7 +711,7 @@ class Programa:
                                     # print("der: ",right,"izq:",left)
                                     res = self.genQuad(op,left,right)
                                     # print(res)
-                                    print("quad: ", op, left,right,res)
+                                    #print("quad: ", op, left,right,res)
 
                                     quad = "quad: " + op + " " + str(left) + " " + str(right) + " " + str(res)
                                     self.pila.append(quad)
@@ -772,7 +774,7 @@ class Programa:
                                     # print("der: ",right,"izq:",left)
                                     res = self.genQuad(op,left,right)
                                     # print(res)
-                                    print("quad: ", op, left,right,res)
+                                    #print("quad: ", op, left,right,res)
 
                                     quad = "quad: " + op + " " + str(left) + " " + str(right) + " " + str(res)
                                     self.pila.append(quad)
@@ -827,7 +829,7 @@ class Programa:
                                 # print("der: ",right,"izq:",left)
                                 res = self.genQuad(op,left,right)
                                 # print(res)
-                                print("quad: ", op, left,right,res)
+                                #print("quad: ", op, left,right,res)
 
                                 quad = "quad: " + op + " " + str(left) + " " + str(right) + " " + str(res)
                                 self.pila.append(quad)
@@ -1039,7 +1041,7 @@ class Programa:
         res = []
         self.lecturaAux(tree.lista_vars(),res)
         for var in res:
-            print("quad: lee",var)
+            #print("quad: lee",var)
 
             quad = "quad: lee " + var
             self.pila.append(quad)
@@ -1084,7 +1086,7 @@ class Programa:
                             # print("exp")
                             self.expresion(child,funcion)
 
-                print("quad: = EXP", pila[-1])
+                #print("quad: = EXP", pila[-1])
 
                 quad = "quad: = EXP " + pila[-1]
                 self.pila.append(quad)
@@ -1092,7 +1094,7 @@ class Programa:
                 if len(pila) > 1:
                     for i in range(len(pila) - 1):
                         var1 = pila.pop()
-                        print("quad: =", var1, pila[-1])
+                        #print("quad: =", var1, pila[-1])
 
                         quad = "quad: = " + var1 + " " + pila[-1]
                         self.pila.append(quad)
@@ -1116,7 +1118,7 @@ class Programa:
                         ruleChild = self.rules[child.getRuleIndex()]
                         if ruleChild == "expresion":
                             self.expresion(child,funcion)
-                            print("quad: gotof varAnterior pos")
+                            #print("quad: gotof varAnterior pos")
 
                             quad = "quad: gotof varAnterior pos"
                             self.pila.append(quad)
@@ -1125,7 +1127,7 @@ class Programa:
                             if primerBloque:
                                 # print("Entonces: ")
                                 self.evaluarBloqueEst(child,funcion)
-                                print("quad: goto pos")
+                                #print("quad: goto pos")
 
                                 quad = "quad: goto pos"
                                 self.pila.append(quad)
@@ -1177,7 +1179,7 @@ class Programa:
         for index, item in enumerate(res):
             res[index] = res[index][1:-1]
             str += res[index] + " "
-        print("quad: print", str)
+        #print("quad: print", str)
 
         quad = "quad: print " + str
         self.pila.append(quad)
