@@ -18,7 +18,7 @@ var int c;
 }
 principal(){
   i = j = p = 25*3;
-  i = 5;
+  i = 5+100;
   escribe("imprime",10 == (7+3) & 'a' == 'a', "dentro del main");
   lee(j);
   escribe("si","jala");

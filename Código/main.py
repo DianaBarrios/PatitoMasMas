@@ -719,12 +719,12 @@ class Programa:
                                     pilas['pOperandos'].append(str(res))
                                     pilas['pTipos'].append(tipoRes)
 
-                                    print("= Pilas temporales =")
-                                    print("Pila operandos:",pilas['pOperandos'])
-                                    print("Pila tipos:",pilas['pTipos'])
-                                    print("Pila operadores:",pilas['pOperadores'])
-                                    # print(res)
-                                    print("mayor a dos")
+                                    # print("= Pilas temporales =")
+                                    # print("Pila operandos:",pilas['pOperandos'])
+                                    # print("Pila tipos:",pilas['pTipos'])
+                                    # print("Pila operadores:",pilas['pOperadores'])
+                                    # # print(res)
+                                    # print("mayor a dos")
                                 else:
                                     pass
 
