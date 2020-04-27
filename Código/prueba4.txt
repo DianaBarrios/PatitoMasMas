@@ -1,0 +1,27 @@
+programa patito4;
+var
+  int i,j,p;
+  int arreglo[10], otroarreglo[10];
+  float valor;
+  int matriz[3][8], otramatriz[3][8];
+funcion int fact(int j);
+var int nice[10][50];
+{
+  i[5] = 5;
+  escribe("wow");
+}
+funcion void dos(int b,int a);
+var int c;
+{
+  i = j$;
+  escribe("imprime","dentro","de","funcion",4);
+}
+principal(){
+  si(4+5>7+8&5>3 || 3<5) entonces {
+    i = 2 + 5;
+  }
+  sino{
+    i = 2 - 5;
+  }
+  j = 7 * 2 + 3;
+}
