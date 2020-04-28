@@ -688,6 +688,7 @@ class Programa:
                                     left = pilas['pOperandos'].pop()
                                     leftType = pilas['pTipos'].pop()
                                     tipoRes = cubo[op][rightType][leftType]
+                                    print("tipo res:", tipoRes)
                                     if tipoRes == "x":
                                         print("Operacion no valida")
                                     elif tipoRes == "int":
@@ -696,10 +697,7 @@ class Programa:
                                     elif tipoRes == "float":
                                         right = float(right)
                                         left = float(left)
-                                    elif rightType == "float":
-                                        right = float(right)
-                                        left = float(left)
-                                    elif leftType == "float":
+                                    elif rightType == "float" or leftType == "float":
                                         right = float(right)
                                         left = float(left)
                                     else:
