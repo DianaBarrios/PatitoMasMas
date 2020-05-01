@@ -692,7 +692,7 @@ class Programa:
                                     left = pilas['pOperandos'].pop()
                                     leftType = pilas['pTipos'].pop()
                                     tipoRes = cubo[op][rightType][leftType]
-                                    print("tipo res:", tipoRes)
+                                    # print("tipo res:", tipoRes)
                                     if tipoRes == "x":
                                         print("Operacion no valida")
                                     elif tipoRes == "int":
@@ -707,7 +707,7 @@ class Programa:
                                     else:
                                         right = int(right)
                                         left = int(left)
-                                    
+
                                     # print("der: ",right,"izq:",left)
                                     res = self.genQuad(op,left,right)
                                     # print(res)
@@ -751,10 +751,10 @@ class Programa:
                                     left = pilas['pOperandos'].pop()
                                     leftType = pilas['pTipos'].pop()
                                     tipoRes = cubo[op][rightType][leftType]
-                                    
+
                                     if tipoRes == "x":
                                         print("Operacion no valida")
-                                    
+
                                     # elif tipoRes == "int":
                                     #    right = int(right)
                                     #    left = int(left)
@@ -775,8 +775,8 @@ class Programa:
                                     #print("rightType",type(right))
                                     #print("leftType",type(left))
                                     #print("right",right)
-                                    #print("left",left)                                      
-                                
+                                    #print("left",left)
+
                                     # print("der: ",right,"izq:",left)
                                     res = self.genQuad(op,left,right)
                                     # print(res)
@@ -1044,9 +1044,9 @@ class Programa:
                             elif regla == "lectura":
                                 # print("*** Lee ***")
                                 self.est_lectura(child2,funcion)
-                            elif regla == "asignacion":
+                            elif regla == "asignacion_est":
                                 # print("*** asignacion ***")
-                                self.est_asignacion(child2,funcion)
+                                self.est_asignacion(child2.asignacion(),funcion)
                             elif regla == "decision":
                                 # print("*** Decision ***")
                                 self.est_decision(child2,funcion)
@@ -1268,8 +1268,64 @@ class Programa:
             pass
 
     def est_nocondicional(self, tree,funcion):
-        traverse(tree,self.rules)
-        print("es no condicional")
+        # traverse(tree,self.rules)
+        # print("es no condicional")
+        if not isinstance(tree, TerminalNodeImpl):
+            if self.rules[tree.getRuleIndex()] == "no_condicional":
+                pSaltos = []
+                var = ""
+                for child in tree.children:
+                    # print("hijo")
+                    if not isinstance(child, TerminalNodeImpl):
+                        ruleChild = self.rules[child.getRuleIndex()]
+                        if ruleChild == "asignacion":
+                            # print("Asignacion")
+                            self.est_asignacion(child,funcion)
+                            for child2 in child.children:
+                                if not isinstance(child2, TerminalNodeImpl):
+                                    if self.rules[child2.getRuleIndex()] == 'var':
+                                        var = child2.getText()
+                                        # print(child2.getText())
+                            # traverse(child,self.rules)
+                            # print(child.var())
+                            # print(child.getText())
+                            # pSaltos.append(len(self.pilaCuad))
+                            # self.expresion(child,funcion)
+                            # #print("quad: gotof varAnterior pos")
+                            #
+                            # quad = "quad: gotof varAnterior pos"
+                            # self.pilaCuad.append(quad)
+                            # pSaltos.append(len(self.pilaCuad))
+                        elif ruleChild == "expresion":
+                            # print("Expresion")
+                            pSaltos.append(len(self.pilaCuad)+1)
+                            self.expresion(child,funcion)
+                            quad = "quad: > " + var + " EXP"
+                            self.pilaCuad.append(quad)
+                            quad = "quad: gotov final "
+                            self.pilaCuad.append(quad)
+                            pSaltos.append(len(self.pilaCuad))
+                            # quad = "quad: == EXP1 EXP2 " + var + " temp"
+                            # self.pilaCuad.append(quad)
+                            # print(child.getText())
+                            # self.evaluarBloqueEst(child,funcion)
+                            # quad = "quad: goto pos"
+                            # self.pilaCuad.append(quad)
+                            # pSaltos.append(len(self.pilaCuad))
+                        elif ruleChild == "bloque_est":
+                            # print("Bloque est")
+                            self.evaluarBloqueEst(child,funcion)
+                            quad = "quad: + 1 " + var + " temp"
+                            self.pilaCuad.append(quad)
+                            quad = "quad: = temp " + var
+                            self.pilaCuad.append(quad)
+                            quad = "quad: goto start"
+                            self.pilaCuad.append(quad)
+                            pSaltos.append(len(self.pilaCuad))
+                            # print(child.getText())
+                self.pilaCuad[pSaltos[1]-1] = "quad: gotov EXP " + str(pSaltos[2]+1)
+                self.pilaCuad[pSaltos[2]-1] = "quad: goto " + str(pSaltos[0])
+                # print(pSaltos)
 
     ##falta
     #los params pueden ser exp

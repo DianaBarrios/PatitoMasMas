@@ -58,7 +58,7 @@ bloque_est
     ;
 
 estatuto
-    : asignacion
+    : asignacion_est
     | retorno
     | lectura
     | decision
@@ -67,8 +67,12 @@ estatuto
     | escritura
     ;
 
+asignacion_est
+    : asignacion ';'
+    ;
+
 asignacion
-    : (var '=')+ expresion ';'
+    : (var '=')+ expresion
     ;
 
 var
@@ -117,7 +121,7 @@ condicional
     ;
 
 no_condicional
-    : Desde var '=' expresion Hasta expresion Hacer bloque_est
+    : Desde asignacion Hasta expresion Hacer bloque_est
     ;
 
 llamada

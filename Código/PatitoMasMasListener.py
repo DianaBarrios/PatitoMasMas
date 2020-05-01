@@ -134,6 +134,15 @@ class PatitoMasMasListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by PatitoMasMasParser#asignacion_est.
+    def enterAsignacion_est(self, ctx:PatitoMasMasParser.Asignacion_estContext):
+        pass
+
+    # Exit a parse tree produced by PatitoMasMasParser#asignacion_est.
+    def exitAsignacion_est(self, ctx:PatitoMasMasParser.Asignacion_estContext):
+        pass
+
+
     # Enter a parse tree produced by PatitoMasMasParser#asignacion.
     def enterAsignacion(self, ctx:PatitoMasMasParser.AsignacionContext):
         pass

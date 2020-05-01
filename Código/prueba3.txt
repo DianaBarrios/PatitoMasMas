@@ -17,7 +17,7 @@ var int c;
   escribe("imprime","dentro","de","funcion",4);
 }
 principal(){
-  desde i=5 hasta 2*3 hacer {
+  desde i=5*45 hasta 2*3 hacer {
     escribe("hola");
   }
   lee(j);
