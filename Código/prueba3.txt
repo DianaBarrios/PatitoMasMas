@@ -17,10 +17,14 @@ var int c;
   escribe("imprime","dentro","de","funcion",4);
 }
 principal(){
-  i=valor=p=4*5;
+  desde i=5 hasta 2*3 hacer {
+    escribe("hola");
+  }
+  lee(j);
+  i=j=10*5;
   mientras(4>5*20)haz{
     i = 9-8;
-    escribe("hola");
+    escribe("hola",4+5);
   }
   j = 6 + 10;
 }
