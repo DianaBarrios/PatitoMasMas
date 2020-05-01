@@ -692,6 +692,7 @@ class Programa:
                                     left = pilas['pOperandos'].pop()
                                     leftType = pilas['pTipos'].pop()
                                     tipoRes = cubo[op][rightType][leftType]
+                                    print("tipo res:", tipoRes)
                                     if tipoRes == "x":
                                         print("Operacion no valida")
                                     elif tipoRes == "int":
@@ -700,6 +701,13 @@ class Programa:
                                     elif tipoRes == "float":
                                         right = float(right)
                                         left = float(left)
+                                    elif rightType == "float" or leftType == "float":
+                                        right = float(right)
+                                        left = float(left)
+                                    else:
+                                        right = int(right)
+                                        left = int(left)
+                                    
                                     # print("der: ",right,"izq:",left)
                                     res = self.genQuad(op,left,right)
                                     # print(res)
@@ -743,14 +751,32 @@ class Programa:
                                     left = pilas['pOperandos'].pop()
                                     leftType = pilas['pTipos'].pop()
                                     tipoRes = cubo[op][rightType][leftType]
+                                    
                                     if tipoRes == "x":
                                         print("Operacion no valida")
-                                    elif tipoRes == "int":
-                                        right = int(right)
-                                        left = int(left)
-                                    elif tipoRes == "float":
-                                        right = float(right)
-                                        left = float(left)
+                                    
+                                    # elif tipoRes == "int":
+                                    #    right = int(right)
+                                    #    left = int(left)
+                                    # elif tipoRes == "float":
+                                    #    right = float(right)
+                                    #    left = float(left)
+
+                                    if right == "True":
+                                        right = True
+                                    elif right == "False":
+                                        right = False
+
+                                    if left == "True":
+                                        left = True
+                                    elif left == "False":
+                                        left = False
+
+                                    #print("rightType",type(right))
+                                    #print("leftType",type(left))
+                                    #print("right",right)
+                                    #print("left",left)                                      
+                                
                                     # print("der: ",right,"izq:",left)
                                     res = self.genQuad(op,left,right)
                                     # print(res)
@@ -1323,6 +1349,8 @@ def main():
         input_stream = FileStream("prueba2.txt")
     elif arch == '3':
         input_stream = FileStream("prueba3.txt")
+    elif arch == '4':
+        input_stream = FileStream("prueba4.txt")
 
     lexer = PatitoMasMasLexer(input_stream)
     stream = CommonTokenStream(lexer)
