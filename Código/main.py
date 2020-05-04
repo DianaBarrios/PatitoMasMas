@@ -1192,7 +1192,6 @@ class Programa:
                                 self.evaluarBloqueEst(child,funcion)
                                 pSaltos.append(len(self.pilaCuad))
 
-
                             primerBloque = False
 
                             # print("exp")
@@ -1407,6 +1406,8 @@ def main():
         input_stream = FileStream("prueba3.txt")
     elif arch == '4':
         input_stream = FileStream("prueba4.txt")
+    elif arch == '5':
+        input_stream = FileStream("prueba5.txt")
 
     lexer = PatitoMasMasLexer(input_stream)
     stream = CommonTokenStream(lexer)
