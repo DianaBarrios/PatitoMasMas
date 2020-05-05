@@ -437,7 +437,7 @@ class Programa:
         #     print("hijo")
         print("===== Nombre Programa =====")
         print(self.tree.ID())
-        print("===== Variables =====")
+        print("===== Variables Globales=====")
         # traverse(self.tree.dec_variables(),self.rules)
         # self.variablesGlobales(self.tree.variables().var(),self.rules)
         # print(self.tree.dec_variables().getText())
@@ -594,6 +594,7 @@ class Programa:
                 arregloNoms = []
                 self.decParamsFun(tree.params(),arregloTipo,arregloNoms)
 
+                jsontemp["num_vars"] =  len(tempVar)
                 jsontemp["vars"] = tempVar
                 jsontemp["params"] = {"num": len(arregloTipo), "tipo": arregloTipo, "nombres": arregloNoms }
                 jsontemp["tipoRet"] = ret
@@ -607,6 +608,14 @@ class Programa:
                 for child in tree.children:
                         self.decFunciones(child)
 
+            nombreFun = "global"
+            jsontemp = {}
+            tempVar = self.varGlobales
+            jsontemp["num_vars"] =  len(tempVar)
+            jsontemp["vars"] = tempVar
+            jsontemp["tipoRet"] = "void"
+            self.dirFunciones[nombreFun] = jsontemp
+
             # elif rules[tree.getRuleIndex()] == "params":
             #     count = 0
             #     print(tree.getText())
@@ -614,8 +623,6 @@ class Programa:
             #     print(count)
                 # print("Tipo var: ", tree.tipo().getText())
                 # print("Nombre var: ", tree.ID())
-
-
         else:
             pass
 

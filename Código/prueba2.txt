@@ -1,4 +1,4 @@
-programa patito;
+programa patito2;
 var
   int i,j,p;
   int arreglo[10], otroarreglo[10];

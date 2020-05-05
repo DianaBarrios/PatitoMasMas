@@ -1,11 +1,13 @@
-programa patito4;
+programa patito5;
 var
   int i,j,p;
-  int arreglo[10], otroarreglo[10];
+  int arreglo[10];
   float valor;
   int matriz[3][8], otramatriz[3][8];
-funcion int fact(int j);
-var int nice[10][50];
+funcion int fact(int j, int p);
+var 
+  int nice[10][50];
+  float x;
 {
   i[5] = 5;
   escribe("wow");
@@ -17,10 +19,15 @@ var int c;
   escribe("imprime","dentro","de","funcion",4);
 }
 principal(){
-    mientras 3<5 haz {
+si (5 < 6 ) entonces {
+  mientras 3<5 haz {
         desde i = 1 hasta 10 hacer {
              escribe("dentro del for");
         }
         escribe("dentro del while");
     }
+}
+sino {
+  escribe("bye");
+}
 }
