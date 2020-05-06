@@ -944,7 +944,7 @@ class Programa:
                         # print("encontre algo con parentesis")
                         self.parentesisAux(child,funcion,pilas)
                     elif ruleChild == "llamada":
-                        print("encontre llamada a fun")
+                        self.est_llamada_est(child,funcion)
                         # self.termAux(child,funcion,pilas)
         else:
             pass
@@ -1039,6 +1039,7 @@ class Programa:
                         for child2 in child.children:
                             regla = self.rules[child2.getRuleIndex()]
                             if regla == "retorno":
+                                # self.error(tree,"hola")
                                 # print("*** Retorno ***")
                                 self.est_retorno(child2,funcion)
                             elif regla == "lectura":
@@ -1055,7 +1056,7 @@ class Programa:
                                 self.est_repeticion(child2,funcion)
                             elif regla == "llamada_est":
                                 # print("*** Llamada ***")
-                                self.est_llamada_est(child2.llamada_est().llamada().ID().getText(),tree.llamada_est().llamada().params_llamada())
+                                self.est_llamada_est(child2.llamada(),funcion)
                             elif regla == "escritura":
                                 # print("*** Print ***")
                                 self.est_escritura(child2,funcion)
@@ -1065,9 +1066,11 @@ class Programa:
 
     def est_retorno(self, tree,funcion):
         if funcion == "main":
-            print("error: el main no tiene retorno","idk")
+            msj = "La funcion main no tiene retorno"
+            return self.error(tree.Regresa(),msj)
         elif self.dirFunciones[funcion]['tipoRet'] == "void":
-            print("error:  la funcion es void","idk")
+            msj = "Retorno en funcion '{}' de tipo void".format(funcion)
+            return self.error(tree.Regresa(),msj)
         self.expresion(tree.expresion(),funcion)
         #else mandar llamar expresion con el codigo
         # print(tree.expresion().getText())
@@ -1331,16 +1334,31 @@ class Programa:
     #los params pueden ser exp
     #checar que sea valida la llamada
     #checar que los params sean compatibles
-    def est_llamada_est(self,funcion,params):
-        print("Nombre fun:", funcion)
-        print("Params fun:", params.getText())
+    def est_llamada_est(self,tree,funcion):
+        # print("Nombre fun:", funcion)
+        # print("Params fun:", params.getText())
         # print("una llamada una funcion")
         # traverse(codigo,self.rules)
         # print(codigo.llamada_est().llamada().ID())
-        # nombre = codigo.llamada_est().llamada().ID().getText()
-        # estatutos = self.dirFunciones[nombre]['main']
-        # self.evaluarFun(estatutos,nombre)
+        # traverse(tree.llamada().params_llamada(),self.rules)
+        res = []
+        self.resolverParams(tree.params_llamada(),funcion,res)
+        nombre = tree.ID().getText()
+        # print(nombre)
+        estatutos = self.dirFunciones[nombre]['main']
+        self.evaluarBloqueEst(estatutos,nombre)
         # print(estatutos)
+
+    def resolverParams(self,tree,funcion,res):
+        for child in tree.children:
+            if not isinstance(child, TerminalNodeImpl):
+                regla = self.rules[child.getRuleIndex()]
+                if regla == "expresion":
+                    self.expresion(child,funcion)
+                elif regla == "params_llamada":
+                    self.resolverParams(child,funcion,res)
+
+
 
     def est_escritura(self, tree,funcion):
         res = []

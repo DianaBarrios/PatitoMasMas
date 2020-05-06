@@ -9,16 +9,20 @@ var int nice[10][50];
 {
   i[5] = 5;
   escribe("wow");
+  lee(nice);
 }
 funcion void dos(int b,int a);
 var int c;
 {
-  i = j$;
   escribe("imprime","dentro","de","funcion",4);
 }
 principal(){
-  desde i=5*45 hasta 2*3 hacer {
+  regresa(5);
+  fact(dos(1,2),5*10,68*2);
+  desde j=5*45 hasta 2*3 hacer {
     escribe("hola");
+    lee(p);
+    valor = 25*45/10;
   }
   lee(j);
   i=j=10*5;
