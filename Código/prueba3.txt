@@ -7,18 +7,19 @@ var
 funcion int fact(int j);
 var int nice[10][50];
 {
-  i[5] = 5;
+  fact(1*5);
+  i = 5;
   escribe("wow");
   lee(nice);
 }
-funcion void dos(int b,int a);
+funcion int dos(int b,int a);
 var int c;
 {
   escribe("imprime","dentro","de","funcion",4);
 }
 principal(){
-  regresa(5);
-  fact(dos(1,2),5*10,68*2);
+  dos(45*20,2-1);
+  escribe("hey");
   desde j=5*45 hasta 2*3 hacer {
     escribe("hola");
     lee(p);
