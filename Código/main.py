@@ -422,9 +422,10 @@ class Programa:
     def __init__(self, tree, rules):
         self.tree = tree
         self.rules = rules
-        self.varGlobales = {}
+        # self.varGlobales = {}
         self.dirFunciones = {}
         self.pilaCuad = []
+        self.pilaSaltos = []
 
     def error(self,tree,mensaje):
         line = tree.getSymbol().line
@@ -441,29 +442,41 @@ class Programa:
         # traverse(self.tree.dec_variables(),self.rules)
         # self.variablesGlobales(self.tree.variables().var(),self.rules)
         # print(self.tree.dec_variables().getText())
-        self.decVariables(self.tree.dec_variables(),self.varGlobales,"")
-        pprint.pprint(self.varGlobales)
+        varGlobales = {}
+        self.decVariables(self.tree.dec_variables(),varGlobales,"")
+        self.dirFunciones['global'] = {'vars': varGlobales}
+        # pprint.pprint(self.dirFunciones)
+        # pprint.pprint(self.varGlobales)
         # print(self.varGlobales)
         # p1.llamadaglobales(p1.tree.variables().var(),p1.rules)
         # variablesGlobales(programa.variables().var(),reglas)
-        print("===== Funciones =====")
+        # print("===== Funciones =====")
+        self.pilaCuad.append("quad: goto main")
         self.decFunciones(self.tree.dec_functions())
-        # print(self.dirFunciones)
-        pprint.pprint(self.dirFunciones)
-        # print(self.existeVar("nice","fact"))
-        # if not self.checaFun("fact",["int"]):
-        #     print("no existe")
-        # else:
-        #     print("si existe")
-        # print(self.checaParams("dos",["int","int"]))
-        # print(self.regresaTipo("nice","fact"))
-        # # decFunciones(programa.functions(),reglas)
-        print("===== Main =====")
-        self.evaluarBloqueEst(self.tree.principal().bloque_est(),"main")
+        # print(self.existeVar("aloha","fact"))
 
+
+
+        # # print(self.dirFunciones)
+        # pprint.pprint(self.dirFunciones)
+        # # print(self.existeVar("nice","fact"))
+        # # if not self.checaFun("fact",["int"]):
+        # #     print("no existe")
+        # # else:
+        # #     print("si existe")
+        # # print(self.checaParams("dos",["int","int"]))
+        # # print(self.regresaTipoVar("nice","fact"))
+        # # # decFunciones(programa.functions(),reglas)
+        # print("===== Main =====")
+        self.pilaSaltos.append(len(self.pilaCuad)+1)
+        self.dirFunciones['global']["empieza"] = len(self.pilaCuad)+1
+        self.evaluarBloqueEst(self.tree.principal().bloque_est(),"main")
+        self.pilaCuad.append("quad: end")
+        #
         for i in range(len(self.pilaCuad)):
             print(i+1, ".-",self.pilaCuad[i])
-        # print(self.pilaCuad)
+        # print(self.pilaSaltos)
+        pprint.pprint(self.dirFunciones)
         # self.evaluarFun(self.tree.principal().bloque_est(),"main")
 
         # evaluarFun(programa.principal().bloque_est().estatutos(),reglas)
@@ -491,7 +504,7 @@ class Programa:
         return True
 
     def existeVar(self,var,funcion):
-        res = self.varGlobales.get(var, None)
+        res = self.dirFunciones['global']['vars'].get(var, None)
         if res != None:
             return True
         if funcion != "main":
@@ -506,11 +519,11 @@ class Programa:
         return False
 
     #Funcion que regresa el tipo de una variable
-    def regresaTipo(self,var,funcion):
+    def regresaTipoVar(self,var,funcion):
         if self.existeVar(var,funcion):
-            res = self.varGlobales.get(var, None)
+            res = self.dirFunciones['global']['vars'].get(var, None)
             if res != None:
-                return self.varGlobales[var]['tipo']
+                return self.dirFunciones['global']['vars'][var]['tipo']
             if funcion != "main":
                 if res == None:
                     res = self.dirFunciones[funcion]['vars'].get(var, None)
@@ -523,6 +536,11 @@ class Programa:
         else:
             return False
 
+    def regresaInicioFun(self,funcion):
+        if self.existeFun(funcion):
+            return self.dirFunciones[funcion]['empieza']
+        else:
+            return False
     ##### PARSE VARS Y FUNCIONES
 
     #Funcion que regresa el JSON con la info de las vars
@@ -569,52 +587,50 @@ class Programa:
                 nombreFun = tree.ID().getText()
                 jsontemp = {}
 
-                # jsontemp["nombre"] = tree.ID().getText()
-
-                # print("Funcion: ", tree.ID())
-                # traverse(tree.params(),rule_names)
-                # self.evaluarFun(tree.bloque_est().estatutos(),rules)
                 tempVar = {}
                 self.decVariables(tree.dec_variables(),tempVar,"")
 
-                # print(tempVar)
-                # print("vars func: ", tree.variables().var().getText())
-
-
-                # print("Main de la funcion: ", tree.bloque_est().getText())
                 tipo_ret = tree.tipo_ret()
                 if tipo_ret.getText() == "void":
                     ret = "void"
                     # print("Tipo ret: void")
                 else:
                     ret = tipo_ret.tipo().getText()
+                    self.dirFunciones['global']['vars'][nombreFun] = {'tipo' : ret}
+
                     # print("Tipo ret: ",tipo_ret.tipo().getText())
+                tablaParams = []
+                varsParams = {}
+                self.decParamsFun(tree.params(),varsParams,tablaParams)
+                varsFunc = dict(list(varsParams.items()) + list(tempVar.items()))
+                cuadEmpieza = len(self.pilaCuad) + 1
 
-                arregloTipo = []
-                arregloNoms = []
-                self.decParamsFun(tree.params(),arregloTipo,arregloNoms)
-
-                jsontemp["num_vars"] =  len(tempVar)
-                jsontemp["vars"] = tempVar
-                jsontemp["params"] = {"num": len(arregloTipo), "tipo": arregloTipo, "nombres": arregloNoms }
+                # jsontemp["num_vars"] =  len(tempVar)
+                jsontemp["params"] = tablaParams
+                jsontemp["vars"] = varsFunc
+                # jsontemp["params"] = {"num": len(arregloTipo), "tipo": arregloTipo, "nombres": arregloNoms }
                 jsontemp["tipoRet"] = ret
-                jsontemp["main"] = tree.bloque_est()
-                jsontemp["mainTextp"] = tree.bloque_est().getText()
+                jsontemp["empieza"] = cuadEmpieza
+                # jsontemp["main"] = tree.bloque_est()
+                # jsontemp["mainTextp"] = tree.bloque_est().getText()
                 # jsontemp["mainTexto"] = tree.bloque_est().estatuto().getText()
-
+                # print(len(self.pilaCuad))
                 self.dirFunciones[nombreFun] = jsontemp
+                self.evaluarBloqueEst(tree.bloque_est(),nombreFun)
+                self.pilaCuad.append("quad: endfunc")
+                # traverse(tree.bloque_est(),self.rules)
                 # pprint.pprint(jsontemp)
             else:
                 for child in tree.children:
                         self.decFunciones(child)
 
-            nombreFun = "global"
-            jsontemp = {}
-            tempVar = self.varGlobales
-            jsontemp["num_vars"] =  len(tempVar)
-            jsontemp["vars"] = tempVar
-            jsontemp["tipoRet"] = "void"
-            self.dirFunciones[nombreFun] = jsontemp
+            # nombreFun = "global"
+            # jsontemp = {}
+            # tempVar = self.varGlobales
+            # jsontemp["num_vars"] =  len(tempVar)
+            # jsontemp["vars"] = tempVar
+            # jsontemp["tipoRet"] = "void"
+            # self.dirFunciones[nombreFun] = jsontemp
 
             # elif rules[tree.getRuleIndex()] == "params":
             #     count = 0
@@ -626,14 +642,16 @@ class Programa:
         else:
             pass
 
-    def decParamsFun(self,tree,temp1,temp2):
+    def decParamsFun(self,tree,varsParams,tablaParams):
         if not isinstance(tree, TerminalNodeImpl):
             if self.rules[tree.getRuleIndex()] == "params":
-                temp1.append(tree.tipo().getText())
-                temp2.append(tree.ID().getText())
+                nombre = tree.ID().getText()
+                tipo = tree.tipo().getText()
+                tablaParams.append(tipo)
+                varsParams[nombre] = {'tipo': tipo}
 
             for child in tree.children:
-                self.decParamsFun(child,temp1,temp2)
+                self.decParamsFun(child,varsParams,tablaParams)
         else:
             pass
 
@@ -982,7 +1000,7 @@ class Programa:
             if self.rules[tree.getRuleIndex()] == "var":
                 nomVar = tree.ID().getText()
                 # print("Var : " , nomVar)
-                tipo = self.regresaTipo(tree.ID().getText(),funcion)
+                tipo = self.regresaTipoVar(tree.ID().getText(),funcion)
 
                 pilas['pTipos'].append(tipo)
                 pilas['pOperandos'].append(nomVar)
@@ -1039,6 +1057,7 @@ class Programa:
     #### ESTATUTOS
 
     def evaluarBloqueEst(self, tree,funcion):
+        # print("entre")
         if not isinstance(tree, TerminalNodeImpl):
             for child in tree.children:
                 if not isinstance(child, TerminalNodeImpl):
@@ -1133,7 +1152,8 @@ class Programa:
                         # rules.append(ruleChild)
                         if ruleChild == "var":
                             nombre = child.ID().getText()
-                            tipo = self.regresaTipo(nombre,funcion)
+                            tipo = self.regresaTipoVar(nombre,funcion)
+                            # print(tipo)
 
                             if not tipo:
                                 msj = "No se encontró la var '{}'".format(nombre)
@@ -1141,6 +1161,8 @@ class Programa:
 
                             pila.append(nombre)
                             tipos.append(tipo)
+                            # print("oila", pila)
+                            # print("oila", tipos)
                         elif ruleChild == "expresion":
                             # print("exp")
                             self.expresion(child,funcion)
@@ -1341,28 +1363,56 @@ class Programa:
     #checar que sea valida la llamada
     #checar que los params sean compatibles
     def est_llamada_est(self,tree,funcion):
+        nombreFun = tree.ID().getText()
+
+        #Checa que exista y su inicio
+        dirInicio = self.regresaInicioFun(nombreFun)
+        if not dirInicio:
+            msj = "No se encontró la funcion '{}'".format(nombreFun)
+            return self.error(tree.ID(),msj)
+
+        #Guarda el tipo de Retorno
+        tipoRet = self.dirFunciones[nombreFun]['tipoRet']
+
+        quad = "quad: ERA " + nombreFun
+        self.pilaCuad.append(quad)
+        self.resolverParams(tree.params_llamada(),nombreFun)
+        quad = "quad: gosub {} {}".format(nombreFun,dirInicio)
+        self.pilaCuad.append(quad)
+
+        if tipoRet != "void":
+            quad = "quad: = {} temp".format(nombreFun)
+            self.pilaCuad.append(quad)
+        # print("llamada")
+        # if funcion == "main":
+        #     print("main")
+        # else:
+        #     print("no main")
         # print("Nombre fun:", funcion)
         # print("Params fun:", params.getText())
         # print("una llamada una funcion")
         # traverse(codigo,self.rules)
         # print(codigo.llamada_est().llamada().ID())
         # traverse(tree.llamada().params_llamada(),self.rules)
-        res = []
-        self.resolverParams(tree.params_llamada(),funcion,res)
-        nombre = tree.ID().getText()
-        # print(nombre)
-        estatutos = self.dirFunciones[nombre]['main']
-        self.evaluarBloqueEst(estatutos,nombre)
+        # res = []
+
+        # nombre = tree.ID().getText()
+        # # print(nombre)
+        # estatutos = self.dirFunciones[nombre]['main']
+        # self.evaluarBloqueEst(estatutos,nombre)
         # print(estatutos)
 
-    def resolverParams(self,tree,funcion,res):
+    def resolverParams(self,tree,funcion,cont=0):
         for child in tree.children:
             if not isinstance(child, TerminalNodeImpl):
                 regla = self.rules[child.getRuleIndex()]
                 if regla == "expresion":
                     self.expresion(child,funcion)
+                    quad = "quad: param EXP param" + str(cont)
+                    self.pilaCuad.append(quad)
+                    cont += 1
                 elif regla == "params_llamada":
-                    self.resolverParams(child,funcion,res)
+                    self.resolverParams(child,funcion,cont)
 
 
 
