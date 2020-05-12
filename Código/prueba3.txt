@@ -1,35 +1,31 @@
-programa patito3;
+programa patito;
 var
-  int i,j,p;
-  int arreglo[10], otroarreglo[10];
-  float valor;
-  int matriz[3][8], otramatriz[3][8];
-funcion int fact(int j);
-var int nice[10][50];
-{
-  fact(1*5);
-  i = 5;
-  escribe("wow");
-  lee(nice);
-}
-funcion int dos(int b,int a);
-var int c;
-{
-  escribe("imprime","dentro","de","funcion",4);
-}
-principal(){
-  dos(45*20,2-1);
-  escribe("hey");
-  desde j=5*45 hasta 2*3 hacer {
-    escribe("hola");
-    lee(p);
-    valor = 25*45/10;
+  int i,j,k;
+  float f;
+  funcion void uno(int a,int b);
+  var int x;
+  {
+    si (5>0) entonces{
+      i = 3+7*5+4;
+      escribe(4+5);
+      uno(3-4,4);
+    }
+    sino {
+      escribe(3+7);
+    }
   }
-  lee(j);
-  i=j=10*5;
-  mientras(4>5*20)haz{
-    i = 9-8;
-    escribe("hola",4+5);
+  funcion int dos(int a,float g);
+  var int x;
+  {
+    i=3;
+    mientras(5>0) haz {
+      i = 3-9*5;
+      uno(3*2,3+9);
+      g=8*5-9;
+    }
+    regresa(4+9*5);
   }
-  j = 6 + 10;
-}
+  principal(){
+    i=2;
+    j=4+1;
+  }
