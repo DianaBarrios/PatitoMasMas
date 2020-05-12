@@ -562,29 +562,33 @@ class Programa:
         if not isinstance(tree, TerminalNodeImpl):
             if self.rules[tree.getRuleIndex()] == "funcion":
                 nombreFun = tree.ID().getText()
-                jsontemp = {}
-
-                tempVar = {}
-                self.decVariables(tree.dec_variables(),tempVar,"")
-
-                tipo_ret = tree.tipo_ret()
-                if tipo_ret.getText() == "void":
-                    ret = "void"
+                if(self.existeFun(nombreFun)):
+                    msj = "Ya existe una funcion definida con el mismo nombre '{}'".format(nombreFun)
+                    return self.error(tree.ID(),msj)
                 else:
-                    ret = tipo_ret.tipo().getText()
-                    self.dirFunciones['global']['vars'][nombreFun] = {'tipo' : ret}
-                tablaParams = []
-                varsParams = {}
-                self.decParamsFun(tree.params(),varsParams,tablaParams)
-                varsFunc = dict(list(varsParams.items()) + list(tempVar.items()))
-                cuadEmpieza = len(self.pilaCuad) + 1
-                jsontemp["params"] = tablaParams
-                jsontemp["vars"] = varsFunc
-                jsontemp["tipoRet"] = ret
-                jsontemp["empieza"] = cuadEmpieza
-                self.dirFunciones[nombreFun] = jsontemp
-                self.evaluarBloqueEst(tree.bloque_est(),nombreFun)
-                self.pilaCuad.append(Cuadruplo('endproc',0,0,0))
+                    jsontemp = {}
+
+                    tempVar = {}
+                    self.decVariables(tree.dec_variables(),tempVar,"")
+
+                    tipo_ret = tree.tipo_ret()
+                    if tipo_ret.getText() == "void":
+                        ret = "void"
+                    else:
+                        ret = tipo_ret.tipo().getText()
+                        self.dirFunciones['global']['vars'][nombreFun] = {'tipo' : ret}
+                    tablaParams = []
+                    varsParams = {}
+                    self.decParamsFun(tree.params(),varsParams,tablaParams)
+                    varsFunc = dict(list(varsParams.items()) + list(tempVar.items()))
+                    cuadEmpieza = len(self.pilaCuad) + 1
+                    jsontemp["params"] = tablaParams
+                    jsontemp["vars"] = varsFunc
+                    jsontemp["tipoRet"] = ret
+                    jsontemp["empieza"] = cuadEmpieza
+                    self.dirFunciones[nombreFun] = jsontemp
+                    self.evaluarBloqueEst(tree.bloque_est(),nombreFun)
+                    self.pilaCuad.append(Cuadruplo('endproc',0,0,0))
             else:
                 for child in tree.children:
                         self.decFunciones(child)
@@ -1372,6 +1376,8 @@ def main():
         input_stream = FileStream("prueba4.txt")
     elif arch == '5':
         input_stream = FileStream("prueba5.txt")
+    elif arch == '8':
+        input_stream = FileStream("prueba8.txt")
 
     lexer = PatitoMasMasLexer(input_stream)
     stream = CommonTokenStream(lexer)
