@@ -1,0 +1,28 @@
+programa patito7;
+var
+  int i,j,k;
+  float f;
+
+funcion void uno(int b,int a);
+var int dummy1;
+{
+  p = j;
+  escribe("imprime","dentro","de","funcion",4);
+}
+
+funcion int dos(int a, float g);
+var int i;
+{
+  i = 5;
+  escribe("wow");
+}
+
+principal(){
+  si(4+5>8 || 3<5) entonces {
+    i = 2 + 5;
+  }
+  sino{
+    i = 2 - 5;
+  }
+  j = 7 * 2 + 3;
+}

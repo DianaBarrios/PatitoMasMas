@@ -436,6 +436,16 @@ class Programa:
         self.dirFunciones = {}
         self.pilaCuad = []
         self.pilaSaltos = []
+        self.memory_limits = {
+            'global': {'int': 5000, 'float': 8000, 'char': 10000, 'string': 13000, 'bool': 14000},
+            'local': {'int': 15000, 'float': 18000, 'char': 20000, 'string': 23000, 'bool': 24000}
+            #'temp': {'int': 5000, 'float': 8000, 'char': 10000, 'string': 13000, 'bool': 14000},
+            #'ctes': {'int': 5000, 'float': 8000, 'char': 10000, 'string': 13000, 'bool': 14000},
+        }
+        self.memory = {
+            'temp': {},
+            'ctes': {}
+        }
 
     def error(self,tree,mensaje):
         line = tree.getSymbol().line
@@ -444,20 +454,32 @@ class Programa:
 
     def imprimeTodo(self):
         varGlobales = {}
-        self.decVariables(self.tree.dec_variables(),varGlobales,"")
-        self.dirFunciones['global'] = {'vars': varGlobales}
+        globalCounters = {}
+        self.decVariables(self.tree.dec_variables(),varGlobales,globalCounters,"",'global')
+        self.dirFunciones['global'] = {'vars': varGlobales, 'counters': globalCounters}
         self.pilaCuad.append(Cuadruplo('goto','main',0,0))
         self.decFunciones(self.tree.dec_functions())
+        
         self.pilaSaltos.append(len(self.pilaCuad)+1)
         self.dirFunciones['global']["empieza"] = len(self.pilaCuad)+1
         self.evaluarBloqueEst(self.tree.principal().bloque_est(),"main")
         self.pilaCuad.append(Cuadruplo('end',0,0,0))
+       
         #Imprime cuadruplos
         print("===== Cuadruplos =====")
         for i in range(len(self.pilaCuad)):
             print(i+1, ".-",self.pilaCuad[i].imprimir())
+        
+        #Imprime el directorio de funciones
         print("===== Dir Funciones =====")
         pprint.pprint(self.dirFunciones)
+
+        for k in self.dirFunciones.keys():
+            self.memory[k] = self.dirFunciones[k]['vars']
+
+        #Imprime memoria
+        print("===== Memory =====")
+        pprint.pprint(self.memory)
 
 
     ##### VERIFICACIONES
@@ -522,17 +544,28 @@ class Programa:
             return False
     ##### PARSE VARS Y FUNCIONES
 
+    #Funcion que te da la siguiente direccion
+    def sigDireccionRelativa(self,local_counters,tipo):
+        if tipo in local_counters:
+            local_counters[tipo] += 1
+        else:
+            local_counters[tipo] = 0
+        
+        return local_counters[tipo]
+
     #Funcion que regresa el JSON con la info de las vars
-    def decVariables(self,tree,temp,tipo):
+    def decVariables(self,tree,temp,local_counters,tipo,scope):
         if not isinstance(tree, TerminalNodeImpl):
             if self.rules[tree.getRuleIndex()] == "dec_var":
                 tipo = tree.tipo().getText()
             elif self.rules[tree.getRuleIndex()] == "ids":
                 elem = tree.getText()
+                offset = self.memory_limits[scope][tipo]
+                addr = self.sigDireccionRelativa(local_counters,tipo) + offset
                 # print(tree.getText())
                 # traverse(tree,self.rules)
                 if elem.find("[") == -1:
-                    temp[elem] = {'tipo': tipo}
+                    temp[elem] = {'tipo': tipo, 'dir': addr}
                 else:
                     count = elem.count("[")
                     if count == 1:
@@ -540,7 +573,7 @@ class Programa:
                         indexFinal = elem.index("]")
                         nombre = elem[:indexInicio]
                         dim = elem[indexInicio+1:indexFinal]
-                        temp[nombre] = {'tipo': tipo,'dim1': dim}
+                        temp[nombre] = {'tipo': tipo,'dim1': dim, 'dir': addr}
                     if count == 2:
                         indexInicio = elem.index("[")
                         indexFinal = elem.index("]")
@@ -549,12 +582,12 @@ class Programa:
                         nombre = elem[:indexInicio]
                         dim = elem[indexInicio+1:indexFinal]
                         dim2 = elem[indexInicio2+1:indexFinal2]
-                        temp[nombre] = {'tipo': tipo,'dim1': dim,'dim2':dim2}
+                        temp[nombre] = {'tipo': tipo,'dim1': dim,'dim2':dim2, 'dir': addr}
 
             else:
                 pass
             for child in tree.children:
-                self.decVariables(child,temp,tipo)
+                self.decVariables(child,temp,local_counters,tipo,scope)
 
     #Funcion que actualiza el dir de decFunciones con los
     #datos de las decFunciones del programa
@@ -568,24 +601,35 @@ class Programa:
                 else:
                     jsontemp = {}
 
-                    tempVar = {}
-                    self.decVariables(tree.dec_variables(),tempVar,"")
+                    
 
                     tipo_ret = tree.tipo_ret()
                     if tipo_ret.getText() == "void":
                         ret = "void"
                     else:
                         ret = tipo_ret.tipo().getText()
-                        self.dirFunciones['global']['vars'][nombreFun] = {'tipo' : ret}
+                        globalCounters = self.dirFunciones['global']['counters']
+                        offset = self.memory_limits['global'][ret]
+                        addr = self.sigDireccionRelativa(globalCounters,ret) + offset
+                        self.dirFunciones['global']['vars'][nombreFun] = {'tipo' : ret, 'dir': addr}
+                    
                     tablaParams = []
                     varsParams = {}
-                    self.decParamsFun(tree.params(),varsParams,tablaParams)
+                    tempVar = {}
+
+                    #Local counter of types of vars and params
+                    localCounters = {}
+
+                    self.decParamsFun(tree.params(),varsParams,tablaParams,nombreFun,localCounters)
+                    self.decVariables(tree.dec_variables(),tempVar,localCounters,"",'local')
+
                     varsFunc = dict(list(varsParams.items()) + list(tempVar.items()))
                     cuadEmpieza = len(self.pilaCuad) + 1
                     jsontemp["params"] = tablaParams
                     jsontemp["vars"] = varsFunc
                     jsontemp["tipoRet"] = ret
                     jsontemp["empieza"] = cuadEmpieza
+                    jsontemp["counters"] = localCounters
                     self.dirFunciones[nombreFun] = jsontemp
                     self.evaluarBloqueEst(tree.bloque_est(),nombreFun)
                     self.pilaCuad.append(Cuadruplo('endproc',0,0,0))
@@ -595,16 +639,18 @@ class Programa:
         else:
             pass
 
-    def decParamsFun(self,tree,varsParams,tablaParams):
+    def decParamsFun(self,tree,varsParams,tablaParams,nombreFun,local_counters):
         if not isinstance(tree, TerminalNodeImpl):
             if self.rules[tree.getRuleIndex()] == "params":
                 nombre = tree.ID().getText()
                 tipo = tree.tipo().getText()
                 tablaParams.append(tipo)
-                varsParams[nombre] = {'tipo': tipo}
+                offset = self.memory_limits['local'][tipo]
+                addr = self.sigDireccionRelativa(local_counters,tipo) + offset
+                varsParams[nombre] = {'tipo': tipo, 'dir': addr}
 
             for child in tree.children:
-                self.decParamsFun(child,varsParams,tablaParams)
+                self.decParamsFun(child,varsParams,tablaParams,nombreFun,local_counters)
         else:
             pass
 
@@ -1376,6 +1422,10 @@ def main():
         input_stream = FileStream("prueba4.txt")
     elif arch == '5':
         input_stream = FileStream("prueba5.txt")
+    elif arch == '6':
+        input_stream = FileStream("prueba6.txt")
+    elif arch == '7':
+        input_stream = FileStream("prueba7.txt")
     elif arch == '8':
         input_stream = FileStream("prueba8.txt")
 
