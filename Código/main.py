@@ -452,7 +452,7 @@ class Programa:
         column = tree.getSymbol().column
         print("Error linea-> {}:{} -> {}".format(line,column,mensaje))
 
-    def imprimeTodo(self):
+    def ejectuar(self):
         varGlobales = {}
         globalCounters = {}
         self.decVariables(self.tree.dec_variables(),varGlobales,globalCounters,"",'global')
@@ -464,6 +464,13 @@ class Programa:
         self.dirFunciones['global']["empieza"] = len(self.pilaCuad)+1
         self.evaluarBloqueEst(self.tree.principal().bloque_est(),"main")
         self.pilaCuad.append(Cuadruplo('end',0,0,0))
+        self.pilaCuad[0] = Cuadruplo('goto',self.dirFunciones['global']["empieza"],0,0)
+
+    def cuadruplos(self):
+        return self.pilaCuad
+
+    def imprimeTodo(self):
+        self.ejectuar()
 
         #Imprime cuadruplos
         print("===== Cuadruplos =====")
@@ -1428,6 +1435,22 @@ class Programa:
 
         else:
             pass
+
+class Compilador:
+    def __init__(self, arch):
+        self.arch = arch
+        self.input_stream = FileStream("prueba{}.txt".format(arch))
+    def compilar(self):
+        lexer = PatitoMasMasLexer(self.input_stream)
+        stream = CommonTokenStream(lexer)
+        parser = PatitoMasMasParser(stream)
+        rutaInicio = parser.start().programa()
+
+        # traverse(rutaInicio,parser.ruleNames)
+
+        programa = Programa(rutaInicio,parser.ruleNames)
+        programa.ejectuar()
+        return programa.cuadruplos()
 
 
 def main():
