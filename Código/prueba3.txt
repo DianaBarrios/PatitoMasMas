@@ -3,7 +3,7 @@ var
   int i,j,k;
   float f;
   funcion void uno(int a,int b);
-  var int x;
+  var int g;
   {
     si (5>0) entonces{
       i = 3+7*5+4;

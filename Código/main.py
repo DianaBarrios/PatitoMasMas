@@ -459,17 +459,17 @@ class Programa:
         self.dirFunciones['global'] = {'vars': varGlobales, 'counters': globalCounters}
         self.pilaCuad.append(Cuadruplo('goto','main',0,0))
         self.decFunciones(self.tree.dec_functions())
-        
+
         self.pilaSaltos.append(len(self.pilaCuad)+1)
         self.dirFunciones['global']["empieza"] = len(self.pilaCuad)+1
         self.evaluarBloqueEst(self.tree.principal().bloque_est(),"main")
         self.pilaCuad.append(Cuadruplo('end',0,0,0))
-       
+
         #Imprime cuadruplos
         print("===== Cuadruplos =====")
         for i in range(len(self.pilaCuad)):
             print(i+1, ".-",self.pilaCuad[i].imprimir())
-        
+
         #Imprime el directorio de funciones
         print("===== Dir Funciones =====")
         pprint.pprint(self.dirFunciones)
@@ -483,6 +483,12 @@ class Programa:
 
 
     ##### VERIFICACIONES
+    def varDuplicada(self,var):
+        # return True
+        res = self.dirFunciones['global']['vars'].get(var, None)
+        if res != None:
+            return True
+        return False
 
     def checaFun(self,funcion,params):
         if not self.existeFun(funcion):
@@ -550,7 +556,7 @@ class Programa:
             local_counters[tipo] += 1
         else:
             local_counters[tipo] = 0
-        
+
         return local_counters[tipo]
 
     #Funcion que regresa el JSON con la info de las vars
@@ -565,6 +571,11 @@ class Programa:
                 # print(tree.getText())
                 # traverse(tree,self.rules)
                 if elem.find("[") == -1:
+                    if scope != 'global':
+                        if self.varDuplicada(elem):
+                            msj = "Var '{}' duplicada".format(elem)
+                            return self.error(tree.ID(),msj)
+
                     temp[elem] = {'tipo': tipo, 'dir': addr}
                 else:
                     count = elem.count("[")
@@ -572,6 +583,11 @@ class Programa:
                         indexInicio = elem.index("[")
                         indexFinal = elem.index("]")
                         nombre = elem[:indexInicio]
+                        if scope != 'global':
+                            if self.varDuplicada(nombre):
+                                msj = "Var '{}' duplicada".format(nombre)
+                                return self.error(tree.ID(),msj)
+
                         dim = elem[indexInicio+1:indexFinal]
                         temp[nombre] = {'tipo': tipo,'dim1': dim, 'dir': addr}
                     if count == 2:
@@ -580,6 +596,10 @@ class Programa:
                         indexInicio2 = elem.find("[", indexInicio + 1)
                         indexFinal2 = elem.find("]", indexFinal + 1)
                         nombre = elem[:indexInicio]
+                        if scope != 'global':
+                            if self.varDuplicada(nombre):
+                                msj = "Var '{}' duplicada".format(nombre)
+                                return self.error(tree.ID(),msj)
                         dim = elem[indexInicio+1:indexFinal]
                         dim2 = elem[indexInicio2+1:indexFinal2]
                         temp[nombre] = {'tipo': tipo,'dim1': dim,'dim2':dim2, 'dir': addr}
@@ -601,7 +621,7 @@ class Programa:
                 else:
                     jsontemp = {}
 
-                    
+
 
                     tipo_ret = tree.tipo_ret()
                     if tipo_ret.getText() == "void":
@@ -612,7 +632,7 @@ class Programa:
                         offset = self.memory_limits['global'][ret]
                         addr = self.sigDireccionRelativa(globalCounters,ret) + offset
                         self.dirFunciones['global']['vars'][nombreFun] = {'tipo' : ret, 'dir': addr}
-                    
+
                     tablaParams = []
                     varsParams = {}
                     tempVar = {}
