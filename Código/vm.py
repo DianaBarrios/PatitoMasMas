@@ -1,5 +1,5 @@
-from main import Compilador
-from main import Cuadruplo
+from compiler import Compilador
+from compiler import Cuadruplo
 
 def main():
     c = Compilador(3)
@@ -7,6 +7,7 @@ def main():
     actual = 0
     while actual != len(cuadruplos):
         operacion = cuadruplos[actual].op
+
         if operacion == 'goto':
             actual = cuadruplos[actual].dir1 - 1
             # print(actual)

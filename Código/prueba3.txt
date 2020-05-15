@@ -26,6 +26,7 @@ var
     regresa(4+9*5);
   }
   principal(){
+    lee(k);
     escribe("hola","adios","hola",4*5);
     k = 500 / 100;
     i=2;
