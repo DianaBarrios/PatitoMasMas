@@ -438,14 +438,15 @@ class Programa:
         self.pilaSaltos = []
         self.memory_limits = {
             'global': {'int': 5000, 'float': 8000, 'char': 10000, 'string': 13000, 'bool': 14000},
-            'local': {'int': 15000, 'float': 18000, 'char': 20000, 'string': 23000, 'bool': 24000}
-            #'temp': {'int': 5000, 'float': 8000, 'char': 10000, 'string': 13000, 'bool': 14000},
-            #'ctes': {'int': 5000, 'float': 8000, 'char': 10000, 'string': 13000, 'bool': 14000},
+            'local': {'int': 15000, 'float': 18000, 'char': 20000, 'string': 23000, 'bool': 24000},
+            'temp': {'int': 25000, 'float': 28000, 'char': 31000, 'string': 33000, 'bool': 34000},
+            'ctes': {'int': 35000, 'float': 38000, 'char': 41000, 'string': 43000, 'bool': 44000},
         }
         self.memory = {
             'temp': {},
             'ctes': {}
         }
+        self.ctesCounter = {}
 
     def error(self,tree,mensaje):
         line = tree.getSymbol().line
@@ -531,6 +532,12 @@ class Programa:
             else:
                 return False
         return False
+
+    def existeCte(self,cte,tipo):
+        if cte in self.memory['ctes']:
+            return True
+        else: 
+            return False;
 
     #Funcion que regresa el tipo de una variable
     def regresaTipoVar(self,var,funcion):
@@ -1028,6 +1035,14 @@ class Programa:
                             cte = cte.replace("'","")
                         else:
                             tipo = "int"
+
+                        if cte in self.memory['ctes']:
+                            addr = self.memory['ctes'][cte]
+                        else:
+                            offset = self.memory_limits['ctes'][tipo]
+                            addr = self.sigDireccionRelativa(self.ctesCounter,tipo) + offset
+                            self.memory['ctes'][cte] = {'tipo': tipo, 'dir': addr}
+
 
                         pilas['pTipos'].append(tipo)
                         pilas['pOperandos'].append(cte)

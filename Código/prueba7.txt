@@ -18,7 +18,7 @@ var int i;
 }
 
 principal(){
-  si(4+5>8 || 3<5) entonces {
+  si(4+5.5>8 || 3<5) entonces {
     i = 2 + 5;
   }
   sino{
