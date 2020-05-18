@@ -419,7 +419,7 @@ cubo = {
     }
 
 class Cuadruplo:
-    def __init__(self, op,dir1,dir2,dir3):
+    def __init__(self,op,dir1,dir2,dir3):
          self.op = op
          self.dir1 = dir1
          self.dir2 = dir2
@@ -427,6 +427,8 @@ class Cuadruplo:
     def imprimir(self):
         str = "quad: {} {} {} {}".format(self.op,self.dir1,self.dir2,self.dir3)
         return str
+    def getDir3(self):
+        return self.dir3
 
 class Programa:
     def __init__(self, tree, rules):
@@ -447,6 +449,7 @@ class Programa:
             'ctes': {}
         }
         self.ctesCounter = {}
+        self.temp = 0
 
     def error(self,tree,mensaje):
         line = tree.getSymbol().line
@@ -464,6 +467,7 @@ class Programa:
         self.pilaSaltos.append(len(self.pilaCuad)+1)
         self.dirFunciones['global']["empieza"] = len(self.pilaCuad)+1
         self.evaluarBloqueEst(self.tree.principal().bloque_est(),"main")
+        self.temp = 0
         self.pilaCuad.append(Cuadruplo('end',0,0,0))
         self.pilaCuad[0] = Cuadruplo('goto',self.dirFunciones['global']["empieza"],0,0)
 
@@ -538,6 +542,9 @@ class Programa:
             return True
         else: 
             return False;
+
+    #Funcion que regresa la dir de una variable
+
 
     #Funcion que regresa el tipo de una variable
     def regresaTipoVar(self,var,funcion):
@@ -666,6 +673,7 @@ class Programa:
                     jsontemp["counters"] = localCounters
                     self.dirFunciones[nombreFun] = jsontemp
                     self.evaluarBloqueEst(tree.bloque_est(),nombreFun)
+                    self.temp = 0
                     self.pilaCuad.append(Cuadruplo('endproc',0,0,0))
             else:
                 for child in tree.children:
@@ -697,6 +705,7 @@ class Programa:
             'pTipos' : []
         }
         self.expresionAux(tree,funcion,pilas)
+        return pilas['pOperandos'][0]
 
     def genQuad(self,op,left,right):
         if op == '*':
@@ -746,6 +755,7 @@ class Programa:
                                     # print("tipo res:", tipoRes)
                                     if tipoRes == "x":
                                         print("Operacion no valida")
+                                    """
                                     elif tipoRes == "int":
                                         right = int(right)
                                         left = int(left)
@@ -758,16 +768,20 @@ class Programa:
                                     else:
                                         right = int(right)
                                         left = int(left)
+                                    """
 
                                     # print("der: ",right,"izq:",left)
-                                    res = self.genQuad(op,left,right)
+                                    # res = self.genQuad(op,left,right)
+                                    res = self.temp 
+                                    self.temp += 1
                                     # print(res)
                                     #print("quad: ", op, left,right,res)
 
-                                    self.pilaCuad.append(Cuadruplo(op,left,right,res))
+                                    self.pilaCuad.append(Cuadruplo(op,left,right,"temp"+str(res)))
 
-
-                                    pilas['pOperandos'].append(str(res))
+                                    
+                                    pilas['pOperandos'].append("temp" + str(res))
+                                    
                                     pilas['pTipos'].append(tipoRes)
                                     #
                                     # print("= Pilas temporales =")
@@ -805,7 +819,7 @@ class Programa:
                                     if tipoRes == "x":
                                         print("Operacion no valida")
 
-
+                                    """
                                     if right == "True":
                                         right = True
                                     elif right == "False":
@@ -815,12 +829,16 @@ class Programa:
                                         left = True
                                     elif left == "False":
                                         left = False
+                                    """
                                     # print("der: ",right,"izq:",left)
-                                    res = self.genQuad(op,left,right)
+                                    #res = self.genQuad(op,left,right)
 
-                                    self.pilaCuad.append(Cuadruplo(op,left,right,res))
+                                    res = self.temp 
+                                    self.temp += 1
 
-                                    pilas['pOperandos'].append(str(res))
+                                    self.pilaCuad.append(Cuadruplo(op,left,right,"Temp"+str(res)))
+
+                                    pilas['pOperandos'].append("temp" + str(res))
                                     pilas['pTipos'].append(tipoRes)
 
                                 else:
@@ -863,20 +881,25 @@ class Programa:
                                     tipoRes = cubo[op][rightType][leftType]
                                     if tipoRes == "x":
                                         print("Operacion no valida")
+                                    """
                                     elif tipoRes == "int":
                                         right = int(right)
                                         left = int(left)
                                     elif tipoRes == "float":
                                         right = float(right)
                                         left = float(left)
+                                        """
+
                                     # print("der: ",right,"izq:",left)
-                                    res = self.genQuad(op,left,right)
+                                    #res = self.genQuad(op,left,right)
+                                    res = self.temp 
+                                    self.temp += 1
                                     # print(res)
                                     #print("quad: ", op, left,right,res)
 
-                                    self.pilaCuad.append(Cuadruplo(op,left,right,res))
+                                    self.pilaCuad.append(Cuadruplo(op,left,right,"temp"+str(res)))
 
-                                    pilas['pOperandos'].append(str(res))
+                                    pilas['pOperandos'].append("temp"+str(res))
                                     pilas['pTipos'].append(tipoRes)
                                 else:
                                     pass
@@ -910,25 +933,30 @@ class Programa:
                                 tipoRes = cubo[op][rightType][leftType]
                                 if tipoRes == "x":
                                     print("Operacion no valida")
+                                """
                                 elif tipoRes == "int":
                                     right = int(right)
                                     left = int(left)
                                 elif tipoRes == "float":
                                     right = float(right)
                                     left = float(left)
+"""
+
                                 # print("der: ",right,"izq:",left)
-                                res = self.genQuad(op,left,right)
+                                #res = self.genQuad(op,left,right)
+                                res = self.temp 
+                                self.temp += 1
                                 # print(res)
                                 #print("quad: ", op, left,right,res)
 
-                                self.pilaCuad.append(Cuadruplo(op,left,right,res))
+                                self.pilaCuad.append(Cuadruplo(op,left,right,"temp"+str(res)))
 
                                 # print("= Pilas temporales =")
                                 # print("Pila operandos:",pilas['pOperandos'])
                                 # print("Pila tipos:",pilas['pTipos'])
                                 # print("Pila operadores:",pilas['pOperadores'])
-
-                                pilas['pOperandos'].append(str(res))
+                                
+                                pilas['pOperandos'].append("temp"+str(res))
                                 pilas['pTipos'].append(tipoRes)
                                     # print(res)
                                     # print("mayor a dos"
@@ -990,6 +1018,12 @@ class Programa:
         else:
             pass
 
+    def getDirVar(self, nombre, scope):
+        if nombre in self.dirFunciones[scope]['vars']:
+            return self.dirFunciones[scope]['vars'][nombre]['dir']
+        else:
+            return self.dirFunciones['global']['vars'][nombre]['dir']
+
     def varAux(self,tree,funcion,pilas):
         if not isinstance(tree, TerminalNodeImpl):
             if self.rules[tree.getRuleIndex()] == "var":
@@ -997,12 +1031,14 @@ class Programa:
                 # print("Var : " , nomVar)
                 tipo = self.regresaTipoVar(tree.ID().getText(),funcion)
 
-                pilas['pTipos'].append(tipo)
-                pilas['pOperandos'].append(nomVar)
-
                 if tipo == False:
                     msj = "No se encontró la var '{}'".format(nomVar)
                     return self.error(tree.ID(),msj)
+
+                pilas['pTipos'].append(tipo)
+                addr = self.getDirVar(nomVar,funcion)
+                print(addr)
+                pilas['pOperandos'].append(addr)
 
                 # dims = []
                 for child in tree.children:
@@ -1037,7 +1073,7 @@ class Programa:
                             tipo = "int"
 
                         if cte in self.memory['ctes']:
-                            addr = self.memory['ctes'][cte]
+                            addr = self.memory['ctes'][cte]['dir']
                         else:
                             offset = self.memory_limits['ctes'][tipo]
                             addr = self.sigDireccionRelativa(self.ctesCounter,tipo) + offset
@@ -1045,7 +1081,9 @@ class Programa:
 
 
                         pilas['pTipos'].append(tipo)
-                        pilas['pOperandos'].append(cte)
+                        #diana
+                        pilas['pOperandos'].append(addr)
+                        #pilas['pOperandos'].append(cte)
                         # print("= Pilas temporales =")
                         # print("Pila operandos:",pilas['pOperandos'])
                         # print("Pila tipos:",pilas['pTipos'])
@@ -1059,7 +1097,7 @@ class Programa:
 
     #### ESTATUTOS
 
-    def evaluarBloqueEst(self, tree,funcion):
+    def evaluarBloqueEst(self, tree, funcion):
         # print("entre")
         if not isinstance(tree, TerminalNodeImpl):
             for child in tree.children:
@@ -1129,7 +1167,7 @@ class Programa:
                     # traverse(child,self.rules)
                 # print(regla)
 
-    def est_asignacion(self, tree,funcion):
+    def est_asignacion(self, tree, funcion):
         # traverse(tree,self.rules)
         # print(len(tree.children))
         # print(tree.getText())
@@ -1152,18 +1190,25 @@ class Programa:
                                 msj = "No se encontró la var '{}'".format(nombre)
                                 return self.error(child.ID(),msj)
 
-                            pila.append(nombre)
+                            #pila.append(nombre)
+                            if funcion == "main":
+                                funcion = "global"
+
+                            addr = self.getDirVar(nombre,funcion)
+                            pila.append(addr)
                             tipos.append(tipo)
                             # print("oila", pila)
                             # print("oila", tipos)
                         elif ruleChild == "expresion":
                             # print("exp")
-                            self.expresion(child,funcion)
+                            exp = self.expresion(child,funcion)
+                            
 
                 #print("quad: = EXP", pila[-1])
 
-                quad = "quad: = EXP " + pila[-1]
-                self.pilaCuad.append(Cuadruplo('=','exp',pila[-1],0))
+                quad = "quad: = EXP " + str(pila[-1])
+                #exp = self.pilaCuad[len(self.pilaCuad)-1].getDir3()
+                self.pilaCuad.append(Cuadruplo('=',exp,str(pila[-1]),0))
 
                 if len(pila) > 1:
                     for i in range(len(pila) - 1):
@@ -1172,7 +1217,7 @@ class Programa:
                         tipo1 = tipos.pop()
                         posible = cubo['='][tipo1][tipos[-1]]
                         if posible == 'OK':
-                            self.pilaCuad.append(Cuadruplo('=',var1,pila[-1],0))
+                            self.pilaCuad.append(Cuadruplo('=',var1,str(pila[-1]),0))
                         else:
                             msj = "Asignacion invalida {}({}) a {}({})".format(var1,tipo1,pila[-1],tipos[-1])
                             return self.error(child,msj)
@@ -1196,10 +1241,10 @@ class Programa:
                     if not isinstance(child, TerminalNodeImpl):
                         ruleChild = self.rules[child.getRuleIndex()]
                         if ruleChild == "expresion":
-                            self.expresion(child,funcion)
+                            var = self.expresion(child,funcion)
                             #print("quad: gotof varAnterior pos")
 
-                            self.pilaCuad.append(Cuadruplo('gotof','var','pos',0))
+                            self.pilaCuad.append(Cuadruplo('gotof',var,'pos',0))
                             pSaltos.append(len(self.pilaCuad))
                         elif ruleChild == "bloque_est":
                             if primerBloque:
@@ -1218,7 +1263,7 @@ class Programa:
 
                             # print("exp")
 
-                self.pilaCuad[pSaltos[0]-1] = Cuadruplo('gotof','var',pSaltos[1]+1,0)
+                self.pilaCuad[pSaltos[0]-1] = Cuadruplo('gotof',var,pSaltos[1]+1,0)
                 self.pilaCuad[pSaltos[1]-1] = Cuadruplo('goto',pSaltos[2]+1,0,0)
                 # print(pSaltos)
                 # print(pila)
@@ -1250,10 +1295,11 @@ class Programa:
                         ruleChild = self.rules[child.getRuleIndex()]
                         if ruleChild == "expresion":
                             pSaltos.append(len(self.pilaCuad))
-                            self.expresion(child,funcion)
+                            var = self.expresion(child,funcion)
+                            #print("var if true or false:", var)
                             #print("quad: gotof varAnterior pos")
 
-                            self.pilaCuad.append(Cuadruplo('gotof','var','pos',0))
+                            self.pilaCuad.append(Cuadruplo('gotof',var,'pos',0))
                             pSaltos.append(len(self.pilaCuad))
                         elif ruleChild == "bloque_est":
                             self.evaluarBloqueEst(child,funcion)
@@ -1275,7 +1321,7 @@ class Programa:
 
 
                             # print("exp")
-                self.pilaCuad[pSaltos[1]-1] = Cuadruplo('gotof','var',pSaltos[2]+1,0)
+                self.pilaCuad[pSaltos[1]-1] = Cuadruplo('gotof',var,pSaltos[2]+1,0)
                 self.pilaCuad[pSaltos[2]-1] = Cuadruplo('goto',pSaltos[0]+1,0,0)
                 # self.pilaCuad[pSaltos[0]-1] = "quad: gotof varAnt " + str(pSaltos[1]+1)
                 # self.pilaCuad[pSaltos[1]-1] = "quad: goto " + str(pSaltos[2]+1)
@@ -1318,8 +1364,8 @@ class Programa:
                         elif ruleChild == "expresion":
                             # print("Expresion")
                             pSaltos.append(len(self.pilaCuad)+1)
-                            self.expresion(child,funcion)
-                            self.pilaCuad.append(Cuadruplo('>',var,"exp",0))
+                            exp = self.expresion(child,funcion)
+                            self.pilaCuad.append(Cuadruplo('>',var,exp,0))
                             self.pilaCuad.append(Cuadruplo('gotov','final',0,0))
                             pSaltos.append(len(self.pilaCuad))
                             # quad = "quad: == EXP1 EXP2 " + var + " temp"
@@ -1389,9 +1435,9 @@ class Programa:
             if not isinstance(child, TerminalNodeImpl):
                 regla = self.rules[child.getRuleIndex()]
                 if regla == "expresion":
-                    self.expresion(child,funcion)
+                    exp = self.expresion(child,funcion)
                     quad = "quad: param EXP param" + str(cont)
-                    self.pilaCuad.append(Cuadruplo('param',"exp",cont,0))
+                    self.pilaCuad.append(Cuadruplo('param',exp,cont,0))
                     cont += 1
                 elif regla == "params_llamada":
                     self.resolverParams(child,funcion,cont)
@@ -1433,7 +1479,7 @@ class Programa:
                 # traverse(codigo,self.rules)
                 self.expresion(tree,funcion)
                 #mandar llamar expresion con el codigo
-                res.append("'EXP'")
+                res.append("EXP")
                 # print("")
             elif self.rules[tree.getRuleIndex()] == "string":
                 # print("es un string")
