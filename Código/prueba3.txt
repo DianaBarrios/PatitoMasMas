@@ -1,12 +1,13 @@
 programa patito;
 var
-  int i,j,k;
-  float f;
+  int i[45][5],j[10],k;
+  float f[3][10],wow;
   funcion void uno(int a,int b);
   var int g;
   {
+    g = i[4+5][4*5];
     si (5>0) entonces{
-      i = 3+7*5+4;
+      i[4*3] = 3+7*5+4;
       escribe(4+5);
       uno(3-4,4);
     }
@@ -26,7 +27,6 @@ var
     regresa(4+9*5);
   }
   principal(){
-    lee(k);
     escribe("hola","adios","hola",4*5);
     k = 500 / 100;
     i=2;

@@ -442,11 +442,12 @@ class Programa:
             'global': {'int': 5000, 'float': 8000, 'char': 10000, 'string': 13000, 'bool': 14000},
             'local': {'int': 15000, 'float': 18000, 'char': 20000, 'string': 23000, 'bool': 24000},
             'temp': {'int': 25000, 'float': 28000, 'char': 31000, 'string': 33000, 'bool': 34000},
-            'ctes': {'int': 35000, 'float': 38000, 'char': 41000, 'string': 43000, 'bool': 44000},
+            'ctes': {'int': 35000, 'float': 38000, 'char': 41000, 'string': 43000, 'bool': 44000}
         }
         self.memory = {
             'temp': {},
-            'ctes': {}
+            'ctes': {},
+            'ctesDir': {}
         }
         self.ctesCounter = {}
         self.temp = 0
@@ -458,9 +459,10 @@ class Programa:
 
     def ejectuar(self):
         varGlobales = {}
+        varGlobales2 = {}
         globalCounters = {}
-        self.decVariables(self.tree.dec_variables(),varGlobales,globalCounters,"",'global')
-        self.dirFunciones['global'] = {'vars': varGlobales, 'counters': globalCounters}
+        self.decVariables(self.tree.dec_variables(),varGlobales,varGlobales2,globalCounters,"",'global')
+        self.dirFunciones['global'] = {'vars': varGlobales, 'counters': globalCounters, 'varsDir': varGlobales2}
         self.pilaCuad.append(Cuadruplo('goto','main',0,0))
         self.decFunciones(self.tree.dec_functions())
 
@@ -473,7 +475,8 @@ class Programa:
 
     def cuadruplos(self):
         return self.pilaCuad
-
+    def ctes(self):
+        return self.memory['ctesDir']
     def imprimeTodo(self):
         self.ejectuar()
 
@@ -540,12 +543,21 @@ class Programa:
     def existeCte(self,cte,tipo):
         if cte in self.memory['ctes']:
             return True
-        else: 
+        else:
             return False;
 
-    #Funcion que regresa la dir de una variable
-
-
+    def regresaDims(self,var,funcion):
+        # print(var)
+        res = self.dirFunciones['global']['varsDir'].get(var, None)
+        # print(self.dirFunciones['global']['vars'][var])
+        if res != None:
+            dim2 = self.dirFunciones['global']['varsDir'][var].get('dim2', None)
+            if dim2 == None:
+                return self.dirFunciones['global']['varsDir'][var]['dim1'],-1
+            else:
+                return self.dirFunciones['global']['varsDir'][var]['dim1'], self.dirFunciones['global']['varsDir'][var]['dim2']
+        else:
+            return -1,-1
     #Funcion que regresa el tipo de una variable
     def regresaTipoVar(self,var,funcion):
         if self.existeVar(var,funcion):
@@ -572,23 +584,32 @@ class Programa:
     ##### PARSE VARS Y FUNCIONES
 
     #Funcion que te da la siguiente direccion
-    def sigDireccionRelativa(self,local_counters,tipo):
-        if tipo in local_counters:
-            local_counters[tipo] += 1
+    def sigDireccionRelativa(self,local_counters,tipo,aumentar=1):
+        if aumentar != 1:
+            if tipo in local_counters:
+                aux = local_counters[tipo]
+                local_counters[tipo] += aumentar
+                return aux
+            else:
+                local_counters[tipo] = aumentar
+                return 0
         else:
-            local_counters[tipo] = 0
+            if tipo in local_counters:
+                local_counters[tipo] += 1
+            else:
+                local_counters[tipo] = 0
 
         return local_counters[tipo]
 
     #Funcion que regresa el JSON con la info de las vars
-    def decVariables(self,tree,temp,local_counters,tipo,scope):
+    def decVariables(self,tree,temp,temp2,local_counters,tipo,scope):
         if not isinstance(tree, TerminalNodeImpl):
             if self.rules[tree.getRuleIndex()] == "dec_var":
                 tipo = tree.tipo().getText()
             elif self.rules[tree.getRuleIndex()] == "ids":
                 elem = tree.getText()
                 offset = self.memory_limits[scope][tipo]
-                addr = self.sigDireccionRelativa(local_counters,tipo) + offset
+
                 # print(tree.getText())
                 # traverse(tree,self.rules)
                 if elem.find("[") == -1:
@@ -596,8 +617,9 @@ class Programa:
                         if self.varDuplicada(elem):
                             msj = "Var '{}' duplicada".format(elem)
                             return self.error(tree.ID(),msj)
-
+                    addr = self.sigDireccionRelativa(local_counters,tipo) + offset
                     temp[elem] = {'tipo': tipo, 'dir': addr}
+                    temp2[addr] = {'nombre':elem}
                 else:
                     count = elem.count("[")
                     if count == 1:
@@ -608,9 +630,13 @@ class Programa:
                             if self.varDuplicada(nombre):
                                 msj = "Var '{}' duplicada".format(nombre)
                                 return self.error(tree.ID(),msj)
-
-                        dim = elem[indexInicio+1:indexFinal]
-                        temp[nombre] = {'tipo': tipo,'dim1': dim, 'dir': addr}
+                        dim = int(elem[indexInicio+1:indexFinal])
+                        r = 1
+                        r = (dim + 1) * r
+                        m1 = r / (dim +1)
+                        addr = self.sigDireccionRelativa(local_counters,tipo,dim) + offset
+                        temp[nombre] = {'tipo': tipo,'dim1': dim, 'dir': addr,'m1': m1}
+                        temp2[addr] = {'nombre':elem,'dim1': dim}
                     if count == 2:
                         indexInicio = elem.index("[")
                         indexFinal = elem.index("]")
@@ -621,14 +647,22 @@ class Programa:
                             if self.varDuplicada(nombre):
                                 msj = "Var '{}' duplicada".format(nombre)
                                 return self.error(tree.ID(),msj)
-                        dim = elem[indexInicio+1:indexFinal]
-                        dim2 = elem[indexInicio2+1:indexFinal2]
-                        temp[nombre] = {'tipo': tipo,'dim1': dim,'dim2':dim2, 'dir': addr}
-
+                        dim = int(elem[indexInicio+1:indexFinal])
+                        dim2 = int(elem[indexInicio2+1:indexFinal2])
+                        r = 1
+                        r = (dim + 1) * r
+                        m1 = r / (dim +1)
+                        r = m1
+                        r = (dim2 + 1) * r
+                        m2 = r / (dim2 +1)
+                        dims = dim * dim2
+                        addr = self.sigDireccionRelativa(local_counters,tipo,dims) + offset
+                        temp[nombre] = {'tipo': tipo,'dim1': dim,'dim2':dim2, 'dir': addr,'m1': m1,'m2': m2}
+                        temp2[addr] = {'nombre':elem,'dim1': dim,'dim2':dim2}
             else:
                 pass
             for child in tree.children:
-                self.decVariables(child,temp,local_counters,tipo,scope)
+                self.decVariables(child,temp,temp2,local_counters,tipo,scope)
 
     #Funcion que actualiza el dir de decFunciones con los
     #datos de las decFunciones del programa
@@ -657,17 +691,19 @@ class Programa:
                     tablaParams = []
                     varsParams = {}
                     tempVar = {}
+                    tempVar2 = {}
 
                     #Local counter of types of vars and params
                     localCounters = {}
 
                     self.decParamsFun(tree.params(),varsParams,tablaParams,nombreFun,localCounters)
-                    self.decVariables(tree.dec_variables(),tempVar,localCounters,"",'local')
+                    self.decVariables(tree.dec_variables(),tempVar,tempVar2,localCounters,"",'local')
 
                     varsFunc = dict(list(varsParams.items()) + list(tempVar.items()))
                     cuadEmpieza = len(self.pilaCuad) + 1
                     jsontemp["params"] = tablaParams
                     jsontemp["vars"] = varsFunc
+                    jsontemp["varsDir"] = tempVar2
                     jsontemp["tipoRet"] = ret
                     jsontemp["empieza"] = cuadEmpieza
                     jsontemp["counters"] = localCounters
@@ -702,7 +738,8 @@ class Programa:
         pilas = {
             'pOperandos' : [],
             'pOperadores' : [],
-            'pTipos' : []
+            'pTipos' : [],
+            'pDim': []
         }
         self.expresionAux(tree,funcion,pilas)
         return pilas['pOperandos'][0]
@@ -772,16 +809,16 @@ class Programa:
 
                                     # print("der: ",right,"izq:",left)
                                     # res = self.genQuad(op,left,right)
-                                    res = self.temp 
+                                    res = self.temp
                                     self.temp += 1
                                     # print(res)
                                     #print("quad: ", op, left,right,res)
 
                                     self.pilaCuad.append(Cuadruplo(op,left,right,"temp"+str(res)))
 
-                                    
+
                                     pilas['pOperandos'].append("temp" + str(res))
-                                    
+
                                     pilas['pTipos'].append(tipoRes)
                                     #
                                     # print("= Pilas temporales =")
@@ -833,7 +870,7 @@ class Programa:
                                     # print("der: ",right,"izq:",left)
                                     #res = self.genQuad(op,left,right)
 
-                                    res = self.temp 
+                                    res = self.temp
                                     self.temp += 1
 
                                     self.pilaCuad.append(Cuadruplo(op,left,right,"Temp"+str(res)))
@@ -892,7 +929,7 @@ class Programa:
 
                                     # print("der: ",right,"izq:",left)
                                     #res = self.genQuad(op,left,right)
-                                    res = self.temp 
+                                    res = self.temp
                                     self.temp += 1
                                     # print(res)
                                     #print("quad: ", op, left,right,res)
@@ -944,7 +981,7 @@ class Programa:
 
                                 # print("der: ",right,"izq:",left)
                                 #res = self.genQuad(op,left,right)
-                                res = self.temp 
+                                res = self.temp
                                 self.temp += 1
                                 # print(res)
                                 #print("quad: ", op, left,right,res)
@@ -955,7 +992,7 @@ class Programa:
                                 # print("Pila operandos:",pilas['pOperandos'])
                                 # print("Pila tipos:",pilas['pTipos'])
                                 # print("Pila operadores:",pilas['pOperadores'])
-                                
+
                                 pilas['pOperandos'].append("temp"+str(res))
                                 pilas['pTipos'].append(tipoRes)
                                     # print(res)
@@ -1041,14 +1078,69 @@ class Programa:
                 pilas['pOperandos'].append(addr)
 
                 # dims = []
-                for child in tree.children:
-                    if not isinstance(child, TerminalNodeImpl):
-                        ruleChild = self.rules[child.getRuleIndex()]
-                        # rules.append(ruleChild)
-                        if ruleChild == "dim":
-                            self.expresionAux(child.expresion(),funcion,pilas)
+                # numdims = len(tree.children) -1
+                # print(numdims)
+                # dim = 1
+                # for child in tree.children:
+                #     if not isinstance(child, TerminalNodeImpl):
+                #         ruleChild = self.rules[child.getRuleIndex()]
+                #         # rules.append(ruleChild)
+                #         if ruleChild == "dim":
+                #             print("pOperandos",pilas['pOperandos'])
+                #             print("pOperadores",pilas['pOperadores'])
+                #             print("pDim",pilas['pDim'])
+                #             # print("dim:",dim)
+                #             # print("entre")
+                #             if dim == 1:
+                #                 id = pilas['pOperandos'].pop()
+                #                 tipo = pilas['pTipos'].pop()
+                #                 pilas['pOperadores'].append('$')
+                #                 pilas['pDim'].append("{}{}".format(id,dim))
+                #                 dimvar1, dimvar2 = self.regresaDims(id,funcion)
+                #                 # print(dimvar1,dimvar2)
+                #
+                #             self.expresionAux(child.expresion(),funcion,pilas)
+                #
+                #             # print(dimvar)
+                #             # print(self.dirFunciones['global']['vars']['i']['dim1'])
+                #             self.pilaCuad.append(Cuadruplo('verify',pilas['pOperandos'][-1],0,dimvar1))
+                #             if dim == 1:
+                #                 aux = pilas['pOperandos'].pop()
+                #                 res = self.temp
+                #                 self.temp += 1
+                #                 temp = "temp"+str(res)
+                #                 # print(res)
+                #                 #print("quad: ", op, left,right,res)
+                #
+                #                 self.pilaCuad.append(Cuadruplo('*',aux,dimvar1,temp))
+                #                 pilas['pOperandos'].append(addr)
+                #             else:
+                #                 aux2 = pilas['pOperandos'].pop()
+                #                 aux1 = pilas['pOperandos'].pop()
+                #                 res = self.temp
+                #                 self.temp += 1
+                #                 temp = "temp"+str(res)
+                #                 self.pilaCuad.append(Cuadruplo('*',aux1,aux2,temp))
+                #                 pilas['pOperandos'].append(addr)
+                #
+                #             if numdims == dim:
+                #                 print("ya se acabo")
+                #                 # aux1 = pilas['pOperandos'].pop()
+                #                 # base = id
+                #                 # #hacer cuadruplos
+                #                 # res = self.temp
+                #                 # self.temp += 1
+                #                 # temp = "temp"+str(res)
+                #                 # self.pilaCuad.append(Cuadruplo('+',aux1,base,temp))
+                #                 # pilas['pOperadores'].append(temp)
+                #                 # pilas['pOperandos'].pop()
+                #             dim +=1
+                #             pilas['pDim'].append("{}{}".format(id,dim))
+
                             # print(child.expresion().getText())
                             # dims.append(child.getText())
+
+
                 # print(dims)
         else:
             pass
@@ -1078,7 +1170,7 @@ class Programa:
                             offset = self.memory_limits['ctes'][tipo]
                             addr = self.sigDireccionRelativa(self.ctesCounter,tipo) + offset
                             self.memory['ctes'][cte] = {'tipo': tipo, 'dir': addr}
-
+                            self.memory['ctesDir'][addr] = int(cte)
 
                         pilas['pTipos'].append(tipo)
                         #diana
@@ -1202,7 +1294,7 @@ class Programa:
                         elif ruleChild == "expresion":
                             # print("exp")
                             exp = self.expresion(child,funcion)
-                            
+
 
                 #print("quad: = EXP", pila[-1])
 
@@ -1508,11 +1600,9 @@ class Compilador:
         rutaInicio = parser.start().programa()
 
         # traverse(rutaInicio,parser.ruleNames)
-
         programa = Programa(rutaInicio,parser.ruleNames)
         programa.ejectuar()
-        return programa.cuadruplos()
-
+        return programa.cuadruplos(),programa.ctes()
 
 def main():
     arch = sys.argv[1]

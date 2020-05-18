@@ -28,7 +28,7 @@ principal(){
   i = 2;
   k = i+1;
   f = 3.14;
-  
-    escribe(i,j*2,f*2+1.5);
+
+  escribe(i,j*2,f*2+1.5);
 
 }
