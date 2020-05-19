@@ -18,6 +18,7 @@ var int c;
 }
 principal(){
   j = 45*25;
+  lee(p,otroarreglo[2],j);
   si(4+5>7+8) entonces {
     i = 2 + 5;
   }
@@ -25,4 +26,5 @@ principal(){
     i = 2 - 5;
   }
   j = 7 * 2 + 3;
+  escribe(arreglo[2],j);
 }

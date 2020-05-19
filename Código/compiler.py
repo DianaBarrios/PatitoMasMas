@@ -1246,13 +1246,14 @@ class Programa:
         #else mandar llamar expresion con el codigo
         # print(tree.expresion().getText())
 
-    def est_lectura(self, tree,funcion):
+    def est_lectura(self,tree,funcion):
         res = []
         self.lecturaAux(tree.lista_vars(),res,funcion)
+        print("Res in est lectura:",res)
         for var in res:
             self.pilaCuad.append(Cuadruplo('lee',var,0,0))
         # print(res)
-
+    
     def lecturaAux(self,tree,res,funcion):
         for child in tree.children:
             if not isinstance(child, TerminalNodeImpl):
@@ -1260,14 +1261,14 @@ class Programa:
                 if regla == "var":
                     nom = child.ID().getText()
                     if self.existeVar(nom,funcion):
-                        res.append(nom)
+                        addr = self.getDirVar(nom,funcion)
+                        res.append(addr)
                     else:
                         msj = "No se encontró la var '{}'".format(nom)
                         return self.error(child.ID(),msj)
-
                     # print(child.ID().getText())
                 elif regla == "lista_vars":
-                    self.lecturaAux(child,res)
+                    self.lecturaAux(child,res,funcion)
                     # traverse(child,self.rules)
                 # print(regla)
 
@@ -1555,8 +1556,7 @@ class Programa:
                 # print("***** EXP *****")
                 # print(codigo.getText())
                 # traverse(codigo,self.rules)
-                self.expresion(tree,funcion)
-                res = self.pilaCuad[-1].dir3
+                res = self.expresion(tree,funcion)  
                 self.pilaCuad.append(Cuadruplo('print',res,0,0))
                 #mandar llamar expresion con el codigo
                 # res.append("EXP")
