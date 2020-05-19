@@ -25,11 +25,11 @@ def getValor(dir,memorias):
         base = 15000
         #local
     elif dir > 24999 and dir < 34000:
-        mem = memorias['local']['temp']
+        mem = memorias['local']['temps']
         relativa = dir - 25000
         base = 25000
         #temp
-    elif dir > 34999 and dir < 44000:
+    elif dir > 33999 and dir < 44000:
         mem = memorias['ctes']
         relativa = dir - 35000
         base = 35000
@@ -46,6 +46,8 @@ def getValor(dir,memorias):
         return bool(mem.bool[base+relativa])
 
 def asignar(dir,valor,memorias):
+    # print(type(dir))
+    # print(dir)
     if dir > 4999 and dir < 14000:
         mem = memorias['global']
         relativa = dir - 5000
@@ -57,16 +59,16 @@ def asignar(dir,valor,memorias):
         base = 15000
         #local
     elif dir > 24999 and dir < 34000:
-        mem = memorias['local']['temp']
+        mem = memorias['local']['temps']
         relativa = dir - 25000
         base = 25000
         #temp
-    elif dir > 34999 and dir < 44000:
+    elif dir > 33999 and dir < 44000:
         mem = memorias['ctes']
         relativa = dir - 35000
         base = 35000
     if relativa < 3000:
-        mem.int[base+relativa] = valor
+        mem.int[base+relativa] = int(valor)
     elif relativa > 2999 and relativa < 5000:
         mem.float[base+relativa] = valor
     elif relativa > 4999 and relativa < 8000:
@@ -85,21 +87,27 @@ def main():
     # memTemp = Memoria()
     # memLocal = Memoria()
     memCtes = Memoria()
-    print(ctes)
+    # print(ctes)
     memorias = {'global' : memGlobal,'local': memLocal, 'ctes':memCtes}
     memCtes.int = ctes
     # asignar(5001,10,memorias)
     # print("valor 5001: ",getValor(5001,memorias))
     # print(memGlobal.int)
     actual = 0
-    while actual != len(cuadruplos):
+    while actual != len(cuadruplos) - 1:
+        print(memorias['local']['temps'].int)
         operacion = cuadruplos[actual].op
 
         if operacion == 'goto':
             actual = cuadruplos[actual].dir1 - 1
             # print(actual)
         elif operacion == 'print':
-            print(cuadruplos[actual].dir1)
+            if type(cuadruplos[actual].dir1) is str:
+                print(cuadruplos[actual].dir1)
+            else:
+                print("dir",cuadruplos[actual].dir1)
+                valor = getValor(int(cuadruplos[actual].dir1),memorias)
+                print(valor)
         elif operacion == 'lee':
             aux = input()
             print(aux)
@@ -107,46 +115,48 @@ def main():
             opIzq = getValor(cuadruplos[actual].dir1,memorias)
             opDer = getValor(cuadruplos[actual].dir2,memorias)
             aux = opIzq + opDer
-            print(aux)
+            asignar(int(cuadruplos[actual].dir3),aux,memorias)
         elif operacion == '-':
             opIzq = getValor(cuadruplos[actual].dir1,memorias)
             opDer = getValor(cuadruplos[actual].dir2,memorias)
             aux = opIzq - opDer
-            print(aux)
+            asignar(int(cuadruplos[actual].dir3),aux,memorias)
         elif operacion == '*':
             opIzq = getValor(cuadruplos[actual].dir1,memorias)
             opDer = getValor(cuadruplos[actual].dir2,memorias)
             aux = opIzq * opDer
-            print(aux)
+            # print(cuadruplos[actual].dir3)
+            asignar(int(cuadruplos[actual].dir3),aux,memorias)
+            # print(aux)
         elif operacion == '/':
             opIzq = getValor(cuadruplos[actual].dir1,memorias)
             opDer = getValor(cuadruplos[actual].dir2,memorias)
             aux = opIzq / opDer
-            print(aux)
+            asignar(int(cuadruplos[actual].dir3),aux,memorias)
         elif operacion == '&':
             opIzq = getValor(cuadruplos[actual].dir1,memorias)
             opDer = getValor(cuadruplos[actual].dir2,memorias)
             aux = opIzq and opDer
-            print(aux)
+            asignar(int(cuadruplos[actual].dir3),aux,memorias)
         elif operacion == '||':
             opIzq = getValor(cuadruplos[actual].dir1,memorias)
             opDer = getValor(cuadruplos[actual].dir2,memorias)
             aux = opIzq or opDer
-            print(aux)
+            asignar(int(cuadruplos[actual].dir3),aux,memorias)
         elif operacion == '>':
             opIzq = getValor(cuadruplos[actual].dir1,memorias)
             opDer = getValor(cuadruplos[actual].dir2,memorias)
             aux = opIzq > opDer
-            print(aux)
+            asignar(int(cuadruplos[actual].dir3),aux,memorias)
         elif operacion == '<':
             opIzq = getValor(cuadruplos[actual].dir1,memorias)
             opDer = getValor(cuadruplos[actual].dir2,memorias)
             aux = opIzq < opDer
-            print(aux)
+            asignar(int(cuadruplos[actual].dir3),aux,memorias)
         elif operacion == '=':
             valor = getValor(cuadruplos[actual].dir1,memorias)
-            asignar = cuadruplos[actual].dir2
-            asignar(asignar,valor,memorias)
+            asig = int(cuadruplos[actual].dir2)
+            asignar(asig,valor,memorias)
         else:
             print(cuadruplos[actual].imprimir())
 

@@ -462,12 +462,12 @@ class Programa:
         globalCounters = {}
         self.decVariables(self.tree.dec_variables(),varGlobales,varGlobales2,globalCounters,"",'global')
         self.dirFunciones['global'] = {'vars': varGlobales, 'counters': globalCounters, 'varsDir': varGlobales2}
-        self.pilaCuad.append(Cuadruplo('goto','main',0,0))
+        self.pilaCuad.append(Cuadruplo('goto','global',0,0))
         self.decFunciones(self.tree.dec_functions())
 
         self.pilaSaltos.append(len(self.pilaCuad)+1)
         self.dirFunciones['global']["empieza"] = len(self.pilaCuad)+1
-        self.evaluarBloqueEst(self.tree.principal().bloque_est(),"main")
+        self.evaluarBloqueEst(self.tree.principal().bloque_est(),"global")
         #self.temp = 0
         self.tempsCounter = {}
         self.pilaCuad.append(Cuadruplo('end',0,0,0))
@@ -475,10 +475,10 @@ class Programa:
 
     def cuadruplos(self):
         return self.pilaCuad
-    
+
     def ctes(self):
         return self.memory['ctesDir']
-    
+
     def imprimeTodo(self):
         self.ejectuar()
 
@@ -530,7 +530,7 @@ class Programa:
         res = self.dirFunciones['global']['vars'].get(var, None)
         if res != None:
             return True
-        if funcion != "main":
+        if funcion != "global":
             if res == None:
                 res = self.dirFunciones[funcion]['vars'].get(var, None)
                 if res == None:
@@ -559,14 +559,14 @@ class Programa:
                 return self.dirFunciones['global']['varsDir'][var]['dim1'], self.dirFunciones['global']['varsDir'][var]['dim2']
         else:
             return -1,-1
-    
+
     #Funcion que regresa el tipo de una variable
     def regresaTipoVar(self,var,funcion):
         if self.existeVar(var,funcion):
             res = self.dirFunciones['global']['vars'].get(var, None)
             if res != None:
                 return self.dirFunciones['global']['vars'][var]['tipo']
-            if funcion != "main":
+            if funcion != "global":
                 if res == None:
                     res = self.dirFunciones[funcion]['vars'].get(var, None)
                     if res == None:
@@ -814,7 +814,7 @@ class Programa:
                                     # res = self.genQuad(op,left,right)
                                     offset = self.memory_limits['temp'][tipoRes]
                                     addr = self.sigDireccionRelativa(self.tempsCounter,tipoRes) + offset
-                                    
+
                                     #res = self.temp
                                     #self.temp += 1
                                     # print(res)
@@ -1236,7 +1236,7 @@ class Programa:
             pass
 
     def est_retorno(self, tree,funcion):
-        if funcion == "main":
+        if funcion == "global":
             msj = "La funcion main no tiene retorno"
             return self.error(tree.Regresa(),msj)
         elif self.dirFunciones[funcion]['tipoRet'] == "void":
@@ -1295,8 +1295,8 @@ class Programa:
                                 return self.error(child.ID(),msj)
 
                             #pila.append(nombre)
-                            if funcion == "main":
-                                funcion = "global"
+                            # if funcion == "main":
+                            #     funcion = "global"
 
                             addr = self.getDirVar(nombre,funcion)
                             pila.append(addr)
