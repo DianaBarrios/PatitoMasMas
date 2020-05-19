@@ -1249,7 +1249,7 @@ class Programa:
     def est_lectura(self,tree,funcion):
         res = []
         self.lecturaAux(tree.lista_vars(),res,funcion)
-        print("Res in est lectura:",res)
+        #print("Res in est lectura:",res)
         for var in res:
             self.pilaCuad.append(Cuadruplo('lee',var,0,0))
         # print(res)
