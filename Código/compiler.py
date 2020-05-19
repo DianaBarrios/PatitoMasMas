@@ -466,12 +466,12 @@ class Programa:
         self.decFunciones(self.tree.dec_functions())
 
         self.pilaSaltos.append(len(self.pilaCuad)+1)
-        self.dirFunciones['global']["empieza"] = len(self.pilaCuad)+1
-        self.evaluarBloqueEst(self.tree.principal().bloque_est(),"global")
+        self.dirFunciones['global']['empieza'] = len(self.pilaCuad)+1
+        self.evaluarBloqueEst(self.tree.principal().bloque_est(),'global')
         #self.temp = 0
         self.tempsCounter = {}
         self.pilaCuad.append(Cuadruplo('end',0,0,0))
-        self.pilaCuad[0] = Cuadruplo('goto',self.dirFunciones['global']["empieza"],0,0)
+        self.pilaCuad[0] = Cuadruplo('goto',self.dirFunciones['global']['empieza'],0,0)
 
     def cuadruplos(self):
         return self.pilaCuad
@@ -501,10 +501,10 @@ class Programa:
     ##### VERIFICACIONES
     def varDuplicada(self,var):
         # return True
-        res = self.dirFunciones['global']['vars'].get(var, None)
-        if res != None:
-            return True
-        return False
+        for func in self.dirFunciones:
+            for var_actual in self.dirFunciones[func]['vars']:
+                if var == var_actual:
+                    return True
 
     def checaFun(self,funcion,params):
         if not self.existeFun(funcion):
@@ -527,18 +527,12 @@ class Programa:
         return True
 
     def existeVar(self,var,funcion):
-        res = self.dirFunciones['global']['vars'].get(var, None)
-        if res != None:
+        if var in self.dirFunciones['global']['vars']:
             return True
-        if funcion != "global":
-            if res == None:
-                res = self.dirFunciones[funcion]['vars'].get(var, None)
-                if res == None:
-                    return False
-                else:
-                    return True
-            else:
-                return False
+        else:
+            if var in self.dirFunciones[funcion]['vars']:
+                return True
+        
         return False
 
     def existeCte(self,cte,tipo):
@@ -620,21 +614,31 @@ class Programa:
         return local_counters[tipo]
 
     #Funcion que regresa el JSON con la info de las vars
-    def decVariables(self,tree,temp,temp2,local_counters,tipo,scope):
+    def decVariables(self,tree,temp,temp2,local_counters,tipo,nomFun):
         if not isinstance(tree, TerminalNodeImpl):
             if self.rules[tree.getRuleIndex()] == "dec_var":
                 tipo = tree.tipo().getText()
+
             elif self.rules[tree.getRuleIndex()] == "ids":
                 elem = tree.getText()
-                offset = self.memory_limits[scope][tipo]
 
+                if elem in temp:
+                    msj = "Var '{}' duplicada".format(elem)
+                    return self.error(tree.ID(),msj)
+
+                if nomFun != 'global':
+                    scope = 'local'
+                    if self.varDuplicada(elem):
+                        msj = "Var '{}' duplicada".format(elem)
+                        return self.error(tree.ID(),msj)
+                else:
+                    scope = 'global'
+                
                 # print(tree.getText())
                 # traverse(tree,self.rules)
-                if elem.find("[") == -1:
-                    if scope != 'global':
-                        if self.varDuplicada(elem):
-                            msj = "Var '{}' duplicada".format(elem)
-                            return self.error(tree.ID(),msj)
+                offset = self.memory_limits[scope][tipo]
+
+                if elem.find('[') == -1:
                     addr = self.sigDireccionRelativa(local_counters,tipo) + offset
                     temp[elem] = {'tipo': tipo, 'dir': addr}
                     temp2[addr] = {'nombre':elem}
@@ -644,10 +648,6 @@ class Programa:
                         indexInicio = elem.index("[")
                         indexFinal = elem.index("]")
                         nombre = elem[:indexInicio]
-                        if scope != 'global':
-                            if self.varDuplicada(nombre):
-                                msj = "Var '{}' duplicada".format(nombre)
-                                return self.error(tree.ID(),msj)
                         dim = int(elem[indexInicio+1:indexFinal])
                         r = 1
                         r = (dim + 1) * r
@@ -661,10 +661,6 @@ class Programa:
                         indexInicio2 = elem.find("[", indexInicio + 1)
                         indexFinal2 = elem.find("]", indexFinal + 1)
                         nombre = elem[:indexInicio]
-                        if scope != 'global':
-                            if self.varDuplicada(nombre):
-                                msj = "Var '{}' duplicada".format(nombre)
-                                return self.error(tree.ID(),msj)
                         dim = int(elem[indexInicio+1:indexFinal])
                         dim2 = int(elem[indexInicio2+1:indexFinal2])
                         r = 1
@@ -680,7 +676,7 @@ class Programa:
             else:
                 pass
             for child in tree.children:
-                self.decVariables(child,temp,temp2,local_counters,tipo,scope)
+                self.decVariables(child,temp,temp2,local_counters,tipo,nomFun)
 
     #Funcion que actualiza el dir de decFunciones con los
     #datos de las decFunciones del programa
@@ -693,10 +689,8 @@ class Programa:
                     return self.error(tree.ID(),msj)
                 else:
                     jsontemp = {}
-
-
-
                     tipo_ret = tree.tipo_ret()
+
                     if tipo_ret.getText() == "void":
                         ret = "void"
                     else:
@@ -708,16 +702,19 @@ class Programa:
 
                     tablaParams = []
                     varsParams = {}
-                    tempVar = {}
+                    #tempVar = {}
                     tempVar2 = {}
 
                     #Local counter of types of vars and params
                     localCounters = {}
 
                     self.decParamsFun(tree.params(),varsParams,tablaParams,nombreFun,localCounters)
-                    self.decVariables(tree.dec_variables(),tempVar,tempVar2,localCounters,"",'local')
+                    self.decVariables(tree.dec_variables(),varsParams,tempVar2,localCounters,"",nombreFun)
+                    #self.decVariables(tree.dec_variables(),tempVar,tempVar2,localCounters,"",nombreFun)
+                    
+                    varsFunc = varsParams
+                    #varsFunc = dict(list(varsParams.items()) + list(tempVar.items()))
 
-                    varsFunc = dict(list(varsParams.items()) + list(tempVar.items()))
                     cuadEmpieza = len(self.pilaCuad) + 1
                     jsontemp["params"] = tablaParams
                     jsontemp["vars"] = varsFunc
@@ -740,10 +737,17 @@ class Programa:
         if not isinstance(tree, TerminalNodeImpl):
             if self.rules[tree.getRuleIndex()] == "params":
                 nombre = tree.ID().getText()
+
+                if nombre in varsParams or self.varDuplicada(nombre):
+                    msj = "Var '{}' duplicada".format(nombre)
+                    return self.error(tree.ID(),msj)
+                
                 tipo = tree.tipo().getText()
                 tablaParams.append(tipo)
                 offset = self.memory_limits['local'][tipo]
                 addr = self.sigDireccionRelativa(local_counters,tipo) + offset
+
+                #self.dirFunciones[nombreFun]['vars'][nombre] = {'tipo': tipo, 'dir': addr}
                 varsParams[nombre] = {'tipo': tipo, 'dir': addr}
 
             for child in tree.children:
@@ -1322,6 +1326,7 @@ class Programa:
 
                             pila.append(addr)
                             tipos.append(tipo)
+                            c = child.ID()
                             # print("oila", pila)
                             # print("oila", tipos)
                         elif ruleChild == "expresion":
@@ -1331,9 +1336,9 @@ class Programa:
                             
                             if tipo_exp != tipos[-1]:
                                 msj = "Asignacion invalida {}({}) a {}({})".format(exp,tipo_exp,pila[-1],tipos[-1])
-                                print("error", msj)
+                                #print("error", msj)
                                 #print("child:",child)
-                                #return self.error(tree,msj)
+                                return self.error(c,msj)
 
                 
                 #print("quad: = EXP", pila[-1])

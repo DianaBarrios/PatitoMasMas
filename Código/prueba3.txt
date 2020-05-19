@@ -1,25 +1,25 @@
 programa patito;
 var
   int i,j,k;
-  float f[3][10],wow;
+  float f[3][10], wow;
   funcion void uno(int a,int b);
-  var int g;
+  var int x;
   {
-    g = i[4+5][4*5];
+    a = i[4+5][4*5];
     si (5>0) entonces{
       i[4*3] = 3+7*5+4+i[4];
       escribe(4+5);
       uno(3-4,4);
     }
   }
-  funcion int dos(int a,float g);
-  var int x;
+  funcion int dos(int p, float g);
+  var int c;
   {
-    i=8.9;
+    i=8;
     mientras(5>0) haz {
       i = 3-9*5;
       uno(3*2,3+9);
-      g=8*5-9;
+      k=8*5-9;
     }
     regresa(4+9*5);
   }
