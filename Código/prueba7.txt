@@ -6,23 +6,29 @@ var
 funcion void uno(int b,int a);
 var int dummy1;
 {
-  p = j;
-  escribe("imprime","dentro","de","funcion",4);
+  si(a > 0) entonces {
+    i = a+b*j+i;
+    escribe(i+j);
+  } sino {
+    escribe(a+b);
+  }
 }
 
 funcion int dos(int a, float g);
-var int i;
+var int idk;
 {
-  i = 5;
-  escribe("wow");
+  i = a;
+    a = a-k*j;
+    g=g*j-k;
+
+  escribe(i+k*j);
 }
 
 principal(){
-  si(4+5.5>8 || 3<5) entonces {
-    i = 2 + 5;
-  }
-  sino{
-    i = 2 - 5;
-  }
-  j = 7 * 2 + 3;
+  i = 2;
+  k = i+1;
+  f = 3.14;
+
+  escribe(i,j*2,f*2+1.5);
+
 }

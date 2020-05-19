@@ -16,7 +16,7 @@ funcion void dos(int b,int a);
 var int c;
 float first, second;
 {
-  p = j;
+  p = 6+5;
   escribe("imprime","dentro","de","funcion",4);
 }
 

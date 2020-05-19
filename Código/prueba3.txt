@@ -1,34 +1,34 @@
 programa patito;
 var
   int i,j,k;
-  float f;
+  float f[3][10], wow;
   funcion void uno(int a,int b);
-  var int g;
+  var int x;
   {
+    a = i[4+5][4*5];
     si (5>0) entonces{
-      i = 3+7*5+4;
+      i[4*3] = 3+7*5+4+i[4];
       escribe(4+5);
       uno(3-4,4);
     }
-    sino {
-      escribe(3+7);
-    }
   }
-  funcion int dos(int a,float g);
-  var int x;
+  funcion int dos(int p, float g);
+  var int c;
   {
-    i=3;
+    i=8;
     mientras(5>0) haz {
       i = 3-9*5;
       uno(3*2,3+9);
-      g=8*5-9;
+      k=8*5-9;
     }
     regresa(4+9*5);
   }
   principal(){
-    lee(k);
-    escribe("hola","adios","hola",4*5);
-    k = 500 / 100;
-    i=2;
-    j=4+1;
+    si (5 > 4) entonces {
+      escribe("si es mayor");
+    }
+    escribe("hola","adios","hola",4*5-78+45);
+    escribe(3*5-4+100);
+    i = 20*40+45;
+    escribe(i-1);
   }
