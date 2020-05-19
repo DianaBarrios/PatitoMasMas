@@ -24,11 +24,9 @@ var
     regresa(4+9*5);
   }
   principal(){
-    si (5==0) entonces{
-      escribe("heeey");
+    si (5 > 4) entonces {
+      escribe("si es mayor");
     }
-    lee(i);
-    escribe(i+1);
     escribe("hola","adios","hola",4*5-78+45);
     escribe(3*5-4+100);
     i = 20*40+45;

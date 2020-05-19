@@ -14,8 +14,8 @@ class Memoria():
 # 'temp': {'int': 25000, 'float': 28000, 'char': 31000, 'string': 33000, 'bool': 34000},
 # 'ctes': {'int': 35000, 'float': 38000, 'char': 41000, 'string': 43000, 'bool': 44000}
 def getValor(dir,memorias):
-    print(dir)
-    if dir > 4999 and dir < 14000:
+    # print(dir)
+    if dir > 4999 and dir < 15000:
         mem = memorias['global']
         relativa = dir - 5000
         base = 5000
@@ -48,8 +48,8 @@ def getValor(dir,memorias):
 
 def asignar(dir,valor,memorias):
     # print(type(dir))
-    print(dir)
-    if dir > 4999 and dir < 14000:
+    # print(dir)
+    if dir > 4999 and dir < 15000:
         mem = memorias['global']
         relativa = dir - 5000
         base = 5000
@@ -88,30 +88,44 @@ def main():
     # memTemp = Memoria()
     # memLocal = Memoria()
     memCtes = Memoria()
-    print(ctes)
+    # print(ctes)
     memorias = {'global' : memGlobal,'local': memLocal, 'ctes':memCtes}
     memCtes.int = ctes
     # asignar(5001,10,memorias)
     # print("valor 5001: ",getValor(5001,memorias))
     # print(memGlobal.int)
-    print("===== Cuadruplos =====")
-    for i in range(38,len(cuadruplos)):
-        print(i+1, ".-",cuadruplos[i].imprimir())
+    # print("===== Cuadruplos =====")
+    # for i in range(38,len(cuadruplos)):
+    #     print(i+1, ".-",cuadruplos[i].imprimir())
     actual = 0
     while actual != len(cuadruplos) - 1:
-        print(memorias['local']['temps'].int)
+        avanzaUno = True
+        # print(memorias['local']['temps'].int)
         operacion = cuadruplos[actual].op
-
+        # print(actual)
         if operacion == 'goto':
-            actual = cuadruplos[actual].dir1 - 1
-            # print(actual)
+            nuevo = cuadruplos[actual].dir1 - 1
+            actual = nuevo
+            # print(nuevo)
+            avanzaUno = False
         elif operacion == 'gotof':
+            avanzaUno = False
             valor = getValor(cuadruplos[actual].dir1,memorias)
             nuevo = cuadruplos[actual].dir2
+            # print(nuevo)
             if not valor:
                 actual = nuevo
             else:
-                print("es verdadero")
+                actual += 1
+        elif operacion == 'gotov':
+            avanzaUno = False
+            valor = getValor(cuadruplos[actual].dir1,memorias)
+            nuevo = cuadruplos[actual].dir2
+            # print(nuevo)
+            if not valor:
+                actual += 1
+            else:
+                actual = nuevo
         elif operacion == 'print':
             if type(cuadruplos[actual].dir1) is str:
                 print(cuadruplos[actual].dir1)
@@ -120,6 +134,7 @@ def main():
                 valor = getValor(int(cuadruplos[actual].dir1),memorias)
                 print(valor)
         elif operacion == 'lee':
+            # print("lee")
             dir = int(cuadruplos[actual].dir1)
             aux = input()
             asignar(dir,aux,memorias)
@@ -156,19 +171,18 @@ def main():
             aux = opIzq or opDer
             asignar(int(cuadruplos[actual].dir3),aux,memorias)
         elif operacion == '>':
-            print("compare")
+            # print("compare")
             opIzq = getValor(cuadruplos[actual].dir1,memorias)
             opDer = getValor(cuadruplos[actual].dir2,memorias)
             aux = opIzq > opDer
-            print(aux)
+            # print(aux)
             asignar(int(cuadruplos[actual].dir3),aux,memorias)
         elif operacion == '<':
             opIzq = getValor(cuadruplos[actual].dir1,memorias)
             opDer = getValor(cuadruplos[actual].dir2,memorias)
             aux = opIzq < opDer
             asignar(int(cuadruplos[actual].dir3),aux,memorias)
-        elif operacion == "==":
-            print("iguala")
+        elif operacion == '==':
             opIzq = getValor(cuadruplos[actual].dir1,memorias)
             opDer = getValor(cuadruplos[actual].dir2,memorias)
             aux = opIzq == opDer
@@ -180,7 +194,7 @@ def main():
         else:
             print(cuadruplos[actual].imprimir())
 
-        if operacion != 'goto' or operacion != 'gotof':
+        if avanzaUno:
             actual +=1
     #     # elif operacion == 'goto':
 
