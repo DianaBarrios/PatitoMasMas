@@ -1260,14 +1260,15 @@ class Programa:
                 if regla == "var":
                     nom = child.ID().getText()
                     if self.existeVar(nom,funcion):
-                        res.append(nom)
+                        addr = self.getDirVar(nom,funcion)
+                        res.append(addr)
                     else:
                         msj = "No se encontró la var '{}'".format(nom)
                         return self.error(child.ID(),msj)
 
                     # print(child.ID().getText())
                 elif regla == "lista_vars":
-                    self.lecturaAux(child,res)
+                    self.lecturaAux(child,res,funcion)
                     # traverse(child,self.rules)
                 # print(regla)
 
@@ -1336,9 +1337,10 @@ class Programa:
 
     def est_decision(self, tree,funcion):
         pSaltos = []
+        primerBloque = True
+        hayElse = False
         if not isinstance(tree, TerminalNodeImpl):
             if self.rules[tree.getRuleIndex()] == "decision":
-                primerBloque = True
                 for child in tree.children:
                     # print("hijo")
                     if not isinstance(child, TerminalNodeImpl):
@@ -1355,9 +1357,11 @@ class Programa:
                                 self.evaluarBloqueEst(child,funcion)
                                 #print("quad: goto pos")
 
-                                self.pilaCuad.append(Cuadruplo('goto','pos',0,0))
+
                                 pSaltos.append(len(self.pilaCuad))
                             else:
+                                hayElse = True
+                                self.pilaCuad.append(Cuadruplo('goto','pos',0,0))
                                 # print("Si no: ")
                                 self.evaluarBloqueEst(child,funcion)
                                 pSaltos.append(len(self.pilaCuad))
@@ -1367,7 +1371,10 @@ class Programa:
                             # print("exp")
 
                 self.pilaCuad[pSaltos[0]-1] = Cuadruplo('gotof',var,pSaltos[1]+1,0)
-                self.pilaCuad[pSaltos[1]-1] = Cuadruplo('goto',pSaltos[2]+1,0,0)
+                # print(pSaltos)
+                # print(hayElse)
+                if hayElse:
+                    self.pilaCuad[pSaltos[1]] = Cuadruplo('goto',pSaltos[2]+1,0,0)
                 # print(pSaltos)
                 # print(pila)
                 # print(tipos)

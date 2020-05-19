@@ -11,9 +11,6 @@ var
       escribe(4+5);
       uno(3-4,4);
     }
-    sino {
-      escribe(3+7);
-    }
   }
   funcion int dos(int a,float g);
   var int x;
@@ -27,9 +24,13 @@ var
     regresa(4+9*5);
   }
   principal(){
+    si (5==0) entonces{
+      escribe("heeey");
+    }
+    lee(i);
+    escribe(i+1);
     escribe("hola","adios","hola",4*5-78+45);
     escribe(3*5-4+100);
-    i = 500*40;
-    escribe(i);
-    escribe(i+45);
+    i = 20*40+45;
+    escribe(i-1);
   }
