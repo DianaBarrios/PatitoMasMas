@@ -578,6 +578,22 @@ class Programa:
         else:
             return False
 
+    #Funcion que regresa tipo con base en la direccion
+    def regresaTipoDir(self,dir):
+        while(dir > 14999):
+            dir = dir - 10000
+        
+        if dir >= 5000 and dir < 8000:
+            return 'int'
+        elif dir >= 8000 and dir < 10000:
+            return 'float'
+        elif dir >= 10000 and dir < 13000:
+            return 'char'
+        elif dir >= 13000 and dir < 14000:
+            return 'string'
+        elif dir >= 14000 and dir < 15000:
+            return 'bool'
+
     def regresaInicioFun(self,funcion):
         if self.existeFun(funcion):
             return self.dirFunciones[funcion]['empieza']
@@ -1290,16 +1306,20 @@ class Programa:
                             nombre = child.ID().getText()
                             tipo = self.regresaTipoVar(nombre,funcion)
                             # print(tipo)
-
                             if not tipo:
                                 msj = "No se encontró la var '{}'".format(nombre)
                                 return self.error(child.ID(),msj)
-
                             #pila.append(nombre)
                             # if funcion == "main":
                             #     funcion = "global"
-
                             addr = self.getDirVar(nombre,funcion)
+
+                            if len(pila) > 1:
+                                tipo_anterior = tipos[-1]
+                                if tipo != tipo_anterior:
+                                    msj = "Asignacion invalida {}({}) a {}({})".format(addr,tipo,pila[-1],tipos[-1])
+                                    return self.error(child.ID(),msj)
+
                             pila.append(addr)
                             tipos.append(tipo)
                             # print("oila", pila)
@@ -1307,28 +1327,31 @@ class Programa:
                         elif ruleChild == "expresion":
                             # print("exp")
                             exp = self.expresion(child,funcion)
+                            tipo_exp = self.regresaTipoDir(exp)
+                            
+                            if tipo_exp != tipos[-1]:
+                                msj = "Asignacion invalida {}({}) a {}({})".format(exp,tipo_exp,pila[-1],tipos[-1])
+                                print("error", msj)
+                                #print("child:",child)
+                                #return self.error(tree,msj)
 
-
+                
                 #print("quad: = EXP", pila[-1])
-
-                quad = "quad: = EXP " + str(pila[-1])
-                self.pilaCuad.append(Cuadruplo('=',exp,str(pila[-1]),0))
+                #quad = "quad: = EXP " + str(pila[-1])
+                """
+                print("pila:", pila)
+                print("tipos:",tipos)
+                print("tipo exp:",self.regresaTipoDir(exp))
+                print("exp",exp)
+                """
+                self.pilaCuad.append(Cuadruplo('=',exp,pila[-1],0))
 
                 if len(pila) > 1:
-                    for i in range(len(pila) - 1):
-                        var1 = pila.pop()
-                        #print("quad: =", var1, pila[-1])
-                        tipo1 = tipos.pop()
-                        posible = cubo['='][tipo1][tipos[-1]]
-                        if posible == 'OK':
-                            self.pilaCuad.append(Cuadruplo('=',var1,str(pila[-1]),0))
-                        else:
-                            msj = "Asignacion invalida {}({}) a {}({})".format(var1,tipo1,pila[-1],tipos[-1])
-                            return self.error(child,msj)
-                            # print("error, no se puede asignar tipos diferentes")
-                # print(pila)
-                # print(tipos)
-
+                    for i in range(len(pila)-1):
+                        var_actual = pila.pop()
+                        self.pilaCuad.append(Cuadruplo('=',var_actual,str(pila[-1]),0))
+                    
+                #self.pilaCuad.append(Cuadruplo('=',exp,str(pila[-1]),0))
         else:
             pass
         # traverse(codigo,self.rules)
