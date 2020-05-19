@@ -7,7 +7,7 @@ var
   {
     g = i[4+5][4*5];
     si (5>0) entonces{
-      i[4*3] = 3+7*5+4;
+      i[4*3] = 3+7*5+4+i[4];
       escribe(4+5);
       uno(3-4,4);
     }
@@ -18,7 +18,7 @@ var
   funcion int dos(int a,float g);
   var int x;
   {
-    i=3;
+    i=8.9;
     mientras(5>0) haz {
       i = 3-9*5;
       uno(3*2,3+9);
@@ -28,7 +28,7 @@ var
   }
   principal(){
     escribe("hola","adios","hola",4*5);
-    k = 500 / 100;
+    k = 100 < 5;
     i=2;
     j=4+1;
   }

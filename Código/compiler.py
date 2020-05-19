@@ -1074,7 +1074,7 @@ class Programa:
 
                 pilas['pTipos'].append(tipo)
                 addr = self.getDirVar(nomVar,funcion)
-                print(addr)
+                # print(addr)
                 pilas['pOperandos'].append(addr)
 
                 # dims = []
@@ -1170,7 +1170,7 @@ class Programa:
                             offset = self.memory_limits['ctes'][tipo]
                             addr = self.sigDireccionRelativa(self.ctesCounter,tipo) + offset
                             self.memory['ctes'][cte] = {'tipo': tipo, 'dir': addr}
-                            self.memory['ctesDir'][addr] = int(cte)
+                            self.memory['ctesDir'][addr] = cte
 
                         pilas['pTipos'].append(tipo)
                         #diana
@@ -1537,31 +1537,6 @@ class Programa:
 
 
     def est_escritura(self, tree,funcion):
-        res = []
-        str = ""
-        self._extraePrint(tree,res,funcion)
-        for index, item in enumerate(res):
-            res[index] = res[index][1:-1]
-            str += res[index] + " "
-        #print("quad: print", str)
-
-        self.pilaCuad.append(Cuadruplo('print',str,0,0))
-
-    ##falta
-    #los valores pueden ser exp
-    def _extraePrint(self, tree,res,funcion):
-
-        # traverse(codigo,self.rules)
-        # lista = codigo.getRuleContext().getText()
-        # lista = lista.split(",")
-        # print(lista)
-        # for valor in lista:
-        #     if valor[0] == '\'':
-        #         print("string")
-        #     else:
-        #         lista.remove(valor)
-        #         # pass
-        # print(lista)
         if not isinstance(tree, TerminalNodeImpl):
         #     # print(codigo.getRuleContext().getText())
         #     # traverse(codigo,self.rules)
@@ -1570,12 +1545,14 @@ class Programa:
                 # print(codigo.getText())
                 # traverse(codigo,self.rules)
                 self.expresion(tree,funcion)
+                res = self.pilaCuad[-1].dir3
+                self.pilaCuad.append(Cuadruplo('print',res,0,0))
                 #mandar llamar expresion con el codigo
-                res.append("EXP")
+                # res.append("EXP")
                 # print("")
             elif self.rules[tree.getRuleIndex()] == "string":
                 # print("es un string")
-                res.append(tree.getText())
+                self.pilaCuad.append(Cuadruplo('print',tree.getText()[1:-1],0,0))
             else:
                 # traverse(codigo,self.rules)
                 # print("no string")
@@ -1583,7 +1560,44 @@ class Programa:
                 for child in tree.children:
                     # if not isinstance(child, TerminalNodeImpl) and rule_names[child.getRuleIndex()] == "estatuto":
                     #     print("Estatuto: ", tree)
-                    self._extraePrint(child,res,funcion)
+                    self.est_escritura(child,funcion)
+        #
+
+        else:
+            pass
+        # for index, item in enumerate(res):
+        #     res[index] = res[index][1:-1]
+        #     str += res[index] + " "
+        #print("quad: print", str)
+
+        # self.pilaCuad.append(Cuadruplo('print',str,0,0))
+
+    ##falta
+    #los valores pueden ser exp
+    def _extraePrint(self, tree,funcion):
+        if not isinstance(tree, TerminalNodeImpl):
+        #     # print(codigo.getRuleContext().getText())
+        #     # traverse(codigo,self.rules)
+            if self.rules[tree.getRuleIndex()] == "expresion":
+                # print("***** EXP *****")
+                # print(codigo.getText())
+                # traverse(codigo,self.rules)
+                self.expresion(tree,funcion)
+                self.pilaCuad.append(Cuadruplo('print',"EXP",0,0))
+                #mandar llamar expresion con el codigo
+                # res.append("EXP")
+                # print("")
+            elif self.rules[tree.getRuleIndex()] == "string":
+                # print("es un string")
+                self.pilaCuad.append(Cuadruplo('print',tree.getText(),0,0))
+            else:
+                # traverse(codigo,self.rules)
+                # print("no string")
+        #         print("lo ignoramos")
+                for child in tree.children:
+                    # if not isinstance(child, TerminalNodeImpl) and rule_names[child.getRuleIndex()] == "estatuto":
+                    #     print("Estatuto: ", tree)
+                    self._extraePrint(child,funcion)
         #
 
         else:

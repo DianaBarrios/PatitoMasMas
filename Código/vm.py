@@ -20,12 +20,12 @@ def getValor(dir,memorias):
         base = 5000
         #global
     elif dir > 14999 and dir < 24000:
-        mem = memorias['local']
+        mem = memorias['local']['local']
         relativa = dir - 15000
         base = 15000
         #local
     elif dir > 24999 and dir < 34000:
-        mem = memorias['temp']
+        mem = memorias['local']['temp']
         relativa = dir - 25000
         base = 25000
         #temp
@@ -35,15 +35,16 @@ def getValor(dir,memorias):
         base = 35000
 
     if relativa < 3000:
-        return mem.int[base+relativa]
+        return int(mem.int[base+relativa])
     elif relativa > 2999 and relativa < 5000:
-        return mem.float[base+relativa]
+        return float(mem.float[base+relativa])
     elif relativa > 4999 and relativa < 8000:
         return mem.char[base+relativa]
     elif relativa > 7999 and relativa < 9000:
         return mem.string[base+relativa]
     elif relativa > 8999:
-        return mem.bool[base+relativa]
+        return bool(mem.bool[base+relativa])
+
 def asignar(dir,valor,memorias):
     if dir > 4999 and dir < 14000:
         mem = memorias['global']
@@ -51,12 +52,12 @@ def asignar(dir,valor,memorias):
         base = 5000
         #global
     elif dir > 14999 and dir < 24000:
-        mem = memorias['local']
+        mem = memorias['local']['local']
         relativa = dir - 15000
         base = 15000
         #local
     elif dir > 24999 and dir < 34000:
-        mem = memorias['temp']
+        mem = memorias['local']['temp']
         relativa = dir - 25000
         base = 25000
         #temp
@@ -74,14 +75,18 @@ def asignar(dir,valor,memorias):
         mem.string[base+relativa] = valor
     elif relativa > 8999:
         mem.bool[base+relativa] = valor
+
 def main():
     c = Compilador(3)
     cuadruplos, ctes = c.compilar()
+
     memGlobal = Memoria()
-    memTemp = Memoria()
-    memLocal = Memoria()
+    memLocal = {'temps': Memoria(), 'local': Memoria()}
+    # memTemp = Memoria()
+    # memLocal = Memoria()
     memCtes = Memoria()
-    memorias = {'global' : memGlobal, 'temp':memTemp,'local': memLocal, 'ctes':memCtes}
+    print(ctes)
+    memorias = {'global' : memGlobal,'local': memLocal, 'ctes':memCtes}
     memCtes.int = ctes
     # asignar(5001,10,memorias)
     # print("valor 5001: ",getValor(5001,memorias))
@@ -118,8 +123,30 @@ def main():
             opDer = getValor(cuadruplos[actual].dir2,memorias)
             aux = opIzq / opDer
             print(aux)
-        # elif operacion == '=':
-        #
+        elif operacion == '&':
+            opIzq = getValor(cuadruplos[actual].dir1,memorias)
+            opDer = getValor(cuadruplos[actual].dir2,memorias)
+            aux = opIzq and opDer
+            print(aux)
+        elif operacion == '||':
+            opIzq = getValor(cuadruplos[actual].dir1,memorias)
+            opDer = getValor(cuadruplos[actual].dir2,memorias)
+            aux = opIzq or opDer
+            print(aux)
+        elif operacion == '>':
+            opIzq = getValor(cuadruplos[actual].dir1,memorias)
+            opDer = getValor(cuadruplos[actual].dir2,memorias)
+            aux = opIzq > opDer
+            print(aux)
+        elif operacion == '<':
+            opIzq = getValor(cuadruplos[actual].dir1,memorias)
+            opDer = getValor(cuadruplos[actual].dir2,memorias)
+            aux = opIzq < opDer
+            print(aux)
+        elif operacion == '=':
+            valor = getValor(cuadruplos[actual].dir1,memorias)
+            asignar = cuadruplos[actual].dir2
+            asignar(asignar,valor,memorias)
         else:
             print(cuadruplos[actual].imprimir())
 
