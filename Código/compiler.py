@@ -427,8 +427,6 @@ class Cuadruplo:
     def imprimir(self):
         str = "quad: {} {} {} {}".format(self.op,self.dir1,self.dir2,self.dir3)
         return str
-    def getDir3(self):
-        return self.dir3
 
 class Programa:
     def __init__(self, tree, rules):
@@ -450,6 +448,7 @@ class Programa:
             'ctesDir': {}
         }
         self.ctesCounter = {}
+        self.tempsCounter = {}
         self.temp = 0
 
     def error(self,tree,mensaje):
@@ -469,14 +468,17 @@ class Programa:
         self.pilaSaltos.append(len(self.pilaCuad)+1)
         self.dirFunciones['global']["empieza"] = len(self.pilaCuad)+1
         self.evaluarBloqueEst(self.tree.principal().bloque_est(),"main")
-        self.temp = 0
+        #self.temp = 0
+        self.tempsCounter = {}
         self.pilaCuad.append(Cuadruplo('end',0,0,0))
         self.pilaCuad[0] = Cuadruplo('goto',self.dirFunciones['global']["empieza"],0,0)
 
     def cuadruplos(self):
         return self.pilaCuad
+    
     def ctes(self):
         return self.memory['ctesDir']
+    
     def imprimeTodo(self):
         self.ejectuar()
 
@@ -495,7 +497,6 @@ class Programa:
         #Imprime memoria
         print("===== Memory =====")
         pprint.pprint(self.memory)
-
 
     ##### VERIFICACIONES
     def varDuplicada(self,var):
@@ -558,6 +559,7 @@ class Programa:
                 return self.dirFunciones['global']['varsDir'][var]['dim1'], self.dirFunciones['global']['varsDir'][var]['dim2']
         else:
             return -1,-1
+    
     #Funcion que regresa el tipo de una variable
     def regresaTipoVar(self,var,funcion):
         if self.existeVar(var,funcion):
@@ -709,7 +711,8 @@ class Programa:
                     jsontemp["counters"] = localCounters
                     self.dirFunciones[nombreFun] = jsontemp
                     self.evaluarBloqueEst(tree.bloque_est(),nombreFun)
-                    self.temp = 0
+                    self.tempsCounter = {}
+                    #self.temp = 0
                     self.pilaCuad.append(Cuadruplo('endproc',0,0,0))
             else:
                 for child in tree.children:
@@ -809,15 +812,18 @@ class Programa:
 
                                     # print("der: ",right,"izq:",left)
                                     # res = self.genQuad(op,left,right)
-                                    res = self.temp
-                                    self.temp += 1
+                                    offset = self.memory_limits['temp'][tipoRes]
+                                    addr = self.sigDireccionRelativa(self.tempsCounter,tipoRes) + offset
+                                    
+                                    #res = self.temp
+                                    #self.temp += 1
                                     # print(res)
                                     #print("quad: ", op, left,right,res)
 
-                                    self.pilaCuad.append(Cuadruplo(op,left,right,"temp"+str(res)))
+                                    self.pilaCuad.append(Cuadruplo(op,left,right,addr))
 
 
-                                    pilas['pOperandos'].append("temp" + str(res))
+                                    pilas['pOperandos'].append(addr)
 
                                     pilas['pTipos'].append(tipoRes)
                                     #
@@ -870,12 +876,14 @@ class Programa:
                                     # print("der: ",right,"izq:",left)
                                     #res = self.genQuad(op,left,right)
 
-                                    res = self.temp
-                                    self.temp += 1
+                                    #res = self.temp
+                                    #self.temp += 1
+                                    offset = self.memory_limits['temp'][tipoRes]
+                                    addr = self.sigDireccionRelativa(self.tempsCounter,tipoRes) + offset
 
-                                    self.pilaCuad.append(Cuadruplo(op,left,right,"Temp"+str(res)))
+                                    self.pilaCuad.append(Cuadruplo(op,left,right,addr))
 
-                                    pilas['pOperandos'].append("temp" + str(res))
+                                    pilas['pOperandos'].append(addr)
                                     pilas['pTipos'].append(tipoRes)
 
                                 else:
@@ -929,14 +937,16 @@ class Programa:
 
                                     # print("der: ",right,"izq:",left)
                                     #res = self.genQuad(op,left,right)
-                                    res = self.temp
-                                    self.temp += 1
+                                    #res = self.temp
+                                    #self.temp += 1
+                                    offset = self.memory_limits['temp'][tipoRes]
+                                    addr = self.sigDireccionRelativa(self.tempsCounter,tipoRes) + offset
                                     # print(res)
                                     #print("quad: ", op, left,right,res)
 
-                                    self.pilaCuad.append(Cuadruplo(op,left,right,"temp"+str(res)))
+                                    self.pilaCuad.append(Cuadruplo(op,left,right,addr))
 
-                                    pilas['pOperandos'].append("temp"+str(res))
+                                    pilas['pOperandos'].append(addr)
                                     pilas['pTipos'].append(tipoRes)
                                 else:
                                     pass
@@ -981,19 +991,21 @@ class Programa:
 
                                 # print("der: ",right,"izq:",left)
                                 #res = self.genQuad(op,left,right)
-                                res = self.temp
-                                self.temp += 1
+                                #res = self.temp
+                                #self.temp += 1
+                                offset = self.memory_limits['temp'][tipoRes]
+                                addr = self.sigDireccionRelativa(self.tempsCounter,tipoRes) + offset
                                 # print(res)
                                 #print("quad: ", op, left,right,res)
 
-                                self.pilaCuad.append(Cuadruplo(op,left,right,"temp"+str(res)))
+                                self.pilaCuad.append(Cuadruplo(op,left,right,addr))
 
                                 # print("= Pilas temporales =")
                                 # print("Pila operandos:",pilas['pOperandos'])
                                 # print("Pila tipos:",pilas['pTipos'])
                                 # print("Pila operadores:",pilas['pOperadores'])
 
-                                pilas['pOperandos'].append("temp"+str(res))
+                                pilas['pOperandos'].append(addr)
                                 pilas['pTipos'].append(tipoRes)
                                     # print(res)
                                     # print("mayor a dos"
@@ -1299,7 +1311,6 @@ class Programa:
                 #print("quad: = EXP", pila[-1])
 
                 quad = "quad: = EXP " + str(pila[-1])
-                #exp = self.pilaCuad[len(self.pilaCuad)-1].getDir3()
                 self.pilaCuad.append(Cuadruplo('=',exp,str(pila[-1]),0))
 
                 if len(pila) > 1:
