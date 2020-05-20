@@ -1143,7 +1143,7 @@ class Programa:
                         ruleChild = self.rules[child.getRuleIndex()]
                         # rules.append(ruleChild)
                         if ruleChild == "dim":
-                            print("una dim")
+                            # print("una dim")
                             if dim == 1:
                                 id = pilas['pOperandos'].pop()
                                 type = pilas['pTipos'].pop()

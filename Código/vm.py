@@ -1,5 +1,7 @@
 from compiler import Compilador
 from compiler import Cuadruplo
+import numpy as np
+
 
 class Memoria():
     def __init__(self):
@@ -79,6 +81,34 @@ def asignar(dir,valor,memorias):
     elif relativa > 8999:
         mem.bool[base+relativa] = valor
 
+##funciones especiales
+def arreglo(dir,dim1,dim2,memorias):
+    # equis = inv([[-3,1][5,0]])
+    # print(equis)
+    # b = np.array([[2,3],[4,5]])
+    # b = np.linalg.inv(b)
+    # print(b)
+
+    if dim2 == -1:
+        for i in range(dim1):
+            print(i)
+            # ir sacando cada valor y ponerlo en una pila
+    else:
+        for i in range(dim1):
+            for j in range(dim2):
+                print(i,j)
+                # ir sacando cada valor y ponerlo en una pila
+    #transformar la pila en una matrix
+    #aplicarle la operacion necesaria
+    #### Inversa ?
+        # m = np.matrix([[2,3],[4,5]])
+        # m = np.linalg.inv(m)
+    #### Determinante $
+        # m = np.linalg.det(m)
+    #### Transpuesta !
+
+        # np.transpose(x)
+
 def main():
     c = Compilador(3)
     cuadruplos, ctes = c.compilar()
@@ -138,6 +168,33 @@ def main():
             dir = int(cuadruplos[actual].dir1)
             aux = input()
             asignar(dir,aux,memorias)
+        elif operacion == '$':
+            # print("dollar sign")
+            dir = cuadruplos[actual].dir1
+            dim1 = cuadruplos[actual+1].dir2
+            dim2 = cuadruplos[actual+1].dir3
+            # print(dir,dim1,dim2)
+            # arreglo(dir,dim1,dim2,memorias)
+            avanzaUno = False
+            actual += 2
+        elif operacion == '?':
+            # print("dollar sign")
+            dir = cuadruplos[actual].dir1
+            dim1 = cuadruplos[actual+1].dir2
+            dim2 = cuadruplos[actual+1].dir3
+            # print(dir,dim1,dim2)
+            # arreglo(dir,dim1,dim2,memorias)
+            avanzaUno = False
+            actual += 2
+        elif operacion == '!':
+            # print("dollar sign")
+            dir = cuadruplos[actual].dir1
+            dim1 = cuadruplos[actual+1].dir2
+            dim2 = cuadruplos[actual+1].dir3
+            # print(dir,dim1,dim2)
+            # arreglo(dir,dim1,dim2,memorias)
+            avanzaUno = False
+            actual += 2
         elif operacion == '+':
             opIzq = getValor(cuadruplos[actual].dir1,memorias)
             opDer = getValor(cuadruplos[actual].dir2,memorias)

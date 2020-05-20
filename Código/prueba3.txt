@@ -1,6 +1,6 @@
 programa patito;
 var
-  int i[5][10],j[5][10],k,otra,varAux;
+  int i[5][2],j[5][2],k,otra,varAux;
   float f[3][10], wow;
   funcion void uno(int a,int b);
   var int x;
@@ -25,6 +25,9 @@ var
     regresa(4+9*5);
   }
   principal(){
+    j = 45;
+    escribe(j);
+    i = j$;
     si (5 > 4) entonces {
       escribe("si es mayor");
     }
