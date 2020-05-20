@@ -74,7 +74,7 @@ def serializedATN():
         buf.write("/\2\2\u0089$\3\2\2\2\u008a\u008b\7,\2\2\u008b&\3\2\2\2")
         buf.write("\u008c\u008d\7\61\2\2\u008d(\3\2\2\2\u008e\u008f\7&\2")
         buf.write("\2\u008f*\3\2\2\2\u0090\u0091\7A\2\2\u0091,\3\2\2\2\u0092")
-        buf.write("\u0093\7\u00a3\2\2\u0093.\3\2\2\2\u0094\u0095\7r\2\2\u0095")
+        buf.write("\u0093\7#\2\2\u0093.\3\2\2\2\u0094\u0095\7r\2\2\u0095")
         buf.write("\u0096\7t\2\2\u0096\u0097\7q\2\2\u0097\u0098\7i\2\2\u0098")
         buf.write("\u0099\7t\2\2\u0099\u009a\7c\2\2\u009a\u009b\7o\2\2\u009b")
         buf.write("\u009c\7c\2\2\u009c\60\3\2\2\2\u009d\u009e\7r\2\2\u009e")
@@ -201,10 +201,10 @@ class PatitoMasMasLexer(Lexer):
     literalNames = [ "<INVALID>",
             "';'", "','", "'['", "']'", "'('", "')'", "'{'", "'}'", "'='", 
             "'&'", "'||'", "'>'", "'<'", "'=='", "'!='", "'+'", "'-'", "'*'", 
-            "'/'", "'$'", "'?'", "'\u00A1'", "'programa'", "'principal()'", 
-            "'var'", "'funcion'", "'regresa'", "'lee'", "'escribe'", "'si'", 
-            "'entonces'", "'sino'", "'mientras'", "'haz'", "'desde'", "'hasta'", 
-            "'hacer'", "'int'", "'float'", "'char'", "'void'" ]
+            "'/'", "'$'", "'?'", "'!'", "'programa'", "'principal()'", "'var'", 
+            "'funcion'", "'regresa'", "'lee'", "'escribe'", "'si'", "'entonces'", 
+            "'sino'", "'mientras'", "'haz'", "'desde'", "'hasta'", "'hacer'", 
+            "'int'", "'float'", "'char'", "'void'" ]
 
     symbolicNames = [ "<INVALID>",
             "Programa", "Principal", "Var", "Function", "Regresa", "Lee", 

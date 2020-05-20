@@ -177,7 +177,7 @@ class PatitoMasMasParser ( Parser ):
 
     literalNames = [ "<INVALID>", "';'", "','", "'['", "']'", "'('", "')'", 
                      "'{'", "'}'", "'='", "'&'", "'||'", "'>'", "'<'", "'=='", 
-                     "'!='", "'+'", "'-'", "'*'", "'/'", "'$'", "'?'", "'\u00A1'", 
+                     "'!='", "'+'", "'-'", "'*'", "'/'", "'$'", "'?'", "'!'", 
                      "'programa'", "'principal()'", "'var'", "'funcion'", 
                      "'regresa'", "'lee'", "'escribe'", "'si'", "'entonces'", 
                      "'sino'", "'mientras'", "'haz'", "'desde'", "'hasta'", 

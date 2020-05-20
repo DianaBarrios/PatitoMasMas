@@ -564,7 +564,7 @@ class Programa:
             else:
                 return False
         return False
-        
+
     #Funcion que regresa el tipo de una variable
     def regresaTipoVar(self,var,funcion):
         if self.existeVar(var,funcion):
@@ -1060,12 +1060,23 @@ class Programa:
                     ruleChild = self.rules[child.getRuleIndex()]
                     # rules.append(ruleChild)
                     if ruleChild == "var":
+                        # print("si se llamo")
                         self.varAux(child,funcion,pilas)
                         # self.factorAux(child,funcion,pilas)
                     elif ruleChild == "var_cte":
                         self.varcteAux(child,funcion,pilas)
                     elif ruleChild == "op_esp":
-                        print("encontre $ ? ¡")
+                        # print("encontre $ ? ¡")
+                        # print(pilas['pOperadores'])
+                        op = child.getText()
+                        dir = pilas['pOperandos'][-1]
+                        self.pilaCuad.append(Cuadruplo(op,dir,0,dir))
+                        dim1 = self.regresaDim(dir,funcion,1)
+                        dim2 = self.regresaDim(dir,funcion,2)
+                        if dim2 != False:
+                            self.pilaCuad.append(Cuadruplo('dimensiones',dir,dim1,dim2))
+                        else:
+                            self.pilaCuad.append(Cuadruplo('dimensiones',dir,dim1,-1))
                     elif ruleChild == "op_arit":
                         print("encontre + -")
                     elif ruleChild == "exp_par":
@@ -1110,6 +1121,7 @@ class Programa:
                 nomVar = tree.ID().getText()
                 # print("Var : " , nomVar)
                 tipo = self.regresaTipoVar(tree.ID().getText(),funcion)
+                # print(nomVar,tipo)
 
                 if tipo == False:
                     msj = "No se encontró la var '{}'".format(nomVar)
@@ -1118,27 +1130,28 @@ class Programa:
                 pilas['pTipos'].append(tipo)
                 addr = self.getDirVar(nomVar,funcion)
                 # print(addr)
+                # print(addr)
                 pilas['pOperandos'].append(addr)
 
                 # dims = []
                 # numdims = len(tree.children) -1
                 # print(numdims)
-                dim = 1
-                id = pilas['pOperandos'].pop()
-                type = pilas['pTipos'].pop()
-                for child in tree.children:
-                    if not isinstance(child, TerminalNodeImpl):
-                        ruleChild = self.rules[child.getRuleIndex()]
-                        # rules.append(ruleChild)
-                        if ruleChild == "dim":
-                            self.dimAux(child,funcion,dim,pilas,id,type)
-                            dim+=1
-                aux1 = pilas["pOperandos"].pop()
-                offset = self.memory_limits['temp'][type]
-                addr = self.sigDireccionRelativa(self.ctesCounter,type) + offset
-                self.pilaCuad.append(Cuadruplo('+',aux1,id,addr))
-                pilas['pOperandos'].append(addr)
-                pilas['pOperadores'].pop()
+                # dim = 1
+                # id = pilas['pOperandos'].pop()
+                # type = pilas['pTipos'].pop()
+                # for child in tree.children:
+                #     if not isinstance(child, TerminalNodeImpl):
+                #         ruleChild = self.rules[child.getRuleIndex()]
+                #         # rules.append(ruleChild)
+                #         if ruleChild == "dim":
+                #             self.dimAux(child,funcion,dim,pilas,id,type)
+                #             dim+=1
+                # aux1 = pilas["pOperandos"].pop()
+                # offset = self.memory_limits['temp'][type]
+                # addr = self.sigDireccionRelativa(self.ctesCounter,type) + offset
+                # self.pilaCuad.append(Cuadruplo('+',aux1,id,addr))
+                # pilas['pOperandos'].append(addr)
+                # pilas['pOperadores'].pop()
                 #             print("pOperandos",pilas['pOperandos'])
                 #             print("pOperadores",pilas['pOperadores'])
                 #             print("pDim",pilas['pDim'])
