@@ -532,28 +532,39 @@ class Programa:
         else:
             if var in self.dirFunciones[funcion]['vars']:
                 return True
-        
+
         return False
 
     def existeCte(self,cte,tipo):
         if cte in self.memory['ctes']:
             return True
         else:
-            return False;
+            return False
 
-    def regresaDims(self,var,funcion):
-        # print(var)
+    def regresaDim(self,var,funcion,dim):
         res = self.dirFunciones['global']['varsDir'].get(var, None)
-        # print(self.dirFunciones['global']['vars'][var])
         if res != None:
-            dim2 = self.dirFunciones['global']['varsDir'][var].get('dim2', None)
-            if dim2 == None:
-                return self.dirFunciones['global']['varsDir'][var]['dim1'],-1
+            # print("global")
+            checaDim = self.dirFunciones['global']['varsDir'][var].get("{}{}".format("dim",dim), None)
+            if checaDim != None:
+                return self.dirFunciones['global']['varsDir'][var]["{}{}".format("dim",dim)]
             else:
-                return self.dirFunciones['global']['varsDir'][var]['dim1'], self.dirFunciones['global']['varsDir'][var]['dim2']
-        else:
-            return -1,-1
-
+                return False
+        if funcion != "global":
+            if res == None:
+                res = self.dirFunciones[funcion]['varsDir'].get(var, None)
+                if res == None:
+                    return False
+                else:
+                    checaDim = self.dirFunciones['global']['varsDir'][var].get("{}{}".format("dim",dim), None)
+                    if checaDim != None:
+                        return self.dirFunciones['global']['varsDir'][var]["{}{}".format("dim",dim)]
+                    else:
+                        return False
+            else:
+                return False
+        return False
+        
     #Funcion que regresa el tipo de una variable
     def regresaTipoVar(self,var,funcion):
         if self.existeVar(var,funcion):
@@ -576,7 +587,7 @@ class Programa:
     def regresaTipoDir(self,dir):
         while(dir > 14999):
             dir = dir - 10000
-        
+
         if dir >= 5000 and dir < 8000:
             return 'int'
         elif dir >= 8000 and dir < 10000:
@@ -633,7 +644,7 @@ class Programa:
                         return self.error(tree.ID(),msj)
                 else:
                     scope = 'global'
-                
+
                 # print(tree.getText())
                 # traverse(tree,self.rules)
                 offset = self.memory_limits[scope][tipo]
@@ -711,7 +722,7 @@ class Programa:
                     self.decParamsFun(tree.params(),varsParams,tablaParams,nombreFun,localCounters)
                     self.decVariables(tree.dec_variables(),varsParams,tempVar2,localCounters,"",nombreFun)
                     #self.decVariables(tree.dec_variables(),tempVar,tempVar2,localCounters,"",nombreFun)
-                    
+
                     varsFunc = varsParams
                     #varsFunc = dict(list(varsParams.items()) + list(tempVar.items()))
 
@@ -741,7 +752,7 @@ class Programa:
                 if nombre in varsParams or self.varDuplicada(nombre):
                     msj = "Var '{}' duplicada".format(nombre)
                     return self.error(tree.ID(),msj)
-                
+
                 tipo = tree.tipo().getText()
                 tablaParams.append(tipo)
                 offset = self.memory_limits['local'][tipo]
@@ -1112,12 +1123,22 @@ class Programa:
                 # dims = []
                 # numdims = len(tree.children) -1
                 # print(numdims)
-                # dim = 1
-                # for child in tree.children:
-                #     if not isinstance(child, TerminalNodeImpl):
-                #         ruleChild = self.rules[child.getRuleIndex()]
-                #         # rules.append(ruleChild)
-                #         if ruleChild == "dim":
+                dim = 1
+                id = pilas['pOperandos'].pop()
+                type = pilas['pTipos'].pop()
+                for child in tree.children:
+                    if not isinstance(child, TerminalNodeImpl):
+                        ruleChild = self.rules[child.getRuleIndex()]
+                        # rules.append(ruleChild)
+                        if ruleChild == "dim":
+                            self.dimAux(child,funcion,dim,pilas,id,type)
+                            dim+=1
+                aux1 = pilas["pOperandos"].pop()
+                offset = self.memory_limits['temp'][type]
+                addr = self.sigDireccionRelativa(self.ctesCounter,type) + offset
+                self.pilaCuad.append(Cuadruplo('+',aux1,id,addr))
+                pilas['pOperandos'].append(addr)
+                pilas['pOperadores'].pop()
                 #             print("pOperandos",pilas['pOperandos'])
                 #             print("pOperadores",pilas['pOperadores'])
                 #             print("pDim",pilas['pDim'])
@@ -1176,6 +1197,36 @@ class Programa:
                 # print(dims)
         else:
             pass
+
+    def dimAux(self,tree,funcion,dim,pilas,id,type):
+        pilas['pDim'].append("{}{}".format(id,dim))
+        if dim == 1:
+            pilas['pOperadores'].append("$")
+        # print(dim)
+        for child in tree.children:
+            if not isinstance(child, TerminalNodeImpl):
+                ruleChild = self.rules[child.getRuleIndex()]
+                # rules.append(ruleChild)
+                if ruleChild == "expresion":
+                    self.expresionAux(child,funcion,pilas)
+                    top = pilas['pOperandos'][-1]
+                    lsdim = self.regresaDim(id,funcion,dim)
+                    self.pilaCuad.append(Cuadruplo('verify',top,0,lsdim))
+
+                    if dim == 2:
+                        aux2 = pilas['pOperandos'].pop()
+                        aux1 = pilas['pOperandos'].pop()
+                        offset = self.memory_limits['temp'][type]
+                        addr = self.sigDireccionRelativa(self.ctesCounter,type) + offset
+                        self.pilaCuad.append(Cuadruplo('+',aux1,aux2,addr))
+                        pilas['pOperandos'].append(addr)
+                    else:
+                        aux = pilas['pOperandos'].pop()
+                        offset = self.memory_limits['temp'][type]
+                        addr = self.sigDireccionRelativa(self.ctesCounter,type) + offset
+                        self.pilaCuad.append(Cuadruplo('*',aux,lsdim,addr))
+                        pilas['pOperandos'].append(addr)
+        # traverse(tree,self.rules)
 
     def varcteAux(self,tree,funcion,pilas):
         if not isinstance(tree, TerminalNodeImpl):
@@ -1273,7 +1324,7 @@ class Programa:
         for var in res:
             self.pilaCuad.append(Cuadruplo('lee',var,0,0))
         # print(res)
-    
+
     def lecturaAux(self,tree,res,funcion):
         for child in tree.children:
             if not isinstance(child, TerminalNodeImpl):
@@ -1333,14 +1384,14 @@ class Programa:
                             # print("exp")
                             exp = self.expresion(child,funcion)
                             tipo_exp = self.regresaTipoDir(exp)
-                            
+
                             if tipo_exp != tipos[-1]:
                                 msj = "Asignacion invalida {}({}) a {}({})".format(exp,tipo_exp,pila[-1],tipos[-1])
                                 #print("error", msj)
                                 #print("child:",child)
                                 return self.error(c,msj)
 
-                
+
                 #print("quad: = EXP", pila[-1])
                 #quad = "quad: = EXP " + str(pila[-1])
                 """
@@ -1355,7 +1406,7 @@ class Programa:
                     for i in range(len(pila)-1):
                         var_actual = pila.pop()
                         self.pilaCuad.append(Cuadruplo('=',var_actual,str(pila[-1]),0))
-                    
+
                 #self.pilaCuad.append(Cuadruplo('=',exp,str(pila[-1]),0))
         else:
             pass
@@ -1590,7 +1641,7 @@ class Programa:
                 # print("***** EXP *****")
                 # print(codigo.getText())
                 # traverse(codigo,self.rules)
-                res = self.expresion(tree,funcion)  
+                res = self.expresion(tree,funcion)
                 self.pilaCuad.append(Cuadruplo('print',res,0,0))
                 #mandar llamar expresion con el codigo
                 # res.append("EXP")

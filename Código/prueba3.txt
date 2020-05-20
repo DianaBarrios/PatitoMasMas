@@ -1,13 +1,21 @@
 programa patito;
 var
+<<<<<<< Updated upstream
   int i,j,k;
   float f[3][10], wow;
+=======
+  int i[5],j,k;
+  float f[3][10],wow;
+>>>>>>> Stashed changes
   funcion void uno(int a,int b);
   var int x;
   {
+<<<<<<< Updated upstream
     a = i[4+5][4*5];
+=======
+>>>>>>> Stashed changes
     si (5>0) entonces{
-      i[4*3] = 3+7*5+4+i[4];
+      i[4*3] = 3+7*5+4+i[100-1];
       escribe(4+5);
       uno(3-4,4);
     }
@@ -15,11 +23,19 @@ var
   funcion int dos(int p, float g);
   var int c;
   {
+<<<<<<< Updated upstream
     i=8;
     mientras(5>0) haz {
       i = 3-9*5;
       uno(3*2,3+9);
       k=8*5-9;
+=======
+    wow=8.9;
+    mientras(5>0) haz {
+      i = 3-9*5;
+      uno(3*2,3+9);
+      g=8.0*5.0-9.0;
+>>>>>>> Stashed changes
     }
     regresa(4+9*5);
   }
