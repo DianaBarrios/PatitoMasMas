@@ -91,13 +91,13 @@ def arreglo(dir,dim1,dim2,memorias):
 
     if dim2 == -1:
         for i in range(dim1):
-            print(i)
-            # ir sacando cada valor y ponerlo en una pila
+            print(dir+i)
+            # ir sacando cada valor y ponerlo en una matrix
     else:
         for i in range(dim1):
             for j in range(dim2):
-                print(i,j)
-                # ir sacando cada valor y ponerlo en una pila
+                print(dir + i * dim2 + j)
+                # ir sacando cada valor y ponerlo en una matrix
     #transformar la pila en una matrix
     #aplicarle la operacion necesaria
     #### Inversa ?
@@ -109,7 +109,20 @@ def arreglo(dir,dim1,dim2,memorias):
 
         # np.transpose(x)
 
+#dim1 es de donde se copia
+#dim2 es a donde se copia
+def copiaArreglo(dir1,dir2,dim1,dim2,memorias):
+    for i in range(dim1):
+        for j in range(dim2):
+            dir = i * dim2 + j
+            print(dir1 + dir)
+            valor = getValor(dir1+dir,memorias)
+            print(dir2 + dir)
+            asignar(dir2+dir,valor,memorias)
+            # print(i,j)
+
 def main():
+
     c = Compilador(3)
     cuadruplos, ctes = c.compilar()
 
@@ -121,6 +134,8 @@ def main():
     # print(ctes)
     memorias = {'global' : memGlobal,'local': memLocal, 'ctes':memCtes}
     memCtes.int = ctes
+    # arreglo(5010,5,1,memorias)
+    # copiaArreglo(5000,4000,10,3,memorias)
     # asignar(5001,10,memorias)
     # print("valor 5001: ",getValor(5001,memorias))
     # print(memGlobal.int)
@@ -158,16 +173,28 @@ def main():
                 actual = nuevo
         elif operacion == 'print':
             if type(cuadruplos[actual].dir1) is str:
+                # print("entre")
                 print(cuadruplos[actual].dir1)
             else:
                 # print("dir",cuadruplos[actual].dir1)
                 valor = getValor(int(cuadruplos[actual].dir1),memorias)
-                print(valor)
+                if int(valor) > 5000:
+                    valor2 = getValor(int(valor),memorias)
+                    print(valor2)
+                else:
+                    print(valor)
         elif operacion == 'lee':
             # print("lee")
             dir = int(cuadruplos[actual].dir1)
             aux = input()
             asignar(dir,aux,memorias)
+        elif operacion == 'verify':
+            # print(cuadruplos[actual].imprimir())
+            # print("adentro verify")
+            valor = getValor(int(cuadruplos[actual].dir1),memorias)
+            ls = cuadruplos[actual].dir3
+            if valor > ls:
+                print("ERROR")
         elif operacion == '$':
             # print("dollar sign")
             dir = cuadruplos[actual].dir1
@@ -199,6 +226,12 @@ def main():
             opIzq = getValor(cuadruplos[actual].dir1,memorias)
             opDer = getValor(cuadruplos[actual].dir2,memorias)
             aux = opIzq + opDer
+            asignar(int(cuadruplos[actual].dir3),aux,memorias)
+        elif operacion == '+Dir':
+            opIzq = getValor(cuadruplos[actual].dir1,memorias)
+            opDer = cuadruplos[actual].dir2
+            aux = opIzq + opDer
+            # print("RES", aux)
             asignar(int(cuadruplos[actual].dir3),aux,memorias)
         elif operacion == '-':
             opIzq = getValor(cuadruplos[actual].dir1,memorias)
@@ -245,14 +278,29 @@ def main():
             aux = opIzq == opDer
             asignar(int(cuadruplos[actual].dir3),aux,memorias)
         elif operacion == '=':
-            valor = getValor(cuadruplos[actual].dir1,memorias)
-            asig = int(cuadruplos[actual].dir2)
-            asignar(asig,valor,memorias)
+            tipo = cuadruplos[actual].dir3
+            if  tipo == 'arreglo':
+                arr1 = cuadruplos[actual].dir1
+                arr2 = cuadruplos[actual].dir2
+                ##mandar llamar a la funcion que copia los arreglos
+                print("hago algo con los arreglos", arr1,arr2)
+            elif tipo == 'arrSingle':
+                valor = getValor(cuadruplos[actual].dir1,memorias)
+                asig = getValor(cuadruplos[actual].dir2,memorias)
+                asignar(asig,valor,memorias)
+                # print("Asigne con arr",valor,asig)
+            else:
+                valor = getValor(cuadruplos[actual].dir1,memorias)
+                asig = int(cuadruplos[actual].dir2)
+                asignar(asig,valor,memorias)
+                # print("asigne la dir",asig)
         else:
             print(cuadruplos[actual].imprimir())
 
         if avanzaUno:
             actual +=1
+    # print(memorias['local']['temps'].int)
+    # print(memorias['ctes'].int)
     #     # elif operacion == 'goto':
 
 

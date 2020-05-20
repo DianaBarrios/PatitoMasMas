@@ -665,7 +665,7 @@ class Programa:
                         m1 = r / (dim +1)
                         addr = self.sigDireccionRelativa(local_counters,tipo,dim) + offset
                         temp[nombre] = {'tipo': tipo,'dim1': dim, 'dir': addr,'m1': m1}
-                        temp2[addr] = {'nombre':elem,'dim1': dim}
+                        temp2[addr] = {'nombre':nombre,'dim1': dim}
                     if count == 2:
                         indexInicio = elem.index("[")
                         indexFinal = elem.index("]")
@@ -683,7 +683,7 @@ class Programa:
                         dims = dim * dim2
                         addr = self.sigDireccionRelativa(local_counters,tipo,dims) + offset
                         temp[nombre] = {'tipo': tipo,'dim1': dim,'dim2':dim2, 'dir': addr,'m1': m1,'m2': m2}
-                        temp2[addr] = {'nombre':elem,'dim1': dim,'dim2':dim2}
+                        temp2[addr] = {'nombre':nombre,'dim1': dim,'dim2':dim2}
             else:
                 pass
             for child in tree.children:
@@ -1115,12 +1115,18 @@ class Programa:
         else:
             return self.dirFunciones['global']['vars'][nombre]['dir']
 
-    def varAux(self,tree,funcion,pilas):
+    def getNomDir(self, dir, scope):
+        if dir in self.dirFunciones[scope]['varsDir']:
+            return self.dirFunciones[scope]['varsDir'][dir]['nombre']
+        else:
+            return self.dirFunciones['global']['varsDir'][dir]['nombre']
+
+    def varAux(self,tree,funcion,pilas,brackets=False):
         if not isinstance(tree, TerminalNodeImpl):
             if self.rules[tree.getRuleIndex()] == "var":
                 nomVar = tree.ID().getText()
                 # print("Var : " , nomVar)
-                tipo = self.regresaTipoVar(tree.ID().getText(),funcion)
+                tipo = self.regresaTipoVar(nomVar,funcion)
                 # print(nomVar,tipo)
 
                 if tipo == False:
@@ -1129,6 +1135,7 @@ class Programa:
 
                 pilas['pTipos'].append(tipo)
                 addr = self.getDirVar(nomVar,funcion)
+                tieneDim = self.regresaDim(addr,funcion,1)
                 # print(addr)
                 # print(addr)
                 pilas['pOperandos'].append(addr)
@@ -1136,113 +1143,87 @@ class Programa:
                 # dims = []
                 # numdims = len(tree.children) -1
                 # print(numdims)
-                dim = 1
-
-                for child in tree.children:
-                    if not isinstance(child, TerminalNodeImpl):
-                        ruleChild = self.rules[child.getRuleIndex()]
-                        # rules.append(ruleChild)
-                        if ruleChild == "dim":
-                            # print("una dim")
-                            if dim == 1:
-                                id = pilas['pOperandos'].pop()
-                                type = pilas['pTipos'].pop()
-                            self.dimAux(child,funcion,dim,pilas,id,type)
-                            dim+=1
-                            if dim == 2:
-                                aux1 = pilas["pOperandos"].pop()
-                                offset = self.memory_limits['temp'][type]
-                                addr = self.sigDireccionRelativa(self.ctesCounter,type) + offset
-                                self.pilaCuad.append(Cuadruplo('+',aux1,id,addr))
-                                pilas['pOperandos'].append(addr)
-                                pilas['pOperadores'].pop()
-                #             print("pOperandos",pilas['pOperandos'])
-                #             print("pOperadores",pilas['pOperadores'])
-                #             print("pDim",pilas['pDim'])
-                #             # print("dim:",dim)
-                #             # print("entre")
-                #             if dim == 1:
-                #                 id = pilas['pOperandos'].pop()
-                #                 tipo = pilas['pTipos'].pop()
-                #                 pilas['pOperadores'].append('$')
-                #                 pilas['pDim'].append("{}{}".format(id,dim))
-                #                 dimvar1, dimvar2 = self.regresaDims(id,funcion)
-                #                 # print(dimvar1,dimvar2)
-                #
-                #             self.expresionAux(child.expresion(),funcion,pilas)
-                #
-                #             # print(dimvar)
-                #             # print(self.dirFunciones['global']['vars']['i']['dim1'])
-                #             self.pilaCuad.append(Cuadruplo('verify',pilas['pOperandos'][-1],0,dimvar1))
-                #             if dim == 1:
-                #                 aux = pilas['pOperandos'].pop()
-                #                 res = self.temp
-                #                 self.temp += 1
-                #                 temp = "temp"+str(res)
-                #                 # print(res)
-                #                 #print("quad: ", op, left,right,res)
-                #
-                #                 self.pilaCuad.append(Cuadruplo('*',aux,dimvar1,temp))
-                #                 pilas['pOperandos'].append(addr)
-                #             else:
-                #                 aux2 = pilas['pOperandos'].pop()
-                #                 aux1 = pilas['pOperandos'].pop()
-                #                 res = self.temp
-                #                 self.temp += 1
-                #                 temp = "temp"+str(res)
-                #                 self.pilaCuad.append(Cuadruplo('*',aux1,aux2,temp))
-                #                 pilas['pOperandos'].append(addr)
-                #
-                #             if numdims == dim:
-                #                 print("ya se acabo")
-                #                 # aux1 = pilas['pOperandos'].pop()
-                #                 # base = id
-                #                 # #hacer cuadruplos
-                #                 # res = self.temp
-                #                 # self.temp += 1
-                #                 # temp = "temp"+str(res)
-                #                 # self.pilaCuad.append(Cuadruplo('+',aux1,base,temp))
-                #                 # pilas['pOperadores'].append(temp)
-                #                 # pilas['pOperandos'].pop()
-                #             dim +=1
-                #             pilas['pDim'].append("{}{}".format(id,dim))
-
-                            # print(child.expresion().getText())
-                            # dims.append(child.getText())
-
-
-                # print(dims)
+                if tieneDim != False:
+                    id = ""
+                    type = ""
+                    dim = 1
+                    for child in tree.children:
+                        if not isinstance(child, TerminalNodeImpl):
+                            ruleChild = self.rules[child.getRuleIndex()]
+                            # rules.append(ruleChild)
+                            if ruleChild == "dim":
+                                brackets = True
+                                if dim == 1:
+                                    id = pilas['pOperandos'].pop()
+                                    type = pilas['pTipos'].pop()
+                                    # print("pila",pilas['pOperandos'])
+                                    pilas['pOperadores'].append("$")
+                                self.dimAux(child,funcion,dim,pilas,id,type)
+                                dim+=1
         else:
             pass
 
     def dimAux(self,tree,funcion,dim,pilas,id,type):
-        pilas['pDim'].append("{}{}".format(id,dim))
-        if dim == 1:
-            pilas['pOperadores'].append("$")
-        # print(dim)
+        pilas2 = {
+            'pOperandos' : [],
+            'pOperadores' : [],
+            'pTipos' : [],
+            'pDim': []
+        }
         for child in tree.children:
             if not isinstance(child, TerminalNodeImpl):
                 ruleChild = self.rules[child.getRuleIndex()]
                 # rules.append(ruleChild)
                 if ruleChild == "expresion":
-                    self.expresionAux(child,funcion,pilas)
-                    top = pilas['pOperandos'][-1]
-                    lsdim = self.regresaDim(id,funcion,dim)
-                    self.pilaCuad.append(Cuadruplo('verify',top,0,lsdim))
+                    # print(pilas2['pOperandos'])
+                    self.expresionAux(child,funcion,pilas2)
 
-                    if dim == 2:
-                        aux2 = pilas['pOperandos'].pop()
-                        aux1 = pilas['pOperandos'].pop()
-                        offset = self.memory_limits['temp'][type]
-                        addr = self.sigDireccionRelativa(self.ctesCounter,type) + offset
-                        self.pilaCuad.append(Cuadruplo('+',aux1,aux2,addr))
-                        pilas['pOperandos'].append(addr)
-                    else:
-                        aux = pilas['pOperandos'].pop()
-                        offset = self.memory_limits['temp'][type]
-                        addr = self.sigDireccionRelativa(self.ctesCounter,type) + offset
-                        self.pilaCuad.append(Cuadruplo('*',aux,lsdim,addr))
-                        pilas['pOperandos'].append(addr)
+        if dim == 1:
+            resExp = pilas2['pOperandos'][-1]
+            lsdim1 = self.regresaDim(id,funcion,1)
+            lsdim2 = self.regresaDim(id,funcion,2)
+
+            self.pilaCuad.append(Cuadruplo('verify',resExp,0,lsdim1))
+
+            if lsdim2 == False:
+                offset = self.memory_limits['temp']['int']
+                addr = self.sigDireccionRelativa(self.ctesCounter,'int') + offset
+                self.pilaCuad.append(Cuadruplo('+Dir',resExp,id,addr))
+                pilas['pOperandos'].append(addr)
+                pilas['pOperadores'].pop()
+            else:
+                if lsdim2 in self.memory['ctes']:
+                    lsdim2addr = self.memory['ctes'][lsdim2]['dir']
+                else:
+                    offset = self.memory_limits['ctes']['int']
+                    lsdim2addr = self.sigDireccionRelativa(self.ctesCounter,'int') + offset
+                    self.memory['ctes'][lsdim2] = {'tipo': 'int', 'dir': lsdim2addr}
+                    self.memory['ctesDir'][lsdim2addr] = lsdim2
+                offset = self.memory_limits['temp']['int']
+                addr = self.sigDireccionRelativa(self.ctesCounter,'int') + offset
+                self.pilaCuad.append(Cuadruplo('*',resExp,lsdim2addr,addr))
+                pilas['pDim'].append(addr)
+                # print(pilas['pDim'])
+        elif dim == 2:
+            resExp = pilas2['pOperandos'][-1]
+            lsdim2 = self.regresaDim(id,funcion,2)
+            # print("dim",id, self.regresaDim(5000,funcion,2))
+            # print(pilas['pDim'])
+            temp1 = pilas['pDim'].pop()
+            self.pilaCuad.append(Cuadruplo('verify',resExp,0,lsdim2))
+
+            offset = self.memory_limits['temp']['int']
+            addr1 = self.sigDireccionRelativa(self.ctesCounter,'int') + offset
+            self.pilaCuad.append(Cuadruplo('+',resExp,temp1,addr1))
+
+            offset = self.memory_limits['temp']['int']
+            addr2 = self.sigDireccionRelativa(self.ctesCounter,'int') + offset
+            self.pilaCuad.append(Cuadruplo('+Dir',addr1,id,addr2))
+
+            pilas['pOperandos'].append(addr2)
+            # print("addr2",addr2,pilas['pOperandos'])
+            pilas['pOperadores'].pop()
+
         # traverse(tree,self.rules)
 
     def varcteAux(self,tree,funcion,pilas):
@@ -1367,6 +1348,13 @@ class Programa:
         if not isinstance(tree, TerminalNodeImpl):
             if self.rules[tree.getRuleIndex()] == "asignacion":
                 # print("asign")
+                pilas = {
+                    'pOperandos' : [],
+                    'pOperadores' : [],
+                    'pTipos' : [],
+                    'pDim': [],
+                    'tieneBrackets' : []
+                }
                 pila = []
                 tipos = []
                 for child in tree.children:
@@ -1377,24 +1365,42 @@ class Programa:
                         if ruleChild == "var":
                             nombre = child.ID().getText()
                             tipo = self.regresaTipoVar(nombre,funcion)
+                            addr = self.getDirVar(nombre,funcion)
                             # print(tipo)
                             if not tipo:
                                 msj = "No se encontró la var '{}'".format(nombre)
                                 return self.error(child.ID(),msj)
+
+                            tieneDim = self.regresaDim(addr,funcion,1)
+                            if tieneDim != False:
+                                dim = 1
+                                for child2 in child.children:
+                                    if not isinstance(child2, TerminalNodeImpl):
+                                        ruleChild = self.rules[child2.getRuleIndex()]
+                                        # rules.append(ruleChild)
+                                        if ruleChild == "dim":
+                                            if dim == 1:
+                                                pilas['tieneBrackets'].append(True)
+                                                pilas['pOperandos'].append(addr)
+                                                pilas['pTipos'].append(tipo)
+                                                pilas['pOperadores'].append("$")
+                                            self.dimAux(child2,funcion,dim,pilas,addr,tipo)
+                                            dim+=1
+
                             #pila.append(nombre)
                             # if funcion == "main":
                             #     funcion = "global"
-                            addr = self.getDirVar(nombre,funcion)
-
+                            c = child.ID()
                             if len(pila) > 1:
                                 tipo_anterior = tipos[-1]
                                 if tipo != tipo_anterior:
                                     msj = "Asignacion invalida {}({}) a {}({})".format(addr,tipo,pila[-1],tipos[-1])
-                                    return self.error(child.ID(),msj)
+                                    return self.error(c,msj)
+                            if tieneDim == False:
+                                pilas['tieneBrackets'].append(False)
+                                pilas['pOperandos'].append(addr)
+                                pilas['pTipos'].append(tipo)
 
-                            pila.append(addr)
-                            tipos.append(tipo)
-                            c = child.ID()
                             # print("oila", pila)
                             # print("oila", tipos)
                         elif ruleChild == "expresion":
@@ -1402,8 +1408,10 @@ class Programa:
                             exp = self.expresion(child,funcion)
                             tipo_exp = self.regresaTipoDir(exp)
 
-                            if tipo_exp != tipos[-1]:
-                                msj = "Asignacion invalida {}({}) a {}({})".format(exp,tipo_exp,pila[-1],tipos[-1])
+                            topTipos = pilas['pTipos'][-1]
+                            topOperandos = pilas['pOperandos'][-1]
+                            if tipo_exp != topTipos:
+                                msj = "Asignacion invalida {}({}) a {}({})".format(exp,tipo_exp,topOperandos,topTipos)
                                 #print("error", msj)
                                 #print("child:",child)
                                 return self.error(c,msj)
@@ -1417,12 +1425,60 @@ class Programa:
                 print("tipo exp:",self.regresaTipoDir(exp))
                 print("exp",exp)
                 """
-                self.pilaCuad.append(Cuadruplo('=',exp,pila[-1],0))
+                ####AGREGAR ALGO PARA SABER SI ADDR Y EXP TENIAN [][] O NO
+                addrIzq = pilas['pOperandos'][-1]
+                bracketsIzq = pilas['tieneBrackets'].pop()
+                dim1Izq = self.regresaDim(addr,funcion,1)
+                dim2Izq = self.regresaDim(addr,funcion,2)
 
-                if len(pila) > 1:
-                    for i in range(len(pila)-1):
-                        var_actual = pila.pop()
-                        self.pilaCuad.append(Cuadruplo('=',var_actual,str(pila[-1]),0))
+                dim1Der = self.regresaDim(exp,funcion,1)
+                dim2Der = self.regresaDim(exp,funcion,2)
+                if bracketsIzq:
+                    self.pilaCuad.append(Cuadruplo('=',exp,addrIzq,'arrSingle'))
+                    pilas['pOperandos'].pop()
+                else:
+                    if dim1Izq != False and dim1Der == False:
+                        nom1 = self.getNomDir(addr,funcion)
+                        # nom2 = self.getNomDir(exp,funcion)
+                        msj = "No se puede asignar un valor a todo el arreglo '{}'".format(nom1)
+                        return self.error(c,msj)
+                    # print("si son iguales")
+                    # print("izq:",dim1Izq,dim2Izq)
+                    # print("der:",dim1Der,dim2Der)
+                    if dim1Izq != False and dim1Der != False:
+                        if (dim1Izq == dim1Der) and (dim2Izq == dim2Der):
+                            self.pilaCuad.append(Cuadruplo('=',exp,addrIzq,'arreglo'))
+                        else:
+                            nom1 = self.getNomDir(addr,funcion)
+                            nom2 = self.getNomDir(exp,funcion)
+                            msj = "Los arreglos '{}' y '{}' no son del mismo tamaño".format(nom1,nom2)
+                            # print(msj)
+                            return self.error(c,msj)
+                    else:
+                        self.pilaCuad.append(Cuadruplo('=',exp,addrIzq,0))
+                lenPila = len(pilas['pOperandos'])
+                if lenPila > 1:
+                    for i in range(lenPila-1):
+                        addrIzq = pilas['pOperandos'].pop()
+                        dim1Izq = self.regresaDim(addrIzq,funcion,1)
+                        dim2Izq = self.regresaDim(addrIzq,funcion,2)
+
+                        addrDer = pilas['pOperandos'][-1]
+                        dim1Der = self.regresaDim(addrDer,funcion,1)
+                        dim2Der = self.regresaDim(addrDer,funcion,2)
+
+                        if dim1Izq != False and dim1Der != False:
+                            if (dim1Izq == dim1Der) and (dim2Izq == dim2Der):
+                                self.pilaCuad.append(Cuadruplo('=',addrIzq,addrDer,'arreglo'))
+                            else:
+                                nom1 = self.getNomDir(addrIzq,funcion)
+                                nom2 = self.getNomDir(addrDer,funcion)
+                                msj = "Los arreglos '{}' y '{}' no son del mismo tamaño".format(nom1,nom2)
+                                # print(msj)
+                                return self.error(c,msj)
+                        else:
+                            self.pilaCuad.append(Cuadruplo('=',addrIzq,addrDer,0))
+
 
                 #self.pilaCuad.append(Cuadruplo('=',exp,str(pila[-1]),0))
         else:
