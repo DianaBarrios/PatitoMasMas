@@ -1,14 +1,14 @@
 programa patito;
 var
-  int i[5][10],j[5][10],k;
+  int i[5][10],j[5][10],k,otra,varAux;
   float f[3][10], wow;
   funcion void uno(int a,int b);
   var int x;
   {
-    i = j!;
+    k = otra + varAux * i[2+3][3-1];
     a = i[4+5][4*5];
     si (5>0) entonces{
-      i[4*3] = 3+7*5+4+i[4];
+      i = 3+7*5+4;
       escribe(4+5);
       uno(3-4,4);
     }

@@ -1136,22 +1136,26 @@ class Programa:
                 # dims = []
                 # numdims = len(tree.children) -1
                 # print(numdims)
-                # dim = 1
-                # id = pilas['pOperandos'].pop()
-                # type = pilas['pTipos'].pop()
-                # for child in tree.children:
-                #     if not isinstance(child, TerminalNodeImpl):
-                #         ruleChild = self.rules[child.getRuleIndex()]
-                #         # rules.append(ruleChild)
-                #         if ruleChild == "dim":
-                #             self.dimAux(child,funcion,dim,pilas,id,type)
-                #             dim+=1
-                # aux1 = pilas["pOperandos"].pop()
-                # offset = self.memory_limits['temp'][type]
-                # addr = self.sigDireccionRelativa(self.ctesCounter,type) + offset
-                # self.pilaCuad.append(Cuadruplo('+',aux1,id,addr))
-                # pilas['pOperandos'].append(addr)
-                # pilas['pOperadores'].pop()
+                dim = 1
+
+                for child in tree.children:
+                    if not isinstance(child, TerminalNodeImpl):
+                        ruleChild = self.rules[child.getRuleIndex()]
+                        # rules.append(ruleChild)
+                        if ruleChild == "dim":
+                            print("una dim")
+                            if dim == 1:
+                                id = pilas['pOperandos'].pop()
+                                type = pilas['pTipos'].pop()
+                            self.dimAux(child,funcion,dim,pilas,id,type)
+                            dim+=1
+                            if dim == 2:
+                                aux1 = pilas["pOperandos"].pop()
+                                offset = self.memory_limits['temp'][type]
+                                addr = self.sigDireccionRelativa(self.ctesCounter,type) + offset
+                                self.pilaCuad.append(Cuadruplo('+',aux1,id,addr))
+                                pilas['pOperandos'].append(addr)
+                                pilas['pOperadores'].pop()
                 #             print("pOperandos",pilas['pOperandos'])
                 #             print("pOperadores",pilas['pOperadores'])
                 #             print("pDim",pilas['pDim'])
