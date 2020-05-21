@@ -123,7 +123,7 @@ def copiaArreglo(dir1,dir2,dim1,dim2,memorias):
 
 def main():
 
-    c = Compilador(3)
+    c = Compilador(2)
     cuadruplos, ctes = c.compilar()
 
     memGlobal = Memoria()
@@ -299,8 +299,8 @@ def main():
 
         if avanzaUno:
             actual +=1
-    # print(memorias['local']['temps'].int)
-    # print(memorias['ctes'].int)
+    print(memorias['local']['temps'].int)
+    print(memorias['ctes'].int)
     #     # elif operacion == 'goto':
 
 

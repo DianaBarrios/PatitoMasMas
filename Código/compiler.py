@@ -1190,6 +1190,7 @@ class Programa:
                 addr = self.sigDireccionRelativa(self.ctesCounter,'int') + offset
                 self.pilaCuad.append(Cuadruplo('+Dir',resExp,id,addr))
                 pilas['pOperandos'].append(addr)
+                pilas['pTipos'].append(type)
                 pilas['pOperadores'].pop()
             else:
                 if lsdim2 in self.memory['ctes']:
@@ -1221,6 +1222,7 @@ class Programa:
             self.pilaCuad.append(Cuadruplo('+Dir',addr1,id,addr2))
 
             pilas['pOperandos'].append(addr2)
+            pilas['pTipos'].append(type)
             # print("addr2",addr2,pilas['pOperandos'])
             pilas['pOperadores'].pop()
 

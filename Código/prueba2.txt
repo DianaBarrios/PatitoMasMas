@@ -1,15 +1,9 @@
 programa patito2;
 var
   int i,j,p;
-  int arreglo[10], otroarreglo[10];
+  int arreglo[3], otroarreglo[3];
   float valor;
   int matriz[3][8], otramatriz[3][8];
-funcion int fact(int j);
-var int nice[10][50];
-{
-  i = 5;
-  escribe("wow");
-}
 funcion int dos(int b,int a);
 var int c;
 {
@@ -17,15 +11,10 @@ var int c;
   escribe("imprime","dentro","de","funcion",4);
 }
 principal(){
-  j = 45*25;
-  lee(p,otroarreglo[2],j);
-  si(4+5>7+8) entonces {
-    i = 2 + 5;
-    
-  }
-  sino{
-    i = j = p = 2.5;
-  }
-  j = 7 * 2 + 3;
-  escribe(arreglo[2],j);
+  arreglo[0] = 10;
+  i = 100 + 1;
+  escribe(i);
+  arreglo[1] = 20;
+  arreglo[2] = 30;
+  escribe("algo",arreglo[0],arreglo[1],arreglo[2]);
 }
