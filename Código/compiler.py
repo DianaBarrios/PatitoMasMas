@@ -439,7 +439,7 @@ class Programa:
         self.memory_limits = {
             'global': {'int': 5000, 'float': 8000, 'char': 10000, 'string': 13000, 'bool': 14000},
             'local': {'int': 15000, 'float': 18000, 'char': 20000, 'string': 23000, 'bool': 24000},
-            'temp': {'int': 25000, 'float': 28000, 'char': 31000, 'string': 33000, 'bool': 34000},
+            'temp': {'int': 25000, 'float': 28000, 'char': 31000, 'string': 33000, 'bool': 34000, 'dir': 50000},
             'ctes': {'int': 35000, 'float': 38000, 'char': 41000, 'string': 43000, 'bool': 44000}
         }
         self.memory = {
@@ -556,9 +556,9 @@ class Programa:
                 if res == None:
                     return False
                 else:
-                    checaDim = self.dirFunciones['global']['varsDir'][var].get("{}{}".format("dim",dim), None)
+                    checaDim = self.dirFunciones[funcion]['varsDir'][var].get("{}{}".format("dim",dim), None)
                     if checaDim != None:
-                        return self.dirFunciones['global']['varsDir'][var]["{}{}".format("dim",dim)]
+                        return self.dirFunciones[funcion]['varsDir'][var]["{}{}".format("dim",dim)]
                     else:
                         return False
             else:
@@ -585,6 +585,8 @@ class Programa:
 
     #Funcion que regresa tipo con base en la direccion
     def regresaTipoDir(self,dir):
+        if dir >= 50000:
+            return 'int'
         while(dir > 14999):
             dir = dir - 10000
 
@@ -712,6 +714,7 @@ class Programa:
                         self.dirFunciones['global']['vars'][nombreFun] = {'tipo' : ret, 'dir': addr}
 
                     tablaParams = []
+                    tablaDirs = []
                     varsParams = {}
                     #tempVar = {}
                     tempVar2 = {}
@@ -719,7 +722,7 @@ class Programa:
                     #Local counter of types of vars and params
                     localCounters = {}
 
-                    self.decParamsFun(tree.params(),varsParams,tablaParams,nombreFun,localCounters)
+                    self.decParamsFun(tree.params(),varsParams,tablaParams,tablaDirs,nombreFun,localCounters)
                     self.decVariables(tree.dec_variables(),varsParams,tempVar2,localCounters,"",nombreFun)
                     #self.decVariables(tree.dec_variables(),tempVar,tempVar2,localCounters,"",nombreFun)
 
@@ -728,6 +731,7 @@ class Programa:
 
                     cuadEmpieza = len(self.pilaCuad) + 1
                     jsontemp["params"] = tablaParams
+                    jsontemp["paramsDir"] = tablaDirs
                     jsontemp["vars"] = varsFunc
                     jsontemp["varsDir"] = tempVar2
                     jsontemp["tipoRet"] = ret
@@ -744,7 +748,7 @@ class Programa:
         else:
             pass
 
-    def decParamsFun(self,tree,varsParams,tablaParams,nombreFun,local_counters):
+    def decParamsFun(self,tree,varsParams,tablaParams,tablaDirs,nombreFun,local_counters):
         if not isinstance(tree, TerminalNodeImpl):
             if self.rules[tree.getRuleIndex()] == "params":
                 nombre = tree.ID().getText()
@@ -757,12 +761,12 @@ class Programa:
                 tablaParams.append(tipo)
                 offset = self.memory_limits['local'][tipo]
                 addr = self.sigDireccionRelativa(local_counters,tipo) + offset
-
+                tablaDirs.append(addr)
                 #self.dirFunciones[nombreFun]['vars'][nombre] = {'tipo': tipo, 'dir': addr}
                 varsParams[nombre] = {'tipo': tipo, 'dir': addr}
 
             for child in tree.children:
-                self.decParamsFun(child,varsParams,tablaParams,nombreFun,local_counters)
+                self.decParamsFun(child,varsParams,tablaParams,tablaDirs,nombreFun,local_counters)
         else:
             pass
 
@@ -1186,9 +1190,16 @@ class Programa:
             self.pilaCuad.append(Cuadruplo('verify',resExp,0,lsdim1))
 
             if lsdim2 == False:
-                offset = self.memory_limits['temp']['int']
-                addr = self.sigDireccionRelativa(self.ctesCounter,'int') + offset
-                self.pilaCuad.append(Cuadruplo('+Dir',resExp,id,addr))
+                if id in self.memory['ctes']:
+                    baseaddr = self.memory['ctes'][id]['dir']
+                else:
+                    offset = self.memory_limits['ctes']['int']
+                    baseaddr = self.sigDireccionRelativa(self.ctesCounter,'int') + offset
+                    self.memory['ctes'][id] = {'tipo': 'int', 'dir': baseaddr}
+                    self.memory['ctesDir'][baseaddr] = id
+                offset = self.memory_limits['temp']['dir']
+                addr = self.sigDireccionRelativa(self.ctesCounter,'dir') + offset
+                self.pilaCuad.append(Cuadruplo('+',resExp,baseaddr,addr))
                 pilas['pOperandos'].append(addr)
                 pilas['pTipos'].append(type)
                 pilas['pOperadores'].pop()
@@ -1217,9 +1228,16 @@ class Programa:
             addr1 = self.sigDireccionRelativa(self.ctesCounter,'int') + offset
             self.pilaCuad.append(Cuadruplo('+',resExp,temp1,addr1))
 
-            offset = self.memory_limits['temp']['int']
-            addr2 = self.sigDireccionRelativa(self.ctesCounter,'int') + offset
-            self.pilaCuad.append(Cuadruplo('+Dir',addr1,id,addr2))
+            if id in self.memory['ctes']:
+                baseaddr = self.memory['ctes'][id]['dir']
+            else:
+                offset = self.memory_limits['ctes']['int']
+                baseaddr = self.sigDireccionRelativa(self.ctesCounter,'int') + offset
+                self.memory['ctes'][id] = {'tipo': 'int', 'dir': baseaddr}
+                self.memory['ctesDir'][baseaddr] = id
+            offset = self.memory_limits['temp']['dir']
+            addr2 = self.sigDireccionRelativa(self.ctesCounter,'dir') + offset
+            self.pilaCuad.append(Cuadruplo('+',addr1,baseaddr,addr2))
 
             pilas['pOperandos'].append(addr2)
             pilas['pTipos'].append(type)
@@ -1670,7 +1688,7 @@ class Programa:
 
         self.pilaCuad.append(Cuadruplo('era',nombreFun,0,0))
         self.resolverParams(tree.params_llamada(),nombreFun)
-        self.pilaCuad.append(Cuadruplo('gosub',nombreFun,dirInicio,0))
+        self.pilaCuad.append(Cuadruplo('gosub',nombreFun,dirInicio,len(self.pilaCuad)+1))
 
         if tipoRet != "void":
             quad = "quad: = {} temp".format(nombreFun)
@@ -1700,8 +1718,8 @@ class Programa:
                 regla = self.rules[child.getRuleIndex()]
                 if regla == "expresion":
                     exp = self.expresion(child,funcion)
-                    quad = "quad: param EXP param" + str(cont)
-                    self.pilaCuad.append(Cuadruplo('param',exp,cont,0))
+                    dir = self.dirFunciones[funcion]['paramsDir'][cont]
+                    self.pilaCuad.append(Cuadruplo('param',exp,dir,0))
                     cont += 1
                 elif regla == "params_llamada":
                     self.resolverParams(child,funcion,cont)

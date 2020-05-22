@@ -2,19 +2,37 @@ programa patito2;
 var
   int i,j,p;
   int arreglo[3], otroarreglo[3];
-  float valor;
+  float valor[5];
   int matriz[3][8], otramatriz[3][8];
-funcion int dos(int b,int a);
+funcion void tres(int equis);
+var int hola;
+{
+  escribe("hola",equis);
+}
+funcion void dos(int b,int a,int x);
 var int c;
 {
-  i = j;
-  escribe("imprime","dentro","de","funcion",4);
+  c = 5;
+  x = a + b;
+  escribe(a+100,b,x,c);
+  tres(5);
+  j = 100+100-24;
 }
 principal(){
-  arreglo[0] = 10;
-  i = 100 + 1;
-  escribe(i);
-  arreglo[1] = 20;
-  arreglo[2] = 30;
-  escribe("algo",arreglo[0],arreglo[1],arreglo[2]);
+  i = 5;
+  matriz[1+1][i] = 45;
+  escribe(matriz[2][5]);
+  arreglo[0] = i;
+  arreglo[1] = 5;
+  arreglo[2] = 15;
+  dos(arreglo[1]+arreglo[0],4-1,55);
+  escribe(j);
+  i = 4;
+  si (i > 5) entonces {
+    arreglo[0] = 100 - 20 * 50 - 10;
+  }
+  sino {
+    arreglo[0] = 5000 * 200 - 10 * 20;
+  }
+  escribe(arreglo[0]);
 }

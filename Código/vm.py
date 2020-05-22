@@ -13,10 +13,14 @@ class Memoria():
 
 # 'global': {'int': 5000, 'float': 8000, 'char': 10000, 'string': 13000, 'bool': 14000},
 # 'local': {'int': 15000, 'float': 18000, 'char': 20000, 'string': 23000, 'bool': 24000},
-# 'temp': {'int': 25000, 'float': 28000, 'char': 31000, 'string': 33000, 'bool': 34000},
+# 'temp': {'int': 25000, 'float': 28000, 'char': 31000, 'string': 33000, 'bool': 34000, 'dir': 50000},
 # 'ctes': {'int': 35000, 'float': 38000, 'char': 41000, 'string': 43000, 'bool': 44000}
 def getValor(dir,memorias):
     # print(dir)
+
+    if dir > 49999:
+        dir = memorias['local']['temps'].int[dir]
+        # print(dir)
     if dir > 4999 and dir < 15000:
         mem = memorias['global']
         relativa = dir - 5000
@@ -36,21 +40,25 @@ def getValor(dir,memorias):
         mem = memorias['ctes']
         relativa = dir - 35000
         base = 35000
-
+    dirReal = base+relativa
     if relativa < 3000:
-        return int(mem.int[base+relativa])
+        return int(mem.int[dirReal])
     elif relativa > 2999 and relativa < 5000:
-        return float(mem.float[base+relativa])
+        return float(mem.float[dirReal])
     elif relativa > 4999 and relativa < 8000:
-        return mem.char[base+relativa]
+        return mem.char[dirReal]
     elif relativa > 7999 and relativa < 9000:
-        return mem.string[base+relativa]
+        return mem.string[dirReal]
     elif relativa > 8999:
-        return mem.bool[base+relativa]
+        return mem.bool[dirReal]
 
 def asignar(dir,valor,memorias):
     # print(type(dir))
     # print(dir)
+    # if dir > 49999:
+    #     dir = getValor(dir,memorias)
+    # else:
+
     if dir > 4999 and dir < 15000:
         mem = memorias['global']
         relativa = dir - 5000
@@ -70,16 +78,21 @@ def asignar(dir,valor,memorias):
         mem = memorias['ctes']
         relativa = dir - 35000
         base = 35000
+    elif dir > 49999:
+        mem = memorias['local']['temps']
+        relativa = dir - 50000
+        base = 50000
+    dirReal = base+relativa
     if relativa < 3000:
-        mem.int[base+relativa] = int(valor)
+        mem.int[dirReal] = int(valor)
     elif relativa > 2999 and relativa < 5000:
-        mem.float[base+relativa] = valor
+        mem.float[dirReal] = valor
     elif relativa > 4999 and relativa < 8000:
-        mem.char[base+relativa] = valor
+        mem.char[dirReal] = valor
     elif relativa > 7999 and relativa < 9000:
-        mem.string[base+relativa] = valor
+        mem.string[dirReal] = valor
     elif relativa > 8999:
-        mem.bool[base+relativa] = valor
+        mem.bool[dirReal] = valor
 
 ##funciones especiales
 def arreglo(dir,dim1,dim2,memorias):
@@ -122,7 +135,6 @@ def copiaArreglo(dir1,dir2,dim1,dim2,memorias):
             # print(i,j)
 
 def main():
-
     c = Compilador(2)
     cuadruplos, ctes = c.compilar()
 
@@ -134,6 +146,9 @@ def main():
     # print(ctes)
     memorias = {'global' : memGlobal,'local': memLocal, 'ctes':memCtes}
     memCtes.int = ctes
+    pilaMemorias = []
+    pilaParams = []
+    pilaIP = []
     # arreglo(5010,5,1,memorias)
     # copiaArreglo(5000,4000,10,3,memorias)
     # asignar(5001,10,memorias)
@@ -171,6 +186,30 @@ def main():
                 actual += 1
             else:
                 actual = nuevo
+        elif operacion == 'era':
+            pass
+        elif operacion == 'param':
+            pilaParams.append({'dir': cuadruplos[actual].dir2,'valor': getValor(cuadruplos[actual].dir1,memorias)})
+        elif operacion == 'gosub':
+            pilaMemorias.append(memorias['local'])
+            nuevaLocal = {'temps': Memoria(), 'local': Memoria()}
+            memorias['local'] = nuevaLocal
+            # print(memorias['local']['local'].int)
+            for param in pilaParams:
+                # print("Estoy asignando")
+                asignar(param['dir'],param['valor'],memorias)
+            nuevo = cuadruplos[actual].dir2 - 1
+            pilaIP.append(cuadruplos[actual].dir3)
+            # print("pila",pilaIP)
+            avanzaUno = False
+            actual = nuevo
+            # actual = int(cuadruplos[actual].dir2)
+        elif operacion == 'endproc':
+            avanzaUno = False
+            # actual = 10
+            actual = pilaIP.pop()
+            # print(actual)
+            memorias['local'] = pilaMemorias.pop()
         elif operacion == 'print':
             if type(cuadruplos[actual].dir1) is str:
                 # print("entre")
@@ -178,11 +217,7 @@ def main():
             else:
                 # print("dir",cuadruplos[actual].dir1)
                 valor = getValor(int(cuadruplos[actual].dir1),memorias)
-                if int(valor) > 5000:
-                    valor2 = getValor(int(valor),memorias)
-                    print(valor2)
-                else:
-                    print(valor)
+                print(valor)
         elif operacion == 'lee':
             # print("lee")
             dir = int(cuadruplos[actual].dir1)
@@ -227,12 +262,7 @@ def main():
             opDer = getValor(cuadruplos[actual].dir2,memorias)
             aux = opIzq + opDer
             asignar(int(cuadruplos[actual].dir3),aux,memorias)
-        elif operacion == '+Dir':
-            opIzq = getValor(cuadruplos[actual].dir1,memorias)
-            opDer = cuadruplos[actual].dir2
-            aux = opIzq + opDer
-            # print("RES", aux)
-            asignar(int(cuadruplos[actual].dir3),aux,memorias)
+            # print(memorias['local']['temps'].int)
         elif operacion == '-':
             opIzq = getValor(cuadruplos[actual].dir1,memorias)
             opDer = getValor(cuadruplos[actual].dir2,memorias)
@@ -285,14 +315,30 @@ def main():
                 ##mandar llamar a la funcion que copia los arreglos
                 print("hago algo con los arreglos", arr1,arr2)
             elif tipo == 'arrSingle':
+                dirReal = memorias['local']['temps'].int[cuadruplos[actual].dir2]
                 valor = getValor(cuadruplos[actual].dir1,memorias)
-                asig = getValor(cuadruplos[actual].dir2,memorias)
-                asignar(asig,valor,memorias)
+                # print(dirReal,valor)
+                asignar(dirReal,valor,memorias)
+
+                # asigna = getValor(cuadruplos[actual].dir2,memorias)
+                # valor = getValor(cuadruplos[actual].dir1,memorias)
+                # print(asigna,valor)
+                # asignar(asigna,valor,memorias)
+                # print(memorias['global'].int)
+                # print(memorias['local']['temps'].int)
+                # print(memorias['ctes'].int)
+                # print(memorias['local']['temps'].int[int(cuadruplos[actual].dir2)])
+                # valor =
+                # asig = getValor(cuadruplos[actual].dir2,memorias)
+                # asignar
+
                 # print("Asigne con arr",valor,asig)
             else:
                 valor = getValor(cuadruplos[actual].dir1,memorias)
                 asig = int(cuadruplos[actual].dir2)
                 asignar(asig,valor,memorias)
+                # print(memorias['local']['temps'].int)
+                # print(memorias['ctes'].int)
                 # print("asigne la dir",asig)
         else:
             print(cuadruplos[actual].imprimir())
