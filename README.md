@@ -40,6 +40,11 @@ Las funciones no pueden tomar como parámetros variables dimensionadas.
 
 Los tipos de retorno de una función son los previamente mencionados y void.
 
+    funcion tipoRetorno nombreFuncion(tipoParametro : nombre)
+    {
+	    estatuto;
+    }
+
 ### Lectura
 Se pueden leer una o más variables(con o sin dimensiones) separadas por comas.
 
@@ -119,6 +124,11 @@ Puede o no tener un camino alternativo(else).
 Los parámetros de una llamada están conformados por expresiones. 
 
     nombreFuncion(expresion,expresion);
+
+### Retorno
+Si una función no es void tiene que regresar un valor en la forma de una expresión.
+
+    regresa(expresion);
 
 ### Ejemplos
 **Función normal**
