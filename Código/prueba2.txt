@@ -3,7 +3,8 @@ var
   int i,j,p;
   int arreglo[3], otroarreglo[3];
   float valor[5];
-  int matriz[3][8], otramatriz[3][8];
+  float y;
+  int matriz[2][2], otramatriz[3][8];
 funcion void tres(int equis);
 var int hola;
 {
@@ -19,20 +20,11 @@ var int c;
   j = 100+100-24;
 }
 principal(){
-  i = 5;
-  matriz[1+1][i] = 45;
-  escribe(matriz[2][5]);
-  arreglo[0] = i;
-  arreglo[1] = 5;
-  arreglo[2] = 15;
-  dos(arreglo[1]+arreglo[0],4-1,55);
-  escribe(j);
-  i = 4;
-  si (i > 5) entonces {
-    arreglo[0] = 100 - 20 * 50 - 10;
-  }
-  sino {
-    arreglo[0] = 5000 * 200 - 10 * 20;
-  }
-  escribe(arreglo[0]);
+  matriz[0][0] = 1;
+  matriz[0][1] = 2;
+  matriz[1][0] = 3;
+  matriz[1][1] = 4;
+  i = matriz$;
+  escribe(i);
+  escribe(matriz[0][0],matriz[0][1],matriz[1][0],matriz[1][1]);
 }

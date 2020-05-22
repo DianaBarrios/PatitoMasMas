@@ -95,13 +95,13 @@ def asignar(dir,valor,memorias):
         mem.bool[dirReal] = valor
 
 ##funciones especiales
-def arreglo(dir,dim1,dim2,memorias):
+def arreglo(op,dir,dim1,dim2,memorias):
     # equis = inv([[-3,1][5,0]])
     # print(equis)
     # b = np.array([[2,3],[4,5]])
     # b = np.linalg.inv(b)
     # print(b)
-
+    arr = []
     if dim2 == -1:
         for i in range(dim1):
             print(dir+i)
@@ -109,7 +109,24 @@ def arreglo(dir,dim1,dim2,memorias):
     else:
         for i in range(dim1):
             for j in range(dim2):
-                print(dir + i * dim2 + j)
+                dirReal = dir + i * dim2 + j
+                arr.append(getValor(dirReal,memorias))
+        npArray = np.array(arr).reshape(dim1, dim2)
+        if op == '$':
+            det = np.linalg.det(npArray)
+            print(det)
+        elif op == '?':
+            mat = np.linalg.inv(npArray)
+        elif op == '!':
+            mat = np.transpose(npArray)
+        print("normal")
+        print(npArray)
+        if op != '$':
+            for i in range(dim1):
+                for j in range(dim2):
+                    dirReal = dir + i * dim2 + j
+                    valor = np.rint(mat[i][j])
+                    asignar(dirReal,valor,memorias)
                 # ir sacando cada valor y ponerlo en una matrix
     #transformar la pila en una matrix
     #aplicarle la operacion necesaria
@@ -236,7 +253,7 @@ def main():
             dim1 = cuadruplos[actual+1].dir2
             dim2 = cuadruplos[actual+1].dir3
             # print(dir,dim1,dim2)
-            # arreglo(dir,dim1,dim2,memorias)
+            arreglo('$',dir,dim1,dim2,memorias)
             avanzaUno = False
             actual += 2
         elif operacion == '?':
@@ -244,6 +261,7 @@ def main():
             dir = cuadruplos[actual].dir1
             dim1 = cuadruplos[actual+1].dir2
             dim2 = cuadruplos[actual+1].dir3
+            arreglo('?',dir,dim1,dim2,memorias)
             # print(dir,dim1,dim2)
             # arreglo(dir,dim1,dim2,memorias)
             avanzaUno = False
@@ -253,6 +271,7 @@ def main():
             dir = cuadruplos[actual].dir1
             dim1 = cuadruplos[actual+1].dir2
             dim2 = cuadruplos[actual+1].dir3
+            arreglo('!',dir,dim1,dim2,memorias)
             # print(dir,dim1,dim2)
             # arreglo(dir,dim1,dim2,memorias)
             avanzaUno = False

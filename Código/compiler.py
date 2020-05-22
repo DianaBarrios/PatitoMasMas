@@ -1077,6 +1077,10 @@ class Programa:
                         self.pilaCuad.append(Cuadruplo(op,dir,0,dir))
                         dim1 = self.regresaDim(dir,funcion,1)
                         dim2 = self.regresaDim(dir,funcion,2)
+                        if op == '?':
+                            if dim1 != dim2:
+                                msj = "No se puede calcular la inversa si no es cuadrada"
+                                return self.error(child.ESP(),msj)
                         if dim2 != False:
                             self.pilaCuad.append(Cuadruplo('dimensiones',dir,dim1,dim2))
                         else:
