@@ -117,6 +117,7 @@ def arreglo(op,dir,dim1,dim2,memorias):
             print(det)
         elif op == '?':
             mat = np.linalg.inv(npArray)
+            print(mat)
         elif op == '!':
             mat = np.transpose(npArray)
         print("normal")
@@ -142,18 +143,29 @@ def arreglo(op,dir,dim1,dim2,memorias):
 #dim1 es de donde se copia
 #dim2 es a donde se copia
 def copiaArreglo(dir1,dir2,dim1,dim2,memorias):
-    for i in range(dim1):
-        for j in range(dim2):
-            dir = i * dim2 + j
-            print(dir1 + dir)
-            valor = getValor(dir1+dir,memorias)
-            print(dir2 + dir)
-            asignar(dir2+dir,valor,memorias)
-            # print(i,j)
+    if dim2 == False:
+        for i in range(dim1):
+            valor = getValor(dir1+i,memorias)
+            # print("dir1",dir1+i,"dir2",dir2+i)
+            # print(dir2 + dir)
+            asignar(dir2+i,valor,memorias)
+    else:
+        for i in range(dim1):
+            for j in range(dim2):
+                # cont+=1
+                dir = i * dim2 + j
+                # print(dir1 + dir)
+                valor = getValor(dir1+dir,memorias)
+                # print("dir1",dir1+dir,"dir2",dir2+dir)
+                # print(dir2 + dir)
+                asignar(dir2+dir,valor,memorias)
+                # print(i,j)
 
 def main():
-    c = Compilador(9)
+    c = Compilador(10)
     cuadruplos, ctes = c.compilar()
+    ctesInt =  {key: value for key, value in ctes.items() if key < 38000}
+    ctesFloat =  {key: value for key, value in ctes.items() if key > 37999}
 
     memGlobal = Memoria()
     memLocal = {'temps': Memoria(), 'local': Memoria()}
@@ -162,7 +174,10 @@ def main():
     memCtes = Memoria()
     # print(ctes)
     memorias = {'global' : memGlobal,'local': memLocal, 'ctes':memCtes}
-    memCtes.int = ctes
+    memCtes.int = ctesInt
+    memCtes.float = ctesFloat
+
+    # print(ctes)
     pilaMemorias = []
     pilaParams = []
     pilaIP = []
@@ -331,8 +346,14 @@ def main():
             if  tipo == 'arreglo':
                 arr1 = cuadruplos[actual].dir1
                 arr2 = cuadruplos[actual].dir2
+                dim1 = cuadruplos[actual+1].dir2
+                dim2 = cuadruplos[actual+1].dir3
+                # print("ds",dim1,dim2)
+                copiaArreglo(arr1,arr2,dim1,dim2,memorias)
+                avanzaUno = False
+                actual +=2
                 ##mandar llamar a la funcion que copia los arreglos
-                print("hago algo con los arreglos", arr1,arr2)
+                # print("hago algo con los arreglos", arr1,arr2)
             elif tipo == 'arrSingle':
                 dirReal = memorias['local']['temps'].int[cuadruplos[actual].dir2]
                 valor = getValor(cuadruplos[actual].dir1,memorias)

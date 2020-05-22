@@ -1326,8 +1326,8 @@ class Programa:
         elif self.dirFunciones[funcion]['tipoRet'] == "void":
             msj = "Retorno en funcion '{}' de tipo void".format(funcion)
             return self.error(tree.Regresa(),msj)
-        
-        
+
+
         addrExp = self.expresion(tree.expresion(),funcion)
         addrVar = self.getDirVar(funcion,'global')
 
@@ -1393,6 +1393,7 @@ class Programa:
                                 msj = "No se encontró la var '{}'".format(nombre)
                                 return self.error(child.ID(),msj)
 
+                            brackets = False
                             tieneDim = self.regresaDim(addr,funcion,1)
                             if tieneDim != False:
                                 dim = 1
@@ -1402,6 +1403,7 @@ class Programa:
                                         # rules.append(ruleChild)
                                         if ruleChild == "dim":
                                             if dim == 1:
+                                                brackets = True
                                                 pilas['tieneBrackets'].append(True)
                                                 pilas['pOperandos'].append(addr)
                                                 pilas['pTipos'].append(tipo)
@@ -1418,7 +1420,7 @@ class Programa:
                                 if tipo != tipo_anterior:
                                     msj = "Asignacion invalida {}({}) a {}({})".format(addr,tipo,pila[-1],tipos[-1])
                                     return self.error(c,msj)
-                            if tieneDim == False:
+                            if tieneDim == False or brackets == False:
                                 pilas['tieneBrackets'].append(False)
                                 pilas['pOperandos'].append(addr)
                                 pilas['pTipos'].append(tipo)
@@ -1429,6 +1431,7 @@ class Programa:
                             # print("exp")
                             exp = self.expresion(child,funcion)
                             tipo_exp = self.regresaTipoDir(exp)
+                            # print(exp,tipo_exp)
 
                             topTipos = pilas['pTipos'][-1]
                             topOperandos = pilas['pOperandos'][-1]
@@ -1470,6 +1473,7 @@ class Programa:
                     if dim1Izq != False and dim1Der != False:
                         if (dim1Izq == dim1Der) and (dim2Izq == dim2Der):
                             self.pilaCuad.append(Cuadruplo('=',exp,addrIzq,'arreglo'))
+                            self.pilaCuad.append(Cuadruplo('dimensiones',0,dim1Izq,dim2Izq))
                         else:
                             nom1 = self.getNomDir(addr,funcion)
                             nom2 = self.getNomDir(exp,funcion)
@@ -1492,6 +1496,7 @@ class Programa:
                         if dim1Izq != False and dim1Der != False:
                             if (dim1Izq == dim1Der) and (dim2Izq == dim2Der):
                                 self.pilaCuad.append(Cuadruplo('=',addrIzq,addrDer,'arreglo'))
+                                self.pilaCuad.append(Cuadruplo('dimensiones',0,dim1Izq,dim2Izq))
                             else:
                                 nom1 = self.getNomDir(addrIzq,funcion)
                                 nom2 = self.getNomDir(addrDer,funcion)
@@ -1695,10 +1700,10 @@ class Programa:
         if tipoRet != "void":
             #quad = "quad: = {} temp".format(nombreFun)
             print("nombe fun: en llamada:",funcion,nombreFun)
-            
+
             addr = self.getDirVar(nombreFun,funcion)
             tipoVar = self.regresaTipoDir(addr)
-            
+
             print("dir de funcion/var:",addr)
 
             offset = self.memory_limits['temp'][tipoVar]
@@ -1793,25 +1798,7 @@ class Compilador:
 
 def main():
     arch = sys.argv[1]
-    if arch == '1':
-        input_stream = FileStream("prueba.txt")
-    elif arch == '2':
-        input_stream = FileStream("prueba2.txt")
-    elif arch == '3':
-        input_stream = FileStream("prueba3.txt")
-    elif arch == '4':
-        input_stream = FileStream("prueba4.txt")
-    elif arch == '5':
-        input_stream = FileStream("prueba5.txt")
-    elif arch == '6':
-        input_stream = FileStream("prueba6.txt")
-    elif arch == '7':
-        input_stream = FileStream("prueba7.txt")
-    elif arch == '8':
-        input_stream = FileStream("prueba8.txt")
-    elif arch == '9':
-        input_stream = FileStream("prueba9.txt")
-
+    input_stream = FileStream("prueba{}.txt".format(arch))
     lexer = PatitoMasMasLexer(input_stream)
     stream = CommonTokenStream(lexer)
     parser = PatitoMasMasParser(stream)

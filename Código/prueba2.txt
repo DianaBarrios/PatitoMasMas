@@ -20,11 +20,12 @@ var int c;
   j = 100+100-24;
 }
 principal(){
+  dos(10,15,20);
   matriz[0][0] = 1;
   matriz[0][1] = 2;
   matriz[1][0] = 3;
   matriz[1][1] = 4;
-  i = matriz$;
-  escribe(i);
+  i = matriz[0][0];
+  escribe("i",matriz[0][0]);
   escribe(matriz[0][0],matriz[0][1],matriz[1][0],matriz[1][1]);
 }
