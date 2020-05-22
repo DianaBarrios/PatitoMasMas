@@ -16,7 +16,7 @@ class Memoria():
 # 'temp': {'int': 25000, 'float': 28000, 'char': 31000, 'string': 33000, 'bool': 34000, 'dir': 50000},
 # 'ctes': {'int': 35000, 'float': 38000, 'char': 41000, 'string': 43000, 'bool': 44000}
 def getValor(dir,memorias):
-    # print(dir)
+    #print("dir:",dir)
 
     if dir > 49999:
         dir = memorias['local']['temps'].int[dir]
@@ -135,7 +135,7 @@ def copiaArreglo(dir1,dir2,dim1,dim2,memorias):
             # print(i,j)
 
 def main():
-    c = Compilador(2)
+    c = Compilador(9)
     cuadruplos, ctes = c.compilar()
 
     memGlobal = Memoria()

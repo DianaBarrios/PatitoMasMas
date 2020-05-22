@@ -1015,15 +1015,6 @@ class Programa:
                                 tipoRes = cubo[op][rightType][leftType]
                                 if tipoRes == "x":
                                     print("Operacion no valida")
-                                """
-                                elif tipoRes == "int":
-                                    right = int(right)
-                                    left = int(left)
-                                elif tipoRes == "float":
-                                    right = float(right)
-                                    left = float(left)
-"""
-
                                 # print("der: ",right,"izq:",left)
                                 #res = self.genQuad(op,left,right)
                                 #res = self.temp
@@ -1087,7 +1078,7 @@ class Programa:
                         # print("encontre algo con parentesis")
                         self.parentesisAux(child,funcion,pilas)
                     elif ruleChild == "llamada":
-                        self.est_llamada_est(child,funcion)
+                        self.est_llamada_est(child,funcion,pilas)
                         # self.termAux(child,funcion,pilas)
         else:
             pass
@@ -1324,14 +1315,21 @@ class Programa:
         else:
             pass
 
-    def est_retorno(self, tree,funcion):
+    def est_retorno(self, tree, funcion):
         if funcion == "global":
             msj = "La funcion main no tiene retorno"
             return self.error(tree.Regresa(),msj)
         elif self.dirFunciones[funcion]['tipoRet'] == "void":
             msj = "Retorno en funcion '{}' de tipo void".format(funcion)
             return self.error(tree.Regresa(),msj)
-        self.expresion(tree.expresion(),funcion)
+        
+        
+        addrExp = self.expresion(tree.expresion(),funcion)
+        addrVar = self.getDirVar(funcion,'global')
+
+        print("Addr from return:" , addrExp)
+        print("direction of funcion:",addrVar)
+        self.pilaCuad.append(Cuadruplo('=',addrExp,addrVar,0))
         #else mandar llamar expresion con el codigo
         # print(tree.expresion().getText())
 
@@ -1674,7 +1672,7 @@ class Programa:
     #los params pueden ser exp
     #checar que sea valida la llamada
     #checar que los params sean compatibles
-    def est_llamada_est(self,tree,funcion):
+    def est_llamada_est(self,tree,funcion,pilas=False):
         nombreFun = tree.ID().getText()
 
         #Checa que exista y su inicio
@@ -1691,8 +1689,21 @@ class Programa:
         self.pilaCuad.append(Cuadruplo('gosub',nombreFun,dirInicio,len(self.pilaCuad)+1))
 
         if tipoRet != "void":
-            quad = "quad: = {} temp".format(nombreFun)
-            self.pilaCuad.append(Cuadruplo('=',nombreFun,"temp",0))
+            #quad = "quad: = {} temp".format(nombreFun)
+            print("nombe fun: en llamada:",funcion,nombreFun)
+            
+            addr = self.getDirVar(nombreFun,funcion)
+            tipoVar = self.regresaTipoDir(addr)
+            
+            print("dir de funcion/var:",addr)
+
+            offset = self.memory_limits['temp'][tipoVar]
+            tempAddr = self.sigDireccionRelativa(self.tempsCounter,tipoVar) + offset
+
+
+            self.pilaCuad.append(Cuadruplo('=',addr,tempAddr,0))
+            pilas['pOperandos'].append(tempAddr)
+            pilas['pTipos'].append(tipoVar)
         # print("llamada")
         # if funcion == "main":
         #     print("main")
@@ -1761,37 +1772,6 @@ class Programa:
 
         # self.pilaCuad.append(Cuadruplo('print',str,0,0))
 
-    ##falta
-    #los valores pueden ser exp
-    def _extraePrint(self, tree,funcion):
-        if not isinstance(tree, TerminalNodeImpl):
-        #     # print(codigo.getRuleContext().getText())
-        #     # traverse(codigo,self.rules)
-            if self.rules[tree.getRuleIndex()] == "expresion":
-                # print("***** EXP *****")
-                # print(codigo.getText())
-                # traverse(codigo,self.rules)
-                self.expresion(tree,funcion)
-                self.pilaCuad.append(Cuadruplo('print',"EXP",0,0))
-                #mandar llamar expresion con el codigo
-                # res.append("EXP")
-                # print("")
-            elif self.rules[tree.getRuleIndex()] == "string":
-                # print("es un string")
-                self.pilaCuad.append(Cuadruplo('print',tree.getText(),0,0))
-            else:
-                # traverse(codigo,self.rules)
-                # print("no string")
-        #         print("lo ignoramos")
-                for child in tree.children:
-                    # if not isinstance(child, TerminalNodeImpl) and rule_names[child.getRuleIndex()] == "estatuto":
-                    #     print("Estatuto: ", tree)
-                    self._extraePrint(child,funcion)
-        #
-
-        else:
-            pass
-
 class Compilador:
     def __init__(self, arch):
         self.arch = arch
@@ -1825,6 +1805,8 @@ def main():
         input_stream = FileStream("prueba7.txt")
     elif arch == '8':
         input_stream = FileStream("prueba8.txt")
+    elif arch == '9':
+        input_stream = FileStream("prueba9.txt")
 
     lexer = PatitoMasMasLexer(input_stream)
     stream = CommonTokenStream(lexer)
