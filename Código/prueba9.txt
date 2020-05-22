@@ -1,0 +1,22 @@
+programa patito9;
+var
+  int otra[2],varAux;
+  float wow;
+  
+  funcion int suma(int a,int b);
+  var int res;
+  {
+    res = a + b;
+    regresa(res);
+  }
+
+funcion void dos(int w);
+  var int y;
+  {
+    y = suma(5,7);
+    escribe(y,w);
+  }
+  
+  principal(){
+    dos(5);
+  }
