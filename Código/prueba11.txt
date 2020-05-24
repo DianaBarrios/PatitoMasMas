@@ -21,5 +21,7 @@ principal(){
     escribe(fact(cont,1));
     cont = cont + 1;
   }
+  pp = fact(5,10);
+  escribe(pp);
   escribe("afuera");
 }

@@ -1680,7 +1680,7 @@ class Programa:
                             # offset = self.memory_limits['temp']['int']
                             # addr2 = self.sigDireccionRelativa(local_counters,'int') + offset
                             if 1 in self.memory['ctes']:
-                                addrUno = self.memory['ctes'][1]['int']
+                                addrUno = self.memory['ctes'][1]['dir']
                             else:
                                 offset = self.memory_limits['ctes']['int']
                                 addrUno = self.sigDireccionRelativa(self.ctesCounter,'int') + offset
