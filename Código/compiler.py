@@ -1610,7 +1610,7 @@ class Programa:
 
 
                             # print("exp")
-                self.pilaCuad[pSaltos[1]-1] = Cuadruplo('gotof',var,pSaltos[2]+1,0)
+                self.pilaCuad[pSaltos[1]-1] = Cuadruplo('gotof',var,pSaltos[2],0)
                 self.pilaCuad[pSaltos[2]-1] = Cuadruplo('goto',pSaltos[0]+1,0,0)
                 # self.pilaCuad[pSaltos[0]-1] = "quad: gotof varAnt " + str(pSaltos[1]+1)
                 # self.pilaCuad[pSaltos[1]-1] = "quad: goto " + str(pSaltos[2]+1)
