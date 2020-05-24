@@ -1624,6 +1624,7 @@ class Programa:
     def est_nocondicional(self, tree,funcion):
         # traverse(tree,self.rules)
         # print("es no condicional")
+        asignar = True
         if not isinstance(tree, TerminalNodeImpl):
             if self.rules[tree.getRuleIndex()] == "no_condicional":
                 pSaltos = []
@@ -1639,6 +1640,7 @@ class Programa:
                                 if not isinstance(child2, TerminalNodeImpl):
                                     if self.rules[child2.getRuleIndex()] == 'var':
                                         var = child2.getText()
+                                        addrVar = self.getDirVar(var,funcion)
                                         # print(child2.getText())
                             # traverse(child,self.rules)
                             # print(child.var())
@@ -1652,10 +1654,18 @@ class Programa:
                             # pSaltos.append(len(self.pilaCuad))
                         elif ruleChild == "expresion":
                             # print("Expresion")
-                            pSaltos.append(len(self.pilaCuad)+1)
+                            # pSaltos.append(len(self.pilaCuad)+1)
                             exp = self.expresion(child,funcion)
-                            self.pilaCuad.append(Cuadruplo('>',var,exp,0))
-                            self.pilaCuad.append(Cuadruplo('gotov','final',0,0))
+                            # self.pilaCuad.append(Cuadruplo('>',addr,exp,0))
+                            # self.pilaCuad.append(Cuadruplo('gotov','final',0,0))
+
+                            local_counters = self.dirFunciones[funcion]['counters']
+                            offset = self.memory_limits['temp']['bool']
+                            addrTemp = self.sigDireccionRelativa(local_counters,'bool') + offset
+
+                            self.pilaCuad.append(Cuadruplo('==',addrVar,exp,addrTemp))
+                            pSaltos.append(len(self.pilaCuad))
+                            self.pilaCuad.append(Cuadruplo('gotov',addrTemp,'addr',0))
                             pSaltos.append(len(self.pilaCuad))
                             # quad = "quad: == EXP1 EXP2 " + var + " temp"
                             # self.pilaCuad.append(quad)
@@ -1666,15 +1676,25 @@ class Programa:
                             # pSaltos.append(len(self.pilaCuad))
                         elif ruleChild == "bloque_est":
                             # print("Bloque est")
+                            # local_counters = self.dirFunciones[funcion]['counters']
+                            # offset = self.memory_limits['temp']['int']
+                            # addr2 = self.sigDireccionRelativa(local_counters,'int') + offset
+                            if 1 in self.memory['ctes']:
+                                addrUno = self.memory['ctes'][1]['int']
+                            else:
+                                offset = self.memory_limits['ctes']['int']
+                                addrUno = self.sigDireccionRelativa(self.ctesCounter,'int') + offset
+                                self.memory['ctes'][1] = {'tipo': 'int', 'dir': addrUno}
+                                self.memory['ctesDir'][addrUno] = 1
                             self.evaluarBloqueEst(child,funcion)
-                            self.pilaCuad.append(Cuadruplo('+',1,var,"temp"))
-                            self.pilaCuad.append(Cuadruplo('=','temp',var,0))
+                            self.pilaCuad.append(Cuadruplo('+',addrUno,addrVar,addrVar))
                             self.pilaCuad.append(Cuadruplo('goto','start',0,0))
                             pSaltos.append(len(self.pilaCuad))
                             # print(child.getText())
-
-                self.pilaCuad[pSaltos[1]-1] = Cuadruplo('gotov','exp',pSaltos[2]+1,0)
+                # self.pilaCuad[pSaltos[]]
+                self.pilaCuad[pSaltos[1]-1] = Cuadruplo('gotov',addrTemp,pSaltos[2],0)
                 self.pilaCuad[pSaltos[2]-1] = Cuadruplo('goto',pSaltos[0],0,0)
+                # self.pilaCuad[pSaltos[2]-1] = Cuadruplo('goto',pSaltos[0],0,0)
                 # print(pSaltos)
 
     ##falta

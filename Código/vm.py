@@ -1,7 +1,7 @@
 from compiler import Compilador
 from compiler import Cuadruplo
 import numpy as np
-
+import sys
 
 class Memoria():
     def __init__(self):
@@ -162,8 +162,10 @@ def copiaArreglo(dir1,dir2,dim1,dim2,memorias):
                 # print(i,j)
 
 def main():
-    c = Compilador(10)
+    arch = sys.argv[1]
+    c = Compilador(arch)
     cuadruplos, ctes = c.compilar()
+    print(ctes)
     ctesInt =  {key: value for key, value in ctes.items() if key < 38000}
     ctesFloat =  {key: value for key, value in ctes.items() if key > 37999}
 
