@@ -6,17 +6,25 @@ var
   funcion int suma(int a,int b);
   var int res;
   {
-    res = a + b;
-    regresa(res);
+    si (a > b) entonces {
+      regresa(a);
+    } sino {
+      regresa(b);
+    }
   }
 
 funcion void dos(int w);
   var int y;
   {
-    y = suma(5,7);
-    escribe(y,w);
+    si (w > 5) entonces{
+      y = suma(5,7);
+      escribe(y,w);
+    } sino {
+      escribe(w,"llamada recursiva");
+      dos(w+1);
+    }
   }
   
   principal(){
-    dos(5);
+    dos(1);
   }

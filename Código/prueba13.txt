@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 programa patito5;
 var
   int arreglo[4],otroarreglo[4],auxarreglo[4];
@@ -35,4 +36,40 @@ principal(){
   escribe("hey");
   otramatriz2 = otramatriz + matriz;
   cont = 0 + 1;
+=======
+programa pelos;
+var
+  int i, j, k;
+
+funcion int uno(int c);
+var
+  int d;
+{
+  c = d + (k - d*2+d);
+  si (d > 0) entonces {
+    regresa(uno(c-d));
+  } sino {
+    regresa(d+k);
+  }
+}
+
+funcion void dos(int a, int b);
+var
+  int x, y;
+{
+    x = a + b;
+  si (x > b*k) entonces {
+      y = uno(x);
+      escribe(y);
+  } sino {
+      escribe("otra");
+  }
+}
+
+principal(){
+  lee(k);
+  i = 5;
+  j = i * 2 + i;
+  dos(j-i,j);
+>>>>>>> 5a15c1396f48f44b9acc467c9ca8b727f4af0236
 }
