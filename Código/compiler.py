@@ -739,6 +739,7 @@ class Programa:
                     jsontemp["counters"] = localCounters
                     self.dirFunciones[nombreFun] = jsontemp
                     self.evaluarBloqueEst(tree.bloque_est(),nombreFun)
+                    self.dirFunciones[nombreFun]['tempsCounters'] = self.tempsCounter
                     self.tempsCounter = {}
                     #self.temp = 0
                     self.pilaCuad.append(Cuadruplo('endproc',0,0,0))
@@ -780,6 +781,8 @@ class Programa:
             'pDim': []
         }
         self.expresionAux(tree,funcion,pilas)
+        #print("funcion calling",funcion)
+        #print("pilas",pilas)
         return pilas['pOperandos'][0]
 
     def genQuad(self,op,left,right):
@@ -1125,8 +1128,10 @@ class Programa:
             if self.rules[tree.getRuleIndex()] == "var":
                 nomVar = tree.ID().getText()
                 # print("Var : " , nomVar)
+                #print("funcion::",funcion)
                 tipo = self.regresaTipoVar(nomVar,funcion)
-                # print(nomVar,tipo)
+
+                #print("var aux: nombre, tipo: ",nomVar,tipo)
 
                 if tipo == False:
                     msj = "No se encontró la var '{}'".format(nomVar)
@@ -1327,12 +1332,12 @@ class Programa:
             msj = "Retorno en funcion '{}' de tipo void".format(funcion)
             return self.error(tree.Regresa(),msj)
 
-
+ 
         addrExp = self.expresion(tree.expresion(),funcion)
         addrVar = self.getDirVar(funcion,'global')
 
-        print("Addr from return:" , addrExp)
-        print("direction of funcion:",addrVar)
+        #print("Addr from return:" , addrExp)
+        #print("direction of funcion:",addrVar)
         self.pilaCuad.append(Cuadruplo('=',addrExp,addrVar,0))
         #else mandar llamar expresion con el codigo
         # print(tree.expresion().getText())
@@ -1388,7 +1393,7 @@ class Programa:
                             nombre = child.ID().getText()
                             tipo = self.regresaTipoVar(nombre,funcion)
                             addr = self.getDirVar(nombre,funcion)
-                            # print(tipo)
+                            
                             if not tipo:
                                 msj = "No se encontró la var '{}'".format(nombre)
                                 return self.error(child.ID(),msj)
@@ -1714,23 +1719,31 @@ class Programa:
         tipoRet = self.dirFunciones[nombreFun]['tipoRet']
 
         self.pilaCuad.append(Cuadruplo('era',nombreFun,0,0))
-        self.resolverParams(tree.params_llamada(),nombreFun)
+        #print("funcion que la llama:",funcion)
+        #print("funcion mandada a resolver params",nombreFun)
+        self.resolverParams(tree.params_llamada(),funcion,nombreFun)
+
         self.pilaCuad.append(Cuadruplo('gosub',nombreFun,dirInicio,len(self.pilaCuad)+1))
 
         if tipoRet != "void":
             #quad = "quad: = {} temp".format(nombreFun)
-            print("nombe fun: en llamada:",funcion,nombreFun)
+            #print("nombe fun: en llamada:",funcion,nombreFun)
 
             addr = self.getDirVar(nombreFun,funcion)
             tipoVar = self.regresaTipoDir(addr)
 
-            print("dir de funcion/var:",addr)
+            #print("dir de funcion/var:",addr)
 
             offset = self.memory_limits['temp'][tipoVar]
             tempAddr = self.sigDireccionRelativa(self.tempsCounter,tipoVar) + offset
 
+            #print("funcion en est_llamada: ",nombreFun, "y su dir: ", addr)
+            #print("temp addr donde la guarda: ", tempAddr)
+            #print("tipo de la funcion: ", tipoVar)
 
             self.pilaCuad.append(Cuadruplo('=',addr,tempAddr,0))
+            #print("pilas de operandos: ",pilas['pOperandos'])
+
             pilas['pOperandos'].append(tempAddr)
             pilas['pTipos'].append(tipoVar)
         # print("llamada")
@@ -1752,17 +1765,17 @@ class Programa:
         # self.evaluarBloqueEst(estatutos,nombre)
         # print(estatutos)
 
-    def resolverParams(self,tree,funcion,cont=0):
+    def resolverParams(self,tree,funcionQueLlama,funcionLlamada,cont=0):
         for child in tree.children:
             if not isinstance(child, TerminalNodeImpl):
                 regla = self.rules[child.getRuleIndex()]
                 if regla == "expresion":
-                    exp = self.expresion(child,funcion)
-                    dir = self.dirFunciones[funcion]['paramsDir'][cont]
+                    exp = self.expresion(child,funcionQueLlama)
+                    dir = self.dirFunciones[funcionLlamada]['paramsDir'][cont]
                     self.pilaCuad.append(Cuadruplo('param',exp,dir,0))
                     cont += 1
                 elif regla == "params_llamada":
-                    self.resolverParams(child,funcion,cont)
+                    self.resolverParams(child,funcionQueLlama,funcionLlamada,cont)
 
 
 
