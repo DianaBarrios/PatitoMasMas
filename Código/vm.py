@@ -114,10 +114,10 @@ def arreglo(op,dir,dim1,dim2,memorias):
         npArray = np.array(arr).reshape(dim1, dim2)
         if op == '$':
             det = np.linalg.det(npArray)
-            print(det)
+            # print(det)
         elif op == '?':
             mat = np.linalg.inv(npArray)
-            print(mat)
+            # print(mat)
         elif op == '!':
             mat = np.transpose(npArray)
         print("normal")
@@ -129,6 +129,8 @@ def arreglo(op,dir,dim1,dim2,memorias):
                     valor = np.rint(mat[i][j])
                     asignar(dirReal,valor,memorias)
                 # ir sacando cada valor y ponerlo en una matrix
+        else:
+            return det
     #transformar la pila en una matrix
     #aplicarle la operacion necesaria
     #### Inversa ?
@@ -162,6 +164,7 @@ def copiaArreglo(dir1,dir2,dim1,dim2,memorias):
                 # print(i,j)
 
 def main():
+    # arch = 11
     arch = sys.argv[1]
     c = Compilador(arch)
     cuadruplos, ctes = c.compilar()
@@ -266,11 +269,14 @@ def main():
                 print("ERROR")
         elif operacion == '$':
             # print("dollar sign")
-            dir = cuadruplos[actual].dir1
+            dir1= cuadruplos[actual].dir1
+            dir2 = cuadruplos[actual].dir3
+            print("dir2",dir2)
             dim1 = cuadruplos[actual+1].dir2
             dim2 = cuadruplos[actual+1].dir3
             # print(dir,dim1,dim2)
-            arreglo('$',dir,dim1,dim2,memorias)
+            valor = arreglo('$',dir1,dim1,dim2,memorias)
+            asignar(dir2,valor,memorias)
             avanzaUno = False
             actual += 2
         elif operacion == '?':

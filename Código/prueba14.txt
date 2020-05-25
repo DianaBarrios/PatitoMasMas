@@ -1,0 +1,17 @@
+programa patito5;
+var
+  int arreglo[4],otroarreglo[4],auxarreglo[4];
+  int matriz[3][3],otramatriz[3][3];
+  int det;
+  int cont,cont2;
+funcion int fact(int k, int p);
+var
+  float x;
+{
+  escribe("wow");
+  regresa(k+p);
+}
+principal(){
+  det = -5;
+  escribe(det);
+}
