@@ -84,7 +84,7 @@ def asignar(dir,valor,memorias):
         base = 50000
     dirReal = base+relativa
     if relativa < 3000:
-        mem.int[dirReal] = int(valor)
+        mem.int[dirReal] = valor
     elif relativa > 2999 and relativa < 5000:
         mem.float[dirReal] = valor
     elif relativa > 4999 and relativa < 8000:
@@ -144,34 +144,44 @@ def opEsps(op,dir,dim1,dim2,memorias,res=False):
     # b = np.linalg.inv(b)
     # print(b)
     arr = []
-    if dim2 == -1:
+    if dim2 == False:
         for i in range(dim1):
-            print(dir+i)
+            arr.append(getValor(dir+i,memorias))
             # ir sacando cada valor y ponerlo en una matrix
+        npArray = np.array(arr)
     else:
         for i in range(dim1):
             for j in range(dim2):
                 dirReal = dir + i * dim2 + j
                 arr.append(getValor(dirReal,memorias))
         npArray = np.array(arr).reshape(dim1, dim2)
-        if op == '$':
-            det = np.linalg.det(npArray)
-            # print(det)
-        elif op == '?':
-            mat = np.linalg.inv(npArray)
-            # mat = inv(npArray)
-            # print(mat)
-        elif op == '!':
-            mat = np.transpose(npArray)
-        print("normal")
-        print(npArray)
-        if op != '$':
-            print("RES")
-            print(mat)
-            memorias['local']['local'].int[res] = mat
-                # ir sacando cada valor y ponerlo en una matrix
-        else:
-            return det
+    if op == '$':
+        det = np.linalg.det(npArray)
+        return det
+        # print(det)
+    elif op == '?':
+        mat = np.linalg.inv(npArray)
+        memorias['local']['local'].int[res] = mat
+        # mat = inv(npArray)
+        # print(mat)
+    elif op == '!':
+        mat = np.transpose(npArray)
+        memorias['local']['local'].int[res] = mat
+    elif op == '%':
+        det = np.mean(npArray)
+        return det
+    elif op == '@':
+        det = np.sum(npArray)
+        return det
+    elif op == '~':
+        det = np.min(npArray)
+        return det
+    elif op == '#':
+        det = np.max(npArray)
+        return det
+    print("normal")
+    print(npArray)
+
     #transformar la pila en una matrix
     #aplicarle la operacion necesaria
     #### Inversa ?
@@ -318,11 +328,59 @@ def main():
             # print("dollar sign")
             dir1= cuadruplos[actual].dir1
             dir2 = cuadruplos[actual].dir3
-            print("dir2",dir2)
+            # print("dir2",dir2)
             dim1 = cuadruplos[actual+1].dir2
             dim2 = cuadruplos[actual+1].dir3
             # print(dir,dim1,dim2)
             valor = opEsps('$',dir1,dim1,dim2,memorias)
+            asignar(dir2,valor,memorias)
+            avanzaUno = False
+            actual += 2
+        elif operacion == '%':
+            # print("dollar sign")
+            dir1= cuadruplos[actual].dir1
+            dir2 = cuadruplos[actual].dir3
+            # print("dir2",dir2)
+            dim1 = cuadruplos[actual+1].dir2
+            dim2 = cuadruplos[actual+1].dir3
+            # print(dir,dim1,dim2)
+            valor = opEsps('%',dir1,dim1,dim2,memorias)
+            asignar(dir2,valor,memorias)
+            avanzaUno = False
+            actual += 2
+        elif operacion == '@':
+            # print("dollar sign")
+            dir1= cuadruplos[actual].dir1
+            dir2 = cuadruplos[actual].dir3
+            # print("dir2",dir2)
+            dim1 = cuadruplos[actual+1].dir2
+            dim2 = cuadruplos[actual+1].dir3
+            # print(dir,dim1,dim2)
+            valor = opEsps('@',dir1,dim1,dim2,memorias)
+            asignar(dir2,valor,memorias)
+            avanzaUno = False
+            actual += 2
+        elif operacion == '~':
+            # print("dollar sign")
+            dir1= cuadruplos[actual].dir1
+            dir2 = cuadruplos[actual].dir3
+            # print("dir2",dir2)
+            dim1 = cuadruplos[actual+1].dir2
+            dim2 = cuadruplos[actual+1].dir3
+            # print(dir,dim1,dim2)
+            valor = opEsps('~',dir1,dim1,dim2,memorias)
+            asignar(dir2,valor,memorias)
+            avanzaUno = False
+            actual += 2
+        elif operacion == '#':
+            # print("dollar sign")
+            dir1= cuadruplos[actual].dir1
+            dir2 = cuadruplos[actual].dir3
+            # print("dir2",dir2)
+            dim1 = cuadruplos[actual+1].dir2
+            dim2 = cuadruplos[actual+1].dir3
+            # print(dir,dim1,dim2)
+            valor = opEsps('#',dir1,dim1,dim2,memorias)
             asignar(dir2,valor,memorias)
             avanzaUno = False
             actual += 2

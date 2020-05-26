@@ -13,6 +13,12 @@ var
   regresa(k+p);
 }
 principal(){
+  arreglo[0] = 100;
+  arreglo[1] = 200;
+  arreglo[2] = 300;
+  arreglo[3] = 400;
+  det = arreglo%;
+  escribe(det);
   matriz[0][0] = 1;
   matriz[0][1] = 2;
   matriz[1][0] = 3;

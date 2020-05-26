@@ -1098,11 +1098,20 @@ class Programa:
                             operacion = "inversa"
                         elif op == '$':
                             operacion = "determinante"
+                        elif op == '%':
+                            operacion = "promedio"
+                        elif op == '@':
+                            operacion = "suma"
+                        elif op == '~':
+                            operacion = "minimo"
+                        elif op == '#':
+                            operacion = "maximo"
                         else:
                             operacion = "transpuesta"
-                        if op == '$':
-                            offset = self.memory_limits['temp']['int']
-                            addr1 = self.sigDireccionRelativa(self.ctesCounter,'int') + offset
+                        if op != '!' or op != '?':
+                            tipo = pilas['pTipos'][-1]
+                            offset = self.memory_limits['temp'][tipo]
+                            addr1 = self.sigDireccionRelativa(self.ctesCounter,tipo) + offset
                             self.pilaCuad.append(Cuadruplo(op,dir,0,addr1))
 
                             # print("que hay adentro",pilas['pOperandos'])
