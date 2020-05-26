@@ -12,7 +12,8 @@ Para generar un programa en `Patito++` se necesita la siguiente sintaxis
 
     programa nombrePrograma;
 
-Seguido por su declaración de variables y funciones.
+    
+Seguido por su declaración de variables y funciones. 
 
 ## Variables
 Las variables son definidas después de la declaración del programa o de la función.
@@ -88,6 +89,7 @@ Se pueden escribir tanto letreros(strings constantes) y/o expresiones separadas 
 | Máximo | `#` |
 | Sumatoria | `@` |
 | Promedio | `%` |
+
 ### Asignación
 A una variable (con o sin dimensiones)  le puedes asignar una expresión.
 A una matriz se le puede asignar otra si sus dimensiones lo permiten.
@@ -102,7 +104,8 @@ A una matriz se le puede asignar otra si sus dimensiones lo permiten.
 
 **Condicionales**
 
-    mientras (expresion) haz
+
+    mientras (expresion) haz 
     {
 	    estatuto;
     }
@@ -135,6 +138,7 @@ Si una función no es void tiene que regresar un valor en la forma de una expres
 
     regresa(expresion);
 
+
 ### Ejemplos
 **Función normal**
 
@@ -145,14 +149,14 @@ Si una función no es void tiene que regresar un valor en la forma de una expres
 		lee(nombreVar);
 		escribe("letrero",nombreVar);
 		si (nombreVar > 5) entonces {
-			nombre = 100 * 2;
+			nombre = 100 * 2; 
 		}
 		sino {
 			nombre = 100 / 2;
 		}
 		escribe("resultado:",nombre);
 	}
-
+	
 **Función main**
 
     principal()
