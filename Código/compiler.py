@@ -976,12 +976,12 @@ class Programa:
                                     dim2Izq = self.regresaDim(left,funcion,2)
                                     dim1Der = self.regresaDim(right,funcion,1)
                                     dim2Der = self.regresaDim(right,funcion,2)
-                                    if dim1Izq != False and dim1Izq == dim1Der and dim2Izq == dim2Der:
+                                    if dim1Izq != False and dim1Izq == dim1Der and dim2Izq == dim2Der or left >= 55000:
                                         offset = self.memory_limits['temp']['dirArreglo']
                                         addr = self.sigDireccionRelativa(self.ctesCounter,'dir') + offset
                                         opAct = "{}Arreglos".format(op)
                                         self.pilaCuad.append(Cuadruplo(opAct,left,right,addr))
-                                        self.pilaCuad.append(Cuadruplo('dimensiones',0,dim1Izq,dim2Izq))
+                                        self.pilaCuad.append(Cuadruplo('dimensiones',0,dim1Der,dim2Der))
                                     else:
                                         offset = self.memory_limits['temp'][tipoRes]
                                         addr = self.sigDireccionRelativa(self.tempsCounter,tipoRes) + offset
@@ -996,8 +996,9 @@ class Programa:
 
 
                                     pilas['pOperandos'].append(addr)
-                                    # print("pilitas",pilas['pOperandos'])
                                     pilas['pTipos'].append(tipoRes)
+                                    print("pilitas",pilas['pTipos'])
+
                                 else:
                                     pass
 
@@ -1034,12 +1035,20 @@ class Programa:
                                 #res = self.genQuad(op,left,right)
                                 #res = self.temp
                                 #self.temp += 1
-                                offset = self.memory_limits['temp'][tipoRes]
-                                addr = self.sigDireccionRelativa(self.tempsCounter,tipoRes) + offset
-                                # print(res)
-                                #print("quad: ", op, left,right,res)
-
-                                self.pilaCuad.append(Cuadruplo(op,left,right,addr))
+                                dim1Izq = self.regresaDim(left,funcion,1)
+                                dim2Izq = self.regresaDim(left,funcion,2)
+                                dim1Der = self.regresaDim(right,funcion,1)
+                                dim2Der = self.regresaDim(right,funcion,2)
+                                if dim1Izq != False and dim1Izq == dim1Der and dim2Izq == dim2Der or left >= 55000:
+                                    offset = self.memory_limits['temp']['dirArreglo']
+                                    addr = self.sigDireccionRelativa(self.ctesCounter,'dir') + offset
+                                    opAct = "{}Arreglos".format(op)
+                                    self.pilaCuad.append(Cuadruplo(opAct,left,right,addr))
+                                    self.pilaCuad.append(Cuadruplo('dimensiones',0,dim1Der,dim2Der))
+                                else:
+                                    offset = self.memory_limits['temp'][tipoRes]
+                                    addr = self.sigDireccionRelativa(self.tempsCounter,tipoRes) + offset
+                                    self.pilaCuad.append(Cuadruplo(op,left,right,addr))
 
                                 # print("= Pilas temporales =")
                                 # print("Pila operandos:",pilas['pOperandos'])
@@ -1048,6 +1057,7 @@ class Programa:
 
                                 pilas['pOperandos'].append(addr)
                                 pilas['pTipos'].append(tipoRes)
+                                print("pila",pilas['pTipos'])
                                     # print(res)
                                     # print("mayor a dos"
                             else:
