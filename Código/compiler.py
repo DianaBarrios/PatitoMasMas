@@ -1844,7 +1844,13 @@ class Programa:
                 # print(codigo.getText())
                 # traverse(codigo,self.rules)
                 res = self.expresion(tree,funcion)
-                self.pilaCuad.append(Cuadruplo('print',res,0,0))
+                tieneDim = self.regresaDim(res,funcion,1)
+                if tieneDim != False:
+                    dim2 = self.regresaDim(res,funcion,2)
+                    self.pilaCuad.append(Cuadruplo('print',res,0,'arreglo'))
+                    self.pilaCuad.append(Cuadruplo('dimensiones',res,tieneDim,dim2))
+                else:
+                    self.pilaCuad.append(Cuadruplo('print',res,0,0))
                 #mandar llamar expresion con el codigo
                 # res.append("EXP")
                 # print("")

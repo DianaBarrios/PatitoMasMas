@@ -220,6 +220,22 @@ def copiaArreglo(dir1,dir2,dim1,dim2,memorias,yaEsArreglo):
                 asignar(dir2+dir,valor,memorias)
                 # print(i,j)
 
+def imprimeArreglo(dir,dim1,dim2,memorias):
+    arreglo = []
+    if dim2 == False:
+        for i in range(dim1):
+            dir1 = dir + i
+            arreglo.append(getValor(dir1,memorias))
+        npArray = np.array(arreglo)
+            # ir sacando cada valor y ponerlo en una matrix
+    else:
+        for i in range(dim1):
+            for j in range(dim2):
+                dir1 = dir + i * dim2 + j
+                arreglo.append(getValor(dir1,memorias))
+        npArray = np.array(arreglo).reshape(dim1, dim2)
+    print(npArray)
+
 def main():
     # arch = 11
     arch = sys.argv[1]
@@ -309,9 +325,16 @@ def main():
                 # print("entre")
                 print(cuadruplos[actual].dir1)
             else:
-                # print("dir",cuadruplos[actual].dir1)
-                valor = getValor(int(cuadruplos[actual].dir1),memorias)
-                print(valor)
+                dir1 = cuadruplos[actual].dir1
+                if cuadruplos[actual].dir3 == 'arreglo':
+                    dim1 = cuadruplos[actual+1].dir2
+                    dim2 = cuadruplos[actual+1].dir3
+                    imprimeArreglo(dir1,dim1,dim2,memorias)
+                    avanzaUno = False
+                    actual += 2
+                else:
+                    valor = getValor(int(dir1),memorias)
+                    print(valor)
         elif operacion == 'lee':
             # print("lee")
             dir = int(cuadruplos[actual].dir1)
