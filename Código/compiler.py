@@ -439,7 +439,7 @@ class Programa:
         self.memory_limits = {
             'global': {'int': 5000, 'float': 8000, 'char': 10000, 'string': 13000, 'bool': 14000},
             'local': {'int': 15000, 'float': 18000, 'char': 20000, 'string': 23000, 'bool': 24000},
-            'temp': {'int': 25000, 'float': 28000, 'char': 31000, 'string': 33000, 'bool': 34000, 'dir': 50000},
+            'temp': {'int': 25000, 'float': 28000, 'char': 31000, 'string': 33000, 'bool': 34000, 'dir': 50000,'dirArreglo':55000},
             'ctes': {'int': 35000, 'float': 38000, 'char': 41000, 'string': 43000, 'bool': 44000}
         }
         self.memory = {
@@ -977,22 +977,26 @@ class Programa:
                                     dim1Der = self.regresaDim(right,funcion,1)
                                     dim2Der = self.regresaDim(right,funcion,2)
                                     if dim1Izq != False and dim1Izq == dim1Der and dim2Izq == dim2Der:
-                                        offset = self.memory_limits['temp']['dir']
-                                        addr = self.sigDireccionRelativa(self.tempsCounter,'dir') + offset
+                                        offset = self.memory_limits['temp']['dirArreglo']
+                                        addr = self.sigDireccionRelativa(self.ctesCounter,'dir') + offset
+                                        opAct = "{}Arreglos".format(op)
+                                        self.pilaCuad.append(Cuadruplo(opAct,left,right,addr))
+                                        self.pilaCuad.append(Cuadruplo('dimensiones',0,dim1Izq,dim2Izq))
                                     else:
                                         offset = self.memory_limits['temp'][tipoRes]
                                         addr = self.sigDireccionRelativa(self.tempsCounter,tipoRes) + offset
+                                        self.pilaCuad.append(Cuadruplo(op,left,right,addr))
                                     # print("der: ",right,"izq:",left)
                                     #res = self.genQuad(op,left,right)
                                     #res = self.temp
                                     #self.temp += 1
                                     # print(res)
                                     #print("quad: ", op, left,right,res)
-                                    print("aqui ", left,right,addr)
-                                    self.pilaCuad.append(Cuadruplo(op,left,right,addr))
+                                    # print("aqui ", left,right,addr)
+
 
                                     pilas['pOperandos'].append(addr)
-                                    print("pilitas",pilas['pOperandos'])
+                                    # print("pilitas",pilas['pOperandos'])
                                     pilas['pTipos'].append(tipoRes)
                                 else:
                                     pass
@@ -1090,20 +1094,21 @@ class Programa:
                             offset = self.memory_limits['temp']['int']
                             addr1 = self.sigDireccionRelativa(self.ctesCounter,'int') + offset
                             self.pilaCuad.append(Cuadruplo(op,dir,0,addr1))
-                            pilas['pOperandos'].pop()
-                            pilas['pOperandos'].append(addr1)
-                            print("que hay adentro",pilas['pOperandos'])
+
+                            # print("que hay adentro",pilas['pOperandos'])
                         else:
-                            self.pilaCuad.append(Cuadruplo(op,dir,0,dir))
+                            offset = self.memory_limits['temp']['dirArreglo']
+                            addr1 = self.sigDireccionRelativa(self.ctesCounter,'dir') + offset
+                            self.pilaCuad.append(Cuadruplo(op,dir,0,addr1))
+                        pilas['pOperandos'].pop()
+                        pilas['pOperandos'].append(addr1)
                         if op == '?' or op == '$':
                             if dim1 != dim2:
                                 msj = "No se puede calcular la {} si no es cuadrada".format(operacion)
                                 return self.error(child.ESP(),msj)
 
-                        if dim2 != False:
-                            self.pilaCuad.append(Cuadruplo('dimensiones',dir,dim1,dim2))
-                        else:
-                            self.pilaCuad.append(Cuadruplo('dimensiones',dir,dim1,-1))
+                        self.pilaCuad.append(Cuadruplo('dimensiones',0,dim1,dim2))
+
 
                     elif ruleChild == "op_arit":
                         print("encontre + -")
@@ -1358,7 +1363,7 @@ class Programa:
             msj = "Retorno en funcion '{}' de tipo void".format(funcion)
             return self.error(tree.Regresa(),msj)
 
- 
+
         addrExp = self.expresion(tree.expresion(),funcion)
         addrVar = self.getDirVar(funcion,'global')
 
@@ -1419,7 +1424,7 @@ class Programa:
                             nombre = child.ID().getText()
                             tipo = self.regresaTipoVar(nombre,funcion)
                             addr = self.getDirVar(nombre,funcion)
-                            
+
                             if not tipo:
                                 msj = "No se encontró la var '{}'".format(nombre)
                                 return self.error(child.ID(),msj)
@@ -1486,35 +1491,38 @@ class Programa:
                 bracketsIzq = pilas['tieneBrackets'].pop()
                 dim1Izq = self.regresaDim(addr,funcion,1)
                 dim2Izq = self.regresaDim(addr,funcion,2)
-
                 dim1Der = self.regresaDim(exp,funcion,1)
                 dim2Der = self.regresaDim(exp,funcion,2)
+                # print("en",addrIzq,exp,dim1Der,dim2Der)
+
                 if bracketsIzq:
                     self.pilaCuad.append(Cuadruplo('=',exp,addrIzq,'arrSingle'))
                     pilas['pOperandos'].pop()
                 else:
-                    if dim1Izq == dim1Der and dim2Izq == dim2Der:
-                        print("dim iguales")
+                    if exp >= 50000 and dim1Izq != False:
+                        self.pilaCuad.append(Cuadruplo('=',exp,addrIzq,'arreglo'))
+                        self.pilaCuad.append(Cuadruplo('dimensiones',0,dim1Izq,dim2Izq))
+                        # print("si entre")
                     else:
-                        nom1 = self.getNomDir(addr,funcion)
-                        # nom2 = self.getNomDir(exp,funcion)
-                        msj = "No se puede asignar un valor a todo el arreglo '{}'".format(nom1)
-                        return self.error(c,msj)
+                        # nom1 = self.getNomDir(addr,funcion)
+                        # # nom2 = self.getNomDir(exp,funcion)
+                        # msj = "No se puede asignar un valor a todo el arreglo '{}'".format(nom1)
+                        # return self.error(c,msj)
                     # print("si son iguales")
                     # print("izq:",dim1Izq,dim2Izq)
                     # print("der:",dim1Der,dim2Der)
-                    if dim1Izq != False and dim1Der != False:
-                        if (dim1Izq == dim1Der) and (dim2Izq == dim2Der):
-                            self.pilaCuad.append(Cuadruplo('=',exp,addrIzq,'arreglo'))
-                            self.pilaCuad.append(Cuadruplo('dimensiones',0,dim1Izq,dim2Izq))
+                        if dim1Izq != False and dim1Der != False:
+                            if (dim1Izq == dim1Der) and (dim2Izq == dim2Der):
+                                self.pilaCuad.append(Cuadruplo('=',exp,addrIzq,'arreglo'))
+                                self.pilaCuad.append(Cuadruplo('dimensiones',0,dim1Izq,dim2Izq))
+                            else:
+                                nom1 = self.getNomDir(addr,funcion)
+                                nom2 = self.getNomDir(exp,funcion)
+                                msj = "Los arreglos '{}' y '{}' no son del mismo tamaño".format(nom1,nom2)
+                                # print(msj)
+                                return self.error(c,msj)
                         else:
-                            nom1 = self.getNomDir(addr,funcion)
-                            nom2 = self.getNomDir(exp,funcion)
-                            msj = "Los arreglos '{}' y '{}' no son del mismo tamaño".format(nom1,nom2)
-                            # print(msj)
-                            return self.error(c,msj)
-                    else:
-                        self.pilaCuad.append(Cuadruplo('=',exp,addrIzq,0))
+                            self.pilaCuad.append(Cuadruplo('=',exp,addrIzq,0))
                 lenPila = len(pilas['pOperandos'])
                 if lenPila > 1:
                     for i in range(lenPila-1):
@@ -1538,7 +1546,7 @@ class Programa:
                                 return self.error(c,msj)
                         else:
                             self.pilaCuad.append(Cuadruplo('=',addrIzq,addrDer,0))
-                print(pilas['pTipos'])
+                # print(pilas['pTipos'])
 
 
                 #self.pilaCuad.append(Cuadruplo('=',exp,str(pila[-1]),0))

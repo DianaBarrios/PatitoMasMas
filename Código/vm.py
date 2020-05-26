@@ -94,8 +94,45 @@ def asignar(dir,valor,memorias):
     elif relativa > 8999:
         mem.bool[dirReal] = valor
 
+def opArreglo(op,arr1,arr2,dim1,dim2,res,memorias):
+    # equis = inv([[-3,1][5,0]])
+    # print(equis)
+    # b = np.array([[2,3],[4,5]])
+    # b = np.linalg.inv(b)
+    # print(b)
+    arreglo1 = []
+    arreglo2 = []
+    if dim2 == False:
+        for i in range(dim1):
+            dir1 = arr1 + i
+            dir2 = arr2 + i
+            arreglo1.append(getValor(dir1,memorias))
+            arreglo2.append(getValor(dir2,memorias))
+        npArray1 = np.array(arreglo1)
+        npArray2 = np.array(arreglo2)
+            # ir sacando cada valor y ponerlo en una matrix
+    else:
+        for i in range(dim1):
+            for j in range(dim2):
+                dir1 = arr1 + i * dim2 + j
+                dir2 = arr2 + i * dim2 + j
+                arreglo1.append(getValor(dir1,memorias))
+                arreglo2.append(getValor(dir2,memorias))
+        npArray1 = np.array(arreglo1).reshape(dim1, dim2)
+        npArray2 = np.array(arreglo2).reshape(dim1, dim2)
+    # print(npArray1)
+    # print(npArray2)
+
+    if op == '+':
+        matrizResultado = np.add(npArray1, npArray2)
+    else:
+        matrizResultado = np.subtract(npArray1, npArray2)
+    memorias['local']['local'].int[res] = matrizResultado
+    # print("aqui",memorias['local']['local'].int[res])
+
+
 ##funciones especiales
-def arreglo(op,dir,dim1,dim2,memorias):
+def opEsps(op,dir,dim1,dim2,memorias,res=False):
     # equis = inv([[-3,1][5,0]])
     # print(equis)
     # b = np.array([[2,3],[4,5]])
@@ -117,17 +154,16 @@ def arreglo(op,dir,dim1,dim2,memorias):
             # print(det)
         elif op == '?':
             mat = np.linalg.inv(npArray)
+            # mat = inv(npArray)
             # print(mat)
         elif op == '!':
             mat = np.transpose(npArray)
         print("normal")
         print(npArray)
         if op != '$':
-            for i in range(dim1):
-                for j in range(dim2):
-                    dirReal = dir + i * dim2 + j
-                    valor = np.rint(mat[i][j])
-                    asignar(dirReal,valor,memorias)
+            print("RES")
+            print(mat)
+            memorias['local']['local'].int[res] = mat
                 # ir sacando cada valor y ponerlo en una matrix
         else:
             return det
@@ -158,6 +194,25 @@ def copiaArreglo(dir1,dir2,dim1,dim2,memorias):
                 dir = i * dim2 + j
                 # print(dir1 + dir)
                 valor = getValor(dir1+dir,memorias)
+                # print("dir1",dir1+dir,"dir2",dir2+dir)
+                # print(dir2 + dir)
+                asignar(dir2+dir,valor,memorias)
+                # print(i,j)
+
+def copiaArreglo2(arreglo,dir2,dim1,dim2,memorias):
+    if dim2 == False:
+        for i in range(dim1):
+            valor = arreglo[i]
+            # print("dir1",dir1+i,"dir2",dir2+i)
+            # print(dir2 + dir)
+            asignar(dir2+i,valor,memorias)
+    else:
+        for i in range(dim1):
+            for j in range(dim2):
+                # cont+=1
+                dir = i * dim2 + j
+                # print(dir1 + dir)
+                valor = arreglo[i][j]
                 # print("dir1",dir1+dir,"dir2",dir2+dir)
                 # print(dir2 + dir)
                 asignar(dir2+dir,valor,memorias)
@@ -275,16 +330,17 @@ def main():
             dim1 = cuadruplos[actual+1].dir2
             dim2 = cuadruplos[actual+1].dir3
             # print(dir,dim1,dim2)
-            valor = arreglo('$',dir1,dim1,dim2,memorias)
+            valor = opEsps('$',dir1,dim1,dim2,memorias)
             asignar(dir2,valor,memorias)
             avanzaUno = False
             actual += 2
         elif operacion == '?':
             # print("dollar sign")
             dir = cuadruplos[actual].dir1
+            res = cuadruplos[actual].dir3
             dim1 = cuadruplos[actual+1].dir2
             dim2 = cuadruplos[actual+1].dir3
-            arreglo('?',dir,dim1,dim2,memorias)
+            opEsps('?',dir,dim1,dim2,memorias,res)
             # print(dir,dim1,dim2)
             # arreglo(dir,dim1,dim2,memorias)
             avanzaUno = False
@@ -292,13 +348,36 @@ def main():
         elif operacion == '!':
             # print("dollar sign")
             dir = cuadruplos[actual].dir1
+            res = cuadruplos[actual].dir3
             dim1 = cuadruplos[actual+1].dir2
             dim2 = cuadruplos[actual+1].dir3
-            arreglo('!',dir,dim1,dim2,memorias)
+            opEsps('!',dir,dim1,dim2,memorias,res)
             # print(dir,dim1,dim2)
             # arreglo(dir,dim1,dim2,memorias)
             avanzaUno = False
             actual += 2
+        elif operacion == '+Arreglos':
+            arr1 = cuadruplos[actual].dir1
+            arr2 = cuadruplos[actual].dir2
+            res = cuadruplos[actual].dir3
+            dim1 = cuadruplos[actual+1].dir2
+            dim2 = cuadruplos[actual+1].dir3
+            # print("ds",dim1,dim2)
+            opArreglo('+',arr1,arr2,dim1,dim2,res,memorias)
+            avanzaUno = False
+            actual +=2
+            # print(memorias['local']['temps'].int)
+        elif operacion == '-Arreglos':
+            arr1 = cuadruplos[actual].dir1
+            arr2 = cuadruplos[actual].dir2
+            res = cuadruplos[actual].dir3
+            dim1 = cuadruplos[actual+1].dir2
+            dim2 = cuadruplos[actual+1].dir3
+            # print("ds",dim1,dim2)
+            opArreglo('-',arr1,arr2,dim1,dim2,res,memorias)
+            avanzaUno = False
+            actual +=2
+            # print(memorias['local']['temps'].int)
         elif operacion == '+':
             opIzq = getValor(cuadruplos[actual].dir1,memorias)
             opDer = getValor(cuadruplos[actual].dir2,memorias)
@@ -352,12 +431,19 @@ def main():
         elif operacion == '=':
             tipo = cuadruplos[actual].dir3
             if  tipo == 'arreglo':
+                # checaArreglo = type(memorias['local']['local'].int[cuadruplos[actual].dir1]) is np.ndarray
+                # print(checaArreglo)
                 arr1 = cuadruplos[actual].dir1
+
                 arr2 = cuadruplos[actual].dir2
                 dim1 = cuadruplos[actual+1].dir2
                 dim2 = cuadruplos[actual+1].dir3
                 # print("ds",dim1,dim2)
-                copiaArreglo(arr1,arr2,dim1,dim2,memorias)
+                if arr1 >= 55000:
+                    arreglo = memorias['local']['local'].int[arr1]
+                    copiaArreglo2(arreglo,arr2,dim1,dim2,memorias)
+                else:
+                    copiaArreglo(arr1,arr2,dim1,dim2,memorias)
                 avanzaUno = False
                 actual +=2
                 ##mandar llamar a la funcion que copia los arreglos
