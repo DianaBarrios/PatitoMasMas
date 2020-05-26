@@ -1,0 +1,34 @@
+programa patito5;
+var
+  float i[2][2],j[2][2],z[2][2];
+  int pp;
+  int cont,cont2;
+funcion int fact(int k, int p);
+var
+  float x;
+{
+  escribe("wow");
+  regresa(k+p);
+}
+funcion void una(int f);
+var
+  float vv;
+{
+  escribe(fact(1,2));
+}
+principal(){
+  desde cont=0 hasta 2 hacer {
+    desde cont2=0 hasta 2 hacer {
+      i[cont][cont2] = 5.7;
+    }
+  }
+  desde cont=0 hasta 2 hacer {
+    desde cont2=0 hasta 2 hacer {
+      escribe(i[cont][cont2]);
+    }
+  }
+  desde cont2=0 hasta 10 hacer {
+    una(cont2);
+  }
+  escribe("afuera");
+}

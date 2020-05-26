@@ -1,13 +1,12 @@
 programa patito;
 var
-  int i,j,k;
+  int i[5][4],j[5][3],k[5],otra,varAux,res;
   float f[3][10], wow;
   funcion void uno(int a,int b);
   var int x;
   {
-    a = i[4+5][4*5];
+    otra = varAux = res;
     si (5>0) entonces{
-      i[4*3] = 3+7*5+4+i[4];
       escribe(4+5);
       uno(3-4,4);
     }
@@ -15,20 +14,20 @@ var
   funcion int dos(int p, float g);
   var int c;
   {
-    i=8;
     mientras(5>0) haz {
-      i = 3-9*5;
       uno(3*2,3+9);
-      k=8*5-9;
     }
     regresa(4+9*5);
   }
   principal(){
-    si (5 > 4) entonces {
-      escribe("si es mayor");
-    }
+    res = 5;
+    k[res-2] = 200;
+    escribe(k[3]);
+    escribe(res);
+    i[1+1+1][10-9] = 45*10;
+    escribe(i[3][1]);
+    otra = i[3][1];
+    escribe(otra);
     escribe("hola","adios","hola",4*5-78+45);
     escribe(3*5-4+100);
-    i = 20*40+45;
-    escribe(i-1);
   }

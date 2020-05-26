@@ -11,6 +11,7 @@
 Para generar un programa en `Patito++` se necesita la siguiente sintaxis
 
     programa nombrePrograma;
+
     
 Seguido por su declaración de variables y funciones. 
 
@@ -71,18 +72,24 @@ Se pueden escribir tanto letreros(strings constantes) y/o expresiones separadas 
 | AND | `==` |
 | OR | `||`|
 
- 
+
 **Matrices**
 
- 
+
 | Operación | Operando |
 |--|--|
 | Suma | `+` |
 | Resta | `-` |
+| División | `/` |
+| Multiplicación | `*` |
 | Transpuesta | `!` |
 | Inversa | `?` |
 | Determinante | `$` |
- 
+| Mínimo | `~` |
+| Máximo | `#` |
+| Sumatoria | `@` |
+| Promedio | `%` |
+
 ### Asignación
 A una variable (con o sin dimensiones)  le puedes asignar una expresión.
 A una matriz se le puede asignar otra si sus dimensiones lo permiten.
@@ -96,6 +103,7 @@ A una matriz se le puede asignar otra si sus dimensiones lo permiten.
 `Patito++` soporta ciclos condicionales y no condicionales.
 
 **Condicionales**
+
 
     mientras (expresion) haz 
     {
@@ -111,17 +119,17 @@ A una matriz se le puede asignar otra si sus dimensiones lo permiten.
 ### Decisiones
 Puede o no tener un camino alternativo(else).
 
-    si (expresion) entonces 
+    si (expresion) entonces
     {
 	    estatuto;
     }
-    sino 
+    sino
     {
 	    estatuto;
     }
 
 ### Llamadas a funciones
-Los parámetros de una llamada están conformados por expresiones. 
+Los parámetros de una llamada están conformados por expresiones.
 
     nombreFuncion(expresion,expresion);
 
@@ -129,6 +137,7 @@ Los parámetros de una llamada están conformados por expresiones.
 Si una función no es void tiene que regresar un valor en la forma de una expresión.
 
     regresa(expresion);
+
 
 ### Ejemplos
 **Función normal**

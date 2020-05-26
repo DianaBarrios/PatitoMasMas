@@ -201,9 +201,7 @@ var_cte
     ;
 
 op_esp
-    : '$'
-    | '?'
-    | '¡'
+    : ESP
     ;
 
 tipo
@@ -292,16 +290,26 @@ Void
     : 'void'
     ;
 
+ESP
+    : '?'
+    | '!'
+    | '$'
+    | '%'
+    | '@'
+    | '~'
+    | '#'
+    ;
+
 ID
     : [a-z] [0-9a-zA-Z]*
     ;
 
 CTE_INT
-    : DIGIT +
+    : [-]? DIGIT +
     ;
 
 CTE_FLOAT
-    : CTE_INT '.' CTE_INT
+    : [-]? CTE_INT '.' CTE_INT
     ;
 
 CTE_CHAR

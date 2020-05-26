@@ -1,0 +1,32 @@
+programa patito5;
+var
+  float i[2][2],j[2][2],z[2][2];
+  int pp;
+  int cont,cont2;
+funcion int fact(int k, int p);
+var
+  float x;
+{
+  escribe("wow");
+  regresa(5);
+}
+principal(){
+  cont = 0;
+  mientras(cont < 5) haz {
+    escribe("adentro while");
+    cont = cont + 1;
+  }
+  desde cont2=0 hasta cont2 < 5 hacer {
+    escribe("adentro for");
+  }
+  pp = fact(1,2);
+  i[0][0] = 5.5;
+  i[0][1] = 15.5;
+  i[1][0] = 25.5;
+  i[1][1] = 35.5;
+  j = z = i;
+  escribe(pp);
+  escribe("arreglo i", i[0][0],i[0][1],i[1][0],i[1][1]);
+  escribe("arreglo j", j[0][0],j[0][1],j[1][0],j[1][1]);
+  escribe("arreglo z", z[0][0],z[0][1],z[1][0],z[1][1]);
+}

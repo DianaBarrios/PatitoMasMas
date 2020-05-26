@@ -1,0 +1,36 @@
+programa patito5;
+var
+  int arreglo[4],otroarreglo[4],auxarreglo[4];
+  int matriz[2][2],matriz2[2][2],matriz3[2][2],matriz4[2][2],matriz5[2][2];
+  int det;
+  int variable1;
+  int cont,cont2;
+funcion int fact(int k, int p);
+var
+  float x;
+{
+  escribe("wow");
+  regresa(k+p);
+}
+principal(){
+  desde cont=0 hasta 2 hacer {
+    desde cont2=0 hasta 2 hacer {
+      matriz[cont][cont2] = 1 + (10 * cont) + (10 * cont2);
+      matriz2[cont][cont2] = 400;
+    }
+  }
+  desde cont=0 hasta 4 hacer {
+    arreglo[cont] = 150;
+  }
+  escribe(arreglo);
+  desde cont=0 hasta 2 hacer {
+    desde cont2=0 hasta 2 hacer {
+      escribe(matriz[cont][cont2]);
+    }
+  }
+  matriz3 = matriz2 + matriz;
+  escribe(matriz3);
+  escribe(matriz2[0][0]);
+  det = matriz#;
+  escribe(det);
+}
