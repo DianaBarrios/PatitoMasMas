@@ -6,14 +6,12 @@ funcion int uno(int c);
 var
   int d;
 {
-    escribe("c",c);
-  si (c > 4) entonces {
-    c = 5;
+  si (c > 5) entonces {
     escribe("dentro de primer if recursivo");
-    d = 15486;
+    d = uno(c-1);
     regresa(d);
   } sino {
-      escribe("d",d," + ", k);
+    escribe("entro al sino");
     regresa(d+k);
   }
 }
@@ -23,9 +21,9 @@ var
   int x, y;
 {
     x = a + b;
-  si (x < b*k) entonces {
+  si (x < 10) entonces {
       y = uno(x);
-      escribe(y);
+      escribe("res de llamada a uno en dos",y);
   } sino {
       escribe("otra");
   }
@@ -33,7 +31,8 @@ var
 
 principal(){
   lee(k);
-  i = 5;
+  i = -5;
+  escribe(i);
   j = i * 2 + i;
   
   mientras ( i < 10 ) haz {
@@ -44,6 +43,5 @@ principal(){
   desde j = 0 hasta 5 hacer{
       escribe("probando for");
   } 
-
-  dos(j+k,i);
+  dos(5,3);
 }
