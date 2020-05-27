@@ -4,7 +4,7 @@ var
   int arreglo[10], otroarreglo[10];
   float valor;
   int matriz[3][8], otramatriz[3][8];
-funcion int fact(int j);
+funcion int fact(int x);
 var int nice[10][50];
 {
   i = 5*45;
@@ -13,13 +13,12 @@ var int nice[10][50];
 funcion void dos(int b,int a);
 var int c;
 {
-  i = 'a' == 'b';
-  escribe("imprime","dentro","de","funcion", algo * 45);
+  escribe("imprime","dentro","de","funcion", b * 45);
 }
 principal(){
   i = j = p = 25*3;
   i = 5+100;
-  escribe("imprime",10 == (7+3) & 'a' == 'a', "dentro del main");
+  escribe("imprime",10 == (7+3), "dentro del main");
   lee(j);
-  escribe("si","jala");
+  escribe("si","jala",j);
 }

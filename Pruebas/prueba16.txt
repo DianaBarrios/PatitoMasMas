@@ -16,21 +16,10 @@ principal(){
   desde cont=0 hasta 2 hacer {
     desde cont2=0 hasta 2 hacer {
       matriz[cont][cont2] = 1 + (10 * cont) + (10 * cont2);
-      matriz2[cont][cont2] = 400;
     }
   }
-  desde cont=0 hasta 4 hacer {
-    arreglo[cont] = 150;
-  }
-  escribe(arreglo);
-  desde cont=0 hasta 2 hacer {
-    desde cont2=0 hasta 2 hacer {
-      escribe(matriz[cont][cont2]);
-    }
-  }
-  matriz3 = matriz2 + matriz;
-  escribe(matriz3);
-  escribe(matriz2[0][0]);
+  matriz2 = matriz;
   det = matriz#;
   escribe(det);
+  escribe(matriz2);
 }
