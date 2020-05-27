@@ -51,6 +51,8 @@ def getValor(dir,memorias):
         return mem.string[dirReal]
     elif relativa > 8999:
         return mem.bool[dirReal]
+    else:
+        return False;
 
 def asignar(dir,valor,memorias):
     # print(type(dir))
@@ -539,6 +541,63 @@ def main():
             opDer = getValor(cuadruplos[actual].dir2,memorias)
             aux = opIzq == opDer
             asignar(int(cuadruplos[actual].dir3),aux,memorias)
+        elif operacion == 'ret':
+            tipo = cuadruplos[actual].dir3
+            if  tipo == 'arreglo':
+                # checaArreglo = type(memorias['local']['local'].int[cuadruplos[actual].dir1]) is np.ndarray
+                # print(checaArreglo)
+                arr1 = cuadruplos[actual].dir1
+
+                arr2 = cuadruplos[actual].dir2
+                dim1 = cuadruplos[actual+1].dir2
+                dim2 = cuadruplos[actual+1].dir3
+                # print("ds",dim1,dim2)
+                if arr1 >= 55000:
+                    arreglo = memorias['local']['local'].int[arr1]
+                    copiaArreglo(arreglo,arr2,dim1,dim2,memorias,True)
+                else:
+                    copiaArreglo(arr1,arr2,dim1,dim2,memorias,False)
+                avanzaUno = False
+                actual +=2
+                ##mandar llamar a la funcion que copia los arreglos
+                # print("hago algo con los arreglos", arr1,arr2)
+            elif tipo == 'arrSingle':
+                dirReal = memorias['local']['temps'].int[cuadruplos[actual].dir2]
+                valor = getValor(cuadruplos[actual].dir1,memorias)
+                # print(dirReal,valor)
+                asignar(dirReal,valor,memorias)
+
+                # asigna = getValor(cuadruplos[actual].dir2,memorias)
+                # valor = getValor(cuadruplos[actual].dir1,memorias)
+                # print(asigna,valor)
+                # asignar(asigna,valor,memorias)
+                # print(memorias['global'].int)
+                # print(memorias['local']['temps'].int)
+                # print(memorias['ctes'].int)
+                # print(memorias['local']['temps'].int[int(cuadruplos[actual].dir2)])
+                # valor =
+                # asig = getValor(cuadruplos[actual].dir2,memorias)
+                # asignar
+
+                # print("Asigne con arr",valor,asig)
+            else:
+                valor = getValor(cuadruplos[actual].dir1,memorias)
+                
+                go_ip = pilaIP[-1] - 1
+
+                asig = int(cuadruplos[go_ip].dir2)
+                memoria_llamando = pilaMemorias[-2]  
+
+                print("asig ", asig);
+                print("valor: ", valor);
+                print("memoria llamando: ", memoria_llamando)
+                print("quad actual dir 1", cuadruplos[actual].dir1)
+                print("quad actual dir 2", cuadruplos[actual].dir2)
+
+                asignar(asig,valor,memoria_llamando)
+                # print(memorias['local']['temps'].int)
+                # print(memorias['ctes'].int)
+                # print("asigne la dir",asig)
         elif operacion == '=':
             tipo = cuadruplos[actual].dir3
             if  tipo == 'arreglo':

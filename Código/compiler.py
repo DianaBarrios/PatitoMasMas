@@ -1388,7 +1388,7 @@ class Programa:
 
         #print("Addr from return:" , addrExp)
         #print("direction of funcion:",addrVar)
-        self.pilaCuad.append(Cuadruplo('=',addrExp,addrVar,0))
+        self.pilaCuad.append(Cuadruplo('ret',addrExp,addrVar,0))
         #else mandar llamar expresion con el codigo
         # print(tree.expresion().getText())
 
@@ -1800,8 +1800,9 @@ class Programa:
             self.pilaCuad.append(Cuadruplo('=',addr,tempAddr,0))
             #print("pilas de operandos: ",pilas['pOperandos'])
 
-            pilas['pOperandos'].append(tempAddr)
-            pilas['pTipos'].append(tipoVar)
+            if pilas != False:
+                pilas['pOperandos'].append(tempAddr)
+                pilas['pTipos'].append(tipoVar)
         # print("llamada")
         # if funcion == "main":
         #     print("main")

@@ -1,0 +1,49 @@
+programa pelos;
+var
+  int i, j, k;
+
+funcion int uno(int c);
+var
+  int d;
+{
+    escribe("c",c);
+  si (c > 4) entonces {
+    c = 5;
+    escribe("dentro de primer if recursivo");
+    d = 15486;
+    regresa(d);
+  } sino {
+      escribe("d",d," + ", k);
+    regresa(d+k);
+  }
+}
+
+funcion void dos(int a, int b);
+var
+  int x, y;
+{
+    x = a + b;
+  si (x < b*k) entonces {
+      y = uno(x);
+      escribe(y);
+  } sino {
+      escribe("otra");
+  }
+}
+
+principal(){
+  lee(k);
+  i = 5;
+  j = i * 2 + i;
+  
+  mientras ( i < 10 ) haz {
+      escribe("dentro mientras", i);
+      i = i + 1;
+  }
+
+  desde j = 0 hasta 5 hacer{
+      escribe("probando for");
+  } 
+
+  dos(j+k,i);
+}
