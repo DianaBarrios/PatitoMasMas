@@ -34,7 +34,7 @@ principal(){
   i = -5;
   escribe(i);
   j = i * 2 + i;
-  
+
   mientras ( i < 10 ) haz {
       escribe("dentro mientras", i);
       i = i + 1;
@@ -42,6 +42,6 @@ principal(){
 
   desde j = 0 hasta 5 hacer{
       escribe("probando for");
-  } 
+  }
   dos(5,3);
 }

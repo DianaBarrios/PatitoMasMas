@@ -778,7 +778,8 @@ class Programa:
             'pOperandos' : [],
             'pOperadores' : [],
             'pTipos' : [],
-            'pDim': []
+            'pDim': [],
+            'pNegativos': []
         }
         self.expresionAux(tree,funcion,pilas)
         #print("funcion calling",funcion)
@@ -1084,6 +1085,7 @@ class Programa:
                         self.varAux(child,funcion,pilas)
                         # self.factorAux(child,funcion,pilas)
                     elif ruleChild == "var_cte":
+                        # print("lo hago despues")
                         self.varcteAux(child,funcion,pilas)
                     elif ruleChild == "op_esp":
                         # print("encontre $ ? ¡")
@@ -1127,10 +1129,14 @@ class Programa:
                                 return self.error(child.ESP(),msj)
 
                         self.pilaCuad.append(Cuadruplo('dimensiones',0,dim1,dim2))
-
-
                     elif ruleChild == "op_arit":
-                        print("encontre + -")
+                        # print("encontre + -")
+                        # traverse(child,self.rules)
+                        pilas['pNegativos'].append(child.getText())
+                        # print("pilas", pilas['pNegativos'])
+                        # self.varcteAux(child.var_cte(),funcion,pilas)
+                        # print("no se va a regresar")
+
                     elif ruleChild == "exp_par":
                         # print("encontre algo con parentesis")
                         self.parentesisAux(child,funcion,pilas)
@@ -1306,7 +1312,11 @@ class Programa:
                         if ruleChild == "var":
                             self.varAux(child,funcion,pilas)
                     else:
-                        cte = tree.getText()
+                        if pilas['pNegativos']:
+                            operador = pilas['pNegativos'].pop()
+                            cte = operador + tree.getText()
+                        else:
+                            cte = tree.getText()
                         if cte.find('.') != -1:
                             tipo = "float"
                         elif cte.find("''") != -1:
