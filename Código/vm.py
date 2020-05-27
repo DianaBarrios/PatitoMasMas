@@ -60,7 +60,7 @@ def asignar(dir,valor,memorias):
     # if dir > 49999:
     #     dir = getValor(dir,memorias)
     # else:
-
+    print("dir", dir)
     if dir > 4999 and dir < 15000:
         mem = memorias['global']
         relativa = dir - 5000
@@ -84,6 +84,9 @@ def asignar(dir,valor,memorias):
         mem = memorias['local']['temps']
         relativa = dir - 50000
         base = 50000
+
+    print("base",base)
+    print("relativa", relativa)
     dirReal = base+relativa
     if relativa < 3000:
         mem.int[dirReal] = valor
@@ -583,11 +586,12 @@ def main():
             else:
                 valor = getValor(cuadruplos[actual].dir1,memorias)
                 
-                go_ip = pilaIP[-1] - 1
+                go_ip = pilaIP.pop[-1] - 1 
 
                 asig = int(cuadruplos[go_ip].dir2)
                 memoria_llamando = pilaMemorias[-2]  
 
+                print("go-ip",go_ip);
                 print("asig ", asig);
                 print("valor: ", valor);
                 print("memoria llamando: ", memoria_llamando)
