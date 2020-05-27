@@ -51,6 +51,8 @@ def getValor(dir,memorias):
         return mem.string[dirReal]
     elif relativa > 8999:
         return mem.bool[dirReal]
+    else:
+        return False;
 
 def asignar(dir,valor,memorias):
     # print(type(dir))
@@ -58,7 +60,6 @@ def asignar(dir,valor,memorias):
     # if dir > 49999:
     #     dir = getValor(dir,memorias)
     # else:
-
     if dir > 4999 and dir < 15000:
         mem = memorias['global']
         relativa = dir - 5000
@@ -82,6 +83,8 @@ def asignar(dir,valor,memorias):
         mem = memorias['local']['temps']
         relativa = dir - 50000
         base = 50000
+
+    
     dirReal = base+relativa
     if relativa < 3000:
         mem.int[dirReal] = valor
@@ -539,6 +542,13 @@ def main():
             opDer = getValor(cuadruplos[actual].dir2,memorias)
             aux = opIzq == opDer
             asignar(int(cuadruplos[actual].dir3),aux,memorias)
+        elif operacion == 'ret':
+            valor = getValor(cuadruplos[actual].dir1,memorias)
+            
+            asig = int(cuadruplos[actual].dir2)
+
+            asignar(asig,valor,memorias)
+            
         elif operacion == '=':
             tipo = cuadruplos[actual].dir3
             if  tipo == 'arreglo':

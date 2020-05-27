@@ -305,11 +305,11 @@ ID
     ;
 
 CTE_INT
-    : [-]? DIGIT +
+    :  DIGIT +
     ;
 
 CTE_FLOAT
-    : [-]? CTE_INT '.' CTE_INT
+    :  CTE_INT '.' CTE_INT
     ;
 
 CTE_CHAR
