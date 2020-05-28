@@ -22,8 +22,8 @@ Para generar un programa en `Patito++` se necesita la siguiente sintaxis
 
     programa nombrePrograma;
 
-
-Seguido por su declaración de variables y funciones.
+    
+Seguido por su declaración de variables y funciones. 
 
 ## Variables
 Las variables son definidas después de la declaración del programa o de la función.
@@ -77,9 +77,9 @@ Se pueden escribir tanto letreros(strings constantes) y/o expresiones separadas 
 | Multiplicación | `*` |
 | División | `/` |
 | Comparación | `==` |
-| Mayor que | `*` |
-| Menor que | `/` |
-| AND | `==` |
+| Mayor que | `>` |
+| Menor que | `<` |
+| AND | `&` |
 | OR | `||`|
 
 
@@ -115,7 +115,7 @@ A una matriz se le puede asignar otra si sus dimensiones lo permiten.
 **Condicionales**
 
 
-    mientras (expresion) haz
+    mientras (expresion) haz 
     {
 	    estatuto;
     }
@@ -159,14 +159,14 @@ Si una función no es void tiene que regresar un valor en la forma de una expres
 		lee(nombreVar);
 		escribe("letrero",nombreVar);
 		si (nombreVar > 5) entonces {
-			nombre = 100 * 2;
+			nombre = 100 * 2; 
 		}
 		sino {
 			nombre = 100 / 2;
 		}
 		escribe("resultado:",nombre);
 	}
-
+	
 **Función main**
 
     principal()
@@ -182,9 +182,14 @@ Para instalar este lenguaje es necesario contar con Python 3 instalado. Esto se 
 
 Una vez instalado Python 3 podemos proceder a instalar el lenguaje.
 
-    git clone https://github.com/DianaBarrios/PatitoMasMas.git
-    pip install -r requirements.txt
+	git clone https://github.com/DianaBarrios/PatitoMasMas.git
+	pip install -r requirements.txt
 
+Con estos dos comandos el lenguaje se debería de poder accesar usando el siguiente comando, los archivos a correr por default los va a buscar en la carpeta de `Pruebas`.
+
+
+    ./patito nombre.ppp
+    
 
 # Equipo
 
