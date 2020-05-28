@@ -45,12 +45,12 @@ def serializedATN():
         buf.write("\5(\u014f\n(\3)\3)\3)\3)\3*\3*\3+\3+\3,\3,\3,\3,\5,\u015d")
         buf.write("\n,\3-\3-\3.\3.\3.\2\3@/\2\4\6\b\n\f\16\20\22\24\26\30")
         buf.write("\32\34\36 \"$&(*,.\60\62\64\668:<>@BDFHJLNPRTVXZ\2\7\3")
-        buf.write("\2\f\r\3\2\16\21\3\2\22\23\3\2\24\25\3\2%&\2\u015f\2]")
-        buf.write("\3\2\2\2\4a\3\2\2\2\6l\3\2\2\2\bo\3\2\2\2\nu\3\2\2\2\f")
-        buf.write("}\3\2\2\2\16\u0082\3\2\2\2\20\u0089\3\2\2\2\22\u008e\3")
-        buf.write("\2\2\2\24\u0092\3\2\2\2\26\u00a2\3\2\2\2\30\u00a4\3\2")
-        buf.write("\2\2\32\u00aa\3\2\2\2\34\u00ba\3\2\2\2\36\u00bc\3\2\2")
-        buf.write("\2 \u00c2\3\2\2\2\"\u00c8\3\2\2\2$\u00cf\3\2\2\2&\u00d3")
+        buf.write("\2\f\r\3\2\16\21\3\2\22\23\3\2\24\25\3\2%\'\2\u015f\2")
+        buf.write("]\3\2\2\2\4a\3\2\2\2\6l\3\2\2\2\bo\3\2\2\2\nu\3\2\2\2")
+        buf.write("\f}\3\2\2\2\16\u0082\3\2\2\2\20\u0089\3\2\2\2\22\u008e")
+        buf.write("\3\2\2\2\24\u0092\3\2\2\2\26\u00a2\3\2\2\2\30\u00a4\3")
+        buf.write("\2\2\2\32\u00aa\3\2\2\2\34\u00ba\3\2\2\2\36\u00bc\3\2")
+        buf.write("\2\2 \u00c2\3\2\2\2\"\u00c8\3\2\2\2$\u00cf\3\2\2\2&\u00d3")
         buf.write("\3\2\2\2(\u00d9\3\2\2\2*\u00df\3\2\2\2,\u00e4\3\2\2\2")
         buf.write(".\u00ec\3\2\2\2\60\u00f2\3\2\2\2\62\u00f4\3\2\2\2\64\u0100")
         buf.write("\3\2\2\2\66\u0102\3\2\2\28\u0107\3\2\2\2:\u010e\3\2\2")
@@ -533,7 +533,7 @@ class PatitoMasMasParser ( Parser ):
                 self.state = 113 
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                if not (_la==PatitoMasMasParser.Int or _la==PatitoMasMasParser.Float):
+                if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << PatitoMasMasParser.Int) | (1 << PatitoMasMasParser.Float) | (1 << PatitoMasMasParser.Char))) != 0)):
                     break
 
         except RecognitionException as re:
@@ -887,7 +887,7 @@ class PatitoMasMasParser ( Parser ):
             self.state = 149
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            if _la==PatitoMasMasParser.Int or _la==PatitoMasMasParser.Float:
+            if (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << PatitoMasMasParser.Int) | (1 << PatitoMasMasParser.Float) | (1 << PatitoMasMasParser.Char))) != 0):
                 self.state = 148
                 self.params()
 
@@ -955,7 +955,7 @@ class PatitoMasMasParser ( Parser ):
                 self.state = 158
                 self.match(PatitoMasMasParser.Void)
                 pass
-            elif token in [PatitoMasMasParser.Int, PatitoMasMasParser.Float]:
+            elif token in [PatitoMasMasParser.Int, PatitoMasMasParser.Float, PatitoMasMasParser.Char]:
                 self.enterOuterAlt(localctx, 2)
                 self.state = 159
                 self.tipo()
@@ -2919,6 +2919,9 @@ class PatitoMasMasParser ( Parser ):
         def Float(self):
             return self.getToken(PatitoMasMasParser.Float, 0)
 
+        def Char(self):
+            return self.getToken(PatitoMasMasParser.Char, 0)
+
         def getRuleIndex(self):
             return PatitoMasMasParser.RULE_tipo
 
@@ -2942,7 +2945,7 @@ class PatitoMasMasParser ( Parser ):
             self.enterOuterAlt(localctx, 1)
             self.state = 350
             _la = self._input.LA(1)
-            if not(_la==PatitoMasMasParser.Int or _la==PatitoMasMasParser.Float):
+            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << PatitoMasMasParser.Int) | (1 << PatitoMasMasParser.Float) | (1 << PatitoMasMasParser.Char))) != 0)):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)

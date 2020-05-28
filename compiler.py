@@ -454,27 +454,27 @@ class Program:
         line = tree.getSymbol().line
         column = tree.getSymbol().column
         print("Error linea-> {}:{} -> {}".format(line,column,mensaje))
+        # exit()
 
     def execute(self):
         varGlobales = {}
         varGlobales2 = {}
         globalCounters = {}
         self.decVariables(self.tree.dec_variables(),varGlobales,varGlobales2,globalCounters,"",'global')
-        self.dirFunciones['global'] = {'vars': varGlobales, 'counters': globalCounters, 'varsDir': varGlobales2}
+        self.dirFunciones['global'] = {'vars': varGlobales, 'counters': globalCounters, 'varsAddr': varGlobales2}
         self.stackQuads.append(Quadruple('goto','global',0,0))
         self.decFunciones(self.tree.dec_functions())
 
         self.pilaSaltos.append(len(self.stackQuads)+1)
-        self.dirFunciones['global']['empieza'] = len(self.stackQuads)+1
+        self.dirFunciones['global']['startQuad'] = len(self.stackQuads)+1
         self.evaluarBloqueEst(self.tree.principal().bloque_est(),'global')
         #self.temp = 0
         self.tempsCounter = {}
         self.stackQuads.append(Quadruple('end',0,0,0))
-        self.stackQuads[0] = Quadruple('goto',self.dirFunciones['global']['empieza'],0,0)
+        self.stackQuads[0] = Quadruple('goto',self.dirFunciones['global']['startQuad'],0,0)
 
     def printAll(self):
         self.execute()
-
         #Imprime cuadruplos
         print("===== Cuadruplos =====")
         for i in range(len(self.stackQuads)):
@@ -495,8 +495,8 @@ class Program:
     def checksDuplicateVar(self,var):
         # return True
         for func in self.dirFunciones:
-            for var_actual in self.dirFunciones[func]['vars']:
-                if var == var_actual:
+            for currentVar in self.dirFunciones[func]['vars']:
+                if var == currentVar:
                     return True
 
     def checksFunctionExists(self,function):
@@ -514,6 +514,29 @@ class Program:
         return False
 
     ##### GETS
+    def getAllNames(self):
+        temp = {}
+        for i in self.dirFunciones:
+            for j in self.dirFunciones[i]['varsAddr']:
+                dim1 = self.dirFunciones[i]['varsAddr'][j].get('dim1', None)
+                if dim1 != None:
+                    # print(dim1)
+                    dim2 = self.dirFunciones[i]['varsAddr'][j].get('dim2', None)
+                    if dim2 == None:
+                        for cont in range(dim1):
+                            temp[j+cont] = {'var': self.dirFunciones[i]['varsAddr'][j]['nombre'],'pos1': cont}
+                    else:
+                        for cont in range(dim1):
+                            for cont2 in range(dim2):
+                                realAddr = j + cont * dim2 + cont2
+                                temp[realAddr] = {'var': self.dirFunciones[i]['varsAddr'][j]['nombre'],'pos1': cont,'pos2':cont2}
+                    # print(dim2)
+                    # print(j, "tiene dim wuwuw")
+                else:
+                    # print(self.dirFunciones[i]['varsAddr'][j]['nombre'], "no tiene")
+                    temp[j] = {'var': self.dirFunciones[i]['varsAddr'][j]['nombre']}
+        return temp
+
     def getQuads(self):
         return self.stackQuads
 
@@ -521,23 +544,23 @@ class Program:
         return self.memory['ctesDir']
 
     def getDimOfAddr(self,var,function,dim):
-        res = self.dirFunciones['global']['varsDir'].get(var, None)
+        res = self.dirFunciones['global']['varsAddr'].get(var, None)
         if res != None:
             # print("global")
-            checaDim = self.dirFunciones['global']['varsDir'][var].get("{}{}".format("dim",dim), None)
+            checaDim = self.dirFunciones['global']['varsAddr'][var].get("{}{}".format("dim",dim), None)
             if checaDim != None:
-                return self.dirFunciones['global']['varsDir'][var]["{}{}".format("dim",dim)]
+                return self.dirFunciones['global']['varsAddr'][var]["{}{}".format("dim",dim)]
             else:
                 return False
         if function != "global":
             if res == None:
-                res = self.dirFunciones[function]['varsDir'].get(var, None)
+                res = self.dirFunciones[function]['varsAddr'].get(var, None)
                 if res == None:
                     return False
                 else:
-                    checaDim = self.dirFunciones[function]['varsDir'][var].get("{}{}".format("dim",dim), None)
+                    checaDim = self.dirFunciones[function]['varsAddr'][var].get("{}{}".format("dim",dim), None)
                     if checaDim != None:
-                        return self.dirFunciones[function]['varsDir'][var]["{}{}".format("dim",dim)]
+                        return self.dirFunciones[function]['varsAddr'][var]["{}{}".format("dim",dim)]
                     else:
                         return False
             else:
@@ -581,21 +604,24 @@ class Program:
 
     def getInitialAddrFunction(self,function):
         if self.checksFunctionExists(function):
-            return self.dirFunciones[function]['empieza']
+            return self.dirFunciones[function]['startQuad']
         else:
             return False
 
-    def getAddrOfVariable(self, nombre, scope):
-        if nombre in self.dirFunciones[scope]['vars']:
-            return self.dirFunciones[scope]['vars'][nombre]['dir']
+    def getAddrOfVariable(self, varName, scope):
+        exists = self.checksVariableExists(varName,scope)
+        if not exists:
+            return False
+        if varName in self.dirFunciones[scope]['vars']:
+            return self.dirFunciones[scope]['vars'][varName]['dir']
         else:
-            return self.dirFunciones['global']['vars'][nombre]['dir']
+            return self.dirFunciones['global']['vars'][varName]['dir']
 
     def getNameOfAddr(self, addr, scope):
-        if addr in self.dirFunciones[scope]['varsDir']:
-            return self.dirFunciones[scope]['varsDir'][addr]['nombre']
+        if addr in self.dirFunciones[scope]['varsAddr']:
+            return self.dirFunciones[scope]['varsAddr'][addr]['nombre']
         else:
-            return self.dirFunciones['global']['varsDir'][addr]['nombre']
+            return self.dirFunciones['global']['varsAddr'][addr]['nombre']
 
     ##### HELPERS
     #Funcion que te da la siguiente direccion
@@ -621,7 +647,7 @@ class Program:
                 rule = self.rules[child.getRuleIndex()]
                 if rule == "expresion":
                     exp = self.expresion(child,targetFunction)
-                    addr = self.dirFunciones[callingFunction]['paramsDir'][counter]
+                    addr = self.dirFunciones[callingFunction]['paramsAddr'][counter]
                     self.stackQuads.append(Quadruple('param',exp,addr,0))
                     counter += 1
                 elif rule == "params_llamada":
@@ -647,60 +673,60 @@ class Program:
 
     ##### PARSE VARS Y FUNCIONES
     #Funcion que regresa el JSON con la info de las vars
-    def decVariables(self,tree,temp,temp2,local_counters,tipo,function):
+    def decVariables(self,tree,temp,temp2,local_counters,varType,function):
         if not isinstance(tree, TerminalNodeImpl):
             if self.rules[tree.getRuleIndex()] == "dec_var":
-                tipo = tree.tipo().getText()
+                varType = tree.tipo().getText()
 
             elif self.rules[tree.getRuleIndex()] == "ids":
-                elem = tree.getText()
+                varName = tree.getText()
 
-                if elem in temp:
-                    msg = "Var '{}' duplicada".format(elem)
+                if varName in temp:
+                    msg = "Var '{}' duplicada".format(varName)
                     return self.error(tree.ID(),msg)
 
                 if function != 'global':
                     scope = 'local'
-                    if self.checksDuplicateVar(elem):
-                        msg = "Var '{}' duplicada".format(elem)
+                    if self.checksDuplicateVar(varName):
+                        msg = "Var '{}' duplicada".format(varName)
                         return self.error(tree.ID(),msg)
                 else:
                     scope = 'global'
 
                 # print(tree.getText())
                 # traverse(tree,self.rules)
-                offset = self.memory_limits[scope][tipo]
+                offset = self.memory_limits[scope][varType]
 
-                if elem.find('[') == -1:
-                    addr = self.nextRelativeAddr(local_counters,tipo) + offset
-                    temp[elem] = {'tipo': tipo, 'dir': addr}
-                    temp2[addr] = {'nombre':elem}
+                if varName.find('[') == -1:
+                    varAddr = self.nextRelativeAddr(local_counters,varType) + offset
+                    temp[varName] = {'tipo': varType, 'dir': varAddr}
+                    temp2[varAddr] = {'nombre':varName}
                 else:
-                    count = elem.count("[")
+                    count = varName.count("[")
                     if count == 1:
-                        indexInicio = elem.index("[")
-                        indexFinal = elem.index("]")
-                        nombre = elem[:indexInicio]
-                        dim = int(elem[indexInicio+1:indexFinal])
-                        addr = self.nextRelativeAddr(local_counters,tipo,dim) + offset
-                        temp[nombre] = {'tipo': tipo,'dim1': dim, 'dir': addr}
-                        temp2[addr] = {'nombre':nombre,'dim1': dim}
+                        indexInicio = varName.index("[")
+                        indexFinal = varName.index("]")
+                        nombre = varName[:indexInicio]
+                        dim = int(varName[indexInicio+1:indexFinal])
+                        varAddr = self.nextRelativeAddr(local_counters,varType,dim) + offset
+                        temp[nombre] = {'tipo': varType,'dim1': dim, 'dir': varAddr}
+                        temp2[varAddr] = {'nombre':nombre,'dim1': dim}
                     if count == 2:
-                        indexInicio = elem.index("[")
-                        indexFinal = elem.index("]")
-                        indexInicio2 = elem.find("[", indexInicio + 1)
-                        indexFinal2 = elem.find("]", indexFinal + 1)
-                        nombre = elem[:indexInicio]
-                        dim = int(elem[indexInicio+1:indexFinal])
-                        dim2 = int(elem[indexInicio2+1:indexFinal2])
+                        indexInicio = varName.index("[")
+                        indexFinal = varName.index("]")
+                        indexInicio2 = varName.find("[", indexInicio + 1)
+                        indexFinal2 = varName.find("]", indexFinal + 1)
+                        nombre = varName[:indexInicio]
+                        dim = int(varName[indexInicio+1:indexFinal])
+                        dim2 = int(varName[indexInicio2+1:indexFinal2])
                         dims = dim * dim2
-                        addr = self.nextRelativeAddr(local_counters,tipo,dims) + offset
-                        temp[nombre] = {'tipo': tipo,'dim1': dim,'dim2':dim2, 'dir': addr}
-                        temp2[addr] = {'nombre':nombre,'dim1': dim,'dim2':dim2}
+                        varAddr = self.nextRelativeAddr(local_counters,varType,dims) + offset
+                        temp[nombre] = {'tipo': varType,'dim1': dim,'dim2':dim2, 'dir': varAddr}
+                        temp2[varAddr] = {'nombre':nombre,'dim1': dim,'dim2':dim2}
             else:
                 pass
             for child in tree.children:
-                self.decVariables(child,temp,temp2,local_counters,tipo,function)
+                self.decVariables(child,temp,temp2,local_counters,varType,function)
 
     #Funcion que actualiza el dir de decFunciones con los
     #datos de las decFunciones del programa
@@ -709,7 +735,7 @@ class Program:
             if self.rules[tree.getRuleIndex()] == "funcion":
                 functionName = tree.ID().getText()
                 if(self.checksFunctionExists(functionName)):
-                    msg = "Ya existe una function definida con el mismo nombre '{}'".format(functionName)
+                    msg = "Función '{}' ya declarada".format(functionName)
                     return self.error(tree.ID(),msg)
                 else:
                     jsontemp = {}
@@ -721,8 +747,8 @@ class Program:
                         returnType = tipo_ret.tipo().getText()
                         globalCounters = self.dirFunciones['global']['counters']
                         offset = self.memory_limits['global'][returnType]
-                        addr = self.nextRelativeAddr(globalCounters,returnType) + offset
-                        self.dirFunciones['global']['vars'][functionName] = {'tipo' : returnType, 'dir': addr}
+                        functionVarAddr = self.nextRelativeAddr(globalCounters,returnType) + offset
+                        self.dirFunciones['global']['vars'][functionName] = {'tipo' : returnType, 'dir': functionVarAddr}
 
                     tablaParams = []
                     tablaDirs = []
@@ -741,12 +767,12 @@ class Program:
                     #varsFunc = dict(list(varsParams.items()) + list(tempVar.items()))
 
                     cuadEmpieza = len(self.stackQuads) + 1
-                    jsontemp["params"] = tablaParams
-                    jsontemp["paramsDir"] = tablaDirs
+                    jsontemp["paramsType"] = tablaParams
+                    jsontemp["paramsAddr"] = tablaDirs
                     jsontemp["vars"] = varsFunc
-                    jsontemp["varsDir"] = tempVar2
-                    jsontemp["tipoRet"] = returnType
-                    jsontemp["empieza"] = cuadEmpieza
+                    jsontemp["varsAddr"] = tempVar2
+                    jsontemp["returnType"] = returnType
+                    jsontemp["startQuad"] = cuadEmpieza
                     jsontemp["counters"] = localCounters
                     self.dirFunciones[functionName] = jsontemp
                     self.evaluarBloqueEst(tree.bloque_est(),functionName)
@@ -783,7 +809,6 @@ class Program:
             pass
 
     #### EXPRESION
-
     def expresion(self,tree,function):
         stacks = {
             'pOperandos' : [],
@@ -808,37 +833,28 @@ class Program:
                     if ruleChild == "exp":
                         self.expAux(child,function,stacks)
                         if stacks['pOperadores']:
-                            op = stacks['pOperadores'][-1]
-                            if op == '<' or op == '>' or op == '==' or op == '!=':
+                            opSymbol = stacks['pOperadores'][-1]
+                            if opSymbol == '<' or opSymbol == '>' or opSymbol == '==' or opSymbol == '!=':
                                 if len(stacks['pOperandos']) > 1:
-
                                     stacks['pOperadores'].pop()
 
-                                    right = stacks['pOperandos'].pop()
+                                    rightAddr = stacks['pOperandos'].pop()
                                     rightType = stacks['pTipos'].pop()
-                                    left = stacks['pOperandos'].pop()
+
+                                    leftAddr = stacks['pOperandos'].pop()
                                     leftType = stacks['pTipos'].pop()
-                                    resultType = arithmeticCube[op][rightType][leftType]
+
+                                    resultType = arithmeticCube[opSymbol][rightType][leftType]
                                     # print("tipo res:", resultType)
                                     if resultType == "x":
                                         print("Operacion no valida")
 
-
-                                    # print("der: ",right,"izq:",left)
-                                    # res = self.genQuad(op,left,right)
                                     offset = self.memory_limits['temp'][resultType]
-                                    addr = self.nextRelativeAddr(self.tempsCounter,resultType) + offset
+                                    tempAddr = self.nextRelativeAddr(self.tempsCounter,resultType) + offset
 
-                                    #res = self.temp
-                                    #self.temp += 1
-                                    # print(res)
-                                    #print("quad: ", op, left,right,res)
+                                    self.stackQuads.append(Quadruple(opSymbol,leftAddr,rightAddr,tempAddr))
 
-                                    self.stackQuads.append(Quadruple(op,left,right,addr))
-
-
-                                    stacks['pOperandos'].append(addr)
-
+                                    stacks['pOperandos'].append(tempAddr)
                                     stacks['pTipos'].append(resultType)
 
                                 else:
@@ -847,51 +863,36 @@ class Program:
                             else:
                                 pass
                     elif ruleChild == "op_log":
-                        op = child.getText()
-                        stacks['pOperadores'].append(op)
+                        opSymbol = child.getText()
+                        stacks['pOperadores'].append(opSymbol)
                     elif ruleChild == "op_comp":
-                        op = child.getText()
-                        stacks['pOperadores'].append(op)
+                        opSymbol = child.getText()
+                        stacks['pOperadores'].append(opSymbol)
                     elif ruleChild == "expresion":
                         self.expresionAux(child,function,stacks)
                         if stacks['pOperadores']:
-                            op = stacks['pOperadores'][-1]
-                            if op == '||' or op == '&':
+                            opSymbol = stacks['pOperadores'][-1]
+                            if opSymbol == '||' or opSymbol == '&':
                                 if len(stacks['pOperandos']) > 1:
-
                                     stacks['pOperadores'].pop()
 
-                                    right = stacks['pOperandos'].pop()
+                                    rightAddr = stacks['pOperandos'].pop()
                                     rightType = stacks['pTipos'].pop()
-                                    left = stacks['pOperandos'].pop()
+
+                                    leftAddr = stacks['pOperandos'].pop()
                                     leftType = stacks['pTipos'].pop()
-                                    resultType = arithmeticCube[op][rightType][leftType]
+
+                                    resultType = arithmeticCube[opSymbol][rightType][leftType]
 
                                     if resultType == "x":
                                         print("Operacion no valida")
 
-                                    """
-                                    if right == "True":
-                                        right = True
-                                    elif right == "False":
-                                        right = False
-
-                                    if left == "True":
-                                        left = True
-                                    elif left == "False":
-                                        left = False
-                                    """
-                                    # print("der: ",right,"izq:",left)
-                                    #res = self.genQuad(op,left,right)
-
-                                    #res = self.temp
-                                    #self.temp += 1
                                     offset = self.memory_limits['temp'][resultType]
-                                    addr = self.nextRelativeAddr(self.tempsCounter,resultType) + offset
+                                    tempAddr = self.nextRelativeAddr(self.tempsCounter,resultType) + offset
 
-                                    self.stackQuads.append(Quadruple(op,left,right,addr))
+                                    self.stackQuads.append(Quadruple(opSymbol,leftAddr,rightAddr,tempAddr))
 
-                                    stacks['pOperandos'].append(addr)
+                                    stacks['pOperandos'].append(tempAddr)
                                     stacks['pTipos'].append(resultType)
 
                                 else:
@@ -914,44 +915,49 @@ class Program:
                     if ruleChild == "exp":
                         self.expAux(child,function,stacks)
                     elif ruleChild == "op_arit":
-                        op = child.getText()
-                        stacks['pOperadores'].append(op)
+                        opSymbol = child.getText()
+                        stacks['pOperadores'].append(opSymbol)
                         # print("encontre + o -")
                     elif ruleChild == "term":
                         self.termAux(child,function,stacks)
 
                         if stacks['pOperadores']:
-                            op = stacks['pOperadores'][-1]
-                            if op == '+' or op == '-':
+                            opSymbol = stacks['pOperadores'][-1]
+                            if opSymbol == '+' or opSymbol == '-':
                                 if len(stacks['pOperandos']) > 1:
-
                                     stacks['pOperadores'].pop()
 
-                                    right = stacks['pOperandos'].pop()
+                                    rightAddr = stacks['pOperandos'].pop()
                                     rightType = stacks['pTipos'].pop()
-                                    left = stacks['pOperandos'].pop()
+
+                                    leftAddr = stacks['pOperandos'].pop()
                                     leftType = stacks['pTipos'].pop()
-                                    resultType = arithmeticCube[op][rightType][leftType]
+                                    resultType = arithmeticCube[opSymbol][rightType][leftType]
+
                                     if resultType == "x":
                                         print("Operacion no valida")
 
-                                    dim1Left = self.getDimOfAddr(left,function,1)
-                                    dim2Left = self.getDimOfAddr(left,function,2)
-                                    dim1Right = self.getDimOfAddr(right,function,1)
-                                    dim2Right = self.getDimOfAddr(right,function,2)
-                                    if dim1Left != False and dim1Left == dim1Right and dim2Left == dim2Right or left >= 55000:
+                                    leftDim1 = self.getDimOfAddr(leftAddr,function,1)
+                                    leftDim2 = self.getDimOfAddr(leftAddr,function,2)
+
+                                    rightDim1 = self.getDimOfAddr(rightAddr,function,1)
+                                    rightDim2 = self.getDimOfAddr(rightAddr,function,2)
+
+                                    if leftDim1 != False and leftDim1 == rightDim1 and leftDim2 == rightDim2 or leftAddr >= 55000:
                                         offset = self.memory_limits['temp']['dirArreglo']
-                                        addr = self.nextRelativeAddr(self.ctesCounter,'dir') + offset
-                                        opAct = "{}Arreglos".format(op)
-                                        self.stackQuads.append(Quadruple(opAct,left,right,addr))
-                                        self.stackQuads.append(Quadruple('dimensiones',0,dim1Right,dim2Right))
+                                        tempAddr = self.nextRelativeAddr(self.ctesCounter,'dir') + offset
+
+                                        opArray = "{}Arreglos".format(opSymbol)
+
+                                        self.stackQuads.append(Quadruple(opArray,leftAddr,rightAddr,tempAddr))
+                                        self.stackQuads.append(Quadruple('dimensiones',0,rightDim1,rightDim2))
                                     else:
                                         offset = self.memory_limits['temp'][resultType]
-                                        addr = self.nextRelativeAddr(self.tempsCounter,resultType) + offset
-                                        self.stackQuads.append(Quadruple(op,left,right,addr))
+                                        tempAddr = self.nextRelativeAddr(self.tempsCounter,resultType) + offset
+                                        self.stackQuads.append(Quadruple(opSymbol,leftAddr,rightAddr,tempAddr))
 
 
-                                    stacks['pOperandos'].append(addr)
+                                    stacks['pOperandos'].append(tempAddr)
                                     stacks['pTipos'].append(resultType)
                                     # print("pilitas",stacks['pTipos'])
 
@@ -974,36 +980,40 @@ class Program:
                         self.factorAux(child,function,stacks)
 
                         if stacks['pOperadores'] and len(stacks['pOperandos']) > 1:
-                            op = stacks['pOperadores'][-1]
-                            if op == '*' or op == '/':
+                            opSymbol = stacks['pOperadores'][-1]
+                            if opSymbol == '*' or opSymbol == '/':
                                 stacks['pOperadores'].pop()
-                                right = stacks['pOperandos'].pop()
+                                rightAddr = stacks['pOperandos'].pop()
                                 rightType = stacks['pTipos'].pop()
-                                left = stacks['pOperandos'].pop()
+
+                                leftAddr = stacks['pOperandos'].pop()
                                 leftType = stacks['pTipos'].pop()
-                                resultType = arithmeticCube[op][rightType][leftType]
+
+                                resultType = arithmeticCube[opSymbol][rightType][leftType]
+
                                 if resultType == "x":
                                     print("Operacion no valida")
-                                # print("der: ",right,"izq:",left)
-                                #res = self.genQuad(op,left,right)
-                                #res = self.temp
-                                #self.temp += 1
-                                dim1Left = self.getDimOfAddr(left,function,1)
-                                dim2Left = self.getDimOfAddr(left,function,2)
-                                dim1Right = self.getDimOfAddr(right,function,1)
-                                dim2Right = self.getDimOfAddr(right,function,2)
-                                if dim1Left != False and dim1Left == dim1Right and dim2Left == dim2Right or left >= 55000:
+
+                                leftDim1 = self.getDimOfAddr(leftAddr,function,1)
+                                leftDim2 = self.getDimOfAddr(leftAddr,function,2)
+
+                                rightDim1 = self.getDimOfAddr(rightAddr,function,1)
+                                rightDim2 = self.getDimOfAddr(rightAddr,function,2)
+
+                                if leftDim1 != False and leftDim1 == rightDim1 and leftDim2 == rightDim2 or leftAddr >= 55000:
                                     offset = self.memory_limits['temp']['dirArreglo']
-                                    addr = self.nextRelativeAddr(self.ctesCounter,'dir') + offset
-                                    opAct = "{}Arreglos".format(op)
-                                    self.stackQuads.append(Quadruple(opAct,left,right,addr))
-                                    self.stackQuads.append(Quadruple('dimensiones',0,dim1Right,dim2Right))
+                                    tempAddr = self.nextRelativeAddr(self.ctesCounter,'dir') + offset
+
+                                    opArray = "{}Arreglos".format(opSymbol)
+
+                                    self.stackQuads.append(Quadruple(opArray,leftAddr,rightAddr,tempAddr))
+                                    self.stackQuads.append(Quadruple('dimensiones',0,rightDim1,rightDim2))
                                 else:
                                     offset = self.memory_limits['temp'][resultType]
-                                    addr = self.nextRelativeAddr(self.tempsCounter,resultType) + offset
-                                    self.stackQuads.append(Quadruple(op,left,right,addr))
+                                    tempAddr = self.nextRelativeAddr(self.tempsCounter,resultType) + offset
+                                    self.stackQuads.append(Quadruple(opSymbol,leftAddr,rightAddr,tempAddr))
 
-                                stacks['pOperandos'].append(addr)
+                                stacks['pOperandos'].append(tempAddr)
                                 stacks['pTipos'].append(resultType)
                                 # print("pila",stacks['pTipos'])
                                     # print(res)
@@ -1011,87 +1021,75 @@ class Program:
                             else:
                                 pass
                     elif ruleChild == "op_prod":
-                        op = child.getText()
-                        stacks['pOperadores'].append(op)
+                        opSymbol = child.getText()
+                        stacks['pOperadores'].append(opSymbol)
                     elif ruleChild == "term":
                         self.termAux(child,function,stacks)
         else:
             pass
 
     def factorAux(self,tree,function,stacks):
-        if not isinstance(tree, TerminalNodeImpl):
-            if self.rules[tree.getRuleIndex()] == "factor":
-                # print("factor")
-                # print(len(tree.children))
-                # rules = []
-                for child in tree.children:
-                    ruleChild = self.rules[child.getRuleIndex()]
-                    # rules.append(ruleChild)
-                    if ruleChild == "var":
-                        # print("si se llamo")
-                        self.varAux(child,function,stacks)
-                        # self.factorAux(child,function,stacks)
-                    elif ruleChild == "var_cte":
-                        # print("lo hago despues")
-                        self.varcteAux(child,function,stacks)
-                    elif ruleChild == "op_esp":
-                        # print("encontre $ ? ¡")
-                        # print(stacks['pOperadores'])
-                        op = child.getText()
-                        addr = stacks['pOperandos'][-1]
+          if not isinstance(tree, TerminalNodeImpl):
+              if self.rules[tree.getRuleIndex()] == "factor":
+                  for child in tree.children:
+                      ruleChild = self.rules[child.getRuleIndex()]
+                      if ruleChild == "var":
+                          self.varAux(child,function,stacks)
+                      elif ruleChild == "var_cte":
+                          self.varcteAux(child,function,stacks)
+                      elif ruleChild == "op_esp":
+                          opSymbol = child.getText()
+                          topAddr = stacks['pOperandos'][-1]
 
-                        dim1 = self.getDimOfAddr(addr,function,1)
-                        dim2 = self.getDimOfAddr(addr,function,2)
+                          dim1 = self.getDimOfAddr(topAddr,function,1)
+                          dim2 = self.getDimOfAddr(topAddr,function,2)
 
-                        if op == '?':
-                            operacion = "inversa"
-                        elif op == '$':
-                            operacion = "determinante"
-                        elif op == '%':
-                            operacion = "promedio"
-                        elif op == '@':
-                            operacion = "suma"
-                        elif op == '~':
-                            operacion = "minimo"
-                        elif op == '#':
-                            operacion = "maximo"
-                        else:
-                            operacion = "transpuesta"
-                        if op != '!' or op != '?':
-                            tipo = stacks['pTipos'][-1]
-                            offset = self.memory_limits['temp'][tipo]
-                            addr1 = self.nextRelativeAddr(self.ctesCounter,tipo) + offset
-                            self.stackQuads.append(Quadruple(op,addr,0,addr1))
+                          if opSymbol == '?':
+                              opName = "inversa"
+                          elif opSymbol == '$':
+                              opName = "determinante"
+                          elif opSymbol == '%':
+                              opName = "promedio"
+                          elif opSymbol == '@':
+                              opName = "suma"
+                          elif opSymbol == '~':
+                              opName = "minimo"
+                          elif opSymbol == '#':
+                              opName = "maximo"
+                          else:
+                              opName = "transpuesta"
+                          if opSymbol != '!' or opSymbol != '?':
+                              tipo = stacks['pTipos'][-1]
+                              offset = self.memory_limits['temp'][tipo]
+                              tempAddr = self.nextRelativeAddr(self.ctesCounter,tipo) + offset
+                              self.stackQuads.append(Quadruple(opSymbol,topAddr,0,tempAddr))
 
-                            # print("que hay adentro",stacks['pOperandos'])
-                        else:
-                            offset = self.memory_limits['temp']['dirArreglo']
-                            addr1 = self.nextRelativeAddr(self.ctesCounter,'dir') + offset
-                            self.stackQuads.append(Quadruple(op,addr,0,addr1))
-                        stacks['pOperandos'].pop()
-                        stacks['pOperandos'].append(addr1)
-                        if op == '?' or op == '$':
-                            if dim1 != dim2:
-                                msg = "No se puede calcular la {} si no es cuadrada".format(operacion)
-                                return self.error(child.ESP(),msg)
+                          else:
+                              offset = self.memory_limits['temp']['dirArreglo']
+                              tempAddr = self.nextRelativeAddr(self.ctesCounter,'dir') + offset
+                              self.stackQuads.append(Quadruple(opSymbol,topAddr,0,tempAddr))
 
-                        self.stackQuads.append(Quadruple('dimensiones',0,dim1,dim2))
-                    elif ruleChild == "op_arit":
-                        # print("encontre + -")
-                        # traverse(child,self.rules)
-                        stacks['pNegativos'].append(child.getText())
-                        # print("stacks", stacks['pNegativos'])
-                        # self.varcteAux(child.var_cte(),function,stacks)
-                        # print("no se va a regresar")
+                          stacks['pOperandos'].pop()
+                          stacks['pOperandos'].append(tempAddr)
 
-                    elif ruleChild == "exp_par":
-                        # print("encontre algo con parentesis")
-                        self.parentesisAux(child,function,stacks)
-                    elif ruleChild == "llamada":
-                        self.est_llamada_est(child,function,stacks)
-                        # self.termAux(child,function,stacks)
-        else:
-            pass
+                          if opSymbol == '?' or opSymbol == '$':
+                              if dim1 != dim2:
+                                  varName = self.getNameOfAddr(topAddr,function)
+                                  msg = "No se puede calcular la {} de '{}' si no es cuadrada.".format(opName,varName)
+                                  return self.error(child.ESP(),msg)
+
+                          self.stackQuads.append(Quadruple('dimensiones',0,dim1,dim2))
+
+                      elif ruleChild == "op_arit":
+                          stacks['pNegativos'].append(child.getText())
+
+
+                      elif ruleChild == "exp_par":
+                          self.parentesisAux(child,function,stacks)
+                      elif ruleChild == "llamada":
+                          self.est_llamada_est(child,function,stacks)
+          else:
+              pass
 
     def parentesisAux(self,tree,function,stacks):
         if not isinstance(tree, TerminalNodeImpl):
@@ -1115,50 +1113,51 @@ class Program:
             pass
 
     def varAux(self,tree,function,stacks,brackets=False):
-        if not isinstance(tree, TerminalNodeImpl):
-            if self.rules[tree.getRuleIndex()] == "var":
-                nomVar = tree.ID().getText()
-                # print("Var : " , nomVar)
-                #print("function::",function)
-                tipo = self.getTypeOfVariable(nomVar,function)
+          if not isinstance(tree, TerminalNodeImpl):
+              if self.rules[tree.getRuleIndex()] == "var":
+                  varName = tree.ID().getText()
+                  # print("Var : " , varName)
+                  #print("function::",function)
+                  varType = self.getTypeOfVariable(varName,function)
 
-                #print("var aux: nombre, tipo: ",nomVar,tipo)
+                  #print("var aux: nombre, varType: ",varName,varType)
 
-                if tipo == False:
-                    msg = "No se encontró la var '{}'".format(nomVar)
-                    return self.error(tree.ID(),msg)
+                  if varType == False:
+                      msg = "No se encontró la var '{}'".format(varName)
+                      return self.error(tree.ID(),msg)
 
-                stacks['pTipos'].append(tipo)
-                addr = self.getAddrOfVariable(nomVar,function)
-                tieneDim = self.getDimOfAddr(addr,function,1)
-                # print(addr)
-                # print(addr)
-                stacks['pOperandos'].append(addr)
+                  stacks['pTipos'].append(varType)
+                  varAddr = self.getAddrOfVariable(varName,function)
+                  hasDims = self.getDimOfAddr(varAddr,function,1)
+                  # print(varAddr)
+                  # print(varAddr)
+                  stacks['pOperandos'].append(varAddr)
 
-                # dims = []
-                # numdims = len(tree.children) -1
-                # print(numdims)
-                if tieneDim != False:
-                    id = ""
-                    type = ""
-                    dim = 1
-                    for child in tree.children:
-                        if not isinstance(child, TerminalNodeImpl):
-                            ruleChild = self.rules[child.getRuleIndex()]
-                            # rules.append(ruleChild)
-                            if ruleChild == "dim":
-                                brackets = True
-                                if dim == 1:
-                                    id = stacks['pOperandos'].pop()
-                                    type = stacks['pTipos'].pop()
-                                    # print("pila",stacks['pOperandos'])
-                                    stacks['pOperadores'].append("$")
-                                self.dimAux(child,function,dim,stacks,id,type)
-                                dim+=1
-        else:
-            pass
+                  # dims = []
+                  # numdims = len(tree.children) -1
+                  # print(numdims)
+                  if hasDims != False:
+                      currentAddr = ""
+                      currentType = ""
+                      currentDim = 1
+                      for child in tree.children:
+                          if not isinstance(child, TerminalNodeImpl):
+                              ruleChild = self.rules[child.getRuleIndex()]
+                              # rules.append(ruleChild)
+                              if ruleChild == "dim":
+                                  brackets = True
+                                  if currentDim == 1:
+                                      currentAddr = stacks['pOperandos'].pop()
+                                      currentType = stacks['pTipos'].pop()
+                                      stacks['pOperadores'].append("$")
+
+                                  self.dimAux(child,function,currentDim,stacks,currentAddr,currentType)
+                                  currentDim+=1
+          else:
+              pass
 
     def dimAux(self,tree,function,dim,stacks,id,type):
+        # print("entra")
         stacks2 = {
             'pOperandos' : [],
             'pOperadores' : [],
@@ -1174,21 +1173,22 @@ class Program:
                     # print(stacks2['pOperandos'])
                     self.expresionAux(child,function,stacks2)
 
+        if id in self.memory['ctes']:
+            baseAddr = self.memory['ctes'][id]['dir']
+        else:
+            offset = self.memory_limits['ctes']['int']
+            baseAddr = self.nextRelativeAddr(self.ctesCounter,'int') + offset
+            self.memory['ctes'][id] = {'tipo': 'int', 'dir': baseAddr}
+            self.memory['ctesDir'][baseAddr] = id
+
         if dim == 1:
             resExp = stacks2['pOperandos'][-1]
             lsdim1 = self.getDimOfAddr(id,function,1)
             lsdim2 = self.getDimOfAddr(id,function,2)
 
-            self.stackQuads.append(Quadruple('verify',resExp,0,lsdim1))
+            self.stackQuads.append(Quadruple('verify',resExp,baseAddr,lsdim1))
 
             if lsdim2 == False:
-                if id in self.memory['ctes']:
-                    baseAddr = self.memory['ctes'][id]['dir']
-                else:
-                    offset = self.memory_limits['ctes']['int']
-                    baseAddr = self.nextRelativeAddr(self.ctesCounter,'int') + offset
-                    self.memory['ctes'][id] = {'tipo': 'int', 'dir': baseAddr}
-                    self.memory['ctesDir'][baseAddr] = id
                 offset = self.memory_limits['temp']['dir']
                 addr = self.nextRelativeAddr(self.ctesCounter,'dir') + offset
                 self.stackQuads.append(Quadruple('+',resExp,baseAddr,addr))
@@ -1214,19 +1214,12 @@ class Program:
             # print("dim",id, self.getDimOfAddr(5000,function,2))
             # print(stacks['pDim'])
             temp1 = stacks['pDim'].pop()
-            self.stackQuads.append(Quadruple('verify',resExp,0,lsdim2))
+            self.stackQuads.append(Quadruple('verify',resExp,baseAddr,lsdim2))
 
             offset = self.memory_limits['temp']['int']
             addr1 = self.nextRelativeAddr(self.ctesCounter,'int') + offset
             self.stackQuads.append(Quadruple('+',resExp,temp1,addr1))
 
-            if id in self.memory['ctes']:
-                baseAddr = self.memory['ctes'][id]['dir']
-            else:
-                offset = self.memory_limits['ctes']['int']
-                baseAddr = self.nextRelativeAddr(self.ctesCounter,'int') + offset
-                self.memory['ctes'][id] = {'tipo': 'int', 'dir': baseAddr}
-                self.memory['ctesDir'][baseAddr] = id
             offset = self.memory_limits['temp']['dir']
             addr2 = self.nextRelativeAddr(self.ctesCounter,'dir') + offset
             self.stackQuads.append(Quadruple('+',addr1,baseAddr,addr2))
@@ -1234,47 +1227,48 @@ class Program:
             stacks['pOperandos'].append(addr2)
             stacks['pTipos'].append(type)
             # print("addr2",addr2,stacks['pOperandos'])
-            stacks['pOperadores'].pop()
+            # stacks['pOperadores'].pop()
 
         # traverse(tree,self.rules)
 
     def varcteAux(self,tree,function,stacks):
-        if not isinstance(tree, TerminalNodeImpl):
-            if self.rules[tree.getRuleIndex()] == "var_cte":
-                for child in tree.children:
-                    if not isinstance(child, TerminalNodeImpl):
-                        ruleChild = self.rules[child.getRuleIndex()]
-                        # rules.append(ruleChild)
-                        if ruleChild == "var":
-                            self.varAux(child,function,stacks)
-                    else:
-                        if stacks['pNegativos']:
-                            operador = stacks['pNegativos'].pop()
-                            cte = operador + tree.getText()
-                        else:
-                            cte = tree.getText()
-                        if cte.find('.') != -1:
-                            tipo = "float"
-                        elif cte.find("''") != -1:
-                            tipo = "char"
-                            cte = cte.replace("'","")
-                        else:
-                            tipo = "int"
+          if not isinstance(tree, TerminalNodeImpl):
+              if self.rules[tree.getRuleIndex()] == "var_cte":
+                  for child in tree.children:
+                      if not isinstance(child, TerminalNodeImpl):
+                          ruleChild = self.rules[child.getRuleIndex()]
+                          # rules.append(ruleChild)
+                          if ruleChild == "var":
+                              self.varAux(child,function,stacks)
+                      else:
+                          if stacks['pNegativos']:
+                              operator = stacks['pNegativos'].pop()
+                              constant = operator + tree.getText()
+                          else:
+                              constant = tree.getText()
+                          if constant[0] == "'":
+                              constantType = "char"
+                              constant = constant[1]
+                              # print("encontre un char")
+                          elif constant.find('.') != -1:
+                              constantType = "float"
+                          else:
+                              constantType = "int"
 
-                        if cte in self.memory['ctes']:
-                            addr = self.memory['ctes'][cte]['dir']
-                        else:
-                            offset = self.memory_limits['ctes'][tipo]
-                            addr = self.nextRelativeAddr(self.ctesCounter,tipo) + offset
-                            self.memory['ctes'][cte] = {'tipo': tipo, 'dir': addr}
-                            self.memory['ctesDir'][addr] = cte
+                          if constant in self.memory['ctes']:
+                              constantAddr = self.memory['ctes'][constant]['dir']
+                          else:
+                              offset = self.memory_limits['ctes'][constantType]
+                              constantAddr = self.nextRelativeAddr(self.ctesCounter,constantType) + offset
+                              self.memory['ctes'][constant] = {'tipo': constantType, 'dir': constantAddr}
+                              self.memory['ctesDir'][constantAddr] = constant
 
-                        stacks['pTipos'].append(tipo)
-                        #diana
-                        stacks['pOperandos'].append(addr)
+                          stacks['pTipos'].append(constantType)
+                          #diana
+                          stacks['pOperandos'].append(constantAddr)
 
-        else:
-            pass
+          else:
+              pass
 
     #### ESTATUTOS
 
@@ -1316,7 +1310,7 @@ class Program:
         if function == "global":
             msg = "La function main no tiene retorno"
             return self.error(tree.Regresa(),msg)
-        elif self.dirFunciones[function]['tipoRet'] == "void":
+        elif self.dirFunciones[function]['returnType'] == "void":
             msg = "Retorno en function '{}' de tipo void".format(function)
             return self.error(tree.Regresa(),msg)
 
@@ -1335,153 +1329,149 @@ class Program:
         # print(res)
 
     def est_asignacion(self, tree, function):
-          # traverse(tree,self.rules)
-          # print(len(tree.children))
-          # print(tree.getText())
-          if not isinstance(tree, TerminalNodeImpl):
-              if self.rules[tree.getRuleIndex()] == "asignacion":
-                  # print("asign")
-                  stacks = {
-                      'pOperandos' : [],
-                      'pOperadores' : [],
-                      'pTipos' : [],
-                      'pDim': [],
-                      'tieneBrackets' : [],
-                      'pNegativos': []
-                  }
-                  for child in tree.children:
-                      # print("hijo")
-                      if not isinstance(child, TerminalNodeImpl):
-                          ruleChild = self.rules[child.getRuleIndex()]
-                          # rules.append(ruleChild)
-                          if ruleChild == "var":
-                              varName = child.ID().getText()
-                              varType = self.getTypeOfVariable(varName,function)
-                              varAddr = self.getAddrOfVariable(varName,function)
+            # traverse(tree,self.rules)
+            # print(len(tree.children))
+            # print(tree.getText())
+            if not isinstance(tree, TerminalNodeImpl):
+                if self.rules[tree.getRuleIndex()] == "asignacion":
+                    # print("asign")
+                    pilas = {
+                        'pOperandos' : [],
+                        'pOperadores' : [],
+                        'pTipos' : [],
+                        'pDim': [],
+                        'tieneBrackets' : [],
+                        'pNegativos': []
+                    }
+                    for child in tree.children:
+                        # print("hijo")
+                        if not isinstance(child, TerminalNodeImpl):
+                            ruleChild = self.rules[child.getRuleIndex()]
+                            # rules.append(ruleChild)
+                            if ruleChild == "var":
+                                varName = child.ID().getText()
+                                varType = self.getTypeOfVariable(varName,function)
+                                varAddr = self.getAddrOfVariable(varName,function)
 
-                              if not varType:
-                                  msg = "No se encontró la var '{}'".format(varName)
-                                  return self.error(child.ID(),msg)
+                                if not varType or not varAddr:
+                                    msg = "No se encontró la var '{}'".format(varName)
+                                    return self.error(child.ID(),msg)
 
-                              brackets = False
-                              dim1 = self.getDimOfAddr(varAddr,function,1)
-                              if dim1 != False:
-                                  currentDim = 1
-                                  for child2 in child.children:
-                                      if not isinstance(child2, TerminalNodeImpl):
-                                          ruleChild = self.rules[child2.getRuleIndex()]
-                                          # rules.append(ruleChild)
-                                          if ruleChild == "currentDim":
-                                              if currentDim == 1:
-                                                  brackets = True
-                                                  stacks['tieneBrackets'].append(True)
-                                                  stacks['pOperandos'].append(varAddr)
-                                                  stacks['pTipos'].append(varType)
-                                                  stacks['pOperadores'].append("$")
-                                              self.dimAux(child2,function,currentDim,stacks,varAddr,varType)
-                                              currentDim+=1
+                                brackets = False
+                                tieneDim = self.getDimOfAddr(varAddr,function,1)
+                                if tieneDim != False:
+                                    currentDim = 1
+                                    for child2 in child.children:
+                                        if not isinstance(child2, TerminalNodeImpl):
+                                            ruleChild = self.rules[child2.getRuleIndex()]
+                                            # rules.append(ruleChild)
+                                            if ruleChild == "dim":
+                                                if currentDim == 1:
+                                                    brackets = True
+                                                    pilas['tieneBrackets'].append(True)
+                                                    pilas['pOperandos'].append(varAddr)
+                                                    pilas['pTipos'].append(varType)
+                                                    pilas['pOperadores'].append("$")
+                                                self.dimAux(child2,function,currentDim,pilas,varAddr,varType)
+                                                currentDim+=1
 
-                              #stacks['pOperandos'].append(varName)
-                              # if function == "main":
-                              #     function = "global"
-                              c = child.ID()
-                              if len(stacks['pOperandos']) > 1:
-                                  tipo_anterior = stacks['pTipos'][-1]
-                                  if varType != tipo_anterior:
-                                      msg = "Asignacion invalida {}({}) a {}({})".format(varAddr,varType,stacks['pOperandos'][-1],stacks['pTipos'][-1])
-                                      return self.error(c,msg)
-                              if dim1 == False or brackets == False:
-                                  stacks['tieneBrackets'].append(False)
-                                  stacks['pOperandos'].append(varAddr)
-                                  stacks['pTipos'].append(varType)
+                                # if function == "main":
+                                #     function = "global"
+                                c = child.ID()
+                                if len(pilas['pOperandos']) > 1:
+                                    tipo_anterior = pilas['pTipos'][-1]
+                                    if varType != tipo_anterior:
+                                        msg = "Asignacion invalida {}({}) a {}({})".format(varAddr,varType,pilas['pOperandos'][-1],pilas['pTipos'][-1])
+                                        return self.error(c,msg)
+                                if tieneDim == False or brackets == False:
+                                    pilas['tieneBrackets'].append(False)
+                                    pilas['pOperandos'].append(varAddr)
+                                    pilas['pTipos'].append(varType)
 
-                              # print("oila", stacks['pOperandos'])
-                              # print("oila", stacks['pTipos'])
-                          elif ruleChild == "expresion":
-                              # print("exp")
-                              exp = self.expresion(child,function)
-                              tipo_exp = self.getTypeOfAddr(exp)
-                              # print(exp,tipo_exp)
+                            elif ruleChild == "expresion":
+                                # print("exp")
+                                exp = self.expresion(child,function)
+                                tipo_exp = self.getTypeOfAddr(exp)
+                                # print(exp,tipo_exp)
 
-                              topTipos = stacks['pTipos'][-1]
-                              topOperandos = stacks['pOperandos'][-1]
-                              if tipo_exp != topTipos:
-                                  msg = "Asignacion invalida {}({}) a {}({})".format(exp,tipo_exp,topOperandos,topTipos)
-                                  #print("error", msg)
-                                  #print("child:",child)
-                                  return self.error(c,msg)
+                                topTipos = pilas['pTipos'][-1]
+                                topOperandos = pilas['pOperandos'][-1]
+                                if tipo_exp != topTipos:
+                                    msg = "Asignacion invalida {}({}) a {}({})".format(exp,tipo_exp,topOperandos,topTipos)
+                                    #print("error", msg)
+                                    #print("child:",child)
+                                    return self.error(c,msg)
 
 
 
-                  ####AGREGAR ALGO PARA SABER SI ADDR Y EXP TENIAN [][] O NO
-                  addrIzq = stacks['pOperandos'][-1]
-                  bracketsIzq = stacks['tieneBrackets'].pop()
-                  dim1Left = self.getDimOfAddr(varAddr,function,1)
-                  dim2Left = self.getDimOfAddr(varAddr,function,2)
-                  dim1Right = self.getDimOfAddr(exp,function,1)
-                  dim2Right = self.getDimOfAddr(exp,function,2)
-                  # print("en",addrIzq,exp,dim1Right,dim2Right)
+                    ####AGREGAR ALGO PARA SABER SI varAddr Y EXP TENIAN [][] O NO
+                    leftAddr = pilas['pOperandos'][-1]
+                    bracketsIzq = pilas['tieneBrackets'].pop()
+                    leftDim1 = self.getDimOfAddr(varAddr,function,1)
+                    leftDim2 = self.getDimOfAddr(varAddr,function,2)
+                    rightDim1 = self.getDimOfAddr(exp,function,1)
+                    rightDim2 = self.getDimOfAddr(exp,function,2)
+                    # print("en",leftAddr,exp,rightDim1,rightDim2)
 
-                  if bracketsIzq:
-                      self.stackQuads.append(Quadruple('=',exp,addrIzq,'arrSingle'))
-                      stacks['pOperandos'].pop()
-                  else:
-                      if exp >= 50000 and dim1Left != False:
-                          self.stackQuads.append(Quadruple('=',exp,addrIzq,'arreglo'))
-                          self.stackQuads.append(Quadruple('dimensiones',0,dim1Left,dim2Left))
-                          # print("si entre")
-                      else:
-                          # nom1 = self.getNameOfAddr(varAddr,function)
-                          # # nom2 = self.getNameOfAddr(exp,function)
-                          # msg = "No se puede asignar un valor a todo el arreglo '{}'".format(nom1)
-                          # return self.error(c,msg)
-                      # print("si son iguales")
-                      # print("izq:",dim1Left,dim2Left)
-                      # print("der:",dim1Right,dim2Right)
-                          if dim1Left != False and dim1Right != False:
-                              if (dim1Left == dim1Right) and (dim2Left == dim2Right):
-                                  self.stackQuads.append(Quadruple('=',exp,addrIzq,'arreglo'))
-                                  self.stackQuads.append(Quadruple('dimensiones',0,dim1Left,dim2Left))
-                              else:
-                                  nom1 = self.getNameOfAddr(varAddr,function)
-                                  nom2 = self.getNameOfAddr(exp,function)
-                                  msg = "Los arreglos '{}' y '{}' no son del mismo tamaño".format(nom1,nom2)
-                                  # print(msg)
-                                  return self.error(c,msg)
-                          else:
-                              self.stackQuads.append(Quadruple('=',exp,addrIzq,0))
-                  lenPila = len(stacks['pOperandos'])
-                  if lenPila > 1:
-                      for i in range(lenPila-1):
-                          addrIzq = stacks['pOperandos'].pop()
-                          dim1Left = self.getDimOfAddr(addrIzq,function,1)
-                          dim2Left = self.getDimOfAddr(addrIzq,function,2)
+                    if bracketsIzq:
+                        self.stackQuads.append(Quadruple('=',exp,leftAddr,'arrSingle'))
+                        pilas['pOperandos'].pop()
+                    else:
+                        if exp >= 50000 and leftDim1 != False:
+                            self.stackQuads.append(Quadruple('=',exp,leftAddr,'arreglo'))
+                            self.stackQuads.append(Quadruple('dimensiones',0,leftDim1,leftDim2))
+                            # print("si entre")
+                        else:
+                            # leftName = self.getNomDir(varAddr,function)
+                            # # rightName = self.getNomDir(exp,function)
+                            # msg = "No se puede asignar un valor a todo el arreglo '{}'".format(leftName)
+                            # return self.error(c,msg)
+                        # print("si son iguales")
+                        # print("izq:",leftDim1,leftDim2)
+                        # print("der:",rightDim1,rightDim2)
+                            if leftDim1 != False and rightDim1 != False:
+                                if (leftDim1 == rightDim1) and (leftDim2 == rightDim2):
+                                    self.stackQuads.append(Quadruple('=',exp,leftAddr,'arreglo'))
+                                    self.stackQuads.append(Quadruple('dimensiones',0,leftDim1,leftDim2))
+                                else:
+                                    leftName = self.getNameOfAddr(varAddr,function)
+                                    rightName = self.getNameOfAddr(exp,function)
+                                    msg = "Los arreglos '{}' y '{}' no son del mismo tamaño".format(leftName,rightName)
+                                    # print(msg)
+                                    return self.error(c,msg)
+                            else:
+                                self.stackQuads.append(Quadruple('=',exp,leftAddr,0))
+                    lenPila = len(pilas['pOperandos'])
+                    if lenPila > 1:
+                        for i in range(lenPila-1):
+                            leftAddr = pilas['pOperandos'].pop()
+                            leftDim1 = self.getDimOfAddr(leftAddr,function,1)
+                            leftDim2 = self.getDimOfAddr(leftAddr,function,2)
 
-                          addrDer = stacks['pOperandos'][-1]
-                          dim1Right = self.getDimOfAddr(addrDer,function,1)
-                          dim2Right = self.getDimOfAddr(addrDer,function,2)
+                            rightAddr = pilas['pOperandos'][-1]
+                            rightDim1 = self.getDimOfAddr(rightAddr,function,1)
+                            rightDim2 = self.getDimOfAddr(rightAddr,function,2)
 
-                          if dim1Left != False and dim1Right != False:
-                              if (dim1Left == dim1Right) and (dim2Left == dim2Right):
-                                  self.stackQuads.append(Quadruple('=',addrIzq,addrDer,'arreglo'))
-                                  self.stackQuads.append(Quadruple('dimensiones',0,dim1Left,dim2Left))
-                              else:
-                                  nom1 = self.getNameOfAddr(addrIzq,function)
-                                  nom2 = self.getNameOfAddr(addrDer,function)
-                                  msg = "Los arreglos '{}' y '{}' no son del mismo tamaño".format(nom1,nom2)
-                                  # print(msg)
-                                  return self.error(c,msg)
-                          else:
-                              self.stackQuads.append(Quadruple('=',addrIzq,addrDer,0))
-                  # print(stacks['pTipos'])
+                            if leftDim1 != False and rightDim1 != False:
+                                if (leftDim1 == rightDim1) and (leftDim2 == rightDim2):
+                                    self.stackQuads.append(Quadruple('=',leftAddr,rightAddr,'arreglo'))
+                                    self.stackQuads.append(Quadruple('dimensiones',0,leftDim1,leftDim2))
+                                else:
+                                    leftName = self.getNameOfAddr(leftAddr,function)
+                                    rightName = self.getNameOfAddr(rightAddr,function)
+                                    msg = "Los arreglos '{}' y '{}' no son del mismo tamaño".format(leftName,rightName)
+                                    # print(msg)
+                                    return self.error(c,msg)
+                            else:
+                                self.stackQuads.append(Quadruple('=',leftAddr,rightAddr,0))
+                    # print(pilas['pTipos'])
 
 
-                  #self.stackQuads.append(Quadruple('=',exp,str(stacks['pOperandos'][-1]),0))
-          else:
-              pass
-          # traverse(codigo,self.rules)
-          #chec var existe en function
-          #llama al exp y asigna el valor
+            else:
+                pass
+            # traverse(codigo,self.rules)
+            #chec var existe en function
+            #llama al exp y asigna el valor
 
     def est_decision(self, tree,function):
         pSaltos = []
@@ -1636,7 +1626,7 @@ class Program:
             return self.error(tree.ID(),msg)
 
         #Guarda el tipo de Retorno
-        returnType = self.dirFunciones[functionName]['tipoRet']
+        returnType = self.dirFunciones[functionName]['returnType']
 
         self.stackQuads.append(Quadruple('era',functionName,0,0))
 
@@ -1665,14 +1655,15 @@ class Program:
     def est_escritura(self, tree,function):
         if not isinstance(tree, TerminalNodeImpl):
             if self.rules[tree.getRuleIndex()] == "expresion":
-                res = self.expresion(tree,function)
-                dim1 = self.getDimOfAddr(res,function,1)
+                resultExp = self.expresion(tree,function)
+                dim1 = self.getDimOfAddr(resultExp,function,1)
                 if dim1 != False:
-                    dim2 = self.getDimOfAddr(res,function,2)
-                    self.stackQuads.append(Quadruple('print',res,0,'arreglo'))
-                    self.stackQuads.append(Quadruple('dimensiones',res,dim1,dim2))
+                    dim2 = self.getDimOfAddr(resultExp,function,2)
+                    self.stackQuads.append(Quadruple('print',resultExp,0,'arreglo'))
+                    self.stackQuads.append(Quadruple('dimensiones',resultExp,dim1,dim2))
                 else:
-                    self.stackQuads.append(Quadruple('print',res,0,0))
+                    self.stackQuads.append(Quadruple('print',resultExp,0,0))
+
             elif self.rules[tree.getRuleIndex()] == "string":
                 # print("es un string")
                 self.stackQuads.append(Quadruple('print',tree.getText()[1:-1],0,0))
@@ -1686,9 +1677,15 @@ class Program:
 class Compiler:
     def __init__(self, file):
         self.arch = file
-        self.input_stream = FileStream("Pruebas/prueba{}.txt".format(file))
     def compile(self):
-        lexer = PatitoMasMasLexer(self.input_stream)
+        archivo = "Pruebas/{}".format(self.arch)
+        try:
+            open(archivo,'r')
+        except FileNotFoundError:
+            print("El archivo no existe.")
+            exit()
+        input_stream = FileStream(archivo)
+        lexer = PatitoMasMasLexer(input_stream)
         stream = CommonTokenStream(lexer)
         parser = PatitoMasMasParser(stream)
         startRoute = parser.start().programa()
@@ -1696,11 +1693,11 @@ class Compiler:
         # traverse(rutaInicio,parser.ruleNames)
         p = Program(startRoute,parser.ruleNames)
         p.execute()
-        return p.getQuads(),p.getConstants()
+        return p.getQuads(),p.getConstants(), p.getAllNames()
 
 def main():
     arch = sys.argv[1]
-    input_stream = FileStream("Pruebas/prueba{}.txt".format(arch))
+    input_stream = FileStream("Pruebas/{}".format(arch))
     lexer = PatitoMasMasLexer(input_stream)
     stream = CommonTokenStream(lexer)
     parser = PatitoMasMasParser(stream)
@@ -1720,7 +1717,6 @@ def traverse(tree, rule_names, indent = 0):
         print("{0}{1}".format("  " * indent, rule_names[tree.getRuleIndex()]))
         for child in tree.children:
             traverse(child, rule_names, indent + 1)
-
 
 if __name__ == '__main__':
     main()

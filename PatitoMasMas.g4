@@ -207,6 +207,7 @@ op_esp
 tipo
     : Int
     | Float
+    | Char
     ;
 
 /*
