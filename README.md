@@ -1,10 +1,20 @@
 
+
 # Patito++
 
  - Proyecto final - Diseño de compiladores
  - Febrero - Junio 2020
  - Equipo 14
 
+## README Index
+
+ - [Quick Reference Manual](#quick-reference-manual)
+	 - [Programa](#programa)
+	 - [Variables](#variables)
+	 - [Funciones](#funciones)
+	 - [Ejemplos](#ejemplos)
+  - [Instalación](#instalación)
+  -  [Equipo](#equipo)
 
 # Quick Reference Manual
 ## Programa
@@ -12,8 +22,8 @@ Para generar un programa en `Patito++` se necesita la siguiente sintaxis
 
     programa nombrePrograma;
 
-    
-Seguido por su declaración de variables y funciones. 
+
+Seguido por su declaración de variables y funciones.
 
 ## Variables
 Las variables son definidas después de la declaración del programa o de la función.
@@ -105,7 +115,7 @@ A una matriz se le puede asignar otra si sus dimensiones lo permiten.
 **Condicionales**
 
 
-    mientras (expresion) haz 
+    mientras (expresion) haz
     {
 	    estatuto;
     }
@@ -149,14 +159,14 @@ Si una función no es void tiene que regresar un valor en la forma de una expres
 		lee(nombreVar);
 		escribe("letrero",nombreVar);
 		si (nombreVar > 5) entonces {
-			nombre = 100 * 2; 
+			nombre = 100 * 2;
 		}
 		sino {
 			nombre = 100 / 2;
 		}
 		escribe("resultado:",nombre);
 	}
-	
+
 **Función main**
 
     principal()
@@ -165,6 +175,16 @@ Si una función no es void tiene que regresar un valor en la forma de una expres
 	    variable = 100 * 50 - 10 / 5;
 	    escribe(variable);
     }
+
+# Instalación
+
+Para instalar este lenguaje es necesario contar con Python 3 instalado. Esto se puede verificar corriendo el comando `python3` en la terminal.
+
+Una vez instalado Python 3 podemos proceder a instalar el lenguaje.
+
+    git clone https://github.com/DianaBarrios/PatitoMasMas.git
+    pip install -r requirements.txt
+
 
 # Equipo
 

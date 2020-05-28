@@ -1,0 +1,35 @@
+programa patito;
+var
+  int i,j,p;
+  char ejemplo[5],ejemplo2[5],ejemplo3[5];
+  int arreglo[10], otroarreglo[10];
+  float valor;
+  float valor2;
+  int matriz[3][8], otramatriz[3][8];
+funcion int fact(int x);
+var int nice[10][50];
+{
+  i = 5*45;
+  escribe("wow");
+}
+funcion void dos(int b,int a);
+var int c;
+{
+  escribe("imprime","dentro","de","funcion", b * 45);
+}
+principal(){
+  ejemplo[0] = 'a';
+  ejemplo[1] = 'b';
+  ejemplo[2] = 'c';
+  ejemplo[4] = 'e';
+  ejemplo2 = ejemplo;
+  escribe(ejemplo2);
+  valor = valor2 = 3.2456;
+  escribe(valor + valor2);
+  i = j = p = 25*3;
+  i = 5+100;
+  arreglo[5+2] = 5;
+  escribe("imprime",10 == (7+3), "dentro del main");
+  lee(j);
+  escribe("si","jala",j);
+}
