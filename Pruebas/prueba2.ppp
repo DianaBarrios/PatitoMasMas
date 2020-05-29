@@ -4,7 +4,7 @@ var
   int arreglo[3], otroarreglo[3];
   float valor[5];
   float y;
-  int matriz[3][2], otramatriz[3][8];
+  int matriz[2][2], otramatriz[3][8];
 funcion void tres(int equis);
 var int hola;
 {
@@ -25,8 +25,6 @@ principal(){
   matriz[0][1] = 2;
   matriz[1][0] = 3;
   matriz[1][1] = 4;
-  matriz[2][0] = 3;
-  matriz[2][1] = 4;
   escribe(matriz$);
   i = matriz[0][1];
   escribe(matriz);

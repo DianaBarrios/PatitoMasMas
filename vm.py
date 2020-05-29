@@ -18,6 +18,14 @@ class Memory():
 
 class VirtualMachine():
     def __init__(self,arch):
+        """Deja todo listo para que la VM pueda interpretar los cuadruplos
+         ,toma las constantes, los cuadruplos y las variables con sus nombres
+         del compiler y los pone en variables para usarse en la VM
+
+
+        Arguments:
+            arch {string} -- El nombre del archivo a ejecutar, por default en la carpeta /Pruebas
+        """
         c = Compiler(arch)
         self.quadruples, ctes, self.addrNames = c.compile()
         ctesInt =  {key: value for key, value in ctes.items() if key < 38000}
@@ -32,6 +40,9 @@ class VirtualMachine():
         self.memories = {'global' : memGlobal,'local': memLocal, 'ctes':memCtes}
 
     def execute(self):
+        """Función principal de la VM, se va recorriendo por los cuadruplos y hace las funciones
+        correspondientes para que todo se ejecute bien.
+        """
         quadruples = self.quadruples
         stackMemories = []
         stackParams = []
@@ -203,6 +214,13 @@ class VirtualMachine():
         print(self.memories['ctes'].int)
 
     def error(self,addr,type):
+        """Función que nos ayuda a imprimir los errores, busca el nombre de la variable para que los 
+           errores sean más significativos para los usuarios y den mejor explicación
+
+        Arguments:
+            addr {int} -- Address de la variable que causa el error.
+            type {int} -- Tipo de error que se está generando.
+        """
         varName = self.addrNames[addr]['var']
         pos1 = self.addrNames[addr].get('pos1', None)
         pos2 = self.addrNames[addr].get('pos2', None)
@@ -220,7 +238,15 @@ class VirtualMachine():
         exit()
 
     def getValue(self,addr):
-        #print("dir:",dir)
+        """Función que toma un address y lo busca en la memoria, dependiendo de su rango se sabe
+           en que memoria se tiene que buscar, si no se encuentra arroja un error con la función error.
+
+        Arguments:
+            addr {int} -- El address de la variable a buscar
+                        
+        Returns:
+            [int|float|char|bool|error] -- Regresa el valor del address
+        """
 
         if addr > 49999:
             addr = self.memories['local']['temps'].int[addr]
@@ -278,6 +304,12 @@ class VirtualMachine():
             return False;
 
     def setValue(self,addr,value):
+        """Función que toma un valor y lo pone dentro de la memoria correspondiente dependiendo del rango del address
+
+        Arguments:
+            addr {int} -- Address de la variable en la que se guarda el valor
+            value {int|float|char|bool} -- El valor que se guarda en el address
+        """
         if addr > 4999 and addr < 15000:
             mem = self.memories['global']
             relative = addr - 5000
@@ -315,6 +347,17 @@ class VirtualMachine():
             mem.bool[realAddr] = value
 
     def aritmeticArray(self,op,arr1,arr2,dim1,dim2,res,isArray):
+        """Función que ayuda a que se puedan realizar operaciones aritmeticas con los arreglos/matrices
+
+        Arguments:
+            op {string} -- El tipo de operación a realizar
+            arr1 {int} -- La dirección base del arreglo1
+            arr2 {int} -- La dirección base del arreglo 2
+            dim1 {int} -- El limite superior de la dim 1
+            dim2 {int} -- El limite superior de la dim 2
+            res {int} -- La dirección donde se va a guardar el resultado
+            isArray {bool} -- Te dice si uno de los arreglos ya se transformó en un npArray previamente
+        """
         if not isArray:
             array1 = []
         array2 = []
@@ -358,6 +401,20 @@ class VirtualMachine():
 
     ##funciones especiales
     def specialArray(self,op,addr,dim1,dim2,res=False):
+        """Función que ayuda a que se puedan realizar las operaciones especiales sobre los arreglos
+
+        Arguments:
+            op {string} -- El tipo de operación a realizar
+            addr {int} -- La dirección base del arreglo
+            dim1 {int} -- El limite superior de la dim1
+            dim2 {int} -- El limite superior de la dim2
+
+        Keyword Arguments:
+            res {bool|int} -- Le pasa la dirección a guardar el arreglo de ser necesario (default: {False})
+
+        Returns:
+            int|float -- Regresa el valor calculado de la operación especial
+        """
         # equis = inv([[-3,1][5,0]])
         # print(equis)
         # b = np.array([[2,3],[4,5]])
@@ -412,6 +469,15 @@ class VirtualMachine():
     #dim1 es de donde se copia
     #dim2 es a donde se copia
     def copyArray(self,arr1,arr2,dim1,dim2,isArray):
+        """Copia todos los elementos de un arreglo a otro, sirve para la asignación de un arreglo a otro
+
+        Arguments:
+            arr1 {int} -- La dirección base del arreglo 1
+            arr2 {int} -- La dirección base del arreglo 2
+            dim1 {int} -- El limite superior de la dim 1
+            dim2 {int} -- El limite superior de la dim 2
+            isArray {bool} -- Te dice si ya se guardo anteriormente como un npArray 
+        """
         if dim2 == False:
             for i in range(dim1):
                 if isArray:
@@ -430,6 +496,13 @@ class VirtualMachine():
                     self.setValue(arr2+relativeAddr,value)
 
     def printArray(self,addr,dim1,dim2):
+        """Imprime todo un arreglo/matriz
+
+        Arguments:
+            addr {int} -- La dirección base del arreglo
+            dim1 {int} -- El limite superior de la dim 1
+            dim2 {int} -- El limite superior de la dim 2
+        """
         array = []
         if dim2 == False:
             for i in range(dim1):

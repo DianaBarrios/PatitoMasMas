@@ -419,11 +419,24 @@ arithmeticCube = {
 
 class Quadruple:
     def __init__(self,op,addr1,addr2,addr3):
+        """Clase para tener una estructura de los cuadruplos
+
+        Arguments:
+            op {string} -- El tipo de operación que se tiene que ejecutar
+            addr1 {int|string} -- Casi siempre es una dirección menos cuando es un print de string
+            addr2 {int} -- Casi siempre es una dirección o un limite superior de alguna dimensión
+            addr3 {int} -- Casi siempre es una dirección o un limite superior de alguna dimensión
+        """
          self.op = op
          self.addr1 = addr1
          self.addr2 = addr2
          self.addr3 = addr3
     def imprimir(self):
+        """Le da formato a un cuadruplo y lo regresa
+
+        Returns:
+            string -- Cuadruplo formateado para imprimir
+        """
         str = "quad: {} {} {} {}".format(self.op,self.addr1,self.addr2,self.addr3)
         return str
 
@@ -451,12 +464,20 @@ class Program:
         self.temp = 0
 
     def error(self,tree,mensaje):
+        """Función para sacar la linea y la columna del error en cuestion e imprimirlo
+
+        Arguments:
+            tree {[type]} -- Regla gramatical donde se encontró el error
+            mensaje {string} -- El mensaje para el error
+        """
         line = tree.getSymbol().line
         column = tree.getSymbol().column
         print("Error linea-> {}:{} -> {}".format(line,column,mensaje))
-        # exit()
+        exit()
 
     def execute(self):
+        """Función parent que manda llamar a las otras y organiza la información que estas regresan
+        """
         varGlobales = {}
         varGlobales2 = {}
         globalCounters = {}
@@ -474,6 +495,8 @@ class Program:
         self.stackQuads[0] = Quadruple('goto',self.dirFunciones['global']['startQuad'],0,0)
 
     def printAll(self):
+        """Función que imprime los cuadruplos, dir de funciones y la memoria despues de compilar el programa.
+        """
         self.execute()
         #Imprime cuadruplos
         print("===== Cuadruplos =====")
@@ -493,18 +516,44 @@ class Program:
 
     ##### VERIFICACIONES
     def checksDuplicateVar(self,var):
+        """Función que te dice si una variable con ese nombre ya existe
+
+        Arguments:
+            var {string} -- Nombre de la variable a verificar
+
+        Returns:
+            bool -- Regresa verdadero si ya existe
+        """
         # return True
         for func in self.dirFunciones:
             for currentVar in self.dirFunciones[func]['vars']:
                 if var == currentVar:
                     return True
+        return False
 
     def checksFunctionExists(self,function):
+        """Función que te dice si una función con ese nombre ya existe
+
+        Arguments:
+            function {string} -- Nombre de la funcion a verificar
+
+        Returns:
+            bool -- Regresa verdadero si ya existe
+        """
         if self.dirFunciones.get(function, None) == None:
             return False
         return True
 
     def checksVariableExists(self,var,function):
+        """Función que checa si una variable existe en el contexto o no
+
+        Arguments:
+            var {string} -- Nombre de la variable a verificar
+            function {string} -- Funcion donde se esta verificando
+
+        Returns:
+            bool -- Regresa verdadero si existe la variable
+        """
         if var in self.dirFunciones['global']['vars']:
             return True
         else:
@@ -515,6 +564,12 @@ class Program:
 
     ##### GETS
     def getAllNames(self):
+        """Función helper para la VM donde a cada dirección se le pone su nombre
+        para mejor manejo de errores en la VM
+
+        Returns:
+            dict -- Diccionario con la dirección como clave y el nombre como valor
+        """
         temp = {}
         for i in self.dirFunciones:
             for j in self.dirFunciones[i]['varsAddr']:
@@ -538,12 +593,32 @@ class Program:
         return temp
 
     def getQuads(self):
+        """Función helper para la VM donde regresa todos los cuadruplos generados
+
+        Returns:
+            stack -- Stack con todos los cuadruplos de clase Cuadruple
+        """
         return self.stackQuads
 
     def getConstants(self):
+        """Función helper para la VM donde regresa todas las constantes usadas
+
+        Returns:
+            dict -- Diccionario con la dirección como clave y el valor de la constante como valor
+        """
         return self.memory['ctesDir']
 
     def getDimOfAddr(self,var,function,dim):
+        """Función que te da el limite superior de la dimensión solicitada de una dirección
+
+        Arguments:
+            var {int} -- Dirección base del arreglo
+            function {string} -- Función donde se va a buscar esta variable
+            dim {int} -- Número de dimensión (1 o 2)
+
+        Returns:
+            bool|int -- Falso si no tiene esa dimensión o el limite superior si existe
+        """
         res = self.dirFunciones['global']['varsAddr'].get(var, None)
         if res != None:
             # print("global")
@@ -569,6 +644,15 @@ class Program:
 
     #Funcion que regresa el tipo de una variable
     def getTypeOfVariable(self,var,function):
+        """Función que te da el tipo de una variable(nombre)
+
+        Arguments:
+            var {string} -- Nombre de la variable
+            function {string} -- Función donde se va a buscar esta variable
+
+        Returns:
+            string|bool -- Falso si no existe la variable o el tipo si la encuentra
+        """
         if self.checksVariableExists(var,function):
             res = self.dirFunciones['global']['vars'].get(var, None)
             if res != None:
@@ -586,7 +670,16 @@ class Program:
             return False
 
     #Funcion que regresa tipo con base en la direccion
+
     def getTypeOfAddr(self,addr):
+        """Función que te da el tipo de una variable(dirección) con base a sus rangos
+
+        Arguments:
+            addr {int} -- Dirección de la variable
+
+        Returns:
+            string -- El tipo de la variable
+        """
         if addr >= 50000:
             return 'int'
         while(addr > 14999):
@@ -603,12 +696,29 @@ class Program:
             return 'bool'
 
     def getInitialAddrFunction(self,function):
+        """Función que te da el cuadruplo donde empieza una funcion
+
+        Arguments:
+            function {string} -- Nombre de la función
+
+        Returns:
+            int|bool -- Falso si no existe o el número de cuadruplo donde empieza
+        """
         if self.checksFunctionExists(function):
             return self.dirFunciones[function]['startQuad']
         else:
             return False
 
     def getAddrOfVariable(self, varName, scope):
+        """Función que te da la dirección de una variable(nombre)
+
+        Arguments:
+            varName {string} -- Nombre de la variable a buscar
+            scope {string} -- Función donde se va a buscar esta variable
+
+        Returns:
+            int|bool -- Falso si no existe o la dirección
+        """
         exists = self.checksVariableExists(varName,scope)
         if not exists:
             return False
@@ -618,6 +728,15 @@ class Program:
             return self.dirFunciones['global']['vars'][varName]['dir']
 
     def getNameOfAddr(self, addr, scope):
+        """Función que te da el nombre de una variable a partir de su dirección
+
+        Arguments:
+            addr {int} -- Dirección de la variable a buscar
+            scope {string} -- Función donde se va a buscar esta dirección
+
+        Returns:
+            string -- El nombre de la variable
+        """
         if addr in self.dirFunciones[scope]['varsAddr']:
             return self.dirFunciones[scope]['varsAddr'][addr]['nombre']
         else:
@@ -626,6 +745,8 @@ class Program:
     ##### HELPERS
     #Funcion que te da la siguiente direccion
     def nextRelativeAddr(self,local_counters,type,increment=1):
+
+
         if increment != 1:
             if type in local_counters:
                 aux = local_counters[type]
@@ -1329,151 +1450,157 @@ class Program:
         # print(res)
 
     def est_asignacion(self, tree, function):
-            # traverse(tree,self.rules)
-            # print(len(tree.children))
-            # print(tree.getText())
-            if not isinstance(tree, TerminalNodeImpl):
-                if self.rules[tree.getRuleIndex()] == "asignacion":
-                    # print("asign")
-                    pilas = {
-                        'pOperandos' : [],
-                        'pOperadores' : [],
-                        'pTipos' : [],
-                        'pDim': [],
-                        'tieneBrackets' : [],
-                        'pNegativos': []
-                    }
-                    for child in tree.children:
-                        # print("hijo")
-                        if not isinstance(child, TerminalNodeImpl):
-                            ruleChild = self.rules[child.getRuleIndex()]
-                            # rules.append(ruleChild)
-                            if ruleChild == "var":
-                                varName = child.ID().getText()
-                                varType = self.getTypeOfVariable(varName,function)
-                                varAddr = self.getAddrOfVariable(varName,function)
+        # traverse(tree,self.rules)
+        # print(len(tree.children))
+        # print(tree.getText())
+        if not isinstance(tree, TerminalNodeImpl):
+            if self.rules[tree.getRuleIndex()] == "asignacion":
+                # print("asign")
+                pilas = {
+                    'pOperandos' : [],
+                    'pOperadores' : [],
+                    'pTipos' : [],
+                    'pDim': [],
+                    'tieneBrackets' : [],
+                    'pNegativos': []
+                }
+                for child in tree.children:
+                    # print("hijo")
+                    if not isinstance(child, TerminalNodeImpl):
+                        ruleChild = self.rules[child.getRuleIndex()]
+                        # rules.append(ruleChild)
+                        if ruleChild == "var":
+                            varName = child.ID().getText()
+                            varType = self.getTypeOfVariable(varName,function)
+                            varAddr = self.getAddrOfVariable(varName,function)
 
-                                if not varType or not varAddr:
-                                    msg = "No se encontró la var '{}'".format(varName)
-                                    return self.error(child.ID(),msg)
+                            if not varType or not varAddr:
+                                msg = "No se encontró la var '{}'".format(varName)
+                                return self.error(child.ID(),msg)
 
-                                brackets = False
-                                tieneDim = self.getDimOfAddr(varAddr,function,1)
-                                if tieneDim != False:
-                                    currentDim = 1
-                                    for child2 in child.children:
-                                        if not isinstance(child2, TerminalNodeImpl):
-                                            ruleChild = self.rules[child2.getRuleIndex()]
-                                            # rules.append(ruleChild)
-                                            if ruleChild == "dim":
-                                                if currentDim == 1:
-                                                    brackets = True
-                                                    pilas['tieneBrackets'].append(True)
-                                                    pilas['pOperandos'].append(varAddr)
-                                                    pilas['pTipos'].append(varType)
-                                                    pilas['pOperadores'].append("$")
-                                                self.dimAux(child2,function,currentDim,pilas,varAddr,varType)
-                                                currentDim+=1
+                            brackets = False
+                            tieneDim = self.getDimOfAddr(varAddr,function,1)
+                            if tieneDim != False:
+                                currentDim = 1
+                                for child2 in child.children:
+                                    if not isinstance(child2, TerminalNodeImpl):
+                                        ruleChild = self.rules[child2.getRuleIndex()]
+                                        # rules.append(ruleChild)
+                                        if ruleChild == "dim":
+                                            if currentDim == 1:
+                                                brackets = True
+                                                pilas['tieneBrackets'].append(True)
+                                                pilas['pOperandos'].append(varAddr)
+                                                pilas['pTipos'].append(varType)
+                                                pilas['pOperadores'].append("$")
+                                            self.dimAux(child2,function,currentDim,pilas,varAddr,varType)
+                                            currentDim+=1
 
-                                # if function == "main":
-                                #     function = "global"
-                                c = child.ID()
-                                if len(pilas['pOperandos']) > 1:
-                                    tipo_anterior = pilas['pTipos'][-1]
-                                    if varType != tipo_anterior:
-                                        msg = "Asignacion invalida {}({}) a {}({})".format(varAddr,varType,pilas['pOperandos'][-1],pilas['pTipos'][-1])
-                                        return self.error(c,msg)
-                                if tieneDim == False or brackets == False:
-                                    pilas['tieneBrackets'].append(False)
-                                    pilas['pOperandos'].append(varAddr)
-                                    pilas['pTipos'].append(varType)
-
-                            elif ruleChild == "expresion":
-                                # print("exp")
-                                exp = self.expresion(child,function)
-                                tipo_exp = self.getTypeOfAddr(exp)
-                                # print(exp,tipo_exp)
-
-                                topTipos = pilas['pTipos'][-1]
-                                topOperandos = pilas['pOperandos'][-1]
-                                if tipo_exp != topTipos:
-                                    msg = "Asignacion invalida {}({}) a {}({})".format(exp,tipo_exp,topOperandos,topTipos)
-                                    #print("error", msg)
-                                    #print("child:",child)
+                            # if function == "main":
+                            #     function = "global"
+                            c = child.ID()
+                            if len(pilas['pOperandos']) > 1:
+                                tipo_anterior = pilas['pTipos'][-1]
+                                if varType != tipo_anterior:
+                                    msg = "Asignacion invalida {}({}) a {}({})".format(varAddr,varType,pilas['pOperandos'][-1],pilas['pTipos'][-1])
                                     return self.error(c,msg)
+                            if tieneDim == False or brackets == False:
+                                pilas['tieneBrackets'].append(False)
+                                pilas['pOperandos'].append(varAddr)
+                                pilas['pTipos'].append(varType)
+
+                        elif ruleChild == "expresion":
+                            # print("exp")
+                            exp = self.expresion(child,function)
+                            tipo_exp = self.getTypeOfAddr(exp)
+                            # print(exp,tipo_exp)
+
+                            topTipos = pilas['pTipos'][-1]
+                            topOperandos = pilas['pOperandos'][-1]
+                            if tipo_exp != topTipos:
+                                msg = "Asignacion invalida {}({}) a {}({})".format(exp,tipo_exp,topOperandos,topTipos)
+                                #print("error", msg)
+                                #print("child:",child)
+                                return self.error(c,msg)
 
 
 
-                    ####AGREGAR ALGO PARA SABER SI varAddr Y EXP TENIAN [][] O NO
-                    leftAddr = pilas['pOperandos'][-1]
-                    bracketsIzq = pilas['tieneBrackets'].pop()
-                    leftDim1 = self.getDimOfAddr(varAddr,function,1)
-                    leftDim2 = self.getDimOfAddr(varAddr,function,2)
-                    rightDim1 = self.getDimOfAddr(exp,function,1)
-                    rightDim2 = self.getDimOfAddr(exp,function,2)
-                    # print("en",leftAddr,exp,rightDim1,rightDim2)
+                ####AGREGAR ALGO PARA SABER SI varAddr Y EXP TENIAN [][] O NO
+                leftAddr = pilas['pOperandos'][-1]
+                bracketsIzq = pilas['tieneBrackets'].pop()
+                leftDim1 = self.getDimOfAddr(varAddr,function,1)
+                leftDim2 = self.getDimOfAddr(varAddr,function,2)
+                rightDim1 = self.getDimOfAddr(exp,function,1)
+                rightDim2 = self.getDimOfAddr(exp,function,2)
+                # print("en",leftAddr,exp,rightDim1,rightDim2)
 
-                    if bracketsIzq:
-                        self.stackQuads.append(Quadruple('=',exp,leftAddr,'arrSingle'))
-                        pilas['pOperandos'].pop()
+                if bracketsIzq:
+                    self.stackQuads.append(Quadruple('=',exp,leftAddr,'arrSingle'))
+                    pilas['pOperandos'].pop()
+                else:
+                    if exp >= 50000 and leftDim1 != False:
+                        self.stackQuads.append(Quadruple('=',exp,leftAddr,'arreglo'))
+                        self.stackQuads.append(Quadruple('dimensiones',0,leftDim1,leftDim2))
+                        # print("si entre")
                     else:
-                        if exp >= 50000 and leftDim1 != False:
-                            self.stackQuads.append(Quadruple('=',exp,leftAddr,'arreglo'))
-                            self.stackQuads.append(Quadruple('dimensiones',0,leftDim1,leftDim2))
-                            # print("si entre")
+                        # leftName = self.getNomDir(varAddr,function)
+                        # # rightName = self.getNomDir(exp,function)
+                        # msg = "No se puede asignar un valor a todo el arreglo '{}'".format(leftName)
+                        # return self.error(c,msg)
+                    # print("si son iguales")
+                    # print("izq:",leftDim1,leftDim2)
+                    # print("der:",rightDim1,rightDim2)
+                        if leftDim1 != False and rightDim1 != False:
+                            if (leftDim1 == rightDim1) and (leftDim2 == rightDim2):
+                                self.stackQuads.append(Quadruple('=',exp,leftAddr,'arreglo'))
+                                self.stackQuads.append(Quadruple('dimensiones',0,leftDim1,leftDim2))
+                            else:
+                                leftName = self.getNameOfAddr(varAddr,function)
+                                rightName = self.getNameOfAddr(exp,function)
+                                msg = "Los arreglos '{}' y '{}' no son del mismo tamaño".format(leftName,rightName)
+                                # print(msg)
+                                return self.error(c,msg)
                         else:
-                            # leftName = self.getNomDir(varAddr,function)
-                            # # rightName = self.getNomDir(exp,function)
-                            # msg = "No se puede asignar un valor a todo el arreglo '{}'".format(leftName)
-                            # return self.error(c,msg)
-                        # print("si son iguales")
-                        # print("izq:",leftDim1,leftDim2)
-                        # print("der:",rightDim1,rightDim2)
-                            if leftDim1 != False and rightDim1 != False:
-                                if (leftDim1 == rightDim1) and (leftDim2 == rightDim2):
-                                    self.stackQuads.append(Quadruple('=',exp,leftAddr,'arreglo'))
-                                    self.stackQuads.append(Quadruple('dimensiones',0,leftDim1,leftDim2))
-                                else:
-                                    leftName = self.getNameOfAddr(varAddr,function)
-                                    rightName = self.getNameOfAddr(exp,function)
-                                    msg = "Los arreglos '{}' y '{}' no son del mismo tamaño".format(leftName,rightName)
-                                    # print(msg)
-                                    return self.error(c,msg)
+                            self.stackQuads.append(Quadruple('=',exp,leftAddr,0))
+                lenPila = len(pilas['pOperandos'])
+                if lenPila > 1:
+                    for i in range(lenPila-1):
+                        leftAddr = pilas['pOperandos'].pop()
+                        leftDim1 = self.getDimOfAddr(leftAddr,function,1)
+                        leftDim2 = self.getDimOfAddr(leftAddr,function,2)
+
+                        rightAddr = pilas['pOperandos'][-1]
+                        rightDim1 = self.getDimOfAddr(rightAddr,function,1)
+                        rightDim2 = self.getDimOfAddr(rightAddr,function,2)
+
+                        if leftDim1 != False and rightDim1 != False:
+                            if (leftDim1 == rightDim1) and (leftDim2 == rightDim2):
+                                self.stackQuads.append(Quadruple('=',leftAddr,rightAddr,'arreglo'))
+                                self.stackQuads.append(Quadruple('dimensiones',0,leftDim1,leftDim2))
                             else:
-                                self.stackQuads.append(Quadruple('=',exp,leftAddr,0))
-                    lenPila = len(pilas['pOperandos'])
-                    if lenPila > 1:
-                        for i in range(lenPila-1):
-                            leftAddr = pilas['pOperandos'].pop()
-                            leftDim1 = self.getDimOfAddr(leftAddr,function,1)
-                            leftDim2 = self.getDimOfAddr(leftAddr,function,2)
-
-                            rightAddr = pilas['pOperandos'][-1]
-                            rightDim1 = self.getDimOfAddr(rightAddr,function,1)
-                            rightDim2 = self.getDimOfAddr(rightAddr,function,2)
-
-                            if leftDim1 != False and rightDim1 != False:
-                                if (leftDim1 == rightDim1) and (leftDim2 == rightDim2):
-                                    self.stackQuads.append(Quadruple('=',leftAddr,rightAddr,'arreglo'))
-                                    self.stackQuads.append(Quadruple('dimensiones',0,leftDim1,leftDim2))
-                                else:
-                                    leftName = self.getNameOfAddr(leftAddr,function)
-                                    rightName = self.getNameOfAddr(rightAddr,function)
-                                    msg = "Los arreglos '{}' y '{}' no son del mismo tamaño".format(leftName,rightName)
-                                    # print(msg)
-                                    return self.error(c,msg)
-                            else:
-                                self.stackQuads.append(Quadruple('=',leftAddr,rightAddr,0))
-                    # print(pilas['pTipos'])
+                                leftName = self.getNameOfAddr(leftAddr,function)
+                                rightName = self.getNameOfAddr(rightAddr,function)
+                                msg = "Los arreglos '{}' y '{}' no son del mismo tamaño".format(leftName,rightName)
+                                # print(msg)
+                                return self.error(c,msg)
+                        else:
+                            self.stackQuads.append(Quadruple('=',leftAddr,rightAddr,0))
+                # print(pilas['pTipos'])
 
 
-            else:
-                pass
-            # traverse(codigo,self.rules)
-            #chec var existe en function
-            #llama al exp y asigna el valor
+        else:
+            pass
+        # traverse(codigo,self.rules)
+        #chec var existe en function
+        #llama al exp y asigna el valor
 
     def est_decision(self, tree,function):
+        """[summary]
+
+        Arguments:
+            tree {[type]} -- [description]
+            function {[type]} -- [description]
+        """
         pSaltos = []
         primerBloque = True
         hayElse = False
@@ -1524,6 +1651,12 @@ class Program:
         #llama al exp y asigna el valor
 
     def est_repeticion(self, tree,function):
+        """[summary]
+
+        Arguments:
+            tree {[type]} -- [description]
+            function {[type]} -- [description]
+        """
         if not isinstance(tree, TerminalNodeImpl):
             if self.rules[tree.getRuleIndex()] == "repeticion":
                 for child in tree.children:
@@ -1534,6 +1667,12 @@ class Program:
                         self.est_nocondicional(child,function)
 
     def est_condicional(self, tree,function):
+        """[summary]
+
+        Arguments:
+            tree {[type]} -- [description]
+            function {[type]} -- [description]
+        """
         pSaltos = []
         if not isinstance(tree, TerminalNodeImpl):
             if self.rules[tree.getRuleIndex()] == "condicional":
@@ -1562,6 +1701,12 @@ class Program:
             pass
 
     def est_nocondicional(self, tree,function):
+        """[summary]
+
+        Arguments:
+            tree {[type]} -- [description]
+            function {[type]} -- [description]
+        """
         # traverse(tree,self.rules)
         # print("es no condicional")
         asignar = True
@@ -1617,6 +1762,18 @@ class Program:
                 # print(pSaltos)
 
     def est_llamada_est(self,tree,function,stacks=False):
+        """[summary]
+
+        Arguments:
+            tree {[type]} -- [description]
+            function {[type]} -- [description]
+
+        Keyword Arguments:
+            stacks {bool} -- [description] (default: {False})
+
+        Returns:
+            [type] -- [description]
+        """
         functionName = tree.ID().getText()
 
         #Checa que exista y su inicio
@@ -1653,6 +1810,12 @@ class Program:
                 stacks['pTipos'].append(varType)
 
     def est_escritura(self, tree,function):
+        """[summary]
+
+        Arguments:
+            tree {[type]} -- [description]
+            function {[type]} -- [description]
+        """
         if not isinstance(tree, TerminalNodeImpl):
             if self.rules[tree.getRuleIndex()] == "expresion":
                 resultExp = self.expresion(tree,function)
@@ -1676,8 +1839,19 @@ class Program:
 
 class Compiler:
     def __init__(self, file):
+        """Clase que actua como el compilador
+
+        Arguments:
+            file {string} -- El archivo a compilar, dentro de la carpeta /Pruebas
+        """
         self.arch = file
     def compile(self):
+        """Función que pone las instrucciones para ejecutar todo y regresar los datos correspondientes
+        a la VM
+
+        Returns:
+            dicts -- Regresa tres diccionarios con diferentes valores.
+        """
         archivo = "Pruebas/{}".format(self.arch)
         try:
             open(archivo,'r')
@@ -1690,7 +1864,6 @@ class Compiler:
         parser = PatitoMasMasParser(stream)
         startRoute = parser.start().programa()
 
-        # traverse(rutaInicio,parser.ruleNames)
         p = Program(startRoute,parser.ruleNames)
         p.execute()
         return p.getQuads(),p.getConstants(), p.getAllNames()
