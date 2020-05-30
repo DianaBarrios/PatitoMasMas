@@ -1,0 +1,41 @@
+programa patito;
+var
+  int i,j,p;
+  char ejemplo[5],ejemplo2[5],ejemplo3[5];
+  int arreglo1[10], arreglo2[10],arreglo3[10],arreglo4[10];
+  float valor;
+  float valor2;
+  int matriz[3][8], otramatriz[3][8];
+funcion void asignarmatriz(int x);
+var int cont,cont2;
+{
+  desde cont=0 hasta 3 hacer {
+    desde cont2=0 hasta 8 hacer {
+      matriz[cont][cont2] = x;
+    }
+  }
+}
+principal(){
+  desde i=0 hasta 10 hacer {
+    arreglo1[i] = i * 5 + 2;
+  }
+  escribe("Arreglo1 uno x uno");
+  desde i=0 hasta 10 hacer {
+    escribe(arreglo1[i]);
+  }
+  escribe("Todo el arreglo1", arreglo1);
+  escribe("Suma del arreglo1", arreglo1@);
+  escribe("Promedio del arreglo1", arreglo1%);
+  escribe("Minimo del arreglo1", arreglo1~);
+  escribe("Maximo del arreglo1", arreglo1#);
+  arreglo2 = arreglo1;
+  escribe("Todo el arreglo2", arreglo2);
+  arreglo3 = arreglo1 + arreglo2;
+  escribe("Suma arreglo1 y arreglo2 en arreglo3", arreglo3);
+  arreglo4 = arreglo3 - arreglo1;
+  escribe("Resta de arreglo3 y arreglo1 en arreglo4", arreglo4);
+  escribe("Da un valor para toda la matriz");
+  lee(j);
+  asignarmatriz(j);
+  escribe("Todo la matriz",matriz);
+}

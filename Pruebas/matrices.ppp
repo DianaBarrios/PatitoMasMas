@@ -1,0 +1,33 @@
+programa patito;
+var
+  int i;
+  int matriz1[3][3], matriz2[3][3],matriz3[3][3],matriz4[3][3];
+funcion void asignarmatriz1(int a);
+var int cont,cont2;
+{
+  desde cont=0 hasta 3 hacer {
+    desde cont2=0 hasta 3 hacer {
+      matriz1[cont][cont2] = a;
+    }
+  }
+}
+principal(){
+  escribe("Da el valor a asignar");
+  lee(i);
+  asignarmatriz1(i);
+  matriz2[0][0] = 1;
+  matriz2[0][1] = 2;
+  matriz2[0][2] = 3;
+  matriz2[1][0] = 4;
+  matriz2[1][1] = 5;
+  matriz2[1][2] = 6;
+  matriz2[2][0] = 7;
+  matriz2[2][1] = 8;
+  matriz2[2][2] = 9;
+  matriz3 = matriz1 + matriz2;
+  matriz4 = matriz3 - matriz2;
+  escribe("Matriz 1",matriz1);
+  escribe("Matriz 2",matriz2);
+  escribe("Matriz3 = matriz1 + matriz2",matriz3);
+  escribe("Matriz4 = matriz3 - matriz2",matriz4);
+}

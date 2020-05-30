@@ -105,7 +105,10 @@ class VirtualMachine():
                     print(quadruples[current].addr1)
                 else:
                     addr = quadruples[current].addr1
-                    if quadruples[current].addr3 == 'arreglo':
+                    if addr >= 55000:
+                        array = self.memories['local']['local'].int[addr]
+                        print(array)
+                    elif quadruples[current].addr3 == 'arreglo':
                         dim1 = quadruples[current+1].addr2
                         dim2 = quadruples[current+1].addr3
                         self.printArray(addr,dim1,dim2)
@@ -116,7 +119,10 @@ class VirtualMachine():
                         print(value)
             elif operation == 'lee':
                 addr = int(quadruples[current].addr1)
+                # print(addr)
                 value = input()
+                if addr > 49999:
+                    addr = self.memories['local']['temps'].int[addr]
                 self.setValue(addr,value)
             elif operation == 'verify':
                 value = self.getValue(int(quadruples[current].addr1))
@@ -130,9 +136,11 @@ class VirtualMachine():
 
                 dim1 = quadruples[current+1].addr2
                 dim2 = quadruples[current+1].addr3
-
-                value = self.specialArray(operation,addr1,dim1,dim2)
-                self.setValue(addr2,value)
+                if operation not in ['!','?']:
+                    value = self.specialArray(operation,addr1,dim1,dim2)
+                    self.setValue(addr2,value)
+                else:
+                    value = self.specialArray(operation,addr1,dim1,dim2,addr2)
                 stepOne = False
                 current += 2
             elif operation in ['*Arreglos','/Arreglos','+Arreglos','-Arreglos']:
@@ -145,7 +153,7 @@ class VirtualMachine():
                 dim2 = quadruples[current+1].addr3
                 # print("ds",dim1,dim2)
                 if arr1 >= 55000:
-                    array = memories['local']['local'].int[arr1]
+                    array = self.memories['local']['local'].int[arr1]
                     self.aritmeticArray(op,array,arr2,dim1,dim2,res,True)
                 else:
                     self.aritmeticArray(op,arr1,arr2,dim1,dim2,res,False)
@@ -191,7 +199,7 @@ class VirtualMachine():
                     dim2 = quadruples[current+1].addr3
 
                     if arr1 >= 55000:
-                        array = memories['local']['local'].int[arr1]
+                        array = self.memories['local']['local'].int[arr1]
                         self.copyArray(array,arr2,dim1,dim2,True)
                     else:
                         self.copyArray(arr1,arr2,dim1,dim2,False)
@@ -210,11 +218,11 @@ class VirtualMachine():
 
             if stepOne:
                 current +=1
-        print(self.memories['local']['temps'].int)
-        print(self.memories['ctes'].int)
+        # print(self.memories['local']['temps'].int)
+        # print(self.memories['ctes'].int)
 
     def error(self,addr,type):
-        """Función que nos ayuda a imprimir los errores, busca el nombre de la variable para que los 
+        """Función que nos ayuda a imprimir los errores, busca el nombre de la variable para que los
            errores sean más significativos para los usuarios y den mejor explicación
 
         Arguments:
@@ -243,7 +251,7 @@ class VirtualMachine():
 
         Arguments:
             addr {int} -- El address de la variable a buscar
-                        
+
         Returns:
             [int|float|char|bool|error] -- Regresa el valor del address
         """
@@ -432,6 +440,7 @@ class VirtualMachine():
                     realAddr = addr + i * dim2 + j
                     arr.append(self.getValue(realAddr))
             npArray = np.array(arr).reshape(dim1, dim2)
+        # print(npArray)
 
         if op == '$':
             result = np.linalg.det(npArray)
@@ -449,11 +458,14 @@ class VirtualMachine():
             result = np.max(npArray)
 
         if op in ['%','#','$','@','~']:
+            # print(result)
             return result
         else:
+            # print("3lseeee",res)
+            # print(result)
             self.memories['local']['local'].int[res] = result
-        print("normal")
-        print(npArray)
+        # print("normal")
+        # print(npArray)
 
         #transformar la pila en una matrix
         #aplicarle la operation necesaria
@@ -476,7 +488,7 @@ class VirtualMachine():
             arr2 {int} -- La dirección base del arreglo 2
             dim1 {int} -- El limite superior de la dim 1
             dim2 {int} -- El limite superior de la dim 2
-            isArray {bool} -- Te dice si ya se guardo anteriormente como un npArray 
+            isArray {bool} -- Te dice si ya se guardo anteriormente como un npArray
         """
         if dim2 == False:
             for i in range(dim1):

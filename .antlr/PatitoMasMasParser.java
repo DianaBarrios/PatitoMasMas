@@ -1,4 +1,4 @@
-// Generated from /Users/alberto/Documents/PatitoMasMas/Código/PatitoMasMas.g4 by ANTLR 4.7.1
+// Generated from /Users/alberto/Documents/PatitoMasMas/PatitoMasMas.g4 by ANTLR 4.7.1
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -18,49 +18,48 @@ public class PatitoMasMasParser extends Parser {
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
-		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, Programa=23, Principal=24, 
-		Var=25, Function=26, Regresa=27, Lee=28, Escribe=29, Si=30, Entonces=31, 
-		Sino=32, Mientras=33, Haz=34, Desde=35, Hasta=36, Hacer=37, Int=38, Float=39, 
-		Char=40, Void=41, ID=42, CTE_INT=43, CTE_FLOAT=44, CTE_CHAR=45, CTE_STRING=46, 
-		DIGIT=47, Whitespace=48, Newline=49;
+		T__17=18, T__18=19, Programa=20, Principal=21, Var=22, Function=23, Regresa=24, 
+		Lee=25, Escribe=26, Si=27, Entonces=28, Sino=29, Mientras=30, Haz=31, 
+		Desde=32, Hasta=33, Hacer=34, Int=35, Float=36, Char=37, Void=38, ESP=39, 
+		ID=40, CTE_INT=41, CTE_FLOAT=42, CTE_CHAR=43, CTE_STRING=44, DIGIT=45, 
+		Whitespace=46, Newline=47;
 	public static final int
 		RULE_start = 0, RULE_programa = 1, RULE_principal = 2, RULE_dec_variables = 3, 
 		RULE_dec_var = 4, RULE_lista_ids = 5, RULE_ids = 6, RULE_dimension = 7, 
 		RULE_dec_functions = 8, RULE_funcion = 9, RULE_tipo_ret = 10, RULE_params = 11, 
-		RULE_bloque_est = 12, RULE_estatuto = 13, RULE_asignacion = 14, RULE_var = 15, 
-		RULE_dim = 16, RULE_retorno = 17, RULE_lectura = 18, RULE_lista_vars = 19, 
-		RULE_escritura = 20, RULE_escrituras = 21, RULE_string = 22, RULE_decision = 23, 
-		RULE_repeticion = 24, RULE_condicional = 25, RULE_no_condicional = 26, 
-		RULE_llamada = 27, RULE_params_llamada = 28, RULE_llamada_est = 29, RULE_expresion = 30, 
-		RULE_op_log = 31, RULE_op_comp = 32, RULE_exp = 33, RULE_op_arit = 34, 
-		RULE_term = 35, RULE_op_prod = 36, RULE_factor = 37, RULE_exp_par = 38, 
-		RULE_par_empieza = 39, RULE_par_termina = 40, RULE_var_cte = 41, RULE_op_esp = 42, 
-		RULE_tipo = 43;
+		RULE_bloque_est = 12, RULE_estatuto = 13, RULE_asignacion_est = 14, RULE_asignacion = 15, 
+		RULE_var = 16, RULE_dim = 17, RULE_retorno = 18, RULE_lectura = 19, RULE_lista_vars = 20, 
+		RULE_escritura = 21, RULE_escrituras = 22, RULE_string = 23, RULE_decision = 24, 
+		RULE_repeticion = 25, RULE_condicional = 26, RULE_no_condicional = 27, 
+		RULE_llamada = 28, RULE_params_llamada = 29, RULE_llamada_est = 30, RULE_expresion = 31, 
+		RULE_op_log = 32, RULE_op_comp = 33, RULE_exp = 34, RULE_op_arit = 35, 
+		RULE_term = 36, RULE_op_prod = 37, RULE_factor = 38, RULE_exp_par = 39, 
+		RULE_par_empieza = 40, RULE_par_termina = 41, RULE_var_cte = 42, RULE_op_esp = 43, 
+		RULE_tipo = 44;
 	public static final String[] ruleNames = {
 		"start", "programa", "principal", "dec_variables", "dec_var", "lista_ids", 
 		"ids", "dimension", "dec_functions", "funcion", "tipo_ret", "params", 
-		"bloque_est", "estatuto", "asignacion", "var", "dim", "retorno", "lectura", 
-		"lista_vars", "escritura", "escrituras", "string", "decision", "repeticion", 
-		"condicional", "no_condicional", "llamada", "params_llamada", "llamada_est", 
-		"expresion", "op_log", "op_comp", "exp", "op_arit", "term", "op_prod", 
-		"factor", "exp_par", "par_empieza", "par_termina", "var_cte", "op_esp", 
-		"tipo"
+		"bloque_est", "estatuto", "asignacion_est", "asignacion", "var", "dim", 
+		"retorno", "lectura", "lista_vars", "escritura", "escrituras", "string", 
+		"decision", "repeticion", "condicional", "no_condicional", "llamada", 
+		"params_llamada", "llamada_est", "expresion", "op_log", "op_comp", "exp", 
+		"op_arit", "term", "op_prod", "factor", "exp_par", "par_empieza", "par_termina", 
+		"var_cte", "op_esp", "tipo"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
 		null, "';'", "','", "'['", "']'", "'('", "')'", "'{'", "'}'", "'='", "'&'", 
-		"'||'", "'>'", "'<'", "'=='", "'!='", "'+'", "'-'", "'*'", "'/'", "'$'", 
-		"'?'", "'\u00A1'", "'programa'", "'principal()'", "'var'", "'funcion'", 
-		"'regresa'", "'lee'", "'escribe'", "'si'", "'entonces'", "'sino'", "'mientras'", 
-		"'haz'", "'desde'", "'hasta'", "'hacer'", "'int'", "'float'", "'char'", 
-		"'void'"
+		"'||'", "'>'", "'<'", "'=='", "'!='", "'+'", "'-'", "'*'", "'/'", "'programa'", 
+		"'principal()'", "'var'", "'funcion'", "'regresa'", "'lee'", "'escribe'", 
+		"'si'", "'entonces'", "'sino'", "'mientras'", "'haz'", "'desde'", "'hasta'", 
+		"'hacer'", "'int'", "'float'", "'char'", "'void'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, null, null, null, null, null, null, null, null, null, null, "Programa", 
-		"Principal", "Var", "Function", "Regresa", "Lee", "Escribe", "Si", "Entonces", 
-		"Sino", "Mientras", "Haz", "Desde", "Hasta", "Hacer", "Int", "Float", 
-		"Char", "Void", "ID", "CTE_INT", "CTE_FLOAT", "CTE_CHAR", "CTE_STRING", 
+		null, null, null, null, null, null, null, null, "Programa", "Principal", 
+		"Var", "Function", "Regresa", "Lee", "Escribe", "Si", "Entonces", "Sino", 
+		"Mientras", "Haz", "Desde", "Hasta", "Hacer", "Int", "Float", "Char", 
+		"Void", "ESP", "ID", "CTE_INT", "CTE_FLOAT", "CTE_CHAR", "CTE_STRING", 
 		"DIGIT", "Whitespace", "Newline"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
@@ -130,17 +129,17 @@ public class PatitoMasMasParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(89);
+			setState(91);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==Programa) {
 				{
-				setState(88);
+				setState(90);
 				programa();
 				}
 			}
 
-			setState(91);
+			setState(93);
 			match(EOF);
 			}
 		}
@@ -180,33 +179,33 @@ public class PatitoMasMasParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(93);
-			match(Programa);
-			setState(94);
-			match(ID);
 			setState(95);
-			match(T__0);
+			match(Programa);
+			setState(96);
+			match(ID);
 			setState(97);
+			match(T__0);
+			setState(99);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==Var) {
 				{
-				setState(96);
+				setState(98);
 				dec_variables();
 				}
 			}
 
-			setState(100);
+			setState(102);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==Function) {
 				{
-				setState(99);
+				setState(101);
 				dec_functions();
 				}
 			}
 
-			setState(102);
+			setState(104);
 			principal();
 			}
 		}
@@ -238,9 +237,9 @@ public class PatitoMasMasParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(104);
+			setState(106);
 			match(Principal);
-			setState(105);
+			setState(107);
 			bloque_est();
 			}
 		}
@@ -276,22 +275,22 @@ public class PatitoMasMasParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(107);
+			setState(109);
 			match(Var);
-			setState(109); 
+			setState(111); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(108);
+				setState(110);
 				dec_var();
 				}
 				}
-				setState(111); 
+				setState(113); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( _la==Int || _la==Float );
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << Int) | (1L << Float) | (1L << Char))) != 0) );
 			}
 		}
 		catch (RecognitionException re) {
@@ -328,23 +327,23 @@ public class PatitoMasMasParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(113);
+			setState(115);
 			tipo();
-			setState(115); 
+			setState(117); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(114);
+				setState(116);
 				lista_ids();
 				}
 				}
-				setState(117); 
+				setState(119); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==ID );
-			setState(119);
+			setState(121);
 			match(T__0);
 			}
 		}
@@ -379,16 +378,16 @@ public class PatitoMasMasParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(121);
+			setState(123);
 			ids();
-			setState(124);
+			setState(126);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==T__1) {
 				{
-				setState(122);
+				setState(124);
 				match(T__1);
-				setState(123);
+				setState(125);
 				lista_ids();
 				}
 			}
@@ -427,24 +426,24 @@ public class PatitoMasMasParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(126);
-			match(ID);
 			setState(128);
+			match(ID);
+			setState(130);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,6,_ctx) ) {
 			case 1:
 				{
-				setState(127);
+				setState(129);
 				dimension();
 				}
 				break;
 			}
-			setState(131);
+			setState(133);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==T__2) {
 				{
-				setState(130);
+				setState(132);
 				dimension();
 				}
 			}
@@ -476,11 +475,11 @@ public class PatitoMasMasParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(133);
-			match(T__2);
-			setState(134);
-			match(CTE_INT);
 			setState(135);
+			match(T__2);
+			setState(136);
+			match(CTE_INT);
+			setState(137);
 			match(T__3);
 			}
 		}
@@ -515,17 +514,17 @@ public class PatitoMasMasParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(138); 
+			setState(140); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(137);
+				setState(139);
 				funcion();
 				}
 				}
-				setState(140); 
+				setState(142); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==Function );
@@ -570,39 +569,39 @@ public class PatitoMasMasParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(142);
-			match(Function);
-			setState(143);
-			tipo_ret();
 			setState(144);
-			match(ID);
+			match(Function);
 			setState(145);
-			match(T__4);
+			tipo_ret();
+			setState(146);
+			match(ID);
 			setState(147);
+			match(T__4);
+			setState(149);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (_la==Int || _la==Float) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << Int) | (1L << Float) | (1L << Char))) != 0)) {
 				{
-				setState(146);
+				setState(148);
 				params();
 				}
 			}
 
-			setState(149);
+			setState(151);
 			match(T__5);
-			setState(150);
-			match(T__0);
 			setState(152);
+			match(T__0);
+			setState(154);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==Var) {
 				{
-				setState(151);
+				setState(153);
 				dec_variables();
 				}
 			}
 
-			setState(154);
+			setState(156);
 			bloque_est();
 			}
 		}
@@ -632,21 +631,22 @@ public class PatitoMasMasParser extends Parser {
 		Tipo_retContext _localctx = new Tipo_retContext(_ctx, getState());
 		enterRule(_localctx, 20, RULE_tipo_ret);
 		try {
-			setState(158);
+			setState(160);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case Void:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(156);
+				setState(158);
 				match(Void);
 				}
 				break;
 			case Int:
 			case Float:
+			case Char:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(157);
+				setState(159);
 				tipo();
 				}
 				break;
@@ -686,18 +686,18 @@ public class PatitoMasMasParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(160);
+			setState(162);
 			tipo();
-			setState(161);
+			setState(163);
 			match(ID);
-			setState(164);
+			setState(166);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==T__1) {
 				{
-				setState(162);
+				setState(164);
 				match(T__1);
-				setState(163);
+				setState(165);
 				params();
 				}
 			}
@@ -735,23 +735,23 @@ public class PatitoMasMasParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(166);
+			setState(168);
 			match(T__6);
-			setState(170);
+			setState(172);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << Regresa) | (1L << Lee) | (1L << Escribe) | (1L << Si) | (1L << Mientras) | (1L << Desde) | (1L << ID))) != 0)) {
 				{
 				{
-				setState(167);
+				setState(169);
 				estatuto();
 				}
 				}
-				setState(172);
+				setState(174);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(173);
+			setState(175);
 			match(T__7);
 			}
 		}
@@ -767,8 +767,8 @@ public class PatitoMasMasParser extends Parser {
 	}
 
 	public static class EstatutoContext extends ParserRuleContext {
-		public AsignacionContext asignacion() {
-			return getRuleContext(AsignacionContext.class,0);
+		public Asignacion_estContext asignacion_est() {
+			return getRuleContext(Asignacion_estContext.class,0);
 		}
 		public RetornoContext retorno() {
 			return getRuleContext(RetornoContext.class,0);
@@ -798,55 +798,55 @@ public class PatitoMasMasParser extends Parser {
 		EstatutoContext _localctx = new EstatutoContext(_ctx, getState());
 		enterRule(_localctx, 26, RULE_estatuto);
 		try {
-			setState(182);
+			setState(184);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,14,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(175);
-				asignacion();
+				setState(177);
+				asignacion_est();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(176);
+				setState(178);
 				retorno();
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(177);
+				setState(179);
 				lectura();
 				}
 				break;
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(178);
+				setState(180);
 				decision();
 				}
 				break;
 			case 5:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(179);
+				setState(181);
 				repeticion();
 				}
 				break;
 			case 6:
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(180);
+				setState(182);
 				llamada_est();
 				}
 				break;
 			case 7:
 				enterOuterAlt(_localctx, 7);
 				{
-				setState(181);
+				setState(183);
 				escritura();
 				}
 				break;
@@ -863,12 +863,48 @@ public class PatitoMasMasParser extends Parser {
 		return _localctx;
 	}
 
-	public static class AsignacionContext extends ParserRuleContext {
-		public VarContext var() {
-			return getRuleContext(VarContext.class,0);
+	public static class Asignacion_estContext extends ParserRuleContext {
+		public AsignacionContext asignacion() {
+			return getRuleContext(AsignacionContext.class,0);
 		}
+		public Asignacion_estContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_asignacion_est; }
+	}
+
+	public final Asignacion_estContext asignacion_est() throws RecognitionException {
+		Asignacion_estContext _localctx = new Asignacion_estContext(_ctx, getState());
+		enterRule(_localctx, 28, RULE_asignacion_est);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(186);
+			asignacion();
+			setState(187);
+			match(T__0);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class AsignacionContext extends ParserRuleContext {
 		public ExpresionContext expresion() {
 			return getRuleContext(ExpresionContext.class,0);
+		}
+		public List<VarContext> var() {
+			return getRuleContexts(VarContext.class);
+		}
+		public VarContext var(int i) {
+			return getRuleContext(VarContext.class,i);
 		}
 		public AsignacionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -878,18 +914,35 @@ public class PatitoMasMasParser extends Parser {
 
 	public final AsignacionContext asignacion() throws RecognitionException {
 		AsignacionContext _localctx = new AsignacionContext(_ctx, getState());
-		enterRule(_localctx, 28, RULE_asignacion);
+		enterRule(_localctx, 30, RULE_asignacion);
 		try {
+			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(184);
-			var();
-			setState(185);
-			match(T__8);
-			setState(186);
+			setState(192); 
+			_errHandler.sync(this);
+			_alt = 1;
+			do {
+				switch (_alt) {
+				case 1:
+					{
+					{
+					setState(189);
+					var();
+					setState(190);
+					match(T__8);
+					}
+					}
+					break;
+				default:
+					throw new NoViableAltException(this);
+				}
+				setState(194); 
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,15,_ctx);
+			} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
+			setState(196);
 			expresion(0);
-			setState(187);
-			match(T__0);
 			}
 		}
 		catch (RecognitionException re) {
@@ -919,28 +972,28 @@ public class PatitoMasMasParser extends Parser {
 
 	public final VarContext var() throws RecognitionException {
 		VarContext _localctx = new VarContext(_ctx, getState());
-		enterRule(_localctx, 30, RULE_var);
+		enterRule(_localctx, 32, RULE_var);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(189);
+			setState(198);
 			match(ID);
-			setState(191);
-			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,15,_ctx) ) {
-			case 1:
-				{
-				setState(190);
-				dim();
-				}
-				break;
-			}
-			setState(194);
+			setState(200);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,16,_ctx) ) {
 			case 1:
 				{
-				setState(193);
+				setState(199);
+				dim();
+				}
+				break;
+			}
+			setState(203);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,17,_ctx) ) {
+			case 1:
+				{
+				setState(202);
 				dim();
 				}
 				break;
@@ -970,15 +1023,15 @@ public class PatitoMasMasParser extends Parser {
 
 	public final DimContext dim() throws RecognitionException {
 		DimContext _localctx = new DimContext(_ctx, getState());
-		enterRule(_localctx, 32, RULE_dim);
+		enterRule(_localctx, 34, RULE_dim);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(196);
+			setState(205);
 			match(T__2);
-			setState(197);
+			setState(206);
 			expresion(0);
-			setState(198);
+			setState(207);
 			match(T__3);
 			}
 		}
@@ -1006,19 +1059,19 @@ public class PatitoMasMasParser extends Parser {
 
 	public final RetornoContext retorno() throws RecognitionException {
 		RetornoContext _localctx = new RetornoContext(_ctx, getState());
-		enterRule(_localctx, 34, RULE_retorno);
+		enterRule(_localctx, 36, RULE_retorno);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(200);
+			setState(209);
 			match(Regresa);
-			setState(201);
+			setState(210);
 			match(T__4);
-			setState(202);
+			setState(211);
 			expresion(0);
-			setState(203);
+			setState(212);
 			match(T__5);
-			setState(204);
+			setState(213);
 			match(T__0);
 			}
 		}
@@ -1046,19 +1099,19 @@ public class PatitoMasMasParser extends Parser {
 
 	public final LecturaContext lectura() throws RecognitionException {
 		LecturaContext _localctx = new LecturaContext(_ctx, getState());
-		enterRule(_localctx, 36, RULE_lectura);
+		enterRule(_localctx, 38, RULE_lectura);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(206);
+			setState(215);
 			match(Lee);
-			setState(207);
+			setState(216);
 			match(T__4);
-			setState(208);
+			setState(217);
 			lista_vars();
-			setState(209);
+			setState(218);
 			match(T__5);
-			setState(210);
+			setState(219);
 			match(T__0);
 			}
 		}
@@ -1088,21 +1141,21 @@ public class PatitoMasMasParser extends Parser {
 
 	public final Lista_varsContext lista_vars() throws RecognitionException {
 		Lista_varsContext _localctx = new Lista_varsContext(_ctx, getState());
-		enterRule(_localctx, 38, RULE_lista_vars);
+		enterRule(_localctx, 40, RULE_lista_vars);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(212);
+			setState(221);
 			var();
-			setState(215);
+			setState(224);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==T__1) {
 				{
-				setState(213);
+				setState(222);
 				match(T__1);
-				setState(214);
+				setState(223);
 				lista_vars();
 				}
 			}
@@ -1133,19 +1186,19 @@ public class PatitoMasMasParser extends Parser {
 
 	public final EscrituraContext escritura() throws RecognitionException {
 		EscrituraContext _localctx = new EscrituraContext(_ctx, getState());
-		enterRule(_localctx, 40, RULE_escritura);
+		enterRule(_localctx, 42, RULE_escritura);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(217);
+			setState(226);
 			match(Escribe);
-			setState(218);
+			setState(227);
 			match(T__4);
-			setState(219);
+			setState(228);
 			escrituras();
-			setState(220);
+			setState(229);
 			match(T__5);
-			setState(221);
+			setState(230);
 			match(T__0);
 			}
 		}
@@ -1178,17 +1231,17 @@ public class PatitoMasMasParser extends Parser {
 
 	public final EscriturasContext escrituras() throws RecognitionException {
 		EscriturasContext _localctx = new EscriturasContext(_ctx, getState());
-		enterRule(_localctx, 42, RULE_escrituras);
+		enterRule(_localctx, 44, RULE_escrituras);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(225);
+			setState(234);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case CTE_STRING:
 				{
-				setState(223);
+				setState(232);
 				string();
 				}
 				break;
@@ -1200,21 +1253,21 @@ public class PatitoMasMasParser extends Parser {
 			case CTE_FLOAT:
 			case CTE_CHAR:
 				{
-				setState(224);
+				setState(233);
 				expresion(0);
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
-			setState(229);
+			setState(238);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==T__1) {
 				{
-				setState(227);
+				setState(236);
 				match(T__1);
-				setState(228);
+				setState(237);
 				escrituras();
 				}
 			}
@@ -1242,11 +1295,11 @@ public class PatitoMasMasParser extends Parser {
 
 	public final StringContext string() throws RecognitionException {
 		StringContext _localctx = new StringContext(_ctx, getState());
-		enterRule(_localctx, 44, RULE_string);
+		enterRule(_localctx, 46, RULE_string);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(231);
+			setState(240);
 			match(CTE_STRING);
 			}
 		}
@@ -1282,31 +1335,31 @@ public class PatitoMasMasParser extends Parser {
 
 	public final DecisionContext decision() throws RecognitionException {
 		DecisionContext _localctx = new DecisionContext(_ctx, getState());
-		enterRule(_localctx, 46, RULE_decision);
+		enterRule(_localctx, 48, RULE_decision);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(233);
+			setState(242);
 			match(Si);
-			setState(234);
+			setState(243);
 			match(T__4);
-			setState(235);
+			setState(244);
 			expresion(0);
-			setState(236);
+			setState(245);
 			match(T__5);
-			setState(237);
+			setState(246);
 			match(Entonces);
-			setState(238);
+			setState(247);
 			bloque_est();
-			setState(241);
+			setState(250);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==Sino) {
 				{
-				setState(239);
+				setState(248);
 				match(Sino);
-				setState(240);
+				setState(249);
 				bloque_est();
 				}
 			}
@@ -1339,22 +1392,22 @@ public class PatitoMasMasParser extends Parser {
 
 	public final RepeticionContext repeticion() throws RecognitionException {
 		RepeticionContext _localctx = new RepeticionContext(_ctx, getState());
-		enterRule(_localctx, 48, RULE_repeticion);
+		enterRule(_localctx, 50, RULE_repeticion);
 		try {
-			setState(245);
+			setState(254);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case Mientras:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(243);
+				setState(252);
 				condicional();
 				}
 				break;
 			case Desde:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(244);
+				setState(253);
 				no_condicional();
 				}
 				break;
@@ -1390,17 +1443,17 @@ public class PatitoMasMasParser extends Parser {
 
 	public final CondicionalContext condicional() throws RecognitionException {
 		CondicionalContext _localctx = new CondicionalContext(_ctx, getState());
-		enterRule(_localctx, 50, RULE_condicional);
+		enterRule(_localctx, 52, RULE_condicional);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(247);
+			setState(256);
 			match(Mientras);
-			setState(248);
+			setState(257);
 			expresion(0);
-			setState(249);
+			setState(258);
 			match(Haz);
-			setState(250);
+			setState(259);
 			bloque_est();
 			}
 		}
@@ -1417,16 +1470,13 @@ public class PatitoMasMasParser extends Parser {
 
 	public static class No_condicionalContext extends ParserRuleContext {
 		public TerminalNode Desde() { return getToken(PatitoMasMasParser.Desde, 0); }
-		public VarContext var() {
-			return getRuleContext(VarContext.class,0);
-		}
-		public List<ExpresionContext> expresion() {
-			return getRuleContexts(ExpresionContext.class);
-		}
-		public ExpresionContext expresion(int i) {
-			return getRuleContext(ExpresionContext.class,i);
+		public AsignacionContext asignacion() {
+			return getRuleContext(AsignacionContext.class,0);
 		}
 		public TerminalNode Hasta() { return getToken(PatitoMasMasParser.Hasta, 0); }
+		public ExpresionContext expresion() {
+			return getRuleContext(ExpresionContext.class,0);
+		}
 		public TerminalNode Hacer() { return getToken(PatitoMasMasParser.Hacer, 0); }
 		public Bloque_estContext bloque_est() {
 			return getRuleContext(Bloque_estContext.class,0);
@@ -1439,25 +1489,21 @@ public class PatitoMasMasParser extends Parser {
 
 	public final No_condicionalContext no_condicional() throws RecognitionException {
 		No_condicionalContext _localctx = new No_condicionalContext(_ctx, getState());
-		enterRule(_localctx, 52, RULE_no_condicional);
+		enterRule(_localctx, 54, RULE_no_condicional);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(252);
+			setState(261);
 			match(Desde);
-			setState(253);
-			var();
-			setState(254);
-			match(T__8);
-			setState(255);
-			expresion(0);
-			setState(256);
+			setState(262);
+			asignacion();
+			setState(263);
 			match(Hasta);
-			setState(257);
+			setState(264);
 			expresion(0);
-			setState(258);
+			setState(265);
 			match(Hacer);
-			setState(259);
+			setState(266);
 			bloque_est();
 			}
 		}
@@ -1485,26 +1531,26 @@ public class PatitoMasMasParser extends Parser {
 
 	public final LlamadaContext llamada() throws RecognitionException {
 		LlamadaContext _localctx = new LlamadaContext(_ctx, getState());
-		enterRule(_localctx, 54, RULE_llamada);
+		enterRule(_localctx, 56, RULE_llamada);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(261);
+			setState(268);
 			match(ID);
-			setState(262);
+			setState(269);
 			match(T__4);
-			setState(264);
+			setState(271);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__4) | (1L << T__15) | (1L << T__16) | (1L << ID) | (1L << CTE_INT) | (1L << CTE_FLOAT) | (1L << CTE_CHAR))) != 0)) {
 				{
-				setState(263);
+				setState(270);
 				params_llamada();
 				}
 			}
 
-			setState(266);
+			setState(273);
 			match(T__5);
 			}
 		}
@@ -1534,21 +1580,21 @@ public class PatitoMasMasParser extends Parser {
 
 	public final Params_llamadaContext params_llamada() throws RecognitionException {
 		Params_llamadaContext _localctx = new Params_llamadaContext(_ctx, getState());
-		enterRule(_localctx, 56, RULE_params_llamada);
+		enterRule(_localctx, 58, RULE_params_llamada);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(268);
+			setState(275);
 			expresion(0);
-			setState(271);
+			setState(278);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==T__1) {
 				{
-				setState(269);
+				setState(276);
 				match(T__1);
-				setState(270);
+				setState(277);
 				params_llamada();
 				}
 			}
@@ -1578,13 +1624,13 @@ public class PatitoMasMasParser extends Parser {
 
 	public final Llamada_estContext llamada_est() throws RecognitionException {
 		Llamada_estContext _localctx = new Llamada_estContext(_ctx, getState());
-		enterRule(_localctx, 58, RULE_llamada_est);
+		enterRule(_localctx, 60, RULE_llamada_est);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(273);
+			setState(280);
 			llamada();
-			setState(274);
+			setState(281);
 			match(T__0);
 			}
 		}
@@ -1633,36 +1679,36 @@ public class PatitoMasMasParser extends Parser {
 		int _parentState = getState();
 		ExpresionContext _localctx = new ExpresionContext(_ctx, _parentState);
 		ExpresionContext _prevctx = _localctx;
-		int _startState = 60;
-		enterRecursionRule(_localctx, 60, RULE_expresion, _p);
+		int _startState = 62;
+		enterRecursionRule(_localctx, 62, RULE_expresion, _p);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(282);
+			setState(289);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,24,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,25,_ctx) ) {
 			case 1:
 				{
-				setState(277);
+				setState(284);
 				exp();
 				}
 				break;
 			case 2:
 				{
-				setState(278);
+				setState(285);
 				exp();
-				setState(279);
+				setState(286);
 				op_comp();
-				setState(280);
+				setState(287);
 				exp();
 				}
 				break;
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(290);
+			setState(297);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,25,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,26,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
@@ -1671,18 +1717,18 @@ public class PatitoMasMasParser extends Parser {
 					{
 					_localctx = new ExpresionContext(_parentctx, _parentState);
 					pushNewRecursionContext(_localctx, _startState, RULE_expresion);
-					setState(284);
+					setState(291);
 					if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
-					setState(285);
+					setState(292);
 					op_log();
-					setState(286);
+					setState(293);
 					expresion(3);
 					}
 					} 
 				}
-				setState(292);
+				setState(299);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,25,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,26,_ctx);
 			}
 			}
 		}
@@ -1706,12 +1752,12 @@ public class PatitoMasMasParser extends Parser {
 
 	public final Op_logContext op_log() throws RecognitionException {
 		Op_logContext _localctx = new Op_logContext(_ctx, getState());
-		enterRule(_localctx, 62, RULE_op_log);
+		enterRule(_localctx, 64, RULE_op_log);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(293);
+			setState(300);
 			_la = _input.LA(1);
 			if ( !(_la==T__9 || _la==T__10) ) {
 			_errHandler.recoverInline(this);
@@ -1743,12 +1789,12 @@ public class PatitoMasMasParser extends Parser {
 
 	public final Op_compContext op_comp() throws RecognitionException {
 		Op_compContext _localctx = new Op_compContext(_ctx, getState());
-		enterRule(_localctx, 64, RULE_op_comp);
+		enterRule(_localctx, 66, RULE_op_comp);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(295);
+			setState(302);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__11) | (1L << T__12) | (1L << T__13) | (1L << T__14))) != 0)) ) {
 			_errHandler.recoverInline(this);
@@ -1789,26 +1835,26 @@ public class PatitoMasMasParser extends Parser {
 
 	public final ExpContext exp() throws RecognitionException {
 		ExpContext _localctx = new ExpContext(_ctx, getState());
-		enterRule(_localctx, 66, RULE_exp);
+		enterRule(_localctx, 68, RULE_exp);
 		try {
-			setState(302);
+			setState(309);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,26,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,27,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(297);
+				setState(304);
 				term();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(298);
+				setState(305);
 				term();
-				setState(299);
+				setState(306);
 				op_arit();
-				setState(300);
+				setState(307);
 				exp();
 				}
 				break;
@@ -1834,12 +1880,12 @@ public class PatitoMasMasParser extends Parser {
 
 	public final Op_aritContext op_arit() throws RecognitionException {
 		Op_aritContext _localctx = new Op_aritContext(_ctx, getState());
-		enterRule(_localctx, 68, RULE_op_arit);
+		enterRule(_localctx, 70, RULE_op_arit);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(304);
+			setState(311);
 			_la = _input.LA(1);
 			if ( !(_la==T__15 || _la==T__16) ) {
 			_errHandler.recoverInline(this);
@@ -1880,26 +1926,26 @@ public class PatitoMasMasParser extends Parser {
 
 	public final TermContext term() throws RecognitionException {
 		TermContext _localctx = new TermContext(_ctx, getState());
-		enterRule(_localctx, 70, RULE_term);
+		enterRule(_localctx, 72, RULE_term);
 		try {
-			setState(311);
+			setState(318);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,27,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,28,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(306);
+				setState(313);
 				factor();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(307);
+				setState(314);
 				factor();
-				setState(308);
+				setState(315);
 				op_prod();
-				setState(309);
+				setState(316);
 				term();
 				}
 				break;
@@ -1925,12 +1971,12 @@ public class PatitoMasMasParser extends Parser {
 
 	public final Op_prodContext op_prod() throws RecognitionException {
 		Op_prodContext _localctx = new Op_prodContext(_ctx, getState());
-		enterRule(_localctx, 72, RULE_op_prod);
+		enterRule(_localctx, 74, RULE_op_prod);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(313);
+			setState(320);
 			_la = _input.LA(1);
 			if ( !(_la==T__17 || _la==T__18) ) {
 			_errHandler.recoverInline(this);
@@ -1980,23 +2026,23 @@ public class PatitoMasMasParser extends Parser {
 
 	public final FactorContext factor() throws RecognitionException {
 		FactorContext _localctx = new FactorContext(_ctx, getState());
-		enterRule(_localctx, 74, RULE_factor);
+		enterRule(_localctx, 76, RULE_factor);
 		int _la;
 		try {
-			setState(325);
+			setState(332);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,30,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,31,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(315);
+				setState(322);
 				var();
-				setState(317);
+				setState(324);
 				_errHandler.sync(this);
-				switch ( getInterpreter().adaptivePredict(_input,28,_ctx) ) {
+				switch ( getInterpreter().adaptivePredict(_input,29,_ctx) ) {
 				case 1:
 					{
-					setState(316);
+					setState(323);
 					op_esp();
 					}
 					break;
@@ -2006,31 +2052,31 @@ public class PatitoMasMasParser extends Parser {
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(320);
+				setState(327);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==T__15 || _la==T__16) {
 					{
-					setState(319);
+					setState(326);
 					op_arit();
 					}
 				}
 
-				setState(322);
+				setState(329);
 				var_cte();
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(323);
+				setState(330);
 				llamada();
 				}
 				break;
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(324);
+				setState(331);
 				exp_par();
 				}
 				break;
@@ -2065,15 +2111,15 @@ public class PatitoMasMasParser extends Parser {
 
 	public final Exp_parContext exp_par() throws RecognitionException {
 		Exp_parContext _localctx = new Exp_parContext(_ctx, getState());
-		enterRule(_localctx, 76, RULE_exp_par);
+		enterRule(_localctx, 78, RULE_exp_par);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(327);
+			setState(334);
 			par_empieza();
-			setState(328);
+			setState(335);
 			expresion(0);
-			setState(329);
+			setState(336);
 			par_termina();
 			}
 		}
@@ -2097,11 +2143,11 @@ public class PatitoMasMasParser extends Parser {
 
 	public final Par_empiezaContext par_empieza() throws RecognitionException {
 		Par_empiezaContext _localctx = new Par_empiezaContext(_ctx, getState());
-		enterRule(_localctx, 78, RULE_par_empieza);
+		enterRule(_localctx, 80, RULE_par_empieza);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(331);
+			setState(338);
 			match(T__4);
 			}
 		}
@@ -2125,11 +2171,11 @@ public class PatitoMasMasParser extends Parser {
 
 	public final Par_terminaContext par_termina() throws RecognitionException {
 		Par_terminaContext _localctx = new Par_terminaContext(_ctx, getState());
-		enterRule(_localctx, 80, RULE_par_termina);
+		enterRule(_localctx, 82, RULE_par_termina);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(333);
+			setState(340);
 			match(T__5);
 			}
 		}
@@ -2159,36 +2205,36 @@ public class PatitoMasMasParser extends Parser {
 
 	public final Var_cteContext var_cte() throws RecognitionException {
 		Var_cteContext _localctx = new Var_cteContext(_ctx, getState());
-		enterRule(_localctx, 82, RULE_var_cte);
+		enterRule(_localctx, 84, RULE_var_cte);
 		try {
-			setState(339);
+			setState(346);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case ID:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(335);
+				setState(342);
 				var();
 				}
 				break;
 			case CTE_INT:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(336);
+				setState(343);
 				match(CTE_INT);
 				}
 				break;
 			case CTE_FLOAT:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(337);
+				setState(344);
 				match(CTE_FLOAT);
 				}
 				break;
 			case CTE_CHAR:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(338);
+				setState(345);
 				match(CTE_CHAR);
 				}
 				break;
@@ -2208,6 +2254,7 @@ public class PatitoMasMasParser extends Parser {
 	}
 
 	public static class Op_espContext extends ParserRuleContext {
+		public TerminalNode ESP() { return getToken(PatitoMasMasParser.ESP, 0); }
 		public Op_espContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -2216,21 +2263,12 @@ public class PatitoMasMasParser extends Parser {
 
 	public final Op_espContext op_esp() throws RecognitionException {
 		Op_espContext _localctx = new Op_espContext(_ctx, getState());
-		enterRule(_localctx, 84, RULE_op_esp);
-		int _la;
+		enterRule(_localctx, 86, RULE_op_esp);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(341);
-			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__19) | (1L << T__20) | (1L << T__21))) != 0)) ) {
-			_errHandler.recoverInline(this);
-			}
-			else {
-				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-				_errHandler.reportMatch(this);
-				consume();
-			}
+			setState(348);
+			match(ESP);
 			}
 		}
 		catch (RecognitionException re) {
@@ -2247,6 +2285,7 @@ public class PatitoMasMasParser extends Parser {
 	public static class TipoContext extends ParserRuleContext {
 		public TerminalNode Int() { return getToken(PatitoMasMasParser.Int, 0); }
 		public TerminalNode Float() { return getToken(PatitoMasMasParser.Float, 0); }
+		public TerminalNode Char() { return getToken(PatitoMasMasParser.Char, 0); }
 		public TipoContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -2255,14 +2294,14 @@ public class PatitoMasMasParser extends Parser {
 
 	public final TipoContext tipo() throws RecognitionException {
 		TipoContext _localctx = new TipoContext(_ctx, getState());
-		enterRule(_localctx, 86, RULE_tipo);
+		enterRule(_localctx, 88, RULE_tipo);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(343);
+			setState(350);
 			_la = _input.LA(1);
-			if ( !(_la==Int || _la==Float) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << Int) | (1L << Float) | (1L << Char))) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -2285,7 +2324,7 @@ public class PatitoMasMasParser extends Parser {
 
 	public boolean sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
 		switch (ruleIndex) {
-		case 30:
+		case 31:
 			return expresion_sempred((ExpresionContext)_localctx, predIndex);
 		}
 		return true;
@@ -2299,120 +2338,123 @@ public class PatitoMasMasParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\63\u015c\4\2\t\2"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\61\u0163\4\2\t\2"+
 		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
 		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
 		"\4\32\t\32\4\33\t\33\4\34\t\34\4\35\t\35\4\36\t\36\4\37\t\37\4 \t \4!"+
 		"\t!\4\"\t\"\4#\t#\4$\t$\4%\t%\4&\t&\4\'\t\'\4(\t(\4)\t)\4*\t*\4+\t+\4"+
-		",\t,\4-\t-\3\2\5\2\\\n\2\3\2\3\2\3\3\3\3\3\3\3\3\5\3d\n\3\3\3\5\3g\n\3"+
-		"\3\3\3\3\3\4\3\4\3\4\3\5\3\5\6\5p\n\5\r\5\16\5q\3\6\3\6\6\6v\n\6\r\6\16"+
-		"\6w\3\6\3\6\3\7\3\7\3\7\5\7\177\n\7\3\b\3\b\5\b\u0083\n\b\3\b\5\b\u0086"+
-		"\n\b\3\t\3\t\3\t\3\t\3\n\6\n\u008d\n\n\r\n\16\n\u008e\3\13\3\13\3\13\3"+
-		"\13\3\13\5\13\u0096\n\13\3\13\3\13\3\13\5\13\u009b\n\13\3\13\3\13\3\f"+
-		"\3\f\5\f\u00a1\n\f\3\r\3\r\3\r\3\r\5\r\u00a7\n\r\3\16\3\16\7\16\u00ab"+
-		"\n\16\f\16\16\16\u00ae\13\16\3\16\3\16\3\17\3\17\3\17\3\17\3\17\3\17\3"+
-		"\17\5\17\u00b9\n\17\3\20\3\20\3\20\3\20\3\20\3\21\3\21\5\21\u00c2\n\21"+
-		"\3\21\5\21\u00c5\n\21\3\22\3\22\3\22\3\22\3\23\3\23\3\23\3\23\3\23\3\23"+
-		"\3\24\3\24\3\24\3\24\3\24\3\24\3\25\3\25\3\25\5\25\u00da\n\25\3\26\3\26"+
-		"\3\26\3\26\3\26\3\26\3\27\3\27\5\27\u00e4\n\27\3\27\3\27\5\27\u00e8\n"+
-		"\27\3\30\3\30\3\31\3\31\3\31\3\31\3\31\3\31\3\31\3\31\5\31\u00f4\n\31"+
-		"\3\32\3\32\5\32\u00f8\n\32\3\33\3\33\3\33\3\33\3\33\3\34\3\34\3\34\3\34"+
-		"\3\34\3\34\3\34\3\34\3\34\3\35\3\35\3\35\5\35\u010b\n\35\3\35\3\35\3\36"+
-		"\3\36\3\36\5\36\u0112\n\36\3\37\3\37\3\37\3 \3 \3 \3 \3 \3 \5 \u011d\n"+
-		" \3 \3 \3 \3 \7 \u0123\n \f \16 \u0126\13 \3!\3!\3\"\3\"\3#\3#\3#\3#\3"+
-		"#\5#\u0131\n#\3$\3$\3%\3%\3%\3%\3%\5%\u013a\n%\3&\3&\3\'\3\'\5\'\u0140"+
-		"\n\'\3\'\5\'\u0143\n\'\3\'\3\'\3\'\5\'\u0148\n\'\3(\3(\3(\3(\3)\3)\3*"+
-		"\3*\3+\3+\3+\3+\5+\u0156\n+\3,\3,\3-\3-\3-\2\3>.\2\4\6\b\n\f\16\20\22"+
-		"\24\26\30\32\34\36 \"$&(*,.\60\62\64\668:<>@BDFHJLNPRTVX\2\b\3\2\f\r\3"+
-		"\2\16\21\3\2\22\23\3\2\24\25\3\2\26\30\3\2()\2\u0158\2[\3\2\2\2\4_\3\2"+
-		"\2\2\6j\3\2\2\2\bm\3\2\2\2\ns\3\2\2\2\f{\3\2\2\2\16\u0080\3\2\2\2\20\u0087"+
-		"\3\2\2\2\22\u008c\3\2\2\2\24\u0090\3\2\2\2\26\u00a0\3\2\2\2\30\u00a2\3"+
-		"\2\2\2\32\u00a8\3\2\2\2\34\u00b8\3\2\2\2\36\u00ba\3\2\2\2 \u00bf\3\2\2"+
-		"\2\"\u00c6\3\2\2\2$\u00ca\3\2\2\2&\u00d0\3\2\2\2(\u00d6\3\2\2\2*\u00db"+
-		"\3\2\2\2,\u00e3\3\2\2\2.\u00e9\3\2\2\2\60\u00eb\3\2\2\2\62\u00f7\3\2\2"+
-		"\2\64\u00f9\3\2\2\2\66\u00fe\3\2\2\28\u0107\3\2\2\2:\u010e\3\2\2\2<\u0113"+
-		"\3\2\2\2>\u011c\3\2\2\2@\u0127\3\2\2\2B\u0129\3\2\2\2D\u0130\3\2\2\2F"+
-		"\u0132\3\2\2\2H\u0139\3\2\2\2J\u013b\3\2\2\2L\u0147\3\2\2\2N\u0149\3\2"+
-		"\2\2P\u014d\3\2\2\2R\u014f\3\2\2\2T\u0155\3\2\2\2V\u0157\3\2\2\2X\u0159"+
-		"\3\2\2\2Z\\\5\4\3\2[Z\3\2\2\2[\\\3\2\2\2\\]\3\2\2\2]^\7\2\2\3^\3\3\2\2"+
-		"\2_`\7\31\2\2`a\7,\2\2ac\7\3\2\2bd\5\b\5\2cb\3\2\2\2cd\3\2\2\2df\3\2\2"+
-		"\2eg\5\22\n\2fe\3\2\2\2fg\3\2\2\2gh\3\2\2\2hi\5\6\4\2i\5\3\2\2\2jk\7\32"+
-		"\2\2kl\5\32\16\2l\7\3\2\2\2mo\7\33\2\2np\5\n\6\2on\3\2\2\2pq\3\2\2\2q"+
-		"o\3\2\2\2qr\3\2\2\2r\t\3\2\2\2su\5X-\2tv\5\f\7\2ut\3\2\2\2vw\3\2\2\2w"+
-		"u\3\2\2\2wx\3\2\2\2xy\3\2\2\2yz\7\3\2\2z\13\3\2\2\2{~\5\16\b\2|}\7\4\2"+
-		"\2}\177\5\f\7\2~|\3\2\2\2~\177\3\2\2\2\177\r\3\2\2\2\u0080\u0082\7,\2"+
-		"\2\u0081\u0083\5\20\t\2\u0082\u0081\3\2\2\2\u0082\u0083\3\2\2\2\u0083"+
-		"\u0085\3\2\2\2\u0084\u0086\5\20\t\2\u0085\u0084\3\2\2\2\u0085\u0086\3"+
-		"\2\2\2\u0086\17\3\2\2\2\u0087\u0088\7\5\2\2\u0088\u0089\7-\2\2\u0089\u008a"+
-		"\7\6\2\2\u008a\21\3\2\2\2\u008b\u008d\5\24\13\2\u008c\u008b\3\2\2\2\u008d"+
-		"\u008e\3\2\2\2\u008e\u008c\3\2\2\2\u008e\u008f\3\2\2\2\u008f\23\3\2\2"+
-		"\2\u0090\u0091\7\34\2\2\u0091\u0092\5\26\f\2\u0092\u0093\7,\2\2\u0093"+
-		"\u0095\7\7\2\2\u0094\u0096\5\30\r\2\u0095\u0094\3\2\2\2\u0095\u0096\3"+
-		"\2\2\2\u0096\u0097\3\2\2\2\u0097\u0098\7\b\2\2\u0098\u009a\7\3\2\2\u0099"+
-		"\u009b\5\b\5\2\u009a\u0099\3\2\2\2\u009a\u009b\3\2\2\2\u009b\u009c\3\2"+
-		"\2\2\u009c\u009d\5\32\16\2\u009d\25\3\2\2\2\u009e\u00a1\7+\2\2\u009f\u00a1"+
-		"\5X-\2\u00a0\u009e\3\2\2\2\u00a0\u009f\3\2\2\2\u00a1\27\3\2\2\2\u00a2"+
-		"\u00a3\5X-\2\u00a3\u00a6\7,\2\2\u00a4\u00a5\7\4\2\2\u00a5\u00a7\5\30\r"+
-		"\2\u00a6\u00a4\3\2\2\2\u00a6\u00a7\3\2\2\2\u00a7\31\3\2\2\2\u00a8\u00ac"+
-		"\7\t\2\2\u00a9\u00ab\5\34\17\2\u00aa\u00a9\3\2\2\2\u00ab\u00ae\3\2\2\2"+
-		"\u00ac\u00aa\3\2\2\2\u00ac\u00ad\3\2\2\2\u00ad\u00af\3\2\2\2\u00ae\u00ac"+
-		"\3\2\2\2\u00af\u00b0\7\n\2\2\u00b0\33\3\2\2\2\u00b1\u00b9\5\36\20\2\u00b2"+
-		"\u00b9\5$\23\2\u00b3\u00b9\5&\24\2\u00b4\u00b9\5\60\31\2\u00b5\u00b9\5"+
-		"\62\32\2\u00b6\u00b9\5<\37\2\u00b7\u00b9\5*\26\2\u00b8\u00b1\3\2\2\2\u00b8"+
-		"\u00b2\3\2\2\2\u00b8\u00b3\3\2\2\2\u00b8\u00b4\3\2\2\2\u00b8\u00b5\3\2"+
-		"\2\2\u00b8\u00b6\3\2\2\2\u00b8\u00b7\3\2\2\2\u00b9\35\3\2\2\2\u00ba\u00bb"+
-		"\5 \21\2\u00bb\u00bc\7\13\2\2\u00bc\u00bd\5> \2\u00bd\u00be\7\3\2\2\u00be"+
-		"\37\3\2\2\2\u00bf\u00c1\7,\2\2\u00c0\u00c2\5\"\22\2\u00c1\u00c0\3\2\2"+
-		"\2\u00c1\u00c2\3\2\2\2\u00c2\u00c4\3\2\2\2\u00c3\u00c5\5\"\22\2\u00c4"+
-		"\u00c3\3\2\2\2\u00c4\u00c5\3\2\2\2\u00c5!\3\2\2\2\u00c6\u00c7\7\5\2\2"+
-		"\u00c7\u00c8\5> \2\u00c8\u00c9\7\6\2\2\u00c9#\3\2\2\2\u00ca\u00cb\7\35"+
-		"\2\2\u00cb\u00cc\7\7\2\2\u00cc\u00cd\5> \2\u00cd\u00ce\7\b\2\2\u00ce\u00cf"+
-		"\7\3\2\2\u00cf%\3\2\2\2\u00d0\u00d1\7\36\2\2\u00d1\u00d2\7\7\2\2\u00d2"+
-		"\u00d3\5(\25\2\u00d3\u00d4\7\b\2\2\u00d4\u00d5\7\3\2\2\u00d5\'\3\2\2\2"+
-		"\u00d6\u00d9\5 \21\2\u00d7\u00d8\7\4\2\2\u00d8\u00da\5(\25\2\u00d9\u00d7"+
-		"\3\2\2\2\u00d9\u00da\3\2\2\2\u00da)\3\2\2\2\u00db\u00dc\7\37\2\2\u00dc"+
-		"\u00dd\7\7\2\2\u00dd\u00de\5,\27\2\u00de\u00df\7\b\2\2\u00df\u00e0\7\3"+
-		"\2\2\u00e0+\3\2\2\2\u00e1\u00e4\5.\30\2\u00e2\u00e4\5> \2\u00e3\u00e1"+
-		"\3\2\2\2\u00e3\u00e2\3\2\2\2\u00e4\u00e7\3\2\2\2\u00e5\u00e6\7\4\2\2\u00e6"+
-		"\u00e8\5,\27\2\u00e7\u00e5\3\2\2\2\u00e7\u00e8\3\2\2\2\u00e8-\3\2\2\2"+
-		"\u00e9\u00ea\7\60\2\2\u00ea/\3\2\2\2\u00eb\u00ec\7 \2\2\u00ec\u00ed\7"+
-		"\7\2\2\u00ed\u00ee\5> \2\u00ee\u00ef\7\b\2\2\u00ef\u00f0\7!\2\2\u00f0"+
-		"\u00f3\5\32\16\2\u00f1\u00f2\7\"\2\2\u00f2\u00f4\5\32\16\2\u00f3\u00f1"+
-		"\3\2\2\2\u00f3\u00f4\3\2\2\2\u00f4\61\3\2\2\2\u00f5\u00f8\5\64\33\2\u00f6"+
-		"\u00f8\5\66\34\2\u00f7\u00f5\3\2\2\2\u00f7\u00f6\3\2\2\2\u00f8\63\3\2"+
-		"\2\2\u00f9\u00fa\7#\2\2\u00fa\u00fb\5> \2\u00fb\u00fc\7$\2\2\u00fc\u00fd"+
-		"\5\32\16\2\u00fd\65\3\2\2\2\u00fe\u00ff\7%\2\2\u00ff\u0100\5 \21\2\u0100"+
-		"\u0101\7\13\2\2\u0101\u0102\5> \2\u0102\u0103\7&\2\2\u0103\u0104\5> \2"+
-		"\u0104\u0105\7\'\2\2\u0105\u0106\5\32\16\2\u0106\67\3\2\2\2\u0107\u0108"+
-		"\7,\2\2\u0108\u010a\7\7\2\2\u0109\u010b\5:\36\2\u010a\u0109\3\2\2\2\u010a"+
-		"\u010b\3\2\2\2\u010b\u010c\3\2\2\2\u010c\u010d\7\b\2\2\u010d9\3\2\2\2"+
-		"\u010e\u0111\5> \2\u010f\u0110\7\4\2\2\u0110\u0112\5:\36\2\u0111\u010f"+
-		"\3\2\2\2\u0111\u0112\3\2\2\2\u0112;\3\2\2\2\u0113\u0114\58\35\2\u0114"+
-		"\u0115\7\3\2\2\u0115=\3\2\2\2\u0116\u0117\b \1\2\u0117\u011d\5D#\2\u0118"+
-		"\u0119\5D#\2\u0119\u011a\5B\"\2\u011a\u011b\5D#\2\u011b\u011d\3\2\2\2"+
-		"\u011c\u0116\3\2\2\2\u011c\u0118\3\2\2\2\u011d\u0124\3\2\2\2\u011e\u011f"+
-		"\f\4\2\2\u011f\u0120\5@!\2\u0120\u0121\5> \5\u0121\u0123\3\2\2\2\u0122"+
-		"\u011e\3\2\2\2\u0123\u0126\3\2\2\2\u0124\u0122\3\2\2\2\u0124\u0125\3\2"+
-		"\2\2\u0125?\3\2\2\2\u0126\u0124\3\2\2\2\u0127\u0128\t\2\2\2\u0128A\3\2"+
-		"\2\2\u0129\u012a\t\3\2\2\u012aC\3\2\2\2\u012b\u0131\5H%\2\u012c\u012d"+
-		"\5H%\2\u012d\u012e\5F$\2\u012e\u012f\5D#\2\u012f\u0131\3\2\2\2\u0130\u012b"+
-		"\3\2\2\2\u0130\u012c\3\2\2\2\u0131E\3\2\2\2\u0132\u0133\t\4\2\2\u0133"+
-		"G\3\2\2\2\u0134\u013a\5L\'\2\u0135\u0136\5L\'\2\u0136\u0137\5J&\2\u0137"+
-		"\u0138\5H%\2\u0138\u013a\3\2\2\2\u0139\u0134\3\2\2\2\u0139\u0135\3\2\2"+
-		"\2\u013aI\3\2\2\2\u013b\u013c\t\5\2\2\u013cK\3\2\2\2\u013d\u013f\5 \21"+
-		"\2\u013e\u0140\5V,\2\u013f\u013e\3\2\2\2\u013f\u0140\3\2\2\2\u0140\u0148"+
-		"\3\2\2\2\u0141\u0143\5F$\2\u0142\u0141\3\2\2\2\u0142\u0143\3\2\2\2\u0143"+
-		"\u0144\3\2\2\2\u0144\u0148\5T+\2\u0145\u0148\58\35\2\u0146\u0148\5N(\2"+
-		"\u0147\u013d\3\2\2\2\u0147\u0142\3\2\2\2\u0147\u0145\3\2\2\2\u0147\u0146"+
-		"\3\2\2\2\u0148M\3\2\2\2\u0149\u014a\5P)\2\u014a\u014b\5> \2\u014b\u014c"+
-		"\5R*\2\u014cO\3\2\2\2\u014d\u014e\7\7\2\2\u014eQ\3\2\2\2\u014f\u0150\7"+
-		"\b\2\2\u0150S\3\2\2\2\u0151\u0156\5 \21\2\u0152\u0156\7-\2\2\u0153\u0156"+
-		"\7.\2\2\u0154\u0156\7/\2\2\u0155\u0151\3\2\2\2\u0155\u0152\3\2\2\2\u0155"+
-		"\u0153\3\2\2\2\u0155\u0154\3\2\2\2\u0156U\3\2\2\2\u0157\u0158\t\6\2\2"+
-		"\u0158W\3\2\2\2\u0159\u015a\t\7\2\2\u015aY\3\2\2\2\"[cfqw~\u0082\u0085"+
-		"\u008e\u0095\u009a\u00a0\u00a6\u00ac\u00b8\u00c1\u00c4\u00d9\u00e3\u00e7"+
-		"\u00f3\u00f7\u010a\u0111\u011c\u0124\u0130\u0139\u013f\u0142\u0147\u0155";
+		",\t,\4-\t-\4.\t.\3\2\5\2^\n\2\3\2\3\2\3\3\3\3\3\3\3\3\5\3f\n\3\3\3\5\3"+
+		"i\n\3\3\3\3\3\3\4\3\4\3\4\3\5\3\5\6\5r\n\5\r\5\16\5s\3\6\3\6\6\6x\n\6"+
+		"\r\6\16\6y\3\6\3\6\3\7\3\7\3\7\5\7\u0081\n\7\3\b\3\b\5\b\u0085\n\b\3\b"+
+		"\5\b\u0088\n\b\3\t\3\t\3\t\3\t\3\n\6\n\u008f\n\n\r\n\16\n\u0090\3\13\3"+
+		"\13\3\13\3\13\3\13\5\13\u0098\n\13\3\13\3\13\3\13\5\13\u009d\n\13\3\13"+
+		"\3\13\3\f\3\f\5\f\u00a3\n\f\3\r\3\r\3\r\3\r\5\r\u00a9\n\r\3\16\3\16\7"+
+		"\16\u00ad\n\16\f\16\16\16\u00b0\13\16\3\16\3\16\3\17\3\17\3\17\3\17\3"+
+		"\17\3\17\3\17\5\17\u00bb\n\17\3\20\3\20\3\20\3\21\3\21\3\21\6\21\u00c3"+
+		"\n\21\r\21\16\21\u00c4\3\21\3\21\3\22\3\22\5\22\u00cb\n\22\3\22\5\22\u00ce"+
+		"\n\22\3\23\3\23\3\23\3\23\3\24\3\24\3\24\3\24\3\24\3\24\3\25\3\25\3\25"+
+		"\3\25\3\25\3\25\3\26\3\26\3\26\5\26\u00e3\n\26\3\27\3\27\3\27\3\27\3\27"+
+		"\3\27\3\30\3\30\5\30\u00ed\n\30\3\30\3\30\5\30\u00f1\n\30\3\31\3\31\3"+
+		"\32\3\32\3\32\3\32\3\32\3\32\3\32\3\32\5\32\u00fd\n\32\3\33\3\33\5\33"+
+		"\u0101\n\33\3\34\3\34\3\34\3\34\3\34\3\35\3\35\3\35\3\35\3\35\3\35\3\35"+
+		"\3\36\3\36\3\36\5\36\u0112\n\36\3\36\3\36\3\37\3\37\3\37\5\37\u0119\n"+
+		"\37\3 \3 \3 \3!\3!\3!\3!\3!\3!\5!\u0124\n!\3!\3!\3!\3!\7!\u012a\n!\f!"+
+		"\16!\u012d\13!\3\"\3\"\3#\3#\3$\3$\3$\3$\3$\5$\u0138\n$\3%\3%\3&\3&\3"+
+		"&\3&\3&\5&\u0141\n&\3\'\3\'\3(\3(\5(\u0147\n(\3(\5(\u014a\n(\3(\3(\3("+
+		"\5(\u014f\n(\3)\3)\3)\3)\3*\3*\3+\3+\3,\3,\3,\3,\5,\u015d\n,\3-\3-\3."+
+		"\3.\3.\2\3@/\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60\62\64"+
+		"\668:<>@BDFHJLNPRTVXZ\2\7\3\2\f\r\3\2\16\21\3\2\22\23\3\2\24\25\3\2%\'"+
+		"\2\u015f\2]\3\2\2\2\4a\3\2\2\2\6l\3\2\2\2\bo\3\2\2\2\nu\3\2\2\2\f}\3\2"+
+		"\2\2\16\u0082\3\2\2\2\20\u0089\3\2\2\2\22\u008e\3\2\2\2\24\u0092\3\2\2"+
+		"\2\26\u00a2\3\2\2\2\30\u00a4\3\2\2\2\32\u00aa\3\2\2\2\34\u00ba\3\2\2\2"+
+		"\36\u00bc\3\2\2\2 \u00c2\3\2\2\2\"\u00c8\3\2\2\2$\u00cf\3\2\2\2&\u00d3"+
+		"\3\2\2\2(\u00d9\3\2\2\2*\u00df\3\2\2\2,\u00e4\3\2\2\2.\u00ec\3\2\2\2\60"+
+		"\u00f2\3\2\2\2\62\u00f4\3\2\2\2\64\u0100\3\2\2\2\66\u0102\3\2\2\28\u0107"+
+		"\3\2\2\2:\u010e\3\2\2\2<\u0115\3\2\2\2>\u011a\3\2\2\2@\u0123\3\2\2\2B"+
+		"\u012e\3\2\2\2D\u0130\3\2\2\2F\u0137\3\2\2\2H\u0139\3\2\2\2J\u0140\3\2"+
+		"\2\2L\u0142\3\2\2\2N\u014e\3\2\2\2P\u0150\3\2\2\2R\u0154\3\2\2\2T\u0156"+
+		"\3\2\2\2V\u015c\3\2\2\2X\u015e\3\2\2\2Z\u0160\3\2\2\2\\^\5\4\3\2]\\\3"+
+		"\2\2\2]^\3\2\2\2^_\3\2\2\2_`\7\2\2\3`\3\3\2\2\2ab\7\26\2\2bc\7*\2\2ce"+
+		"\7\3\2\2df\5\b\5\2ed\3\2\2\2ef\3\2\2\2fh\3\2\2\2gi\5\22\n\2hg\3\2\2\2"+
+		"hi\3\2\2\2ij\3\2\2\2jk\5\6\4\2k\5\3\2\2\2lm\7\27\2\2mn\5\32\16\2n\7\3"+
+		"\2\2\2oq\7\30\2\2pr\5\n\6\2qp\3\2\2\2rs\3\2\2\2sq\3\2\2\2st\3\2\2\2t\t"+
+		"\3\2\2\2uw\5Z.\2vx\5\f\7\2wv\3\2\2\2xy\3\2\2\2yw\3\2\2\2yz\3\2\2\2z{\3"+
+		"\2\2\2{|\7\3\2\2|\13\3\2\2\2}\u0080\5\16\b\2~\177\7\4\2\2\177\u0081\5"+
+		"\f\7\2\u0080~\3\2\2\2\u0080\u0081\3\2\2\2\u0081\r\3\2\2\2\u0082\u0084"+
+		"\7*\2\2\u0083\u0085\5\20\t\2\u0084\u0083\3\2\2\2\u0084\u0085\3\2\2\2\u0085"+
+		"\u0087\3\2\2\2\u0086\u0088\5\20\t\2\u0087\u0086\3\2\2\2\u0087\u0088\3"+
+		"\2\2\2\u0088\17\3\2\2\2\u0089\u008a\7\5\2\2\u008a\u008b\7+\2\2\u008b\u008c"+
+		"\7\6\2\2\u008c\21\3\2\2\2\u008d\u008f\5\24\13\2\u008e\u008d\3\2\2\2\u008f"+
+		"\u0090\3\2\2\2\u0090\u008e\3\2\2\2\u0090\u0091\3\2\2\2\u0091\23\3\2\2"+
+		"\2\u0092\u0093\7\31\2\2\u0093\u0094\5\26\f\2\u0094\u0095\7*\2\2\u0095"+
+		"\u0097\7\7\2\2\u0096\u0098\5\30\r\2\u0097\u0096\3\2\2\2\u0097\u0098\3"+
+		"\2\2\2\u0098\u0099\3\2\2\2\u0099\u009a\7\b\2\2\u009a\u009c\7\3\2\2\u009b"+
+		"\u009d\5\b\5\2\u009c\u009b\3\2\2\2\u009c\u009d\3\2\2\2\u009d\u009e\3\2"+
+		"\2\2\u009e\u009f\5\32\16\2\u009f\25\3\2\2\2\u00a0\u00a3\7(\2\2\u00a1\u00a3"+
+		"\5Z.\2\u00a2\u00a0\3\2\2\2\u00a2\u00a1\3\2\2\2\u00a3\27\3\2\2\2\u00a4"+
+		"\u00a5\5Z.\2\u00a5\u00a8\7*\2\2\u00a6\u00a7\7\4\2\2\u00a7\u00a9\5\30\r"+
+		"\2\u00a8\u00a6\3\2\2\2\u00a8\u00a9\3\2\2\2\u00a9\31\3\2\2\2\u00aa\u00ae"+
+		"\7\t\2\2\u00ab\u00ad\5\34\17\2\u00ac\u00ab\3\2\2\2\u00ad\u00b0\3\2\2\2"+
+		"\u00ae\u00ac\3\2\2\2\u00ae\u00af\3\2\2\2\u00af\u00b1\3\2\2\2\u00b0\u00ae"+
+		"\3\2\2\2\u00b1\u00b2\7\n\2\2\u00b2\33\3\2\2\2\u00b3\u00bb\5\36\20\2\u00b4"+
+		"\u00bb\5&\24\2\u00b5\u00bb\5(\25\2\u00b6\u00bb\5\62\32\2\u00b7\u00bb\5"+
+		"\64\33\2\u00b8\u00bb\5> \2\u00b9\u00bb\5,\27\2\u00ba\u00b3\3\2\2\2\u00ba"+
+		"\u00b4\3\2\2\2\u00ba\u00b5\3\2\2\2\u00ba\u00b6\3\2\2\2\u00ba\u00b7\3\2"+
+		"\2\2\u00ba\u00b8\3\2\2\2\u00ba\u00b9\3\2\2\2\u00bb\35\3\2\2\2\u00bc\u00bd"+
+		"\5 \21\2\u00bd\u00be\7\3\2\2\u00be\37\3\2\2\2\u00bf\u00c0\5\"\22\2\u00c0"+
+		"\u00c1\7\13\2\2\u00c1\u00c3\3\2\2\2\u00c2\u00bf\3\2\2\2\u00c3\u00c4\3"+
+		"\2\2\2\u00c4\u00c2\3\2\2\2\u00c4\u00c5\3\2\2\2\u00c5\u00c6\3\2\2\2\u00c6"+
+		"\u00c7\5@!\2\u00c7!\3\2\2\2\u00c8\u00ca\7*\2\2\u00c9\u00cb\5$\23\2\u00ca"+
+		"\u00c9\3\2\2\2\u00ca\u00cb\3\2\2\2\u00cb\u00cd\3\2\2\2\u00cc\u00ce\5$"+
+		"\23\2\u00cd\u00cc\3\2\2\2\u00cd\u00ce\3\2\2\2\u00ce#\3\2\2\2\u00cf\u00d0"+
+		"\7\5\2\2\u00d0\u00d1\5@!\2\u00d1\u00d2\7\6\2\2\u00d2%\3\2\2\2\u00d3\u00d4"+
+		"\7\32\2\2\u00d4\u00d5\7\7\2\2\u00d5\u00d6\5@!\2\u00d6\u00d7\7\b\2\2\u00d7"+
+		"\u00d8\7\3\2\2\u00d8\'\3\2\2\2\u00d9\u00da\7\33\2\2\u00da\u00db\7\7\2"+
+		"\2\u00db\u00dc\5*\26\2\u00dc\u00dd\7\b\2\2\u00dd\u00de\7\3\2\2\u00de)"+
+		"\3\2\2\2\u00df\u00e2\5\"\22\2\u00e0\u00e1\7\4\2\2\u00e1\u00e3\5*\26\2"+
+		"\u00e2\u00e0\3\2\2\2\u00e2\u00e3\3\2\2\2\u00e3+\3\2\2\2\u00e4\u00e5\7"+
+		"\34\2\2\u00e5\u00e6\7\7\2\2\u00e6\u00e7\5.\30\2\u00e7\u00e8\7\b\2\2\u00e8"+
+		"\u00e9\7\3\2\2\u00e9-\3\2\2\2\u00ea\u00ed\5\60\31\2\u00eb\u00ed\5@!\2"+
+		"\u00ec\u00ea\3\2\2\2\u00ec\u00eb\3\2\2\2\u00ed\u00f0\3\2\2\2\u00ee\u00ef"+
+		"\7\4\2\2\u00ef\u00f1\5.\30\2\u00f0\u00ee\3\2\2\2\u00f0\u00f1\3\2\2\2\u00f1"+
+		"/\3\2\2\2\u00f2\u00f3\7.\2\2\u00f3\61\3\2\2\2\u00f4\u00f5\7\35\2\2\u00f5"+
+		"\u00f6\7\7\2\2\u00f6\u00f7\5@!\2\u00f7\u00f8\7\b\2\2\u00f8\u00f9\7\36"+
+		"\2\2\u00f9\u00fc\5\32\16\2\u00fa\u00fb\7\37\2\2\u00fb\u00fd\5\32\16\2"+
+		"\u00fc\u00fa\3\2\2\2\u00fc\u00fd\3\2\2\2\u00fd\63\3\2\2\2\u00fe\u0101"+
+		"\5\66\34\2\u00ff\u0101\58\35\2\u0100\u00fe\3\2\2\2\u0100\u00ff\3\2\2\2"+
+		"\u0101\65\3\2\2\2\u0102\u0103\7 \2\2\u0103\u0104\5@!\2\u0104\u0105\7!"+
+		"\2\2\u0105\u0106\5\32\16\2\u0106\67\3\2\2\2\u0107\u0108\7\"\2\2\u0108"+
+		"\u0109\5 \21\2\u0109\u010a\7#\2\2\u010a\u010b\5@!\2\u010b\u010c\7$\2\2"+
+		"\u010c\u010d\5\32\16\2\u010d9\3\2\2\2\u010e\u010f\7*\2\2\u010f\u0111\7"+
+		"\7\2\2\u0110\u0112\5<\37\2\u0111\u0110\3\2\2\2\u0111\u0112\3\2\2\2\u0112"+
+		"\u0113\3\2\2\2\u0113\u0114\7\b\2\2\u0114;\3\2\2\2\u0115\u0118\5@!\2\u0116"+
+		"\u0117\7\4\2\2\u0117\u0119\5<\37\2\u0118\u0116\3\2\2\2\u0118\u0119\3\2"+
+		"\2\2\u0119=\3\2\2\2\u011a\u011b\5:\36\2\u011b\u011c\7\3\2\2\u011c?\3\2"+
+		"\2\2\u011d\u011e\b!\1\2\u011e\u0124\5F$\2\u011f\u0120\5F$\2\u0120\u0121"+
+		"\5D#\2\u0121\u0122\5F$\2\u0122\u0124\3\2\2\2\u0123\u011d\3\2\2\2\u0123"+
+		"\u011f\3\2\2\2\u0124\u012b\3\2\2\2\u0125\u0126\f\4\2\2\u0126\u0127\5B"+
+		"\"\2\u0127\u0128\5@!\5\u0128\u012a\3\2\2\2\u0129\u0125\3\2\2\2\u012a\u012d"+
+		"\3\2\2\2\u012b\u0129\3\2\2\2\u012b\u012c\3\2\2\2\u012cA\3\2\2\2\u012d"+
+		"\u012b\3\2\2\2\u012e\u012f\t\2\2\2\u012fC\3\2\2\2\u0130\u0131\t\3\2\2"+
+		"\u0131E\3\2\2\2\u0132\u0138\5J&\2\u0133\u0134\5J&\2\u0134\u0135\5H%\2"+
+		"\u0135\u0136\5F$\2\u0136\u0138\3\2\2\2\u0137\u0132\3\2\2\2\u0137\u0133"+
+		"\3\2\2\2\u0138G\3\2\2\2\u0139\u013a\t\4\2\2\u013aI\3\2\2\2\u013b\u0141"+
+		"\5N(\2\u013c\u013d\5N(\2\u013d\u013e\5L\'\2\u013e\u013f\5J&\2\u013f\u0141"+
+		"\3\2\2\2\u0140\u013b\3\2\2\2\u0140\u013c\3\2\2\2\u0141K\3\2\2\2\u0142"+
+		"\u0143\t\5\2\2\u0143M\3\2\2\2\u0144\u0146\5\"\22\2\u0145\u0147\5X-\2\u0146"+
+		"\u0145\3\2\2\2\u0146\u0147\3\2\2\2\u0147\u014f\3\2\2\2\u0148\u014a\5H"+
+		"%\2\u0149\u0148\3\2\2\2\u0149\u014a\3\2\2\2\u014a\u014b\3\2\2\2\u014b"+
+		"\u014f\5V,\2\u014c\u014f\5:\36\2\u014d\u014f\5P)\2\u014e\u0144\3\2\2\2"+
+		"\u014e\u0149\3\2\2\2\u014e\u014c\3\2\2\2\u014e\u014d\3\2\2\2\u014fO\3"+
+		"\2\2\2\u0150\u0151\5R*\2\u0151\u0152\5@!\2\u0152\u0153\5T+\2\u0153Q\3"+
+		"\2\2\2\u0154\u0155\7\7\2\2\u0155S\3\2\2\2\u0156\u0157\7\b\2\2\u0157U\3"+
+		"\2\2\2\u0158\u015d\5\"\22\2\u0159\u015d\7+\2\2\u015a\u015d\7,\2\2\u015b"+
+		"\u015d\7-\2\2\u015c\u0158\3\2\2\2\u015c\u0159\3\2\2\2\u015c\u015a\3\2"+
+		"\2\2\u015c\u015b\3\2\2\2\u015dW\3\2\2\2\u015e\u015f\7)\2\2\u015fY\3\2"+
+		"\2\2\u0160\u0161\t\6\2\2\u0161[\3\2\2\2#]ehsy\u0080\u0084\u0087\u0090"+
+		"\u0097\u009c\u00a2\u00a8\u00ae\u00ba\u00c4\u00ca\u00cd\u00e2\u00ec\u00f0"+
+		"\u00fc\u0100\u0111\u0118\u0123\u012b\u0137\u0140\u0146\u0149\u014e\u015c";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

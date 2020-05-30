@@ -419,14 +419,14 @@ arithmeticCube = {
 
 class Quadruple:
     def __init__(self,op,addr1,addr2,addr3):
-        """Clase para tener una estructura de los cuadruplos
+         """Clase para tener una estructura de los cuadruplos
 
-        Arguments:
-            op {string} -- El tipo de operación que se tiene que ejecutar
-            addr1 {int|string} -- Casi siempre es una dirección menos cuando es un print de string
-            addr2 {int} -- Casi siempre es una dirección o un limite superior de alguna dimensión
-            addr3 {int} -- Casi siempre es una dirección o un limite superior de alguna dimensión
-        """
+         Arguments:
+             op {string} -- El tipo de operación que se tiene que ejecutar
+             addr1 {int|string} -- Casi siempre es una dirección menos cuando es un print de string
+             addr2 {int} -- Casi siempre es una dirección o un limite superior de alguna dimensión
+             addr3 {int} -- Casi siempre es una dirección o un limite superior de alguna dimensión
+         """
          self.op = op
          self.addr1 = addr1
          self.addr2 = addr2
@@ -745,13 +745,23 @@ class Program:
     ##### HELPERS
     #Funcion que te da la siguiente direccion
     def nextRelativeAddr(self,local_counters,type,increment=1):
+        """[summary]
 
+        Arguments:
+            local_counters {[type]} -- [description]
+            type {[type]} -- [description]
 
+        Keyword Arguments:
+            increment {int} -- [description] (default: {1})
+
+        Returns:
+            [type] -- [description]
+        """
         if increment != 1:
             if type in local_counters:
                 aux = local_counters[type]
                 local_counters[type] += increment
-                return aux
+                return aux + 1
             else:
                 local_counters[type] = increment
                 return 0
@@ -763,6 +773,16 @@ class Program:
         return local_counters[type]
 
     def solveParams(self,tree,targetFunction,callingFunction,counter=0):
+        """[summary]
+
+        Arguments:
+            tree {antlr4tree} -- Arbol con los tokens y las reglas
+            targetfunction {string} -- Nombre de la función desde la que se ejecuta este estatuo
+            callingfunction {string} -- Nombre de la función desde la que se ejecuta este estatuo
+
+        Keyword Arguments:
+            counter {int} -- [description] (default: {0})
+        """
         for child in tree.children:
             if not isinstance(child, TerminalNodeImpl):
                 rule = self.rules[child.getRuleIndex()]
@@ -774,27 +794,81 @@ class Program:
                 elif rule == "params_llamada":
                     self.solveParams(child,targetFunction,callingFunction,counter)
 
-    def lecturaAux(self,tree,res,function):
+    def lecturaAux(self,tree,stacks,function):
+        """[summary]
+
+        Arguments:
+            tree {antlr4tree} -- Arbol con los tokens y las reglas
+            res {[type]} -- [description]
+            function {string} -- Nombre de la función desde la que se ejecuta este estatuo
+
+        Returns:
+            [type] -- [description]
+        """
         for child in tree.children:
             if not isinstance(child, TerminalNodeImpl):
                 regla = self.rules[child.getRuleIndex()]
                 if regla == "var":
-                    nom = child.ID().getText()
-                    if self.checksVariableExists(nom,function):
-                        addr = self.getAddrOfVariable(nom,function)
-                        res.append(addr)
-                    else:
-                        msg = "No se encontró la var '{}'".format(nom)
+                    varName = child.ID().getText()
+                    # print("Var : " , varName)
+                    #print("function::",function)
+                    varType = self.getTypeOfVariable(varName,function)
+
+                    #print("var aux: nombre, varType: ",varName,varType)
+
+                    if varType == False:
+                        msg = "No se encontró la var '{}'".format(varName)
                         return self.error(child.ID(),msg)
+
+                    stacks['pTipos'].append(varType)
+                    varAddr = self.getAddrOfVariable(varName,function)
+                    hasDims = self.getDimOfAddr(varAddr,function,1)
+                    # print(varAddr)
+                    # print(varAddr)
+                    stacks['pOperandos'].append(varAddr)
+
+                    # dims = []
+                    # numdims = len(tree.children) -1
+                    # print(numdims)
+                    if hasDims != False:
+                        currentAddr = ""
+                        currentType = ""
+                        currentDim = 1
+                        for child2 in child.children:
+                            if not isinstance(child2, TerminalNodeImpl):
+                                ruleChild = self.rules[child2.getRuleIndex()]
+                                # rules.append(ruleChild)
+                                if ruleChild == "dim":
+                                    brackets = True
+                                    if currentDim == 1:
+                                        currentAddr = stacks['pOperandos'].pop()
+                                        currentType = stacks['pTipos'].pop()
+                                        stacks['pOperadores'].append("$")
+
+                                    self.dimAux(child2,function,currentDim,stacks,currentAddr,currentType)
+                                    currentDim+=1
                     # print(child.ID().getText())
                 elif regla == "lista_vars":
-                    self.lecturaAux(child,res,function)
+                    self.lecturaAux(child,stacks,function)
                     # traverse(child,self.rules)
                 # print(regla)
 
     ##### PARSE VARS Y FUNCIONES
     #Funcion que regresa el JSON con la info de las vars
     def decVariables(self,tree,temp,temp2,local_counters,varType,function):
+        """[summary]
+
+        Arguments:
+            tree {antlr4tree} -- Arbol con los tokens y las reglas
+            temp {[type]} -- [description]
+            temp2 {[type]} -- [description]
+            local_counters {[type]} -- [description]
+            varType {[type]} -- [description]
+            function {string} -- Nombre de la función desde la que se ejecuta este estatuo
+
+        Returns:
+            [type] -- [description]
+        """
         if not isinstance(tree, TerminalNodeImpl):
             if self.rules[tree.getRuleIndex()] == "dec_var":
                 varType = tree.tipo().getText()
@@ -852,6 +926,14 @@ class Program:
     #Funcion que actualiza el dir de decFunciones con los
     #datos de las decFunciones del programa
     def decFunciones(self, tree):
+        """[summary]
+
+        Arguments:
+            tree {antlr4tree} -- Arbol con los tokens y las reglas
+
+        Returns:
+            [type] -- [description]
+        """
         if not isinstance(tree, TerminalNodeImpl):
             if self.rules[tree.getRuleIndex()] == "funcion":
                 functionName = tree.ID().getText()
@@ -908,6 +990,19 @@ class Program:
             pass
 
     def decParamsFun(self,tree,varsParams,tablaParams,tablaDirs,function,local_counters):
+        """[summary]
+
+        Arguments:
+            tree {antlr4tree} -- Arbol con los tokens y las reglas
+            varsParams {[type]} -- [description]
+            tablaParams {[type]} -- [description]
+            tablaDirs {[type]} -- [description]
+            function {string} -- Nombre de la función desde la que se ejecuta este estatuo
+            local_counters {[type]} -- [description]
+
+        Returns:
+            [type] -- [description]
+        """
         if not isinstance(tree, TerminalNodeImpl):
             if self.rules[tree.getRuleIndex()] == "params":
                 varName = tree.ID().getText()
@@ -931,6 +1026,15 @@ class Program:
 
     #### EXPRESION
     def expresion(self,tree,function):
+        """[summary]
+
+        Arguments:
+            tree {antlr4tree} -- Arbol con los tokens y las reglas
+            function {string} -- Nombre de la función desde la que se ejecuta este estatuo
+
+        Returns:
+            [type] -- [description]
+        """
         stacks = {
             'pOperandos' : [],
             'pOperadores' : [],
@@ -944,6 +1048,13 @@ class Program:
         return stacks['pOperandos'][0]
 
     def expresionAux(self,tree,function,stacks):
+        """[summary]
+
+        Arguments:
+            tree {antlr4tree} -- Arbol con los tokens y las reglas
+            function {string} -- Nombre de la función desde la que se ejecuta este estatuo
+            stacks {[type]} -- [description]
+        """
         if not isinstance(tree, TerminalNodeImpl):
             if self.rules[tree.getRuleIndex()] == "expresion":
                 # print("expresion")
@@ -1025,6 +1136,13 @@ class Program:
             pass
 
     def expAux(self,tree,function,stacks):
+        """[summary]
+
+        Arguments:
+            tree {antlr4tree} -- Arbol con los tokens y las reglas
+            function {string} -- Nombre de la función desde la que se ejecuta este estatuo
+            stacks {[type]} -- [description]
+        """
         if not isinstance(tree, TerminalNodeImpl):
             if self.rules[tree.getRuleIndex()] == "exp":
                 # print("exp")
@@ -1092,6 +1210,13 @@ class Program:
             pass
 
     def termAux(self,tree,function,stacks):
+        """[summary]
+
+        Arguments:
+            tree {antlr4tree} -- Arbol con los tokens y las reglas
+            function {string} -- Nombre de la función desde la que se ejecuta este estatuo
+            stacks {[type]} -- [description]
+        """
         if not isinstance(tree, TerminalNodeImpl):
             if self.rules[tree.getRuleIndex()] == "term":
                 for child in tree.children:
@@ -1150,6 +1275,16 @@ class Program:
             pass
 
     def factorAux(self,tree,function,stacks):
+          """[summary]
+
+          Arguments:
+              tree {antlr4tree} -- Arbol con los tokens y las reglas
+              function {string} -- Nombre de la función desde la que se ejecuta este estatuo
+              stacks {[type]} -- [description]
+
+          Returns:
+              [type] -- [description]
+          """
           if not isinstance(tree, TerminalNodeImpl):
               if self.rules[tree.getRuleIndex()] == "factor":
                   for child in tree.children:
@@ -1179,16 +1314,19 @@ class Program:
                               opName = "maximo"
                           else:
                               opName = "transpuesta"
-                          if opSymbol != '!' or opSymbol != '?':
+
+                          if opSymbol == '!' or opSymbol == '?':
+                              # print("aca")
+                              offset = self.memory_limits['temp']['dirArreglo']
+                              tempAddr = self.nextRelativeAddr(self.ctesCounter,'dir') + offset
+                              self.stackQuads.append(Quadruple(opSymbol,topAddr,0,tempAddr))
+                          else:
                               tipo = stacks['pTipos'][-1]
                               offset = self.memory_limits['temp'][tipo]
                               tempAddr = self.nextRelativeAddr(self.ctesCounter,tipo) + offset
                               self.stackQuads.append(Quadruple(opSymbol,topAddr,0,tempAddr))
+                              # print("aqui")
 
-                          else:
-                              offset = self.memory_limits['temp']['dirArreglo']
-                              tempAddr = self.nextRelativeAddr(self.ctesCounter,'dir') + offset
-                              self.stackQuads.append(Quadruple(opSymbol,topAddr,0,tempAddr))
 
                           stacks['pOperandos'].pop()
                           stacks['pOperandos'].append(tempAddr)
@@ -1213,6 +1351,13 @@ class Program:
               pass
 
     def parentesisAux(self,tree,function,stacks):
+        """[summary]
+
+        Arguments:
+            tree {antlr4tree} -- Arbol con los tokens y las reglas
+            function {string} -- Nombre de la función desde la que se ejecuta este estatuo
+            stacks {[type]} -- [description]
+        """
         if not isinstance(tree, TerminalNodeImpl):
             if self.rules[tree.getRuleIndex()] == "exp_par":
                 # print("exp_par")
@@ -1234,50 +1379,61 @@ class Program:
             pass
 
     def varAux(self,tree,function,stacks,brackets=False):
-          if not isinstance(tree, TerminalNodeImpl):
-              if self.rules[tree.getRuleIndex()] == "var":
-                  varName = tree.ID().getText()
-                  # print("Var : " , varName)
-                  #print("function::",function)
-                  varType = self.getTypeOfVariable(varName,function)
+      if not isinstance(tree, TerminalNodeImpl):
+          if self.rules[tree.getRuleIndex()] == "var":
+              varName = tree.ID().getText()
+              # print("Var : " , varName)
+              #print("function::",function)
+              varType = self.getTypeOfVariable(varName,function)
 
-                  #print("var aux: nombre, varType: ",varName,varType)
+              #print("var aux: nombre, varType: ",varName,varType)
 
-                  if varType == False:
-                      msg = "No se encontró la var '{}'".format(varName)
-                      return self.error(tree.ID(),msg)
+              if varType == False:
+                  msg = "No se encontró la var '{}'".format(varName)
+                  return self.error(tree.ID(),msg)
 
-                  stacks['pTipos'].append(varType)
-                  varAddr = self.getAddrOfVariable(varName,function)
-                  hasDims = self.getDimOfAddr(varAddr,function,1)
-                  # print(varAddr)
-                  # print(varAddr)
-                  stacks['pOperandos'].append(varAddr)
+              stacks['pTipos'].append(varType)
+              varAddr = self.getAddrOfVariable(varName,function)
+              hasDims = self.getDimOfAddr(varAddr,function,1)
+              # print(varAddr)
+              # print(varAddr)
+              stacks['pOperandos'].append(varAddr)
 
-                  # dims = []
-                  # numdims = len(tree.children) -1
-                  # print(numdims)
-                  if hasDims != False:
-                      currentAddr = ""
-                      currentType = ""
-                      currentDim = 1
-                      for child in tree.children:
-                          if not isinstance(child, TerminalNodeImpl):
-                              ruleChild = self.rules[child.getRuleIndex()]
-                              # rules.append(ruleChild)
-                              if ruleChild == "dim":
-                                  brackets = True
-                                  if currentDim == 1:
-                                      currentAddr = stacks['pOperandos'].pop()
-                                      currentType = stacks['pTipos'].pop()
-                                      stacks['pOperadores'].append("$")
+              # dims = []
+              # numdims = len(tree.children) -1
+              # print(numdims)
+              if hasDims != False:
+                  currentAddr = ""
+                  currentType = ""
+                  currentDim = 1
+                  for child in tree.children:
+                      if not isinstance(child, TerminalNodeImpl):
+                          ruleChild = self.rules[child.getRuleIndex()]
+                          # rules.append(ruleChild)
+                          if ruleChild == "dim":
+                              brackets = True
+                              if currentDim == 1:
+                                  currentAddr = stacks['pOperandos'].pop()
+                                  currentType = stacks['pTipos'].pop()
+                                  stacks['pOperadores'].append("$")
 
-                                  self.dimAux(child,function,currentDim,stacks,currentAddr,currentType)
-                                  currentDim+=1
-          else:
-              pass
+                              self.dimAux(child,function,currentDim,stacks,currentAddr,currentType)
+                              currentDim+=1
+      else:
+          pass
 
     def dimAux(self,tree,function,dim,stacks,id,type):
+        # print("dimAux",stacks['pOperandos'])
+        """Función que genera los cuadruplos para una dimension de la indexacion de una variable
+
+        Arguments:
+            tree {antlr4tree} -- Arbol con los tokens y las reglas
+            function {string} -- Nombre de la función desde la que se ejecuta este estatuo
+            dim {int} -- Número de dimension actual a evaluar
+            stacks {[type]} -- [description]
+            id {int} -- Dirección base del arreglo indexado
+            type {string} -- Tipo del arreglo indexado
+        """
         # print("entra")
         stacks2 = {
             'pOperandos' : [],
@@ -1353,47 +1509,54 @@ class Program:
         # traverse(tree,self.rules)
 
     def varcteAux(self,tree,function,stacks):
-          if not isinstance(tree, TerminalNodeImpl):
-              if self.rules[tree.getRuleIndex()] == "var_cte":
-                  for child in tree.children:
-                      if not isinstance(child, TerminalNodeImpl):
-                          ruleChild = self.rules[child.getRuleIndex()]
-                          # rules.append(ruleChild)
-                          if ruleChild == "var":
-                              self.varAux(child,function,stacks)
+      if not isinstance(tree, TerminalNodeImpl):
+          if self.rules[tree.getRuleIndex()] == "var_cte":
+              for child in tree.children:
+                  if not isinstance(child, TerminalNodeImpl):
+                      ruleChild = self.rules[child.getRuleIndex()]
+                      # rules.append(ruleChild)
+                      if ruleChild == "var":
+                          self.varAux(child,function,stacks)
+                  else:
+                      if stacks['pNegativos']:
+                          operator = stacks['pNegativos'].pop()
+                          constant = operator + tree.getText()
                       else:
-                          if stacks['pNegativos']:
-                              operator = stacks['pNegativos'].pop()
-                              constant = operator + tree.getText()
-                          else:
-                              constant = tree.getText()
-                          if constant[0] == "'":
-                              constantType = "char"
-                              constant = constant[1]
-                              # print("encontre un char")
-                          elif constant.find('.') != -1:
-                              constantType = "float"
-                          else:
-                              constantType = "int"
+                          constant = tree.getText()
+                      if constant[0] == "'":
+                          constantType = "char"
+                          constant = constant[1]
+                          # print("encontre un char")
+                      elif constant.find('.') != -1:
+                          constantType = "float"
+                      else:
+                          constantType = "int"
 
-                          if constant in self.memory['ctes']:
-                              constantAddr = self.memory['ctes'][constant]['dir']
-                          else:
-                              offset = self.memory_limits['ctes'][constantType]
-                              constantAddr = self.nextRelativeAddr(self.ctesCounter,constantType) + offset
-                              self.memory['ctes'][constant] = {'tipo': constantType, 'dir': constantAddr}
-                              self.memory['ctesDir'][constantAddr] = constant
+                      if constant in self.memory['ctes']:
+                          constantAddr = self.memory['ctes'][constant]['dir']
+                      else:
+                          offset = self.memory_limits['ctes'][constantType]
+                          constantAddr = self.nextRelativeAddr(self.ctesCounter,constantType) + offset
+                          self.memory['ctes'][constant] = {'tipo': constantType, 'dir': constantAddr}
+                          self.memory['ctesDir'][constantAddr] = constant
 
-                          stacks['pTipos'].append(constantType)
-                          #diana
-                          stacks['pOperandos'].append(constantAddr)
+                      stacks['pTipos'].append(constantType)
+                      #diana
+                      stacks['pOperandos'].append(constantAddr)
 
-          else:
-              pass
+      else:
+          pass
 
     #### ESTATUTOS
 
     def evaluarBloqueEst(self, tree, function):
+        """Función que delega y detecta que tipo de estatuto son dentro de un bloque y los manda
+        a sus respectivas funciones
+
+        Arguments:
+            tree {antlr4tree} -- Arbol con los tokens y las reglas
+            function {string} -- Nombre de la función desde la que se ejecuta este estatuo
+        """
         # print("entre")
         if not isinstance(tree, TerminalNodeImpl):
             for child in tree.children:
@@ -1428,6 +1591,12 @@ class Program:
             pass
 
     def est_retorno(self, tree, function):
+        """Función que genera los cuadruplos para el return
+        Arguments:
+            tree {antlr4tree} -- Arbol con los tokens y las reglas
+            function {string} -- Nombre de la función desde la que se ejecuta este estatuo
+
+        """
         if function == "global":
             msg = "La function main no tiene retorno"
             return self.error(tree.Regresa(),msg)
@@ -1442,14 +1611,34 @@ class Program:
         self.stackQuads.append(Quadruple('ret',addrExp,addrVar,0))
 
     def est_lectura(self,tree,function):
-        res = []
-        self.lecturaAux(tree.lista_vars(),res,function)
+        """Función que genera los cuadruplos para la lectura
+
+        Arguments:
+            tree {antlr4tree} -- Arbol con los tokens y las reglas
+            function {string} -- Nombre de la función desde la que se ejecuta este estatuo
+        """
+        stacks = {
+            'pOperandos' : [],
+            'pOperadores' : [],
+            'pTipos' : [],
+            'pDim': [],
+            'pNegativos': []
+        }
+        self.lecturaAux(tree.lista_vars(),stacks,function)
         #print("Res in est lectura:",res)
-        for var in res:
+        for var in stacks['pOperandos']:
             self.stackQuads.append(Quadruple('lee',var,0,0))
         # print(res)
 
     def est_asignacion(self, tree, function):
+        """Función que genera los cuadruplos para la asignacion ya sea de:
+           una expresion a una variable, una variable a otra, un arreglo a otro
+           o una expresion/variable a una posicion del arreglo/matriz
+
+        Arguments:
+            tree {antlr4tree} -- Arbol con los tokens y las reglas
+            function {string} -- Nombre de la función desde la que se ejecuta este estatuo
+        """
         # traverse(tree,self.rules)
         # print(len(tree.children))
         # print(tree.getText())
@@ -1490,10 +1679,12 @@ class Program:
                                             if currentDim == 1:
                                                 brackets = True
                                                 pilas['tieneBrackets'].append(True)
-                                                pilas['pOperandos'].append(varAddr)
+                                                # pilas['pOperandos'].append(varAddr)
+                                                # print("flag 1", pilas['pOperandos'])
                                                 pilas['pTipos'].append(varType)
                                                 pilas['pOperadores'].append("$")
                                             self.dimAux(child2,function,currentDim,pilas,varAddr,varType)
+                                            # print("flag 3", pilas['pOperandos'])
                                             currentDim+=1
 
                             # if function == "main":
@@ -1507,6 +1698,7 @@ class Program:
                             if tieneDim == False or brackets == False:
                                 pilas['tieneBrackets'].append(False)
                                 pilas['pOperandos'].append(varAddr)
+                                # print("flag 2", pilas['pOperandos'])
                                 pilas['pTipos'].append(varType)
 
                         elif ruleChild == "expresion":
@@ -1524,7 +1716,8 @@ class Program:
                                 return self.error(c,msg)
 
 
-
+                # print(pilas['pOperandos'])
+                # print(pilas['tieneBrackets'])
                 ####AGREGAR ALGO PARA SABER SI varAddr Y EXP TENIAN [][] O NO
                 leftAddr = pilas['pOperandos'][-1]
                 bracketsIzq = pilas['tieneBrackets'].pop()
@@ -1562,29 +1755,38 @@ class Program:
                                 return self.error(c,msg)
                         else:
                             self.stackQuads.append(Quadruple('=',exp,leftAddr,0))
-                lenPila = len(pilas['pOperandos'])
-                if lenPila > 1:
-                    for i in range(lenPila-1):
-                        leftAddr = pilas['pOperandos'].pop()
-                        leftDim1 = self.getDimOfAddr(leftAddr,function,1)
-                        leftDim2 = self.getDimOfAddr(leftAddr,function,2)
+                lenPila = len(pilas['pOperandos']) - 1
+                # print(lenPila)
+                # print(pilas['pOperandos'],"actual", len(self.stackQuads)+1)
+                # print(pilas['tieneBrackets'])
+                if lenPila >= 1:
+                    for i in range(lenPila+1):
+                        # print("for", i , pilas['pOperandos'])
+                        # print("entra for")
+                        # leftAddr = pilas['pOperandos'].pop()
+                        # leftDim1 = self.getDimOfAddr(leftAddr,function,1)
+                        # leftDim2 = self.getDimOfAddr(leftAddr,function,2)
 
-                        rightAddr = pilas['pOperandos'][-1]
+                        rightAddr = pilas['pOperandos'].pop()
                         rightDim1 = self.getDimOfAddr(rightAddr,function,1)
                         rightDim2 = self.getDimOfAddr(rightAddr,function,2)
-
-                        if leftDim1 != False and rightDim1 != False:
-                            if (leftDim1 == rightDim1) and (leftDim2 == rightDim2):
-                                self.stackQuads.append(Quadruple('=',leftAddr,rightAddr,'arreglo'))
-                                self.stackQuads.append(Quadruple('dimensiones',0,leftDim1,leftDim2))
-                            else:
-                                leftName = self.getNameOfAddr(leftAddr,function)
-                                rightName = self.getNameOfAddr(rightAddr,function)
-                                msg = "Los arreglos '{}' y '{}' no son del mismo tamaño".format(leftName,rightName)
-                                # print(msg)
-                                return self.error(c,msg)
+                        if pilas['tieneBrackets'][-1]:
+                            # print("adentro")
+                            pilas['tieneBrackets'].pop()
+                            self.stackQuads.append(Quadruple('=',leftAddr,rightAddr,'arrSingle'))
                         else:
-                            self.stackQuads.append(Quadruple('=',leftAddr,rightAddr,0))
+                            if leftDim1 != False and rightDim1 != False:
+                                if (leftDim1 == rightDim1) and (leftDim2 == rightDim2):
+                                    self.stackQuads.append(Quadruple('=',leftAddr,rightAddr,'arreglo'))
+                                    self.stackQuads.append(Quadruple('dimensiones',0,leftDim1,leftDim2))
+                                else:
+                                    leftName = self.getNameOfAddr(leftAddr,function)
+                                    rightName = self.getNameOfAddr(rightAddr,function)
+                                    msg = "Los arreglos '{}' y '{}' no son del mismo tamaño".format(leftName,rightName)
+                                    # print(msg)
+                                    return self.error(c,msg)
+                            else:
+                                self.stackQuads.append(Quadruple('=',leftAddr,rightAddr,0))
                 # print(pilas['pTipos'])
 
 
@@ -1595,11 +1797,11 @@ class Program:
         #llama al exp y asigna el valor
 
     def est_decision(self, tree,function):
-        """[summary]
+        """Función que genera los cuadruplos del print ya sea con else o sin else
 
         Arguments:
-            tree {[type]} -- [description]
-            function {[type]} -- [description]
+            tree {antlr4tree} -- Arbol con los tokens y las reglas
+            function {string} -- Nombre de la función desde la que se ejecuta este estatuo
         """
         pSaltos = []
         primerBloque = True
@@ -1651,11 +1853,11 @@ class Program:
         #llama al exp y asigna el valor
 
     def est_repeticion(self, tree,function):
-        """[summary]
+        """Función que delega a la función de condicional o no condicional dependiendo del caso.
 
         Arguments:
-            tree {[type]} -- [description]
-            function {[type]} -- [description]
+            tree {antlr4tree} -- Arbol con los tokens y las reglas
+            function {string} -- Nombre de la función desde la que se ejecuta este estatuo
         """
         if not isinstance(tree, TerminalNodeImpl):
             if self.rules[tree.getRuleIndex()] == "repeticion":
@@ -1667,11 +1869,11 @@ class Program:
                         self.est_nocondicional(child,function)
 
     def est_condicional(self, tree,function):
-        """[summary]
+        """Función que genera los cuadruplos del while
 
         Arguments:
-            tree {[type]} -- [description]
-            function {[type]} -- [description]
+            tree {antlr4tree} -- Arbol con los tokens y las reglas
+            function {string} -- Nombre de la función desde la que se ejecuta este estatuo
         """
         pSaltos = []
         if not isinstance(tree, TerminalNodeImpl):
@@ -1701,11 +1903,11 @@ class Program:
             pass
 
     def est_nocondicional(self, tree,function):
-        """[summary]
+        """Función que genera los cuadruplos del for
 
         Arguments:
-            tree {[type]} -- [description]
-            function {[type]} -- [description]
+            tree {antlr4tree} -- Arbol con los tokens y las reglas
+            function {string} -- Nombre de la función desde la que se ejecuta este estatuo
         """
         # traverse(tree,self.rules)
         # print("es no condicional")
@@ -1762,11 +1964,11 @@ class Program:
                 # print(pSaltos)
 
     def est_llamada_est(self,tree,function,stacks=False):
-        """[summary]
+        """Función que genera los cuadruplos de las llamadas a una función
 
         Arguments:
-            tree {[type]} -- [description]
-            function {[type]} -- [description]
+            tree {antlr4tree} -- Arbol con los tokens y las reglas
+            function {string} -- Nombre de la función desde la que se ejecuta este estatuo
 
         Keyword Arguments:
             stacks {bool} -- [description] (default: {False})
@@ -1810,11 +2012,11 @@ class Program:
                 stacks['pTipos'].append(varType)
 
     def est_escritura(self, tree,function):
-        """[summary]
+        """Función que genera los cuadruplos de print ya sea para arreglos, strings o expresiones
 
         Arguments:
-            tree {[type]} -- [description]
-            function {[type]} -- [description]
+            tree {antlr4tree} -- Arbol con los tokens y las reglas
+            function {string} -- Nombre de la función desde la que se ejecuta este estatuo
         """
         if not isinstance(tree, TerminalNodeImpl):
             if self.rules[tree.getRuleIndex()] == "expresion":
