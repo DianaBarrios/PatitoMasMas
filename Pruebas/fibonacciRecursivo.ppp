@@ -1,0 +1,26 @@
+programa fibonacciRecursivo;
+var
+  int x, i;
+
+funcion int fibonacci(int n);
+var 
+    int aux;
+{
+    si (n < 2) entonces {
+        regresa(n);
+    } sino {
+        regresa(fibonacci(n-1) + fibonacci(n-2));
+    }
+}
+
+principal(){
+    lee(x);
+    si (x < 1) entonces {
+        escribe("Escribe un numero positivo");
+    } sino {
+        desde i = 0 hasta x hacer {
+        escribe(fibonacci(i));
+    }
+    }
+    
+}

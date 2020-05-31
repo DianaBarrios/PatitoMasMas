@@ -189,7 +189,7 @@ class VirtualMachine():
 
                 self.setValue(resultAddr,result)
             elif operation == 'ret':
-                value = getValue(quadruples[current].addr1)
+                value = self.getValue(quadruples[current].addr1)
                 addr = int(quadruples[current].addr2)
 
                 self.setValue(addr,value)

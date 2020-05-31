@@ -1,7 +1,8 @@
 programa fibonacciCiclico;
 var
   int x;
-funcion int fibonacci(int n);
+
+funcion void fibonacci(int n);
 var 
     int a, b, i, res;
 {
@@ -10,27 +11,26 @@ var
     i = 0;
     res = 0;
     si (n < 0) entonces {
-        regresa(-1);
+        escribe("Error");
     } sino {
         si (n == 0) entonces {
-       regresa(a);
+       escribe(a);
    } sino {
        si (n == 1) entonces {
-           regresa(b);
+           escribe(b);
        } sino {
            mientras (i < n) haz {
+               escribe(a);
                res = a + b;
                a = b;
                b = res;
                i = i + 1;
            }
-           regresa(res);
        }
     }
 }
-  regresa(res);
 }
 principal(){
     lee(x);
-    escribe(fibonacci(x));
+    fibonacci(x);
 }
