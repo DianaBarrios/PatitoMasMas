@@ -1,0 +1,36 @@
+programa fibonacciCiclico;
+var
+  int x;
+funcion int fibonacci(int n);
+var 
+    int a, b, i, res;
+{
+    a = 0;
+    b = 1;
+    i = 0;
+    res = 0;
+    si (n < 0) entonces {
+        regresa(-1);
+    } sino {
+        si (n == 0) entonces {
+       regresa(a);
+   } sino {
+       si (n == 1) entonces {
+           regresa(b);
+       } sino {
+           mientras (i < n) haz {
+               res = a + b;
+               a = b;
+               b = res;
+               i = i + 1;
+           }
+           regresa(res);
+       }
+    }
+}
+  regresa(res);
+}
+principal(){
+    lee(x);
+    escribe(fibonacci(x));
+}

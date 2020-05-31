@@ -1,0 +1,17 @@
+programa factorialRecursivo;
+var
+  int x;
+funcion int factorial(int n);
+var 
+    int aux;
+{
+   si (n == 0 || n == 1) entonces {
+       regresa(1);
+   } sino {
+       regresa(n * factorial(n-1));
+   }
+}
+principal(){
+    lee(x);
+    escribe(factorial(x));
+}

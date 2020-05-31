@@ -3,28 +3,33 @@ var
   int otra[2],varAux;
   float wow;
   
+funcion void dos(int w);
+  var int z;
+  {
+    
+    si (w > 5) entonces{
+      z = 1000;
+      escribe("z: ",z,"w: ",w);
+    } sino {
+      escribe("w: ",w," llamada recursiva");
+      dos(w+1);
+    }
+  }
+
   funcion int suma(int a,int b);
   var int res;
   {
     si (a > b) entonces {
-      regresa(a);
+      escribe("llama a dos con a: ",a);
+      dos(a);
     } sino {
-      regresa(b);
+      escribe("llama a dos con b: ",b);
+      dos(b);
     }
+    escribe("regresa a + b: ");
+    regresa(a+b);
   }
 
-funcion void dos(int w);
-  var int y;
-  {
-    si (w > 5) entonces{
-      y = suma(5,7);
-      escribe(y,w);
-    } sino {
-      escribe(w,"llamada recursiva");
-      dos(w+1);
-    }
-  }
-  
   principal(){
-    dos(1);
+    escribe(suma(4,5));
   }
