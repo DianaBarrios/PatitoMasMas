@@ -38,6 +38,7 @@ class VirtualMachine():
         memCtes.float = ctesFloat
         memCtes.char = ctesChar
         self.memories = {'global' : memGlobal,'local': memLocal, 'ctes':memCtes}
+        self.currentFunction = 'global'
 
     def execute(self):
         """Función principal de la VM, se va recorriendo por los cuadruplos y hace las funciones
@@ -45,6 +46,7 @@ class VirtualMachine():
         """
         quadruples = self.quadruples
         stackMemories = []
+        stackNameFunctions = []
         stackParams = []
         stackPointers = []
         current = 0
@@ -83,8 +85,10 @@ class VirtualMachine():
             elif operation == 'gosub':
                 stackMemories.append(self.memories['local'])
                 newMemory = {'temps': Memory(), 'local': Memory()}
-                self.memories['local'] = newMemory
+                stackNameFunctions.append(self.currentFunction)
 
+                self.memories['local'] = newMemory
+                self.currentFunction = quadruples[current].addr1
                 for param in stackParams:
                     self.setValue(param['addr'],param['value'])
 
@@ -97,7 +101,7 @@ class VirtualMachine():
                 stepOne = False
 
                 current = stackPointers.pop()
-
+                self.currentFunction = stackNameFunctions.pop()
                 self.memories['local'] = stackMemories.pop()
             elif operation == 'print':
                 if type(quadruples[current].addr1) is str:
@@ -229,9 +233,14 @@ class VirtualMachine():
             addr {int} -- Address de la variable que causa el error.
             type {int} -- Tipo de error que se está generando.
         """
-        varName = self.addrNames[addr]['var']
-        pos1 = self.addrNames[addr].get('pos1', None)
-        pos2 = self.addrNames[addr].get('pos2', None)
+        if addr < 15000:
+            varName = self.addrNames['global'][addr]['var']
+            pos1 = self.addrNames['global'][addr].get('pos1', None)
+            pos2 = self.addrNames['global'][addr].get('pos2', None)
+        else:
+            varName = self.addrNames[self.currentFunction][addr]['var']
+            pos1 = self.addrNames[self.currentFunction][addr].get('pos1', None)
+            pos2 = self.addrNames[self.currentFunction][addr].get('pos2', None)
         if type == 1:
             if pos1 == None and pos2 == None:
                 var = varName
@@ -241,7 +250,7 @@ class VirtualMachine():
                 var = "{}[{}][{}]".format(varName,pos1,pos2)
             msg = "Variable '{}' no asignada.".format(var)
         elif type == 2:
-            msg = "Variable '{}' fuera de los límites.".format(varName)
+            msg = "Arreglo '{}' fuera de los límites.".format(varName)
         print("Error ->",msg)
         exit()
 

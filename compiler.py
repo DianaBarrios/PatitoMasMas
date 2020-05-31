@@ -498,6 +498,7 @@ class Program:
         """Función que imprime los cuadruplos, dir de funciones y la memoria despues de compilar el programa.
         """
         self.execute()
+        pprint.pprint(self.getAllNames())
         #Imprime cuadruplos
         print("===== Cuadruplos =====")
         for i in range(len(self.stackQuads)):
@@ -572,6 +573,7 @@ class Program:
         """
         temp = {}
         for i in self.dirFunciones:
+            temp[i] = {}
             for j in self.dirFunciones[i]['varsAddr']:
                 dim1 = self.dirFunciones[i]['varsAddr'][j].get('dim1', None)
                 if dim1 != None:
@@ -579,17 +581,17 @@ class Program:
                     dim2 = self.dirFunciones[i]['varsAddr'][j].get('dim2', None)
                     if dim2 == None:
                         for cont in range(dim1):
-                            temp[j+cont] = {'var': self.dirFunciones[i]['varsAddr'][j]['nombre'],'pos1': cont}
+                            temp[i][j+cont] = {'var': self.dirFunciones[i]['varsAddr'][j]['nombre'],'pos1': cont}
                     else:
                         for cont in range(dim1):
                             for cont2 in range(dim2):
                                 realAddr = j + cont * dim2 + cont2
-                                temp[realAddr] = {'var': self.dirFunciones[i]['varsAddr'][j]['nombre'],'pos1': cont,'pos2':cont2}
+                                temp[i][realAddr] = {'var': self.dirFunciones[i]['varsAddr'][j]['nombre'],'pos1': cont,'pos2':cont2}
                     # print(dim2)
                     # print(j, "tiene dim wuwuw")
                 else:
                     # print(self.dirFunciones[i]['varsAddr'][j]['nombre'], "no tiene")
-                    temp[j] = {'var': self.dirFunciones[i]['varsAddr'][j]['nombre']}
+                    temp[i][j] = {'var': self.dirFunciones[i]['varsAddr'][j]['nombre']}
         return temp
 
     def getQuads(self):

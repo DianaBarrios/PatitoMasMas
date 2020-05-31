@@ -1,0 +1,19 @@
+programa prueba1;
+var
+  int i[2][10];
+funcion void tres(int equis);
+var int hola;
+{
+  escribe(hola);
+  escribe("hola",equis);
+}
+funcion void dos(int equis2);
+var int hola2;
+{
+  tres(equis2);
+}
+
+principal(){
+  dos(10);
+
+}
