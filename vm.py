@@ -79,6 +79,8 @@ class VirtualMachine():
                 else:
                     current = newPointer
             elif operation == 'era':
+                #nombre = quadruples[current].addr1
+                #print("era: ",nombre)
                 pass
             elif operation == 'param':
                 stackParams.append({'addr': quadruples[current].addr2,'value': self.getValue(quadruples[current].addr1)})

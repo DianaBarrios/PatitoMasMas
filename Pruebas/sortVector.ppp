@@ -1,0 +1,18 @@
+programa sortVector;
+var
+  int i,j,p;
+  char ejemplo[5],ejemplo2[5],ejemplo3[5];
+  int arreglo1[10], arreglo2[10],arreglo3[10],arreglo4[10];
+  float valor;
+  float valor2;
+  int matriz[3][8], otramatriz[3][8];
+
+funcion void asignarmatriz(int x);
+var int cont,cont2;
+{
+  
+}
+
+principal(){
+  
+}

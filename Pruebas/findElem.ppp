@@ -1,0 +1,34 @@
+programa findElem;
+var
+  int j, x, pos;
+  int arr[5];
+
+funcion int find(int n);
+var 
+    int i;
+{
+  desde i = 0 hasta 5 hacer {
+      escribe("comparando: ", arr[i]);
+      si (arr[i] == n) entonces {
+         escribe("encontrado");
+         regresa(arr[i]);
+    }
+  }
+  regresa(-1);
+}
+
+principal(){
+    desde j=0 hasta 5 hacer {
+    arr[j] = j * 5 + 2;
+  }
+  escribe(arr);
+    escribe("Busca un elemento en el arreglo: ");
+    lee(x);
+    pos = find(x);
+    si (pos == -1) entonces {
+        escribe("Elemento no encontrado");
+    } sino {
+        escribe("Elemento encontrado en la posicion: ", pos);
+    }
+    
+}
