@@ -63,7 +63,7 @@ class VirtualMachine():
             elif operation == 'gotof':
                 stepOne = False
                 value = self.getValue(quadruples[current].addr1)
-                newPointer = quadruples[current].addr2
+                newPointer = quadruples[current].addr2 - 1
 
                 if not value:
                     current = newPointer
@@ -106,6 +106,8 @@ class VirtualMachine():
                 self.currentFunction = stackNameFunctions.pop()
                 self.memories['local'] = stackMemories.pop()
             elif operation == 'print':
+                # print(self.memories['local']['temps'].int)
+                # print(self.memories['global'].int)
                 if type(quadruples[current].addr1) is str:
                     # print("entre")
                     print(quadruples[current].addr1)
@@ -195,6 +197,10 @@ class VirtualMachine():
                 addr = int(quadruples[current].addr2)
 
                 self.setValue(addr,value)
+                stepOne = False
+                current = stackPointers.pop()
+                self.currentFunction = stackNameFunctions.pop()
+                self.memories['local'] = stackMemories.pop()
             elif operation == '=':
                 assignationType = quadruples[current].addr3
                 if  assignationType == 'arreglo':

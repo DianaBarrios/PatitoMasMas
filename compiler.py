@@ -747,17 +747,18 @@ class Program:
     ##### HELPERS
     #Funcion que te da la siguiente direccion
     def nextRelativeAddr(self,local_counters,type,increment=1):
-        """[summary]
+        """Función que te da la siguiente dirección relativa para asignar dependiendo de
+        la función de la que se mande llamar
 
         Arguments:
-            local_counters {[type]} -- [description]
-            type {[type]} -- [description]
+            local_counters {dict} -- Diccionario con los contadores de las variables actuales
+            type {string} -- Tipo de variable que quieres asignar
 
         Keyword Arguments:
-            increment {int} -- [description] (default: {1})
+            increment {int} -- Te dice cuantos incrementar si es un arreglo/matriz (default: {1})
 
         Returns:
-            [type] -- [description]
+            int -- La siguiente dirección relativa
         """
         if increment != 1:
             if type in local_counters:
@@ -797,15 +798,13 @@ class Program:
                     self.solveParams(child,targetFunction,callingFunction,counter)
 
     def lecturaAux(self,tree,stacks,function):
-        """[summary]
+        """Función que almacena todos los operandos de un estatuto de lectura
+        en la pila de operandos
 
         Arguments:
             tree {antlr4tree} -- Arbol con los tokens y las reglas
-            res {[type]} -- [description]
+            stacks {dict} -- Diccionario de pilas con info de los operadores, etc..
             function {string} -- Nombre de la función desde la que se ejecuta este estatuo
-
-        Returns:
-            [type] -- [description]
         """
         for child in tree.children:
             if not isinstance(child, TerminalNodeImpl):
@@ -932,9 +931,6 @@ class Program:
 
         Arguments:
             tree {antlr4tree} -- Arbol con los tokens y las reglas
-
-        Returns:
-            [type] -- [description]
         """
         if not isinstance(tree, TerminalNodeImpl):
             if self.rules[tree.getRuleIndex()] == "funcion":
@@ -987,7 +983,7 @@ class Program:
                     self.stackQuads.append(Quadruple('endproc',0,0,0))
             else:
                 for child in tree.children:
-                        self.decFunciones(child)
+                    self.decFunciones(child)
         else:
             pass
 
@@ -1035,7 +1031,7 @@ class Program:
             function {string} -- Nombre de la función desde la que se ejecuta este estatuo
 
         Returns:
-            [type] -- [description]
+            int -- La última dirección en la pila de operandos
         """
         stacks = {
             'pOperandos' : [],
@@ -1055,7 +1051,7 @@ class Program:
         Arguments:
             tree {antlr4tree} -- Arbol con los tokens y las reglas
             function {string} -- Nombre de la función desde la que se ejecuta este estatuo
-            stacks {[type]} -- [description]
+            stacks {dict} -- Diccionario de pilas con info de los operadores, etc..
         """
         if not isinstance(tree, TerminalNodeImpl):
             if self.rules[tree.getRuleIndex()] == "expresion":
@@ -1143,7 +1139,7 @@ class Program:
         Arguments:
             tree {antlr4tree} -- Arbol con los tokens y las reglas
             function {string} -- Nombre de la función desde la que se ejecuta este estatuo
-            stacks {[type]} -- [description]
+            stacks {dict} -- Diccionario de pilas con info de los operadores, etc..
         """
         if not isinstance(tree, TerminalNodeImpl):
             if self.rules[tree.getRuleIndex()] == "exp":
@@ -1217,7 +1213,7 @@ class Program:
         Arguments:
             tree {antlr4tree} -- Arbol con los tokens y las reglas
             function {string} -- Nombre de la función desde la que se ejecuta este estatuo
-            stacks {[type]} -- [description]
+            stacks {dict} -- Diccionario de pilas con info de los operadores, etc..
         """
         if not isinstance(tree, TerminalNodeImpl):
             if self.rules[tree.getRuleIndex()] == "term":
@@ -1282,7 +1278,7 @@ class Program:
           Arguments:
               tree {antlr4tree} -- Arbol con los tokens y las reglas
               function {string} -- Nombre de la función desde la que se ejecuta este estatuo
-              stacks {[type]} -- [description]
+              stacks {dict} -- Diccionario de pilas con info de los operadores, etc..
 
           Returns:
               [type] -- [description]
@@ -1358,7 +1354,7 @@ class Program:
         Arguments:
             tree {antlr4tree} -- Arbol con los tokens y las reglas
             function {string} -- Nombre de la función desde la que se ejecuta este estatuo
-            stacks {[type]} -- [description]
+            stacks {dict} -- Diccionario de pilas con info de los operadores, etc..
         """
         if not isinstance(tree, TerminalNodeImpl):
             if self.rules[tree.getRuleIndex()] == "exp_par":
@@ -1432,7 +1428,7 @@ class Program:
             tree {antlr4tree} -- Arbol con los tokens y las reglas
             function {string} -- Nombre de la función desde la que se ejecuta este estatuo
             dim {int} -- Número de dimension actual a evaluar
-            stacks {[type]} -- [description]
+            stacks {dict} -- Diccionario de pilas con info de los operadores, etc..
             id {int} -- Dirección base del arreglo indexado
             type {string} -- Tipo del arreglo indexado
         """
@@ -1817,9 +1813,9 @@ class Program:
                         if ruleChild == "expresion":
                             var = self.expresion(child,function)
                             #print("quad: gotof varAnterior pos")
-
                             self.stackQuads.append(Quadruple('gotof',var,'pos',0))
-                            pSaltos.append(len(self.stackQuads))
+                            numGotof = len(self.stackQuads)
+                            # pSaltos.append(len(self.stackQuads)-1)
                         elif ruleChild == "bloque_est":
                             if primerBloque:
                                 # print("Entonces: ")
@@ -1827,26 +1823,31 @@ class Program:
                                 #print("quad: goto pos")
 
 
-                                pSaltos.append(len(self.stackQuads))
+                                # pSaltos.append(len(self.stackQuads)-1)
                             else:
+
                                 hayElse = True
+
                                 self.stackQuads.append(Quadruple('goto','pos',0,0))
+                                numGoto = len(self.stackQuads)
+                                # false = pSaltos.pop()
+                                # pSaltos.append(len(self.stackQuads)-1)
                                 # print("Si no: ")
+                                numElse = len(self.stackQuads)
                                 self.evaluarBloqueEst(child,function)
-                                pSaltos.append(len(self.stackQuads))
+
 
                             primerBloque = False
 
                             # print("exp")
-
-                self.stackQuads[pSaltos[0]-1] = Quadruple('gotof',var,pSaltos[1]+1,0)
-                # print(pSaltos)
-                # print(hayElse)
+                numEnd = len(self.stackQuads)
                 if hayElse:
-                    self.stackQuads[pSaltos[1]] = Quadruple('goto',pSaltos[2]+1,0,0)
-                # print(pSaltos)
-                # print(pila)
-                # print(tipos)
+                    self.stackQuads[numGotof-1] = Quadruple('gotof',var,numElse+1,0)
+                    self.stackQuads[numGoto-1] = Quadruple('goto',numEnd+1,0,0)
+
+                else:
+                    self.stackQuads[numGotof-1] = Quadruple('gotof',var,numEnd+1,0)
+
 
         else:
             pass
@@ -1897,7 +1898,7 @@ class Program:
                             self.stackQuads.append(Quadruple('goto','pos',0,0))
                             pSaltos.append(len(self.stackQuads))
 
-                self.stackQuads[pSaltos[1]-1] = Quadruple('gotof',var,pSaltos[2],0)
+                self.stackQuads[pSaltos[1]-1] = Quadruple('gotof',var,pSaltos[2]+1,0)
                 self.stackQuads[pSaltos[2]-1] = Quadruple('goto',pSaltos[0]+1,0,0)
 
 
@@ -1960,7 +1961,7 @@ class Program:
                             pSaltos.append(len(self.stackQuads))
                             # print(child.getText())
                 # self.stackQuads[pSaltos[]]
-                self.stackQuads[pSaltos[1]-1] = Quadruple('gotov',addrTemp,pSaltos[2],0)
+                self.stackQuads[pSaltos[1]-1] = Quadruple('gotov',addrTemp,pSaltos[2]+1,0)
                 self.stackQuads[pSaltos[2]-1] = Quadruple('goto',pSaltos[0],0,0)
                 # self.stackQuads[pSaltos[2]-1] = Quadruple('goto',pSaltos[0],0,0)
                 # print(pSaltos)

@@ -3,7 +3,7 @@ var
   int x;
 
 funcion void fibonacci(int n);
-var 
+var
     int a, b, i, res;
 {
     a = 0;
@@ -14,23 +14,25 @@ var
         escribe("Error");
     } sino {
         si (n == 0) entonces {
-       escribe(a);
-   } sino {
-       si (n == 1) entonces {
-           escribe(b);
-       } sino {
-           mientras (i < n) haz {
-               escribe(a);
-               res = a + b;
-               a = b;
-               b = res;
-               i = i + 1;
-           }
-       }
+             escribe(a);
+         } sino {
+             si (n == 1) entonces {
+                 escribe(b);
+             } sino {
+                 mientras (i < n) haz {
+                     escribe(a);
+                     res = a + b;
+                     a = b;
+                     b = res;
+                     i = i + 1;
+                 }
+             }
+          }
     }
 }
-}
 principal(){
+    escribe("Teclea el numero de terminos que quieres");
     lee(x);
+    escribe("Resultados");
     fibonacci(x);
 }

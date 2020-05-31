@@ -4,14 +4,15 @@ var
   int arr[5];
 
 funcion int find(int n);
-var 
-    int i;
+var
+    int i,index;
 {
-  desde i = 0 hasta 5 hacer {
-      escribe("comparando: ", arr[i]);
-      si (arr[i] == n) entonces {
-         escribe("encontrado");
-         regresa(arr[i]);
+  desde i=0 hasta 5 hacer {
+    si (arr[i] == n) entonces {
+      regresa(i);
+    }
+    sino {
+      escribe("no es el elem");
     }
   }
   regresa(-1);
@@ -26,9 +27,9 @@ principal(){
     lee(x);
     pos = find(x);
     si (pos == -1) entonces {
-        escribe("Elemento no encontrado");
-    } sino {
-        escribe("Elemento encontrado en la posicion: ", pos);
+      escribe("No se encontro el elemento.");
     }
-    
+    sino {
+      escribe("Elemento encontrado en la pos: ",pos+1);
+    }
 }

@@ -1,6 +1,7 @@
 programa prueba1;
 var
   int i[2][10];
+  int pos;
 funcion void tres(int equis);
 var int hola;
 {
@@ -14,6 +15,12 @@ var int hola2;
 }
 
 principal(){
-  dos(10);
+  pos = 10;
+  mientras (pos > 0) haz {
+    si (pos > 5) entonces {
+      escribe("mayor a 50");
+    }
+    pos = pos - 1;
+  }
 
 }
