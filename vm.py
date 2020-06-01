@@ -83,7 +83,16 @@ class VirtualMachine():
                 #print("era: ",nombre)
                 pass
             elif operation == 'param':
-                stackParams.append({'addr': quadruples[current].addr2,'value': self.getValue(quadruples[current].addr1)})
+                if quadruples[current].addr3 == 'arreglo':
+                    dim1 = quadruples[current+1].addr2
+                    dim2 = quadruples[current+1].addr3
+                    arreglo = self.tempArray(quadruples[current].addr1,dim1,dim2)
+                    # print(arreglo)
+                    stackParams.append({'addr': quadruples[current].addr2,'value': arreglo,'array': True,'dim1':dim1,'dim2':dim2})
+                    stepOne = False
+                    current += 2
+                else:
+                    stackParams.append({'addr': quadruples[current].addr2,'value': self.getValue(quadruples[current].addr1)})
             elif operation == 'gosub':
                 stackMemories.append(self.memories['local'])
                 newMemory = {'temps': Memory(), 'local': Memory()}
@@ -92,7 +101,11 @@ class VirtualMachine():
                 self.memories['local'] = newMemory
                 self.currentFunction = quadruples[current].addr1
                 for param in stackParams:
-                    self.setValue(param['addr'],param['value'])
+                    isArray = param.get('array', None)
+                    if isArray != None:
+                        self.copyArray(param['value'],param['addr'],param['dim1'],param['dim2'],True)
+                    else:
+                        self.setValue(param['addr'],param['value'])
 
                 newPointer = quadruples[current].addr2 - 1
                 stackPointers.append(quadruples[current].addr3)

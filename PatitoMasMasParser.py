@@ -82,7 +82,7 @@ def serializedATN():
         buf.write("\u009d\3\2\2\2\u009d\u009e\3\2\2\2\u009e\u009f\5\32\16")
         buf.write("\2\u009f\25\3\2\2\2\u00a0\u00a3\7(\2\2\u00a1\u00a3\5Z")
         buf.write(".\2\u00a2\u00a0\3\2\2\2\u00a2\u00a1\3\2\2\2\u00a3\27\3")
-        buf.write("\2\2\2\u00a4\u00a5\5Z.\2\u00a5\u00a8\7*\2\2\u00a6\u00a7")
+        buf.write("\2\2\2\u00a4\u00a5\5Z.\2\u00a5\u00a8\5\16\b\2\u00a6\u00a7")
         buf.write("\7\4\2\2\u00a7\u00a9\5\30\r\2\u00a8\u00a6\3\2\2\2\u00a8")
         buf.write("\u00a9\3\2\2\2\u00a9\31\3\2\2\2\u00aa\u00ae\7\t\2\2\u00ab")
         buf.write("\u00ad\5\34\17\2\u00ac\u00ab\3\2\2\2\u00ad\u00b0\3\2\2")
@@ -982,8 +982,9 @@ class PatitoMasMasParser ( Parser ):
             return self.getTypedRuleContext(PatitoMasMasParser.TipoContext,0)
 
 
-        def ID(self):
-            return self.getToken(PatitoMasMasParser.ID, 0)
+        def ids(self):
+            return self.getTypedRuleContext(PatitoMasMasParser.IdsContext,0)
+
 
         def params(self):
             return self.getTypedRuleContext(PatitoMasMasParser.ParamsContext,0)
@@ -1013,7 +1014,7 @@ class PatitoMasMasParser ( Parser ):
             self.state = 162
             self.tipo()
             self.state = 163
-            self.match(PatitoMasMasParser.ID)
+            self.ids()
             self.state = 166
             self._errHandler.sync(self)
             _la = self._input.LA(1)

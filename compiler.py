@@ -797,16 +797,39 @@ class Program:
         Keyword Arguments:
             counter {int} -- [description] (default: {0})
         """
-        for child in tree.children:
-            if not isinstance(child, TerminalNodeImpl):
-                rule = self.rules[child.getRuleIndex()]
-                if rule == "expresion":
-                    exp = self.expresion(child,targetFunction)
-                    addr = self.dirFunciones[callingFunction]['paramsAddr'][counter]
-                    self.stackQuads.append(Quadruple('param',exp,addr,0))
-                    counter += 1
-                elif rule == "params_llamada":
-                    self.solveParams(child,targetFunction,callingFunction,counter)
+        # tree2 = tree.params_llamada()
+        try:
+            for child in tree.params_llamada().children:
+                if not isinstance(child, TerminalNodeImpl):
+                    rule = self.rules[child.getRuleIndex()]
+                    if rule == "expresion":
+                        exp = self.expresion(child,targetFunction)
+                        addr = self.dirFunciones[callingFunction]['paramsAddr'][counter]
+
+                        callingDim1 = self.getDimOfAddr(exp,targetFunction,1)
+                        callingDim2 = self.getDimOfAddr(exp,targetFunction,2)
+
+                        targetDim1 = self.getDimOfAddr(addr,callingFunction,1)
+                        targetDim2 = self.getDimOfAddr(addr,callingFunction,2)
+
+                        if callingDim1 != targetDim1 or callingDim2 != targetDim2:
+                            callingName = self.getNameOfAddr(exp,targetFunction)
+                            targetName = self.getNameOfAddr(addr,callingFunction)
+                            # print(callingName,targetName)
+                            msg = "Los arreglos '{}' y '{}' no tienen el mismo tamaño.".format(callingName,targetName)
+                            return self.error(tree.ID(),msg)
+                        if callingDim1 != False and callingDim1 == targetDim1:
+                            self.stackQuads.append(Quadruple('param',exp,addr,'arreglo'))
+                            self.stackQuads.append(Quadruple('dimensiones',0,callingDim1,callingDim2))
+                        else:
+                            self.stackQuads.append(Quadruple('param',exp,addr,0))
+                        # print("param call",callingDim1,callingDim2, "param target",targetDim1,targetDim2)
+
+                        counter += 1
+                    elif rule == "params_llamada":
+                        self.solveParams(child,targetFunction,callingFunction,counter)
+        except AttributeError as e:
+            pass
 
     def lecturaAux(self,tree,stacks,function):
         """Función que almacena todos los operandos de un estatuto de lectura
@@ -971,7 +994,7 @@ class Program:
                     #Local counter of types of vars and params
                     localCounters = {}
 
-                    self.decParamsFun(tree.params(),varsParams,tablaParams,tablaDirs,functionName,localCounters)
+                    self.decParamsFun(tree.params(),varsParams,tempVar2,tablaParams,tablaDirs,functionName,localCounters)
                     self.decVariables(tree.dec_variables(),varsParams,tempVar2,localCounters,"",functionName)
                     #self.decVariables(tree.dec_variables(),tempVar,tempVar2,localCounters,"",functionName)
 
@@ -998,7 +1021,7 @@ class Program:
         else:
             pass
 
-    def decParamsFun(self,tree,varsParams,tablaParams,tablaDirs,function,local_counters):
+    def decParamsFun(self,tree,varsParams,temp2,tablaParams,tablaDirs,function,local_counters):
         """[summary]
 
         Arguments:
@@ -1014,7 +1037,16 @@ class Program:
         """
         if not isinstance(tree, TerminalNodeImpl):
             if self.rules[tree.getRuleIndex()] == "params":
-                varName = tree.ID().getText()
+                varName = tree.ids().ID().getText()
+                numDim = 0
+                for child in tree.ids().children:
+                    if not isinstance(child, TerminalNodeImpl):
+                        if self.rules[child.getRuleIndex()] == "dimension":
+                            numDim += 1
+                            if numDim == 1:
+                                dim1 = int(child.CTE_INT().getText())
+                            elif numDim == 2:
+                                dim2 = int(child.CTE_INT().getText())
 
                 if varName in varsParams or self.checksDuplicateVar(varName):
                     msg = "Var '{}' duplicada".format(varName)
@@ -1023,13 +1055,23 @@ class Program:
                 varType = tree.tipo().getText()
                 tablaParams.append(varType)
                 offset = self.memory_limits['local'][varType]
-                varAddr = self.nextRelativeAddr(local_counters,varType) + offset
-                tablaDirs.append(varAddr)
-                #self.dirFunciones[functionName]['vars'][nombre] = {'tipo': tipo, 'dir': addr}
-                varsParams[varName] = {'tipo': varType, 'dir': varAddr}
 
+                if numDim == 0:
+                    varAddr = self.nextRelativeAddr(local_counters,varType) + offset
+                    varsParams[varName] = {'tipo': varType, 'dir': varAddr}
+                    temp2[varAddr] = {'nombre':varName}
+                elif numDim == 1:
+                    varAddr = self.nextRelativeAddr(local_counters,varType,dim1) + offset
+                    varsParams[varName] = {'tipo': varType,'dim1': dim1, 'dir': varAddr}
+                    temp2[varAddr] = {'nombre':varName,'dim1': dim1}
+                elif numDim == 2:
+                    dims = dim1 * dim2
+                    varAddr = self.nextRelativeAddr(local_counters,varType,dims) + offset
+                    varsParams[varName] = {'tipo': varType,'dim1': dim1,'dim2':dim2, 'dir': varAddr}
+                    temp2[varAddr] = {'nombre':varName,'dim1': dim1,'dim2':dim2}
+                tablaDirs.append(varAddr)
             for child in tree.children:
-                self.decParamsFun(child,varsParams,tablaParams,tablaDirs,function,local_counters)
+                self.decParamsFun(child,varsParams,temp2,tablaParams,tablaDirs,function,local_counters)
         else:
             pass
 
@@ -2067,7 +2109,7 @@ class Program:
 
         self.stackQuads.append(Quadruple('era',functionName,0,0))
 
-        self.solveParams(tree.params_llamada(),function,functionName)
+        self.solveParams(tree,function,functionName)
 
         self.stackQuads.append(Quadruple('gosub',functionName,initialAddr,len(self.stackQuads)+1))
 

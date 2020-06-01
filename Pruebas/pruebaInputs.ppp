@@ -1,0 +1,33 @@
+programa findElem;
+var
+  int j, x, pos;
+  int arr[3][3];
+funcion int find(int n[3][3]);
+var
+    int i,index;
+{
+  escribe(n);
+  desde i=0 hasta 5 hacer {
+    si (arr[i] == n) entonces {
+      regresa(i);
+    }
+  }
+  regresa(-1);
+}
+funcion int buscarrr(int yay);
+var
+    int wow;
+{
+  regresa(-1);
+}
+
+principal(){
+  desde j=0 hasta 3 hacer {
+    desde x=0 hasta 3 hacer {
+      arr[j][x] = 100;
+    }
+  }
+  pos = find(arr);
+  x = buscarrr(45);
+  escribe(pos,x);
+}
