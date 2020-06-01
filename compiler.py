@@ -649,6 +649,12 @@ class Program:
                 return False
         return False
 
+    def getReturnsArray(self,function):
+        res = self.dirFunciones['global']['vars'][function].get('array', None)
+        if res != None:
+            return True
+        return False
+
     #Funcion que regresa el tipo de una variable
     def getTypeOfVariable(self,var,function):
         """Función que te da el tipo de una variable(nombre)
@@ -1624,8 +1630,15 @@ class Program:
 
         addrExp = self.expresion(tree.expresion(),function)
         addrVar = self.getAddrOfVariable(function,'global')
+        addrDim1 = self.getDimOfAddr(addrExp,function,1)
+        addrDim2 = self.getDimOfAddr(addrExp,function,2)
+        if addrDim1 != False:
+            self.dirFunciones['global']['vars'][function]['array'] = True
+            self.stackQuads.append(Quadruple('ret',addrExp,addrVar,'arreglo'))
+            self.stackQuads.append(Quadruple('dimensiones',0,addrDim1,addrDim2))
 
-        self.stackQuads.append(Quadruple('ret',addrExp,addrVar,0))
+        else:
+            self.stackQuads.append(Quadruple('ret',addrExp,addrVar,0))
 
     def est_lectura(self,tree,function):
         """Función que genera los cuadruplos para la lectura
@@ -1709,6 +1722,7 @@ class Program:
                             c = child.ID()
                             if len(pilas['pOperandos']) > 1:
                                 tipo_anterior = pilas['pTipos'][-1]
+                                print("flag 1 ant",tipo_anterior,"nuevo",varType)
                                 if varType != tipo_anterior:
                                     msg = "Asignación invalida entre '{}' y '{}'.".format(varName,pilas['pTipos'][-1],varType)
                                     return self.error(c,msg)
@@ -1722,7 +1736,6 @@ class Program:
                             # print("exp")
                             exp = self.expresion(child,function)
                             tipo_exp = self.getTypeOfAddr(exp)
-                            # print(exp,tipo_exp)
 
                             topTipos = pilas['pTipos'][-1]
                             # topOperandos = pilas['pOperandos'][-1]
@@ -1731,7 +1744,7 @@ class Program:
                             else:
                                 pilas['tieneBrackets'].append(False)
                             # topName = self.getNameOfAddr(topOperandos,function)
-                            if tipo_exp != topTipos:
+                            if not exp >= 55000 and tipo_exp != topTipos:
                                 msg = "Asignación invalida entre '{}' y '{}'.".format(topTipos,tipo_exp)
                                 return self.error(c,msg)
 
@@ -1758,9 +1771,14 @@ class Program:
                 elif not bracketsIzq and not bracketsDer:
                     # n = self.getNameOfAddr(leftAddr,function)
                     # print(n,leftDim1)
+
                     if leftDim1 != False:
-                        self.stackQuads.append(Quadruple('=',exp,leftAddr,'arrWhole'))
-                        self.stackQuads.append(Quadruple('dimensiones',0,leftDim1,leftDim2))
+                        if (leftDim1 == rightDim1) and (leftDim2 == rightDim2):
+                            self.stackQuads.append(Quadruple('=',exp,leftAddr,'arreglo'))
+                            self.stackQuads.append(Quadruple('dimensiones',0,leftDim1,leftDim2))
+                        else:
+                            self.stackQuads.append(Quadruple('=',exp,leftAddr,'arrWhole'))
+                            self.stackQuads.append(Quadruple('dimensiones',0,leftDim1,leftDim2))
                     else:
                         self.stackQuads.append(Quadruple('=',exp,leftAddr,0))
                 elif not bracketsIzq and bracketsDer:
@@ -2062,10 +2080,16 @@ class Program:
 
             #print("dir de function/var:",addr)
 
-            offset = self.memory_limits['temp'][varType]
-            tempAddr = self.nextRelativeAddr(self.tempsCounter,varType) + offset
 
-            self.stackQuads.append(Quadruple('=',varAddr,tempAddr,0))
+            isArray = self.getReturnsArray(functionName)
+            if isArray:
+                offset = self.memory_limits['temp']['dirArreglo']
+                tempAddr = self.nextRelativeAddr(self.ctesCounter,'dir') + offset
+                self.stackQuads.append(Quadruple('=',varAddr,tempAddr,'retArray'))
+            else:
+                offset = self.memory_limits['temp'][varType]
+                tempAddr = self.nextRelativeAddr(self.tempsCounter,varType) + offset
+                self.stackQuads.append(Quadruple('=',varAddr,tempAddr,0))
 
             if stacks != False:
                 stacks['pOperandos'].append(tempAddr)

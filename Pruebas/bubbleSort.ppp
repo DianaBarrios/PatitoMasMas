@@ -1,22 +1,32 @@
 programa sortVector;
 var
   int arr[10];
+  int arrsorted[10];
   int y;
-funcion void sort(int n);
+funcion int equis(int bb);
 var
-    int sorted[5];
+  int a;
+{
+  regresa(bb);
+}
+funcion int sort(int n);
+var
+    int sorted[10];
     int i, j,k, aux;
 {
+  sorted = arr;
+  escribe(sorted);
   desde i=0 hasta n hacer {
     k = n - i - 1;
     desde j=0 hasta k hacer {
-      si (arr[j] > arr[j+1]) entonces {
-        aux = arr[j];
-        arr[j] = arr[j+1];
-        arr[j+1] = aux;
+      si (sorted[j] > sorted[j+1]) entonces {
+        aux = sorted[j];
+        sorted[j] = sorted[j+1];
+        sorted[j+1] = aux;
       }
     }
   }
+  regresa(sorted);
 }
 principal(){
   arr[0] = 3883;
@@ -31,8 +41,10 @@ principal(){
   arr[9] = 99;
   escribe("Arreglo original:");
   escribe(arr);
-  sort(10);
+  arrsorted = sort(10);
   escribe("Arreglo ordenado:");
+  escribe(arrsorted);
+  escribe("Arreglo original:");
   escribe(arr);
 
 }
