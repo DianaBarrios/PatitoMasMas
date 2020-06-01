@@ -1,26 +1,40 @@
 programa prueba1;
 var
-  int i[2][10];
-  int pos;
+  int i,j,k,ss;
+  float heyhey;
+  int arreglo1[3][3], arreglo2[3][3],arreglo3[3][3];
+  char arrchar[3][2];
+  float arrfloat[3][2];
+  int arr[20];
 funcion void tres(int equis);
 var int hola;
 {
   escribe(hola);
   escribe("hola",equis);
 }
-funcion void dos(int equis2);
-var int hola2;
-{
-  tres(equis2);
-}
-
 principal(){
-  pos = 10;
-  mientras (pos > 0) haz {
-    si (pos > 5) entonces {
-      escribe("mayor a 50");
+  arrfloat = 3.231;
+  escribe(arrfloat);
+  arrchar = 'a';
+  escribe(arrchar);
+  arreglo1 = arreglo2 = 5;
+  i = j = k = ss = 100;
+  escribe(ss);
+  escribe(arreglo1);
+  escribe(arreglo2);
+  arreglo3 = 4638373;
+  escribe(arreglo3);
+  arr = 10100;
+  escribe(arr);
+  k = 5;
+  desde i=0 hasta 3 hacer {
+    desde j=0 hasta 3 hacer {
+      arreglo1[i][j] = k;
+      k = k + 5;
     }
-    pos = pos - 1;
   }
-
+  escribe(arreglo1);
+  escribe("aqui error");
+  ss = arreglo1[0][2];
+  escribe(ss);
 }

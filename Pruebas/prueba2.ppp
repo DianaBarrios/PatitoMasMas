@@ -16,7 +16,7 @@ var int c;
   escribe("hi");
 }
 principal(){
-  valor[0] = valor[1] = valor[2] = valor[3] = valor[4] = 3.24;
+  valor = 3.24;
   escribe(valor);
   desde i=0 hasta 2 hacer {
     desde j=0 hasta 2 hacer {
@@ -28,6 +28,6 @@ principal(){
   escribe(matriz!);
   matriz4 = matriz3 = matriz2 = matriz;
 
-  escribe("m3 y m3",matriz2,matriz3,matriz4!);
+  escribe("m3 y m3",matriz2,matriz3,matriz4);
   escribe(matriz4);
 }

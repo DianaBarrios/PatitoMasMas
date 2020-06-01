@@ -1,0 +1,38 @@
+programa sortVector;
+var
+  int arr[10];
+  int y;
+funcion void sort(int n);
+var
+    int sorted[5];
+    int i, j,k, aux;
+{
+  desde i=0 hasta n hacer {
+    k = n - i - 1;
+    desde j=0 hasta k hacer {
+      si (arr[j] > arr[j+1]) entonces {
+        aux = arr[j];
+        arr[j] = arr[j+1];
+        arr[j+1] = aux;
+      }
+    }
+  }
+}
+principal(){
+  arr[0] = 3883;
+  arr[1] = 100;
+  arr[2] = 2;
+  arr[3] = 421;
+  arr[4] = 8;
+  arr[5] = 325;
+  arr[6] = 12;
+  arr[7] = 36;
+  arr[8] = 54;
+  arr[9] = 99;
+  escribe("Arreglo original:");
+  escribe(arr);
+  sort(10);
+  escribe("Arreglo ordenado:");
+  escribe(arr);
+
+}

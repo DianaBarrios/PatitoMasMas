@@ -417,6 +417,11 @@ arithmeticCube = {
         }
     }
 
+class MyErrorListener( ErrorListener ):
+    def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):
+        print("Error línea-> {}:{} -> {}".format(line,column,msg))
+        exit()
+
 class Quadruple:
     def __init__(self,op,addr1,addr2,addr3):
          """Clase para tener una estructura de los cuadruplos
@@ -472,7 +477,7 @@ class Program:
         """
         line = tree.getSymbol().line
         column = tree.getSymbol().column
-        print("Error linea-> {}:{} -> {}".format(line,column,mensaje))
+        print("Error línea-> {}:{} -> {}".format(line,column,mensaje))
         exit()
 
     def execute(self):
@@ -1077,7 +1082,16 @@ class Program:
                                     resultType = arithmeticCube[opSymbol][rightType][leftType]
                                     # print("tipo res:", resultType)
                                     if resultType == "x":
-                                        print("Operacion no valida")
+                                        if opSymbol == '<':
+                                            opName = 'menor que'
+                                        elif opSymbol == '>':
+                                            opName = 'mayor que'
+                                        elif opSymbol == '==':
+                                            opName = 'igual'
+                                        else:
+                                            opName = 'no igual'
+                                        print("Error -> Operación '{}' no posible entre {} y {}".format(opName,leftType,rightType))
+                                        exit()
 
                                     offset = self.memory_limits['temp'][resultType]
                                     tempAddr = self.nextRelativeAddr(self.tempsCounter,resultType) + offset
@@ -1115,7 +1129,9 @@ class Program:
                                     resultType = arithmeticCube[opSymbol][rightType][leftType]
 
                                     if resultType == "x":
-                                        print("Operacion no valida")
+                                        opName = 'AND' if opSymbol == '&' else 'OR'
+                                        print("Error -> Operación '{}' no posible entre {} y {}".format(opName,leftType,rightType))
+                                        exit()
 
                                     offset = self.memory_limits['temp'][resultType]
                                     tempAddr = self.nextRelativeAddr(self.tempsCounter,resultType) + offset
@@ -1172,7 +1188,9 @@ class Program:
                                     resultType = arithmeticCube[opSymbol][rightType][leftType]
 
                                     if resultType == "x":
-                                        print("Operacion no valida")
+                                        opName = 'suma' if opSymbol == '+' else 'resta'
+                                        print("Error -> Operación '{}' no posible entre {} y {}".format(opName,leftType,rightType))
+                                        exit()
 
                                     leftDim1 = self.getDimOfAddr(leftAddr,function,1)
                                     leftDim2 = self.getDimOfAddr(leftAddr,function,2)
@@ -1192,7 +1210,6 @@ class Program:
                                         offset = self.memory_limits['temp'][resultType]
                                         tempAddr = self.nextRelativeAddr(self.tempsCounter,resultType) + offset
                                         self.stackQuads.append(Quadruple(opSymbol,leftAddr,rightAddr,tempAddr))
-
 
                                     stacks['pOperandos'].append(tempAddr)
                                     stacks['pTipos'].append(resultType)
@@ -1236,7 +1253,9 @@ class Program:
                                 resultType = arithmeticCube[opSymbol][rightType][leftType]
 
                                 if resultType == "x":
-                                    print("Operacion no valida")
+                                    opName = 'multiplicación' if opSymbol == '*' else 'división'
+                                    print("Error -> Operación '{}' no posible entre {} y {}".format(opName,leftType,rightType))
+                                    exit()
 
                                 leftDim1 = self.getDimOfAddr(leftAddr,function,1)
                                 leftDim2 = self.getDimOfAddr(leftAddr,function,2)
@@ -1691,7 +1710,7 @@ class Program:
                             if len(pilas['pOperandos']) > 1:
                                 tipo_anterior = pilas['pTipos'][-1]
                                 if varType != tipo_anterior:
-                                    msg = "Asignacion invalida {}({}) a {}({})".format(varAddr,varType,pilas['pOperandos'][-1],pilas['pTipos'][-1])
+                                    msg = "Asignación invalida entre '{}' y '{}'.".format(varName,pilas['pTipos'][-1],varType)
                                     return self.error(c,msg)
                             if tieneDim == False or brackets == False:
                                 pilas['tieneBrackets'].append(False)
@@ -1706,41 +1725,62 @@ class Program:
                             # print(exp,tipo_exp)
 
                             topTipos = pilas['pTipos'][-1]
-                            topOperandos = pilas['pOperandos'][-1]
+                            # topOperandos = pilas['pOperandos'][-1]
+                            if exp > 50000:
+                                pilas['tieneBrackets'].append(True)
+                            else:
+                                pilas['tieneBrackets'].append(False)
+                            # topName = self.getNameOfAddr(topOperandos,function)
                             if tipo_exp != topTipos:
-                                msg = "Asignacion invalida {}({}) a {}({})".format(exp,tipo_exp,topOperandos,topTipos)
-                                #print("error", msg)
-                                #print("child:",child)
+                                msg = "Asignación invalida entre '{}' y '{}'.".format(topTipos,tipo_exp)
                                 return self.error(c,msg)
 
 
                 # print(pilas['pOperandos'])
-                # print(pilas['tieneBrackets'])
+                # print("bracksss", pilas['tieneBrackets'])
                 ####AGREGAR ALGO PARA SABER SI varAddr Y EXP TENIAN [][] O NO
                 leftAddr = pilas['pOperandos'][-1]
-                bracketsIzq = pilas['tieneBrackets'].pop()
+                leftType = pilas['pTipos'].pop()
+                bracketsDer = pilas['tieneBrackets'].pop()
+                bracketsIzq = pilas['tieneBrackets'][-1]
                 leftDim1 = self.getDimOfAddr(varAddr,function,1)
                 leftDim2 = self.getDimOfAddr(varAddr,function,2)
                 rightDim1 = self.getDimOfAddr(exp,function,1)
                 rightDim2 = self.getDimOfAddr(exp,function,2)
                 # print("en",leftAddr,exp,rightDim1,rightDim2)
-
-                if bracketsIzq:
+                # print("bra",bracketsIzq,bracketsDer)
+                if exp >= 55000 and not bracketsIzq:
+                    self.stackQuads.append(Quadruple('=',exp,leftAddr,'arreglo'))
+                    self.stackQuads.append(Quadruple('dimensiones',0,leftDim1,leftDim2))
+                elif bracketsIzq and not bracketsDer:
                     self.stackQuads.append(Quadruple('=',exp,leftAddr,'arrSingle'))
-                    pilas['pOperandos'].pop()
+                    # pilas['pOperandos'].pop()
+                elif not bracketsIzq and not bracketsDer:
+                    # n = self.getNameOfAddr(leftAddr,function)
+                    # print(n,leftDim1)
+                    if leftDim1 != False:
+                        self.stackQuads.append(Quadruple('=',exp,leftAddr,'arrWhole'))
+                        self.stackQuads.append(Quadruple('dimensiones',0,leftDim1,leftDim2))
+                    else:
+                        self.stackQuads.append(Quadruple('=',exp,leftAddr,0))
+                elif not bracketsIzq and bracketsDer:
+                    self.stackQuads.append(Quadruple('=',exp,leftAddr,0))
+                elif bracketsIzq != bracketsDer and exp > 50000:
+                     msg = "No se puede asignar un arreglo a un {}.".format(leftType)
+                     return self.error(c,msg)
+                elif bracketsIzq and bracketsDer:
+                    self.stackQuads.append(Quadruple('=',exp,leftAddr,'arrSingle'))
                 else:
+                    # n = self.getNameOfAddr(leftAddr,function)
+                    # print(n)
+                    # if bracketsIzq != bracketsDer and exp > 50000:
+                    #     msg = "No se puede asignar un arreglo a un {}.".format(leftType)
+                    #     return self.error(c,msg)
                     if exp >= 50000 and leftDim1 != False:
                         self.stackQuads.append(Quadruple('=',exp,leftAddr,'arreglo'))
                         self.stackQuads.append(Quadruple('dimensiones',0,leftDim1,leftDim2))
                         # print("si entre")
                     else:
-                        # leftName = self.getNomDir(varAddr,function)
-                        # # rightName = self.getNomDir(exp,function)
-                        # msg = "No se puede asignar un valor a todo el arreglo '{}'".format(leftName)
-                        # return self.error(c,msg)
-                    # print("si son iguales")
-                    # print("izq:",leftDim1,leftDim2)
-                    # print("der:",rightDim1,rightDim2)
                         if leftDim1 != False and rightDim1 != False:
                             if (leftDim1 == rightDim1) and (leftDim2 == rightDim2):
                                 self.stackQuads.append(Quadruple('=',exp,leftAddr,'arreglo'))
@@ -1759,6 +1799,9 @@ class Program:
                 # print(pilas['tieneBrackets'])
                 if lenPila >= 1:
                     for i in range(lenPila+1):
+                        # print("bracks adentro for",i, pilas['tieneBrackets'])
+                        bracketsDer = bracketsIzq
+                        bracketsIzq = pilas['tieneBrackets'].pop()
                         # print("for", i , pilas['pOperandos'])
                         # print("entra for")
                         # leftAddr = pilas['pOperandos'].pop()
@@ -1768,10 +1811,24 @@ class Program:
                         rightAddr = pilas['pOperandos'].pop()
                         rightDim1 = self.getDimOfAddr(rightAddr,function,1)
                         rightDim2 = self.getDimOfAddr(rightAddr,function,2)
-                        if pilas['tieneBrackets'][-1]:
-                            # print("adentro")
-                            pilas['tieneBrackets'].pop()
-                            self.stackQuads.append(Quadruple('=',leftAddr,rightAddr,'arrSingle'))
+                        if bracketsIzq and not bracketsDer:
+                            self.stackQuads.append(Quadruple('=',exp,rightAddr,'arrSingle'))
+                            pilas['pOperandos'].pop()
+                        elif not bracketsIzq and not bracketsDer:
+                            # n = self.getNameOfAddr(leftAddr,function)
+                            # print(n,leftDim1)
+                            if leftDim1 != False:
+                                self.stackQuads.append(Quadruple('=',leftAddr,rightAddr,'arrWhole'))
+                                self.stackQuads.append(Quadruple('dimensiones',0,rightDim1,rightDim2))
+                            else:
+                                self.stackQuads.append(Quadruple('=',exp,rightAddr,0))
+                        elif not bracketsIzq and bracketsDer:
+                            self.stackQuads.append(Quadruple('=',exp,rightAddr,0))
+                        elif bracketsIzq != bracketsDer and exp > 50000:
+                             msg = "No se puede asignar un arreglo a un {}.".format(leftType)
+                             return self.error(c,msg)
+                        elif bracketsIzq and not bracketsDer:
+                            self.stackQuads.append(Quadruple('=',exp,leftAddr,'arrSingle'))
                         else:
                             if leftDim1 != False and rightDim1 != False:
                                 if (leftDim1 == rightDim1) and (leftDim2 == rightDim2):
@@ -1784,7 +1841,7 @@ class Program:
                                     # print(msg)
                                     return self.error(c,msg)
                             else:
-                                self.stackQuads.append(Quadruple('=',leftAddr,rightAddr,0))
+                                self.stackQuads.append(Quadruple('=',exp,rightAddr,0))
                 # print(pilas['pTipos'])
 
 
@@ -2067,6 +2124,7 @@ class Compiler:
         lexer = PatitoMasMasLexer(input_stream)
         stream = CommonTokenStream(lexer)
         parser = PatitoMasMasParser(stream)
+        parser._listeners = [ MyErrorListener() ]
         startRoute = parser.start().programa()
 
         p = Program(startRoute,parser.ruleNames)

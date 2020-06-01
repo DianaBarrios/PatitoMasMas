@@ -72,7 +72,7 @@ class VirtualMachine():
             elif operation == 'gotov':
                 stepOne = False
                 value = self.getValue(quadruples[current].addr1)
-                newPointer = quadruples[current].addr2
+                newPointer = quadruples[current].addr2 - 1
 
                 if not value:
                     current += 1
@@ -203,7 +203,7 @@ class VirtualMachine():
                 self.memories['local'] = stackMemories.pop()
             elif operation == '=':
                 assignationType = quadruples[current].addr3
-                if  assignationType == 'arreglo':
+                if assignationType == 'arreglo':
                     arr1 = quadruples[current].addr1
                     arr2 = quadruples[current].addr2
 
@@ -217,7 +217,17 @@ class VirtualMachine():
                         self.copyArray(arr1,arr2,dim1,dim2,False)
                     stepOne = False
                     current +=2
+                elif assignationType == 'arrWhole':
+                    addr = quadruples[current].addr2
+                    valor = self.getValue(quadruples[current].addr1)
+
+                    dim1 = quadruples[current+1].addr2
+                    dim2 = quadruples[current+1].addr3
+                    self.asignArray(addr,valor,dim1,dim2)
+                    stepOne = False
+                    current +=2
                 elif assignationType == 'arrSingle':
+                    # print("si entreaaaa")
                     realAddr = self.memories['local']['temps'].int[quadruples[current].addr2]
                     value = self.getValue(quadruples[current].addr1)
                     self.setValue(realAddr,value)
@@ -462,7 +472,15 @@ class VirtualMachine():
         if op == '$':
             result = np.linalg.det(npArray)
         elif op == '?':
-            result = np.linalg.inv(npArray)
+            try:
+                result = np.linalg.inv(npArray)
+            except np.linalg.LinAlgError as err:
+                if 'Singular matrix' in str(err):
+                    print("Error -> No se puede calcular la inversa de una singular matrix.")
+                    exit()
+                else:
+                    raise
+
         elif op == '!':
             result = np.transpose(npArray)
         elif op == '%':
@@ -475,25 +493,10 @@ class VirtualMachine():
             result = np.max(npArray)
 
         if op in ['%','#','$','@','~']:
-            # print(result)
             return result
         else:
-            # print("3lseeee",res)
-            # print(result)
             self.memories['local']['local'].int[res] = result
-        # print("normal")
-        # print(npArray)
 
-        #transformar la pila en una matrix
-        #aplicarle la operation necesaria
-        #### Inversa ?
-            # m = np.matrix([[2,3],[4,5]])
-            # m = np.linalg.inv(m)
-        #### Determinante $
-            # m = np.linalg.det(m)
-        #### Transpuesta !
-
-            # np.transpose(x)
 
     #dim1 es de donde se copia
     #dim2 es a donde se copia
@@ -546,6 +549,17 @@ class VirtualMachine():
                     array.append(self.getValue(realAddr))
             npArray = np.array(array).reshape(dim1, dim2)
         print(npArray)
+
+    def asignArray(self,addr,value,dim1,dim2):
+        if dim2 == False:
+            for i in range(dim1):
+                self.setValue(addr+i,value)
+        else:
+            for i in range(dim1):
+                for j in range(dim2):
+                    relativeAddr = i * dim2 + j
+                    self.setValue(addr+relativeAddr,value)
+
 
 def main():
     arch = sys.argv[1]

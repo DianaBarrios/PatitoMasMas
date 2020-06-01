@@ -11,9 +11,6 @@ var
     si (arr[i] == n) entonces {
       regresa(i);
     }
-    sino {
-      escribe("no es el elem");
-    }
   }
   regresa(-1);
 }
