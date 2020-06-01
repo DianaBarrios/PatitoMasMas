@@ -1,0 +1,31 @@
+programa patito;
+var
+  int det;
+  float matriz1[2][2], matriz2[2][2];
+  int matriz3[3][3],matriz4[3][3],matriz5[3][3],matriz6[3][3],matriz7[3][3];
+funcion int asignarmatriz5(int b);
+var int i,j;
+int mat[3][3];
+{
+  desde i=0 hasta 3 hacer {
+    desde j=0 hasta 3 hacer {
+      mat[i][j] = b * 3;
+      b = b + 1;
+    }
+  }
+  regresa(mat);
+}
+principal(){
+  matriz3 = asignarmatriz5(5);
+  escribe(matriz3);
+  matriz4 = matriz3?;
+  escribe(matriz4);
+  escribe(matriz3?);
+  matriz1[0][0] = 4.0;
+  matriz1[0][1] = 7.0;
+  matriz1[1][0] = 2.0;
+  matriz1[1][1] = 6.0;
+  escribe(matriz1?);
+  matriz2 = matriz1?;
+  escribe(matriz2);
+}

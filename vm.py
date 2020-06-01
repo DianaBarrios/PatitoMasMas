@@ -195,8 +195,14 @@ class VirtualMachine():
             elif operation == 'ret':
                 value = self.getValue(quadruples[current].addr1)
                 addr = int(quadruples[current].addr2)
-
-                self.setValue(addr,value)
+                if quadruples[current].addr3 == 'arreglo':
+                    # print(value)
+                    dim1 = quadruples[current+1].addr2
+                    dim2 = quadruples[current+1].addr3
+                    arreglo = self.tempArray(quadruples[current].addr1,dim1,dim2)
+                    self.memories['global'].int[addr] = arreglo
+                else:
+                    self.setValue(addr,value)
                 stepOne = False
                 current = stackPointers.pop()
                 self.currentFunction = stackNameFunctions.pop()
@@ -217,6 +223,15 @@ class VirtualMachine():
                         self.copyArray(arr1,arr2,dim1,dim2,False)
                     stepOne = False
                     current +=2
+                elif assignationType == 'retArray':
+                    addr1 = quadruples[current].addr1
+                    array = self.memories['global'].int[addr1]
+                    addr2 = quadruples[current+1].addr2
+                    dim1 = quadruples[current+2].addr2
+                    dim2 = quadruples[current+2].addr3
+                    self.copyArray(array,addr2,dim1,dim2,True)
+                    stepOne = False
+                    current +=3
                 elif assignationType == 'arrWhole':
                     addr = quadruples[current].addr2
                     valor = self.getValue(quadruples[current].addr1)
@@ -480,7 +495,6 @@ class VirtualMachine():
                     exit()
                 else:
                     raise
-
         elif op == '!':
             result = np.transpose(npArray)
         elif op == '%':
@@ -559,6 +573,20 @@ class VirtualMachine():
                 for j in range(dim2):
                     relativeAddr = i * dim2 + j
                     self.setValue(addr+relativeAddr,value)
+
+    def tempArray(self,addr,dim1,dim2):
+        array1 = []
+        if dim2 == False:
+            for i in range(dim1):
+                array1.append(self.getValue(addr+i))
+            npArray = np.array(array1)
+        else:
+            for i in range(dim1):
+                for j in range(dim2):
+                    relativeAddr = i * dim2 + j
+                    array1.append(self.getValue(addr+relativeAddr))
+            npArray = np.array(array1).reshape(dim1, dim2)
+        return npArray
 
 
 def main():
