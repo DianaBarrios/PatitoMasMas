@@ -1,0 +1,26 @@
+programa findElem;
+var
+  int j, x, pos;
+  int arr[3][3];
+  int nuevo[5];
+  int nuevo2[5];
+funcion int buscarrr(int egue[5],int thsus);
+{
+  egue = 4536;
+  regresa(egue);
+}
+funcion void hdid(int dd);
+{
+  escribe(dd);
+  nuevo = 45;
+  nuevo2 = buscarrr(nuevo,5);
+}
+principal(){
+  nuevo = 3;
+  escribe(4/1);
+  nuevo2 = buscarrr(nuevo,100);
+  escribe(nuevo2);
+  escribe(nuevo);
+  escribe(buscarrr(nuevo,100)*nuevo);
+  escribe("welcome back to my channel");
+}

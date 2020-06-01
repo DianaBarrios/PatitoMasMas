@@ -50,7 +50,7 @@ tipo_ret
     ;
 
 params
-    : tipo ID (',' params)?
+    : tipo ids (',' params)?
     ;
 
 bloque_est

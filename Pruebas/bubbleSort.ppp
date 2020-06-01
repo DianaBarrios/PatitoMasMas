@@ -3,21 +3,22 @@ var
   int arr[10];
   int arrsorted[10];
   int y;
-funcion int equis(int bb);
+funcion int equis(int bb,int ddj);
 var
   int a;
 {
+  escribe(ddj);
   regresa(bb);
 }
-funcion int sort(int n);
+funcion int sort(int arreglito[10]);
 var
     int sorted[10];
     int i, j,k, aux;
 {
-  sorted = arr;
+  sorted = arreglito;
   escribe(sorted);
-  desde i=0 hasta n hacer {
-    k = n - i - 1;
+  desde i=0 hasta 10 hacer {
+    k = 10 - i - 1;
     desde j=0 hasta k hacer {
       si (sorted[j] > sorted[j+1]) entonces {
         aux = sorted[j];
@@ -41,10 +42,9 @@ principal(){
   arr[9] = 99;
   escribe("Arreglo original:");
   escribe(arr);
-  arrsorted = sort(10);
+  arrsorted = sort(arr);
   escribe("Arreglo ordenado:");
   escribe(arrsorted);
   escribe("Arreglo original:");
   escribe(arr);
-
 }
