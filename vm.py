@@ -54,16 +54,18 @@ class VirtualMachine():
             stepOne = True
             # print(memories['local']['temps'].int)
             operation = quadruples[current].op
-            # print(current)
+            addr1 = quadruples[current].addr1
+            addr2 = quadruples[current].addr2
+            addr3 = quadruples[current].addr3
             if operation == 'goto':
-                newPointer = quadruples[current].addr1 - 1
+                newPointer = addr1 - 1
                 current = newPointer
                 # print(nuevo)
                 stepOne = False
             elif operation == 'gotof':
                 stepOne = False
-                value = self.getValue(quadruples[current].addr1)
-                newPointer = quadruples[current].addr2 - 1
+                value = self.getValue(addr1)
+                newPointer = addr2 - 1
 
                 if not value:
                     current = newPointer
@@ -71,44 +73,44 @@ class VirtualMachine():
                     current += 1
             elif operation == 'gotov':
                 stepOne = False
-                value = self.getValue(quadruples[current].addr1)
-                newPointer = quadruples[current].addr2 - 1
+                value = self.getValue(addr1)
+                newPointer = addr2 - 1
 
                 if not value:
                     current += 1
                 else:
                     current = newPointer
             elif operation == 'era':
-                #nombre = quadruples[current].addr1
+                #nombre = addr1
                 #print("era: ",nombre)
                 pass
             elif operation == 'param':
-                if quadruples[current].addr3 == 'arreglo':
+                if addr3 == 'arreglo':
                     dim1 = quadruples[current+1].addr2
                     dim2 = quadruples[current+1].addr3
-                    arreglo = self.tempArray(quadruples[current].addr1,dim1,dim2)
+                    arreglo = self.tempArray(addr1,dim1,dim2)
                     # print(arreglo)
-                    stackParams.append({'addr': quadruples[current].addr2,'value': arreglo,'array': True,'dim1':dim1,'dim2':dim2})
+                    stackParams.append({'addr': addr2,'value': arreglo,'array': True,'dim1':dim1,'dim2':dim2})
                     stepOne = False
                     current += 2
                 else:
-                    stackParams.append({'addr': quadruples[current].addr2,'value': self.getValue(quadruples[current].addr1)})
+                    stackParams.append({'addr': addr2,'value': self.getValue(addr1)})
             elif operation == 'gosub':
                 stackMemories.append(self.memories['local'])
                 newMemory = {'temps': Memory(), 'local': Memory()}
                 stackNameFunctions.append(self.currentFunction)
 
                 self.memories['local'] = newMemory
-                self.currentFunction = quadruples[current].addr1
+                self.currentFunction = addr1
                 for param in stackParams:
                     isArray = param.get('array', None)
                     if isArray != None:
                         self.copyArray(param['value'],param['addr'],param['dim1'],param['dim2'],True)
                     else:
                         self.setValue(param['addr'],param['value'])
-
-                newPointer = quadruples[current].addr2 - 1
-                stackPointers.append(quadruples[current].addr3)
+                stackParams = []
+                newPointer = addr2 - 1
+                stackPointers.append(addr3)
 
                 stepOne = False
                 current = newPointer
@@ -121,148 +123,122 @@ class VirtualMachine():
             elif operation == 'print':
                 # print(self.memories['local']['temps'].int)
                 # print(self.memories['global'].int)
-                if type(quadruples[current].addr1) is str:
+                if type(addr1) is str:
                     # print("entre")
-                    print(quadruples[current].addr1)
+                    print(addr1)
                 else:
-                    addr = quadruples[current].addr1
-                    if addr >= 55000:
-                        array = self.memories['local']['local'].int[addr]
+                    if addr1 >= 55000:
+                        array = self.memories['local']['local'].int[addr1]
                         print(array)
-                    elif quadruples[current].addr3 == 'arreglo':
+                    elif addr3 == 'arreglo':
                         dim1 = quadruples[current+1].addr2
                         dim2 = quadruples[current+1].addr3
-                        self.printArray(addr,dim1,dim2)
+                        self.printArray(addr1,dim1,dim2)
                         stepOne = False
                         current += 2
                     else:
-                        value = self.getValue(int(addr))
+                        value = self.getValue(int(addr1))
                         print(value)
             elif operation == 'lee':
-                addr = int(quadruples[current].addr1)
                 # print(addr)
                 value = input()
-                if addr > 49999:
-                    addr = self.memories['local']['temps'].int[addr]
-                self.setValue(addr,value)
+                if addr1 > 49999:
+                    addr1 = self.memories['local']['temps'].int[addr1]
+                self.setValue(addr1,value)
             elif operation == 'verify':
-                value = self.getValue(int(quadruples[current].addr1))
-                baseAddr = self.getValue(int(quadruples[current].addr2))
-                limit = quadruples[current].addr3
+                value = self.getValue(int(addr1))
+                baseAddr = self.getValue(int(addr2))
+                limit = addr3
                 if value > limit:
                     self.error(baseAddr,2)
             elif operation in ['%','#','$','@','~','?','!']:
-                addr1 = quadruples[current].addr1
-                addr2 = quadruples[current].addr3
-
                 dim1 = quadruples[current+1].addr2
                 dim2 = quadruples[current+1].addr3
                 if operation not in ['!','?']:
                     value = self.specialArray(operation,addr1,dim1,dim2)
-                    self.setValue(addr2,value)
+                    self.setValue(addr3,value)
                 else:
-                    value = self.specialArray(operation,addr1,dim1,dim2,addr2)
+                    value = self.specialArray(operation,addr1,dim1,dim2,addr3)
                 stepOne = False
                 current += 2
             elif operation in ['*Arreglos','/Arreglos','+Arreglos','-Arreglos']:
                 op = operation[0]
-                arr1 = quadruples[current].addr1
-                arr2 = quadruples[current].addr2
-                res = quadruples[current].addr3
 
                 dim1 = quadruples[current+1].addr2
                 dim2 = quadruples[current+1].addr3
                 # print("ds",dim1,dim2)
-                if arr1 >= 55000:
-                    array = self.memories['local']['local'].int[arr1]
-                    self.aritmeticArray(op,array,arr2,dim1,dim2,res,True)
+                if addr1 >= 55000:
+                    array = self.memories['local']['local'].int[addr1]
+                    # print(array)
+                    self.aritmeticArray(op,array,addr2,dim1,dim2,addr3,True)
                 else:
-                    self.aritmeticArray(op,arr1,arr2,dim1,dim2,res,False)
+                    self.aritmeticArray(op,addr1,addr2,dim1,dim2,addr3,False)
                 stepOne = False
                 current +=2
             elif operation in ['+','-','*','/','&','||','>','<','==']:
-                left = self.getValue(quadruples[current].addr1)
-                right = self.getValue(quadruples[current].addr2)
-                resultAddr = int(quadruples[current].addr3)
+                left = self.getValue(addr1)
+                right = self.getValue(addr2)
 
-                if operation == '+':
-                    result = left + right
-                elif operation == '-':
-                    result = left - right
-                elif operation == '*':
-                    result = left * right
-                elif operation == '/':
-                    result = left / right
-                elif operation == '&':
-                    result = left and right
-                elif operation == '||':
-                    result = left or right
-                elif operation == '>':
-                    result = left > right
-                elif operation == '<':
-                    result = left < right
-                elif operation == '==':
-                    result = left == right
+                result = self.aritmetic(operation,left,right)
 
-                self.setValue(resultAddr,result)
+                self.setValue(addr3,result)
             elif operation == 'ret':
-                value = self.getValue(quadruples[current].addr1)
-                addr = int(quadruples[current].addr2)
-                if quadruples[current].addr3 == 'arreglo':
-                    # print(value)
+                value = self.getValue(addr1)
+                if addr3 == 'arreglo':
                     dim1 = quadruples[current+1].addr2
                     dim2 = quadruples[current+1].addr3
-                    arreglo = self.tempArray(quadruples[current].addr1,dim1,dim2)
-                    self.memories['global'].int[addr] = arreglo
+                    arreglo = self.tempArray(addr1,dim1,dim2)
+                    self.memories['global'].int[addr2] = arreglo
                 else:
-                    self.setValue(addr,value)
+                    self.setValue(addr2,value)
                 stepOne = False
                 current = stackPointers.pop()
                 self.currentFunction = stackNameFunctions.pop()
                 self.memories['local'] = stackMemories.pop()
             elif operation == '=':
-                assignationType = quadruples[current].addr3
+                assignationType = addr3
                 if assignationType == 'arreglo':
-                    arr1 = quadruples[current].addr1
-                    arr2 = quadruples[current].addr2
-
                     dim1 = quadruples[current+1].addr2
                     dim2 = quadruples[current+1].addr3
 
-                    if arr1 >= 55000:
-                        array = self.memories['local']['local'].int[arr1]
-                        self.copyArray(array,arr2,dim1,dim2,True)
+                    if addr1 >= 55000:
+                        array = self.memories['local']['local'].int[addr1]
+                        self.copyArray(array,addr2,dim1,dim2,True)
                     else:
-                        self.copyArray(arr1,arr2,dim1,dim2,False)
+                        self.copyArray(addr1,addr2,dim1,dim2,False)
                     stepOne = False
                     current +=2
                 elif assignationType == 'retArray':
-                    addr1 = quadruples[current].addr1
                     array = self.memories['global'].int[addr1]
-                    addr2 = quadruples[current+1].addr2
-                    dim1 = quadruples[current+2].addr2
-                    dim2 = quadruples[current+2].addr3
-                    self.copyArray(array,addr2,dim1,dim2,True)
-                    stepOne = False
-                    current +=3
+                    if quadruples[current+1].op == '=':
+                        addr2 = quadruples[current+1].addr2
+                        dim1 = quadruples[current+2].addr2
+                        dim2 = quadruples[current+2].addr3
+                        self.copyArray(array,addr2,dim1,dim2,True)
+                        stepOne = False
+                        current +=3
+                    elif quadruples[current+1].op == 'print':
+                        print(array)
+                        stepOne = False
+                        current +=2
+                    else:
+                        self.memories['local']['local'].int[addr2] = array
                 elif assignationType == 'arrWhole':
-                    addr = quadruples[current].addr2
-                    valor = self.getValue(quadruples[current].addr1)
+                    valor = self.getValue(addr1)
 
                     dim1 = quadruples[current+1].addr2
                     dim2 = quadruples[current+1].addr3
-                    self.asignArray(addr,valor,dim1,dim2)
+                    self.asignArray(addr2,valor,dim1,dim2)
                     stepOne = False
                     current +=2
                 elif assignationType == 'arrSingle':
                     # print("si entreaaaa")
-                    realAddr = self.memories['local']['temps'].int[quadruples[current].addr2]
-                    value = self.getValue(quadruples[current].addr1)
+                    realAddr = self.memories['local']['temps'].int[addr2]
+                    value = self.getValue(addr1)
                     self.setValue(realAddr,value)
                 else:
-                    value = self.getValue(quadruples[current].addr1)
-                    addr = int(quadruples[current].addr2)
-                    self.setValue(addr,value)
+                    value = self.getValue(addr1)
+                    self.setValue(addr2,value)
             else:
                 print(quadruples[current].imprimir())
 
@@ -409,18 +385,56 @@ class VirtualMachine():
         elif relative > 8999:
             mem.bool[realAddr] = value
 
+    def aritmetic(self,operation,left,right):
+        """Función que hace realiza las operaciones artimeticas de un elemento normal (no arreglo/matriz)
+
+        Arguments:
+            operation {string} -- Tipo de operación a realizar
+            left {int|float|bool|char} -- Operando izquierdo
+            right {int|float|bool|char} -- Operando derecho
+
+        Returns:
+            int|float|bool|char -- Resultado de la operación
+        """
+        if operation == '+':
+            result = left + right
+        elif operation == '-':
+            result = left - right
+        elif operation == '*':
+            result = left * right
+        elif operation == '/':
+            try:
+                result = left / right
+            except ZeroDivisionError:
+                print('Error -> División entre 0.')
+                exit()
+        elif operation == '&':
+            result = left and right
+        elif operation == '||':
+            result = left or right
+        elif operation == '>':
+            result = left > right
+        elif operation == '<':
+            result = left < right
+        elif operation == '==':
+            result = left == right
+        return result
+
     def aritmeticArray(self,op,arr1,arr2,dim1,dim2,res,isArray):
         """Función que ayuda a que se puedan realizar operaciones aritmeticas con los arreglos/matrices
 
         Arguments:
             op {string} -- El tipo de operación a realizar
-            arr1 {int} -- La dirección base del arreglo1
+            arr1 {int|npArray} -- La dirección base del arreglo1 o el arreglo ya en numpy
             arr2 {int} -- La dirección base del arreglo 2
-            dim1 {int} -- El limite superior de la dim 1
-            dim2 {int} -- El limite superior de la dim 2
+            dim1 {int} -- Limite superior de la dim1
+            dim2 {int|bool} -- Falso si no tiene dim2 o un int con el limite superior
             res {int} -- La dirección donde se va a guardar el resultado
             isArray {bool} -- Te dice si uno de los arreglos ya se transformó en un npArray previamente
         """
+        np.seterr(all = "raise")
+        if isArray:
+            npArray1 = arr1
         if not isArray:
             array1 = []
         array2 = []
@@ -448,29 +462,34 @@ class VirtualMachine():
             else:
                 npArray1 = arr1
             npArray2 = np.array(array2).reshape(dim1, dim2)
-        # print(npArray1)
-        # print(npArray2)
 
         if op == '+':
             matrizResultado = np.add(npArray1, npArray2)
         elif op == '-':
             matrizResultado = np.subtract(npArray1, npArray2)
         elif op == '*':
-            matrizResultado = np.matmul(npArray1, npArray2)
+            try:
+                matrizResultado = np.matmul(npArray1, npArray2)
+            except:
+                print("Error -> No se puede multiplicar una matriz por una constante.")
+                exit()
         elif op == '/':
-            matrizResultado = np.divide(npArray1, npArray2)
+            try:
+                matrizResultado = np.divide(npArray1, npArray2)
+            except FloatingPointError:
+                print("Error -> No se puede dividir una matriz entre 0.")
+                exit()
         self.memories['local']['local'].int[res] = matrizResultado
         # print("aqui",memories['local']['local'].int[res])
 
-    ##funciones especiales
     def specialArray(self,op,addr,dim1,dim2,res=False):
         """Función que ayuda a que se puedan realizar las operaciones especiales sobre los arreglos
 
         Arguments:
             op {string} -- El tipo de operación a realizar
             addr {int} -- La dirección base del arreglo
-            dim1 {int} -- El limite superior de la dim1
-            dim2 {int} -- El limite superior de la dim2
+            dim1 {int} -- Limite superior de la dim1
+            dim2 {int|bool} -- Falso si no tiene dim2 o un int con el limite superior
 
         Keyword Arguments:
             res {bool|int} -- Le pasa la dirección a guardar el arreglo de ser necesario (default: {False})
@@ -524,17 +543,14 @@ class VirtualMachine():
         else:
             self.memories['local']['local'].int[res] = result
 
-
-    #dim1 es de donde se copia
-    #dim2 es a donde se copia
     def copyArray(self,arr1,arr2,dim1,dim2,isArray):
         """Copia todos los elementos de un arreglo a otro, sirve para la asignación de un arreglo a otro
 
         Arguments:
-            arr1 {int} -- La dirección base del arreglo 1
-            arr2 {int} -- La dirección base del arreglo 2
-            dim1 {int} -- El limite superior de la dim 1
-            dim2 {int} -- El limite superior de la dim 2
+            arr1 {int} -- La dirección base del arreglo 1 (de donde se copia)
+            arr2 {int} -- La dirección base del arreglo 2 (a donde se copia)
+            dim1 {int} -- Limite superior de la dim1
+            dim2 {int|bool} -- Falso si no tiene dim2 o un int con el limite superior
             isArray {bool} -- Te dice si ya se guardo anteriormente como un npArray
         """
         if dim2 == False:
@@ -559,8 +575,8 @@ class VirtualMachine():
 
         Arguments:
             addr {int} -- La dirección base del arreglo
-            dim1 {int} -- El limite superior de la dim 1
-            dim2 {int} -- El limite superior de la dim 2
+            dim1 {int} -- Limite superior de la dim1
+            dim2 {int|bool} -- Falso si no tiene dim2 o un int con el limite superior
         """
         array = []
         if dim2 == False:
@@ -578,6 +594,14 @@ class VirtualMachine():
         print(npArray)
 
     def asignArray(self,addr,value,dim1,dim2):
+        """Función que asigna un valor a todo un arreglo/matriz en la memoria
+
+        Arguments:
+            addr {int} -- Dirección base del arreglo
+            value {int|float|char} -- Valor a asignar a toda la matriz
+            dim1 {int} -- Limite superior de la dim1
+            dim2 {int|bool} -- Falso si no tiene dim2 o un int con el limite superior
+        """
         if dim2 == False:
             for i in range(dim1):
                 self.setValue(addr+i,value)
@@ -588,6 +612,17 @@ class VirtualMachine():
                     self.setValue(addr+relativeAddr,value)
 
     def tempArray(self,addr,dim1,dim2):
+        """Función que toma un arreglo y lo pone en un arreglo de numpy, sirve para cuando tienes
+        que pasar como parametro un arreglo/matriz o regresar un arreglo/matriz
+
+        Arguments:
+            addr {int} -- Dirección base del arreglo
+            dim1 {int} -- Limite superior de la dim1
+            dim2 {int|bool} -- Falso si no tiene dim2 o un int con el limite superior
+
+        Returns:
+            npArray -- Arreglo/matriz en formato numpy
+        """
         array1 = []
         if dim2 == False:
             for i in range(dim1):
@@ -603,6 +638,8 @@ class VirtualMachine():
 
 
 def main():
+    """Función que toma el nombre del archivo y se lo pasa a una instancia de la VM
+    """
     arch = sys.argv[1]
     vm = VirtualMachine(arch)
     vm.execute()

@@ -22,8 +22,8 @@ Para generar un programa en `Patito++` se necesita la siguiente sintaxis
 
     programa nombrePrograma;
 
-    
-Seguido por su declaración de variables y funciones. 
+
+Seguido por su declaración de variables y funciones.
 
 ## Variables
 Las variables son definidas después de la declaración del programa o de la función.
@@ -47,9 +47,9 @@ Las variables son definidas después de la declaración del programa o de la fun
 ## Funciones
 Dentro de `Patito++` se pueden definir 0 o más funciones para cada programa.
 
-Las funciones no pueden tomar como parámetros variables dimensionadas.
+Las funciones pueden tomar como parámetros variables dimensionadas.
 
-Los tipos de retorno de una función son los previamente mencionados y void.
+Los tipos de retorno de una función son los previamente mencionados y void, incluyendo variables dimensionadas de estos tipos.
 
     funcion tipoRetorno nombreFuncion(tipoParametro : nombre)
     {
@@ -63,8 +63,9 @@ Se pueden leer una o más variables(con o sin dimensiones) separadas por comas.
 
 ### Escritura
 Se pueden escribir tanto letreros(strings constantes) y/o expresiones separadas por comas.
+Es posible escribir todo un arreglo sin indexarlo así como indexándolo.
 
-    escribe("letrero",100*2,"otro letrero");
+    escribe("letrero",100*2,"otro letrero",arreglo, arreglo[0]);
 
 ### Expresiones
 `Patito++` soporta las siguientes expresiones aritméticas:
@@ -77,10 +78,11 @@ Se pueden escribir tanto letreros(strings constantes) y/o expresiones separadas 
 | Multiplicación | `*` |
 | División | `/` |
 | Comparación | `==` |
+| Diferencia | `!=` |
 | Mayor que | `>` |
 | Menor que | `<` |
 | AND | `&` |
-| OR | `||`|
+| OR | `||`
 
 
 **Matrices**
@@ -115,7 +117,7 @@ A una matriz se le puede asignar otra si sus dimensiones lo permiten.
 **Condicionales**
 
 
-    mientras (expresion) haz 
+    mientras (expresion) haz
     {
 	    estatuto;
     }
@@ -127,7 +129,7 @@ A una matriz se le puede asignar otra si sus dimensiones lo permiten.
     }
 
 ### Decisiones
-Puede o no tener un camino alternativo(else).
+Puede o no tener un camino alternativo (else).
 
     si (expresion) entonces
     {
@@ -159,14 +161,14 @@ Si una función no es void tiene que regresar un valor en la forma de una expres
 		lee(nombreVar);
 		escribe("letrero",nombreVar);
 		si (nombreVar > 5) entonces {
-			nombre = 100 * 2; 
+			nombre = 100 * 2;
 		}
 		sino {
 			nombre = 100 / 2;
 		}
 		escribe("resultado:",nombre);
 	}
-	
+
 **Función main**
 
     principal()
@@ -189,7 +191,7 @@ Con estos dos comandos el lenguaje se debería de poder accesar usando el siguie
 
 
     ./patito nombre.ppp
-    
+
 
 # Equipo
 

@@ -2,32 +2,25 @@ programa findElem;
 var
   int j, x, pos;
   int arr[3][3];
-funcion int find(int n[3][3]);
-var
-    int i,index;
+  int nuevo[5];
+  int nuevo2[5];
+funcion int buscarrr(int egue[5],int thsus);
 {
-  escribe(n);
-  desde i=0 hasta 5 hacer {
-    si (arr[i] == n) entonces {
-      regresa(i);
-    }
-  }
-  regresa(-1);
+  egue = 4536;
+  regresa(egue);
 }
-funcion int buscarrr(int yay);
-var
-    int wow;
+funcion void hdid(int dd);
 {
-  regresa(-1);
+  escribe(dd);
+  nuevo = 45;
+  nuevo2 = buscarrr(nuevo,5);
 }
-
 principal(){
-  desde j=0 hasta 3 hacer {
-    desde x=0 hasta 3 hacer {
-      arr[j][x] = 100;
-    }
-  }
-  pos = find(arr);
-  x = buscarrr(45);
-  escribe(pos,x);
+  nuevo = 3;
+  escribe(4/1);
+  nuevo2 = buscarrr(nuevo,100);
+  escribe(nuevo2);
+  escribe(nuevo);
+  escribe(buscarrr(nuevo,100)*nuevo);
+  escribe("welcome back to my channel");
 }
