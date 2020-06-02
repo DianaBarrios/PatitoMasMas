@@ -1,8 +1,8 @@
 programa sortVector;
 var
-  int arr[10];
-  int arrsorted[10];
-  int y;
+  int arr[5];
+  int arrsorted[5];
+  int y, cont;
 funcion int equis(int bb,int ddj);
 var
   int a;
@@ -10,15 +10,14 @@ var
   escribe(ddj);
   regresa(bb);
 }
-funcion int sort(int arreglito[10]);
+funcion int sort(int arreglito[5]);
 var
-    int sorted[10];
+    int sorted[5];
     int i, j,k, aux;
 {
   sorted = arreglito;
-  escribe(sorted);
-  desde i=0 hasta 10 hacer {
-    k = 10 - i - 1;
+  desde i=0 hasta 5 hacer {
+    k = 5 - i - 1;
     desde j=0 hasta k hacer {
       si (sorted[j] > sorted[j+1]) entonces {
         aux = sorted[j];
@@ -30,21 +29,16 @@ var
   regresa(sorted);
 }
 principal(){
-  arr[0] = 3883;
-  arr[1] = 100;
-  arr[2] = 2;
-  arr[3] = 421;
-  arr[4] = 8;
-  arr[5] = 325;
-  arr[6] = 12;
-  arr[7] = 36;
-  arr[8] = 54;
-  arr[9] = 99;
+  escribe("Teclea 5 numeros para tu arreglo:");
+
+  desde cont=0 hasta 5 hacer {
+    lee(arr[cont]);
+  }
+  
   escribe("Arreglo original:");
   escribe(arr);
+  
   arrsorted = sort(arr);
   escribe("Arreglo ordenado:");
   escribe(arrsorted);
-  escribe("Arreglo original:");
-  escribe(arr);
 }

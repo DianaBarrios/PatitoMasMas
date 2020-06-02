@@ -12,6 +12,8 @@ var
   regresa(res);
 }
 principal(){
+    escribe("Escribe un numero:");
     lee(x);
+    escribe("El factorial es:");
     escribe(factorial(x));
 }

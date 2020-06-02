@@ -81,9 +81,8 @@ class VirtualMachine():
                 else:
                     current = newPointer
             elif operation == 'era':
-                #nombre = addr1
-                #print("era: ",nombre)
-                pass
+                newMemory = {'temps': Memory(), 'local': Memory()}
+                
             elif operation == 'param':
                 if addr3 == 'arreglo':
                     dim1 = quadruples[current+1].addr2
@@ -97,7 +96,6 @@ class VirtualMachine():
                     stackParams.append({'addr': addr2,'value': self.getValue(addr1)})
             elif operation == 'gosub':
                 stackMemories.append(self.memories['local'])
-                newMemory = {'temps': Memory(), 'local': Memory()}
                 stackNameFunctions.append(self.currentFunction)
 
                 self.memories['local'] = newMemory

@@ -14,10 +14,13 @@ var
 }
 
 principal(){
+    escribe("Teclea el numero de terminos que quieres");
     lee(x);
+
     si (x < 1) entonces {
         escribe("Escribe un numero positivo");
     } sino {
+        escribe("Resultados: ");
         desde i = 0 hasta x hacer {
         escribe(fibonacci(i));
     }
