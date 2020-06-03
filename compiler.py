@@ -1,5 +1,6 @@
 from antlr4 import *
 from antlr4.tree.Tree import TerminalNodeImpl
+from antlr4.tree.Trees import Trees
 from antlr4.InputStream import InputStream
 from PatitoMasMasLexer import PatitoMasMasLexer
 from PatitoMasMasParser import PatitoMasMasParser
@@ -497,7 +498,8 @@ class Program:
         varGlobales = {}
         varGlobales2 = {}
         globalCounters = {}
-        self.decVariables(self.tree.dec_variables(), varGlobales,
+        if self.tree.dec_variables() != None:
+            self.decVariables(self.tree.dec_variables(), varGlobales,
                           varGlobales2, globalCounters, "", 'global')
         self.dirFunciones['global'] = {
             'vars': varGlobales, 'counters': globalCounters, 'varsAddr': varGlobales2}
@@ -958,6 +960,9 @@ class Program:
                     jsontemp["counters"] = localCounters
                     self.dirFunciones[functionName] = jsontemp
                     self.evaluarBloqueEst(tree.bloque_est(), functionName)
+                    if 'returned' not in self.dirFunciones[functionName] and returnType != 'void':
+                        msg = "Función '{}' sin estatuto de retorno".format(functionName)
+                        return self.error(tree.ID(), msg)
                     self.dirFunciones[functionName]['tempsCounters'] = self.tempsCounter
                     self.tempsCounter = {}
                     #self.temp = 0
@@ -999,7 +1004,7 @@ class Program:
 
                 if varName in varsFunc or self.checksDuplicateVar(varName):
                     msg = "Var '{}' duplicada".format(varName)
-                    return self.error(tree.ID(), msg)
+                    return self.error(tree.ids().ID(), msg)
 
                 varType = tree.tipo().getText()
                 typeParams.append(varType)
@@ -1198,6 +1203,7 @@ class Program:
                             if opSymbol == '+' or opSymbol == '-':
                                 if len(stacks['pOperandos']) > 1:
                                     stacks['pOperadores'].pop()
+                                    opName = 'suma' if opSymbol == '+' else 'resta'
 
                                     rightAddr = stacks['pOperandos'].pop()
                                     rightType = stacks['pTipos'].pop()
@@ -1207,7 +1213,6 @@ class Program:
                                     resultType = arithmeticCube[opSymbol][rightType][leftType]
 
                                     if resultType == "x":
-                                        opName = 'suma' if opSymbol == '+' else 'resta'
                                         print(
                                             "Error -> Operación '{}' no posible entre {} y {}".format(opName, leftType, rightType))
                                         exit()
@@ -1222,10 +1227,25 @@ class Program:
                                     rightDim2 = self.getDimOfAddr(
                                         rightAddr, function, 2)
 
+                                    if leftDim1 != False and (leftDim1 != rightDim1 or leftDim2 != rightDim2):
+                                        if rightDim1 == False:
+                                            print("f1")
+                                            print(
+                                                "Error -> Operación '{}' no posible entre un arreglo y una constante".format(opName))
+                                            exit()
+                                        else:
+                                            print(
+                                                "Error -> Operación '{}' no posible entre diferentes tamaños de arreglos".format(opName))
+                                            exit()
+                                    if rightDim1 != False and leftDim1 == False:
+                                        if leftAddr < 55000 and rightAddr < 55000:
+                                            print(
+                                                "Error -> Operación '{}' no posible entre un arreglo y una constante".format(opName))
+                                            exit()
+
                                     if leftDim1 != False and leftDim1 == rightDim1 and leftDim2 == rightDim2 or leftAddr >= 55000:
                                         offset = self.memory_limits['temp']['dirArreglo']
-                                        tempAddr = self.nextRelativeAddr(
-                                            self.ctesCounter, 'dir') + offset
+                                        tempAddr = self.nextRelativeAddr(self.ctesCounter, 'dir') + offset
 
                                         opArray = "{}Arreglos".format(opSymbol)
 
@@ -1235,21 +1255,14 @@ class Program:
                                             Quadruple('dimensiones', 0, rightDim1, rightDim2))
                                     else:
                                         offset = self.memory_limits['temp'][resultType]
-                                        tempAddr = self.nextRelativeAddr(
-                                            self.tempsCounter, resultType) + offset
-                                        self.stackQuads.append(
-                                            Quadruple(opSymbol, leftAddr, rightAddr, tempAddr))
+                                        tempAddr = self.nextRelativeAddr(self.tempsCounter, resultType) + offset
+                                        self.stackQuads.append(Quadruple(opSymbol, leftAddr, rightAddr, tempAddr))
 
                                     stacks['pOperandos'].append(tempAddr)
                                     stacks['pTipos'].append(resultType)
                                     # print("pilitas",stacks['pTipos'])
-
-                                else:
-                                    pass
-
                             else:
                                 pass
-
         else:
             pass
 
@@ -1277,6 +1290,7 @@ class Program:
                             opSymbol = stacks['pOperadores'][-1]
                             if opSymbol == '*' or opSymbol == '/':
                                 stacks['pOperadores'].pop()
+                                opName = 'multiplicación' if opSymbol == '*' else 'división'
                                 rightAddr = stacks['pOperandos'].pop()
                                 rightType = stacks['pTipos'].pop()
 
@@ -1286,7 +1300,6 @@ class Program:
                                 resultType = arithmeticCube[opSymbol][rightType][leftType]
 
                                 if resultType == "x":
-                                    opName = 'multiplicación' if opSymbol == '*' else 'división'
                                     print(
                                         "Error -> Operación '{}' no posible entre {} y {}".format(opName, leftType, rightType))
                                     exit()
@@ -1300,6 +1313,22 @@ class Program:
                                     rightAddr, function, 1)
                                 rightDim2 = self.getDimOfAddr(
                                     rightAddr, function, 2)
+                                
+                                if leftDim1 != False and (leftDim1 != rightDim1 or leftDim2 != rightDim2):
+                                    if rightDim1 == False:
+                                        print(
+                                            "Error -> Operación '{}' no posible entre un arreglo y una constante".format(opName))
+                                        exit()
+                                    else:
+                                        print(
+                                            "Error -> Operación '{}' no posible entre diferentes tamaños de arreglos".format(opName))
+                                        exit()
+
+                                if rightDim1 != False and leftDim1 == False:
+                                    if leftAddr < 55000 and rightAddr < 55000:
+                                        print(
+                                            "Error -> Operación '{}' no posible entre un arreglo y una constante".format(opName))
+                                        exit()
 
                                 if leftDim1 != False and leftDim1 == rightDim1 and leftDim2 == rightDim2 or leftAddr >= 55000:
                                     offset = self.memory_limits['temp']['dirArreglo']
@@ -1416,7 +1445,7 @@ class Program:
                     elif ruleChild == "exp_par":
                         self.parentesisAux(child, function, stacks)
                     elif ruleChild == "llamada":
-                        self.est_llamada_est(child, function, stacks)
+                        self.est_llamada_est(child, function, stacks,True)
         else:
             pass
 
@@ -1724,17 +1753,22 @@ class Program:
             function {string} -- Nombre de la función desde la que se ejecuta este estatuo
 
         """
+        self.dirFunciones[function]['returned'] = True
         if function == "global":
-            msg = "La function main no tiene retorno"
+            msg = "La función main no tiene retorno"
             return self.error(tree.Regresa(), msg)
         elif self.dirFunciones[function]['returnType'] == "void":
-            msg = "Retorno en function '{}' de tipo void".format(function)
+            msg = "Retorno en función '{}' de tipo void".format(function)
             return self.error(tree.Regresa(), msg)
 
         addrExp = self.expresion(tree.expresion(), function)
+        typeExp = self.getTypeOfAddr(addrExp)
         addrVar = self.getAddrOfVariable(function, 'global')
         addrDim1 = self.getDimOfAddr(addrExp, function, 1)
         addrDim2 = self.getDimOfAddr(addrExp, function, 2)
+        if typeExp != self.dirFunciones[function]['returnType']:
+            msg = "Tipo de retorno en '{}' no corresponde al tipo declarado".format(function)
+            return self.error(tree.Regresa(), msg)
         if addrDim1 != False:
             self.dirFunciones['global']['vars'][function]['array'] = True
             self.stackQuads.append(
@@ -1958,6 +1992,16 @@ class Program:
                     # print(n,leftDim1)
 
                     if leftDim1 != False:
+                        if rightDim1 != False:
+                            if (leftDim1 == rightDim1) and (leftDim2 == rightDim2):
+                                self.stackQuads.append(
+                                Quadruple('=', exp, leftAddr, 'arreglo'))
+                                self.stackQuads.append(
+                                    Quadruple('dimensiones', 0, leftDim1, leftDim2))
+                            else:
+                                msg = "Arreglos de tamaños incompatibles"
+                                # print(msg)
+                                return self.error(c, msg)
                         if (leftDim1 == rightDim1) and (leftDim2 == rightDim2):
                             self.stackQuads.append(
                                 Quadruple('=', exp, leftAddr, 'arreglo'))
@@ -2036,6 +2080,16 @@ class Program:
                             # n = self.getNameOfAddr(leftAddr,function)
                             # print(n,leftDim1)
                             if leftDim1 != False:
+                                if rightDim1 != False:
+                                    if (leftDim1 == rightDim1) and (leftDim2 == rightDim2):
+                                        self.stackQuads.append(
+                                        Quadruple('=', exp, leftAddr, 'arreglo'))
+                                        self.stackQuads.append(
+                                            Quadruple('dimensiones', 0, leftDim1, leftDim2))
+                                    else:
+                                        msg = "Arreglos de tamaños incompatibles"
+                                        # print(msg)
+                                        return self.error(c, msg)
                                 self.stackQuads.append(
                                     Quadruple('=', leftAddr, rightAddr, 'arrWhole'))
                                 self.stackQuads.append(
@@ -2284,7 +2338,7 @@ class Program:
                 # self.stackQuads[pSaltos[2]-1] = Quadruple('goto',pSaltos[0],0,0)
                 # print(pSaltos)
 
-    def est_llamada_est(self, tree, function, stacks=False):
+    def est_llamada_est(self, tree, function, stacks=False,insideExp=False):
         """Función que genera los cuadruplos de las llamadas a una función
 
         llamada
@@ -2303,37 +2357,33 @@ class Program:
         # Checa que exista y su inicio
         initialAddr = self.getInitialAddrFunction(functionName)
         if not initialAddr:
-            msg = "No se encontró la function '{}'".format(functionName)
+            msg = "No se encontró la función '{}'".format(functionName)
             return self.error(tree.ID(), msg)
 
         # Guarda el tipo de Retorno
         returnType = self.dirFunciones[functionName]['returnType']
 
-        self.stackQuads.append(Quadruple('era', functionName, 0, 0))
+        if insideExp and returnType == "void":
+            msg = "Función '{}' de tipo void.".format(functionName)
+            return self.error(tree.ID(), msg)
 
+        self.stackQuads.append(Quadruple('era', functionName, 0, 0))
         functionParams = len(self.dirFunciones[functionName]['paramsType'])
-        currentParams = 0
+        arbol = Trees.toStringTree(tree,self.rules)
+        currentParams = arbol.count("params_llamada")
+
         if tree.params_llamada() != None and functionParams != 0:
-            for child in tree.params_llamada().children:
-                if not isinstance(child, TerminalNodeImpl):
-                    if self.rules[child.getRuleIndex()] == "expresion":
-                        currentParams += 1
-                    else:
-                        for child2 in child.children:
-                            if not isinstance(child2, TerminalNodeImpl):
-                                if self.rules[child2.getRuleIndex()] == "expresion":
-                                    currentParams += 1
             if currentParams == functionParams:
                 self.est_llamada_est_aux(
                     tree.params_llamada(), function, functionName, tree.ID())
             else:
-                msg = "Parámetros en '{}' no compatibles.".format(functionName)
+                msg = "Función '{}' acepta {} parámetros y se recibieron {}.".format(functionName,functionParams,currentParams)
                 return self.error(tree.ID(), msg)
             # print(functionParams,currentParams)
         elif tree.params_llamada() == None and functionParams == 0:
             pass
         else:
-            msg = "Parámetros en '{}' no compatibles.".format(functionName)
+            msg = "Función '{}' acepta {} parámetros y se recibieron {}.".format(functionName,functionParams,currentParams)
             return self.error(tree.ID(), msg)
 
         self.stackQuads.append(
@@ -2389,9 +2439,14 @@ class Program:
                     exp = self.expresion(child, targetFunction)
                     # if counter in self.dirFunciones[callingFunction]['paramsAddr']:
                     addr = self.dirFunciones[callingFunction]['paramsAddr'][counter]
-                    # else:
-                    #     msg = "Parámetros en '{}' no compatibles.".format(callingFunction)
-                    #     return self.error(error,msg)
+
+                    callingType = self.getTypeOfAddr(exp)
+                    targetType = self.getTypeOfAddr(addr)
+
+                    if callingType != targetType:
+                        msg = "Tipos incompatibles en la llamada a '{}'.".format(
+                            callingFunction)
+                        return self.error(error, msg)
 
                     callingDim1 = self.getDimOfAddr(exp, targetFunction, 1)
                     callingDim2 = self.getDimOfAddr(exp, targetFunction, 2)
@@ -2477,7 +2532,7 @@ class Compiler:
         except FileNotFoundError:
             print("El archivo no existe.")
             exit()
-        input_stream = FileStream(archivo)
+        input_stream = FileStream(archivo, encoding = 'utf8')
         lexer = PatitoMasMasLexer(input_stream)
         stream = CommonTokenStream(lexer)
         parser = PatitoMasMasParser(stream)

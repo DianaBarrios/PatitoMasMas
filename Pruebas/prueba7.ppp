@@ -1,34 +1,45 @@
-programa patito7;
+programa factorialCiclico;
 var
-  int i,j,k;
-  float f;
-
-funcion void uno(int b,int a);
-var int dummy1;
+  int x, arr[7][5], mat[7][7], vfc[7][5], aux;
+  char car;
+  float valor;
+  int another;
+funcion int factorial(int n, float a, char c);
+var 
+    int i, res;
 {
-  si(a > 0) entonces {
-    i = a+b*j+i;
-    escribe(i+j);
-  } sino {
-    escribe(a+b);
+    res = 1;
+  desde i = 1 hasta n+1 hacer {
+      res = res*i;
   }
+  escribe(n,a,c);
+  regresa(res);
 }
-
-funcion int dos(int a, float g);
-var int idk;
-{
-  i = a;
-    a = a-k*j;
-    g=g*j-k;
-
-  escribe(i+k*j);
-}
-
 principal(){
-  i = 2;
-  k = i+1;
-  f = 3.14;
+    escribe("Escribe un numero:");
+    lee(x);
 
-  escribe(i,j*2,f*2+1.5);
+    valor = 5.6;
+    car = 'c';
+    another = 100;
 
+    aux = factorial(x,valor,car);
+
+    escribe("factorial de x:", aux);
+
+    vfc = 100;
+    
+    arr = 10;
+
+    escribe("arr:");
+    escribe(arr);
+
+    escribe("vfc");
+    escribe(vfc);
+
+    escribe("suma de matrices");
+    escribe(arr+vfc);
+
+
+    
 }
