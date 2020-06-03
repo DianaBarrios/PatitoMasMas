@@ -467,7 +467,7 @@ class VirtualMachine():
             matrizResultado = np.subtract(npArray1, npArray2)
         elif op == '*':
             try:
-                matrizResultado = np.multiply(npArray1, npArray2)
+                matrizResultado = np.matmul(npArray1, npArray2)
             except:
                 print("Error -> No se puede multiplicar una matriz por una constante.")
                 exit()

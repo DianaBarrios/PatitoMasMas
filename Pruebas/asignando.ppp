@@ -1,6 +1,6 @@
 programa factorialCiclico;
 var
-  int x, arr[7][5], mat[7][7], vfc[7][5], aux;
+  int x, arr[7][6], mat[7][6], vfc[7][6], aux;
   char car;
   float valor;
   int another;
@@ -33,13 +33,11 @@ principal(){
 
     escribe("arr:");
     escribe(arr);
-
+    mat = 5;
     escribe("vfc");
     escribe(vfc);
 
     escribe("suma de matrices");
-    escribe(arr+vfc);
-
-
-    
+    mat = arr + vfc;
+    escribe(mat);
 }
