@@ -1939,8 +1939,7 @@ class Program:
                             c = child.ID()
                             if len(pilas['pOperandos']) > 1:
                                 tipo_anterior = pilas['pTipos'][-1]
-                                print("flag 1 ant", tipo_anterior,
-                                      "nuevo", varType)
+                                
                                 if varType != tipo_anterior:
                                     msg = "Asignación invalida entre '{}' y '{}'.".format(
                                         varName, pilas['pTipos'][-1], varType)
@@ -1987,7 +1986,6 @@ class Program:
                             dataExp = self.memory['temp'][function][exp]
                             expDim1 = dataExp['dim1']
                             expDim2 = dataExp['dim2']
-                            print("verificando...")
                     
                             if expDim1 != leftDim1 or expDim2 != leftDim2:
                                 msg = "No se puede asignar porque sus dimensiones no corresponden "
