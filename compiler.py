@@ -1247,6 +1247,9 @@ class Program:
                                         offset = self.memory_limits['temp']['dirArreglo']
                                         tempAddr = self.nextRelativeAddr(self.ctesCounter, 'dir') + offset
 
+                                        self.memory['temp'][function] = {}
+                                        self.memory['temp'][function][tempAddr] = {'tipo': opSymbol, 'dim1':leftDim1, 'dim2':leftDim2}
+
                                         opArray = "{}Arreglos".format(opSymbol)
 
                                         self.stackQuads.append(
@@ -1979,6 +1982,17 @@ class Program:
                 # print("en",leftAddr,exp,rightDim1,rightDim2)
                 # print("bra",bracketsIzq,bracketsDer)
                 if exp >= 55000 and not bracketsIzq:
+                    if function in self.memory['temp']:
+                        if exp in self.memory['temp'][function]:
+                            dataExp = self.memory['temp'][function][exp]
+                            expDim1 = dataExp['dim1']
+                            expDim2 = dataExp['dim2']
+                            print("verificando...")
+                    
+                            if expDim1 != leftDim1 or expDim2 != leftDim2:
+                                msg = "No se puede asignar porque sus dimensiones no corresponden "
+                                return self.error(c, msg)
+
                     self.stackQuads.append(
                         Quadruple('=', exp, leftAddr, 'arreglo'))
                     self.stackQuads.append(
