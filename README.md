@@ -1,7 +1,6 @@
-
+<img src="logo.png" width="300">
 
 # Patito++
-
  - Proyecto final - Diseño de compiladores
  - Febrero - Junio 2020
  - Equipo 14
