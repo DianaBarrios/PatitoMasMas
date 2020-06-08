@@ -6,14 +6,17 @@ var
   char arrchar[3][2];
   float arrfloat[3][2];
   int arr[20];
-funcion void tres(int equis);
-var int hola;
+funcion void tres(int equis,int hola);
 {
   escribe(hola);
   escribe("hola",equis);
 }
+funcion int dosss(int x);
+{
+  regresa(x*x);
+}
 principal(){
-  
+  tres(dosss(5),56);
   arreglo1 = 5;
   arreglo2 = 10;
   escribe(arreglo1*arreglo2-arreglo2+arreglo1);

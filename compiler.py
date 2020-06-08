@@ -817,6 +817,17 @@ class Program:
                 local_counters[type] = 0
         return local_counters[type]
 
+    def countParamsLlamada(self, tree, arr,counter):
+        for child in tree.children:
+            if not isinstance(child, TerminalNodeImpl):
+                rule = self.rules[child.getRuleIndex()]
+                if rule == "expresion":
+                    counter += 1
+                    arr.append(counter)
+                elif rule == "params_llamada":
+                    self.countParamsLlamada(
+                        child, arr,counter)
+                        
     # PARSE VARS Y FUNCIONES
     # Funcion que regresa el JSON con la info de las vars
     def decVariables(self, tree, varsFunc, varsDir, local_counters, varType, function):
@@ -2381,8 +2392,10 @@ class Program:
 
         self.stackQuads.append(Quadruple('era', functionName, 0, 0))
         functionParams = len(self.dirFunciones[functionName]['paramsType'])
-        arbol = Trees.toStringTree(tree,self.rules)
-        currentParams = arbol.count("params_llamada")
+        
+        arrayParams = []
+        self.countParamsLlamada(tree,arrayParams,0)
+        currentParams = len(arrayParams)
 
         if tree.params_llamada() != None and functionParams != 0:
             if currentParams == functionParams:
